@@ -28,7 +28,7 @@
 import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
 import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
 import { BCard, BFormRadioGroup, BFormRadio, BFormGroup } from "bootstrap-vue";
-import A from "../../../deneme/a.vue";
+
 import sonuclar from "./files/results";
 
 export default {
@@ -40,7 +40,7 @@ export default {
     BFormRadio,
     BFormGroup,
     sonuclar,
-    A,
+
     BCard,
   },
   data: () => ({

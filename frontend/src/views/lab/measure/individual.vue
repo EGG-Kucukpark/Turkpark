@@ -120,6 +120,9 @@
           :filter="filter"
           :filter-included-fields="filterOn"
           @filtered="onFiltered"
+           show-empty
+          empty-text="Veri Bulunamadı."
+          empty-filtered-text="Veri Bulunamadı."
         >
 
 

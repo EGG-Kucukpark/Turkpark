@@ -13,7 +13,7 @@
       td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
     </style>
   <![endif]-->
-    <title>Riskomer Ailesine Hoş Geldiniz 👋</title>
+    <title>Türkpark Ailesine Hoş Geldiniz 👋</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700" rel="stylesheet" media="screen">
     <style>
       .hover-underline:hover {
@@ -87,7 +87,7 @@
               <tr>
                 <td class="sm-py-32 sm-px-24" style="font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; padding: 48px; text-align: center;" align="center">
                   <a href="https://1.envato.market/vuexy_admin">
-                    <img src="http://panel.riskomer.com/public/images/logo.png" width="155" alt="Vuexy Admin" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle;">
+                    <img src="http://panel.Türkpark.com/public/images/logo.png" width="155" alt="Vuexy Admin" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle;">
                   </a>
                 </td>
               </tr>
@@ -104,15 +104,15 @@
 
 
                         <p style="margin: 24px 0;">
-                          <span style="font-weight: 600;">Riskomer OSGB Ailesi</span>
+                          <span style="font-weight: 600;">Türkpark  Ailesi</span>
                           Türkiye çapında genişleyen bir aile olmak ile beraber attığımız her başarı sizler sayesindedir. 🤩
                         </p>
 
 
                         <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
-                            <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #FF2323; background-color:#FF2323, var(--bg-opacity)); border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;" bgcolor="rgba(115, 103, 240, var(--bg-opacity))">
-                              <a href="https://panel.riskomer.com" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; color: rgba(255, 255, 255, var(--text-opacity)); text-decoration: none;">Riskomer CRM'i Keşfet &rarr;</a>
+                            <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #009fd4; background-color:#009fd4, var(--bg-opacity)); border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;" bgcolor="rgba(115, 103, 240, var(--bg-opacity))">
+                              <a href="https://panel.Türkpark.com" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; color: rgba(255, 255, 255, var(--text-opacity)); text-decoration: none;">Türkpark CRM'i Keşfet &rarr;</a>
                             </td>
                           </tr>
                         </table>
@@ -125,9 +125,9 @@
                         </table>
                         <p style="margin: 0 0 16px;">
                             Bu e-postayı neden aldığınızdan emin değil misiniz? Lütfen
-                          <a href="mailto:info@riskomer.com" class="hover-underline" style="--text-opacity: 1; color: #FF2323; color: #FF2323, var(--text-opacity)); text-decoration: none;">bize bildirin</a>.
+                          <a href="mailto:info@Türkpark.com" class="hover-underline" style="--text-opacity: 1; color: #009fd4; color: #009fd4, var(--text-opacity)); text-decoration: none;">bize bildirin</a>.
                         </p>
-                        <p style="margin: 0 0 16px;">Saygılarla, <br>Riskomer OSGB</p>
+                        <p style="margin: 0 0 16px;">Saygılarla, <br>Türkpark </p>
                       </td>
                     </tr>
                     <tr>
@@ -136,11 +136,11 @@
                     <tr>
                       <td style="font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; padding-left: 48px; padding-right: 48px; --text-opacity: 1; color: #eceff1; color: rgba(236, 239, 241, var(--text-opacity));">
                         <p align="center" style="cursor: default; margin-bottom: 16px;">
-                          <a href="https://www.facebook.com/pixinvents" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="http://panel.riskomer.com/public/images/facebook.png" width="17" alt="Facebook" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
+                          <a href="https://www.facebook.com/pixinvents" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="http://panel.Türkpark.com/public/images/facebook.png" width="17" alt="Facebook" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
                           &bull;
-                          <a href="https://twitter.com/pixinvents" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="http://panel.riskomer.com/public/images/twitter.png" width="17" alt="Twitter" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
+                          <a href="https://twitter.com/pixinvents" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="http://panel.Türkpark.com/public/images/twitter.png" width="17" alt="Twitter" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
                           &bull;
-                          <a href="https://www.instagram.com/pixinvents" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="http://panel.riskomer.com/public/images/instagram.png" width="17" alt="Instagram" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
+                          <a href="https://www.instagram.com/pixinvents" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="http://panel.Türkpark.com/public/images/instagram.png" width="17" alt="Instagram" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
                         </p>
                         <p style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
                             Hizmetimizin ve web sitemizin kullanımı Kullanım Koşullarımıza ve Gizlilik Politikamıza tabidir.

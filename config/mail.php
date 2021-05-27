@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@riskomer.com'),
-        'name' => env('MAIL_FROM_NAME', 'Riskomer Kayıt Sistemi'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@Türkpark.com'),
+        'name' => env('MAIL_FROM_NAME', 'Türkpark Kayıt Sistemi'),
     ],
 
     /*

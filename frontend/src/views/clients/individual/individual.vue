@@ -108,6 +108,9 @@
           :filter-included-fields="filterOn"
           @row-clicked="tikla"
           @filtered="onFiltered"
+           show-empty
+          empty-text="Veri Bulunamadı."
+          empty-filtered-text="Veri Bulunamadı."
         >
           <template #cell(actions)="data">
             <span>

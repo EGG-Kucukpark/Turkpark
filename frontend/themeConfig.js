@@ -9,9 +9,9 @@ export const $themeBreakpoints = {}
 // APP CONFIG
 export const $themeConfig = {
   app: {
-    appName: 'Riskomer', // Will update name in navigation menu (Branding)
+    appName: 'Türkpark', // Will update name in navigation menu (Branding)
     // eslint-disable-next-line global-require
-    appLogoImage: require('/public/images/favicon.png'), // Will update logo in navigation menu (Branding)
+    appLogoImage: require('/public/images/logo.png'), // Will update logo in navigation menu (Branding)
   },
   layout: {
     isRTL: false,

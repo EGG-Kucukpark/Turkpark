@@ -4,7 +4,7 @@
     <b-link class="brand-logo">
 
       <h2 class="brand-text text-primary ml-1">
-        Riskomer OSGB
+        Türkpark
       </h2>
     </b-link>
 

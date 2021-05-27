@@ -3,7 +3,7 @@
   <div class="misc-wrapper">
     <b-link class="brand-logo">
 
-      <h2 class="brand-text text-primary ml-1">Riskomer OSGB</h2>
+      <h2 class="brand-text text-primary ml-1">Türkpark </h2>
     </b-link>
 
     <div class="misc-inner p-2 p-sm-3">

@@ -135,6 +135,9 @@
           :filter="filter"
           :filter-included-fields="filterOn"
           @filtered="onFiltered"
+           show-empty
+          empty-text="Veri Bulunamadı."
+          empty-filtered-text="Veri Bulunamadı."
         >
           <template #cell(role)="data">
             <div class="text-nowrap">

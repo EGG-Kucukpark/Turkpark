@@ -15,7 +15,7 @@ class EmailController extends Controller
 
 
         $data = ['name' => $request->name, 'email' => $request->email, 'telefon' => $request->telefon, 'rol' => $request->role, 'time' => $date];
-        $adminmail = 'cengiz.tosun@riskomer.com';
+        $adminmail = 'cengiz.tosun@Türkpark.com';
 
          $email = $request->email;
 
@@ -31,7 +31,7 @@ class EmailController extends Controller
         Mail::send('email.admin', $data, function ($message) use ($adminmail) {
 
             $message->to($adminmail);
-            $message->subject('Riskomer Kayıt sistemi!');
+            $message->subject('Türkpark Kayıt sistemi!');
         });
         return response()->json(['status' => trans('verification.sent')]);
     }

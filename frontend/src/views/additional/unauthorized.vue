@@ -3,7 +3,7 @@
     <b-link class="brand-logo">
       <logo  />
       <h2 class="brand-text text-primary ml-1">
-        Riskomer
+        Türkpark
       </h2>
     </b-link>
 
@@ -13,7 +13,7 @@
           Hop Hop! Nereye böyle? 🔐
         </h2>
         <p class="mb-2">
-          Bu sayfayaya erişmek için yeterli yetkiye sahip değilsin. 
+          Bu sayfayaya erişmek için yeterli yetkiye sahip değilsin.
         </p>
         <b-button
           variant="primary"
@@ -22,7 +22,7 @@
         >
          Ana Sayfa'ya Dön
         </b-button>
-        
+
         <b-img
           fluid
           :src="imgUrl"

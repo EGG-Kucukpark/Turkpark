@@ -4,9 +4,9 @@
       COPYRIGHT  © {{ new Date().getFullYear() }}
       <b-link
         class="ml-25"
-        href="http://riskomer.com/index.html"
+        href="http://Türkpark.com/index.html"
         target="_blank"
-      >Riskomer OSGB</b-link>
+      >Türkpark </b-link>
       <span class="d-none d-sm-inline-block">, Tüm Hakları Saklıdır</span>
     </span>
   </p>
