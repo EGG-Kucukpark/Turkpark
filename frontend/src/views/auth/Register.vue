@@ -1,0 +1,390 @@
+<template>
+  <div class="auth-wrapper auth-v2">
+    <b-row class="auth-inner m-0">
+      <!-- Left Text-->
+      <b-col lg="8" class="d-none d-lg-flex align-items-center p-5">
+        <div
+          class="w-100 d-lg-flex align-items-center justify-content-center px-5"
+        >
+          <b-img fluid :src="imgUrl" alt="Register V2" />
+        </div>
+      </b-col>
+      <!-- /Left Text-->
+
+      <!-- Register-->
+      <b-col lg="4" class="d-flex align-items-center auth-bg px-2 p-lg-5">
+        <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
+          <b-card-title class="mb-1"> Mecera Burada Başlıyor 🚀 </b-card-title>
+          <b-card-text class="mb-2">
+            Belge ve iş yönetimini eğlenceli hale Getirin!
+          </b-card-text>
+
+          <card v-if="mustVerifyEmail" :title="$t('register')">
+            <div class="alert alert-success" role="alert">
+              {{ $t("verify_email_address") }}
+            </div>
+          </card>
+
+          <template v-if="show">
+            <b-alert show variant="warning">
+              <ul>
+                <li v-for="errors in errors" :key="errors.name">
+                  {{ errors[0] }}
+                </li>
+              </ul>
+            </b-alert>
+          </template>
+
+          <!-- form -->
+          <validation-observer ref="registerForm" #default="{ invalid }">
+            <b-form class="auth-register-form mt-2" @submit.prevent="register">
+              <!-- username -->
+              <b-form-group label="İsminiz:" label-for="register-username">
+                <validation-provider
+                  #default="{ errors }"
+                  name="İsim"
+                  vid="username"
+                  rules="required"
+                >
+                  <b-form-input
+                    id="register-username"
+                    v-model="name"
+                    name="register-username"
+                    :state="errors.length > 0 ? false : null"
+                    placeholder="johndoe"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <!-- Telefon -->
+              <b-form-group label="Telefon Numaranız:">
+                <validation-provider
+                  #default="{ errors }"
+                  name="Telefon"
+                  rules="required"
+                >
+                  <b-form-input
+                    type="number"
+                    v-model="telefon"
+                    :state="errors.length > 0 ? false : null"
+                    placeholder="0555 555 55 55"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <b-form-group label="E-Posta:" label-for="register-email">
+                <validation-provider
+                  #default="{ errors }"
+                  name="E-Posta"
+                  vid="email"
+                  rules="required|email"
+                >
+                  <b-form-input
+                    id="register-email"
+                    v-model="email"
+                    name="register-email"
+                    :state="errors.length > 0 ? false : null"
+                    placeholder="john@example.com"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <!-- password -->
+              <b-form-group label-for="register-password" label="Şifreniz:">
+                <validation-provider
+                  #default="{ errors }"
+                  name="Şifre"
+                  rules="required|min:6|confirmed:confirmation"
+                >
+                  <b-input-group
+                    class="input-group-merge"
+                    :class="errors.length > 0 ? 'is-invalid' : null"
+                  >
+                    <b-form-input
+                      v-model="Şifre"
+                      class="form-control-merge"
+                      :type="passwordFieldType"
+                      :state="errors.length > 0 ? false : null"
+                      placeholder="············"
+                    />
+                    <b-input-group-append is-text>
+                      <feather-icon
+                        :icon="passwordToggleIcon"
+                        class="cursor-pointer"
+                        @click="togglePasswordVisibility"
+                      />
+                    </b-input-group-append>
+                  </b-input-group>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <b-form-group
+                label-for="register-password"
+                label="Şifre Doğrulama:"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  vid="confirmation"
+                  name="Şifre Doğrulama"
+                  rules="required|min:6"
+                >
+                  <b-input-group
+                    class="input-group-merge"
+                    :class="errors.length > 0 ? 'is-invalid' : null"
+                  >
+                    <b-form-input
+                      id="register-password"
+                      v-model="password_confirmation"
+                      class="form-control-merge"
+                      :type="passwordFieldType"
+                      :state="errors.length > 0 ? false : null"
+                      name="register-password"
+                      placeholder="············"
+                    />
+                    <b-input-group-append is-text>
+                      <feather-icon
+                        :icon="passwordToggleIcon"
+                        class="cursor-pointer"
+                        @click="togglePasswordVisibility"
+                      />
+                    </b-input-group-append>
+                  </b-input-group>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+
+              <b-form-group label="Rol:" label-for="register-email">
+                <validation-provider
+                  v-slot="{ errors }"
+                  rules="required"
+                  name="Rol"
+
+                >
+                  <b-form-select v-model="role" class="mb-3">
+                    <b-form-select-option disabled value=" "
+                      >Lütfen Bir Seçim Yapınız</b-form-select-option
+                    >
+
+                    <b-form-select-option selected value="Admin"
+                      >Admin</b-form-select-option
+                    >
+
+                    <b-form-select-option selected value="Uzman"
+                      >Uzman</b-form-select-option
+                    >
+
+                    <b-form-select-option selected value="Hekim"
+                      >Hekim</b-form-select-option
+                    >
+                    <b-form-select-option selected value="Firma"
+                      >Firma</b-form-select-option
+                    >
+                  </b-form-select>
+
+
+                    <small class="text-danger">{{ errors[0] }}</small>
+
+                </validation-provider>
+
+              </b-form-group>
+              <b-button
+                v-if="spin"
+                variant="primary"
+                block
+                type="submit"
+                :disabled="invalid"
+              >
+                <b-spinner class="mr-1" Small Spinner variant="light" />
+              </b-button>
+
+              <b-button
+                v-if="spin === false"
+                variant="primary"
+                block
+                type="submit"
+                :disabled="invalid"
+              >
+                Kayıt Ol
+              </b-button>
+            </b-form>
+          </validation-observer>
+
+          <p class="text-center mt-2">
+            <span>Hesabın var mı?</span>
+            <b-link :to="{ name: 'login' }">
+              <span>&nbsp;Giriş yap</span>
+            </b-link>
+          </p>
+
+          <!-- divider -->
+          <div class="divider my-2">
+            <div class="divider-text">ya da</div>
+          </div>
+
+          <div class="auth-footer-btn d-flex justify-content-center">
+            <b-button variant="facebook" href="javascript:void(0)">
+              <feather-icon icon="FacebookIcon" />
+            </b-button>
+            <b-button variant="twitter" href="javascript:void(0)">
+              <feather-icon icon="TwitterIcon" />
+            </b-button>
+            <b-button variant="google" href="javascript:void(0)">
+              <feather-icon icon="MailIcon" />
+            </b-button>
+            <b-button variant="github" href="javascript:void(0)">
+              <feather-icon icon="GithubIcon" />
+            </b-button>
+          </div>
+        </b-col>
+      </b-col>
+      <!-- /Register-->
+    </b-row>
+  </div>
+</template>
+
+<script>
+/* eslint-disable global-require */
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+
+import {
+  BFormSelect,
+  BFormSelectOption,
+  BRow,
+  BCol,
+  BLink,
+  BButton,
+  BForm,
+  BFormCheckbox,
+  BFormGroup,
+  BFormInput,
+  BInputGroup,
+  BInputGroupAppend,
+  BImg,
+  BCardTitle,
+  BCardText,
+  BAlert,
+  BListGroup,
+  BListGroupItem,
+  BSpinner,
+} from "bootstrap-vue";
+import { required, email } from "@validations";
+import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import store from "@/store/index";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import axios from "@axios";
+
+export default {
+  components: {
+    BRow,
+    BImg,
+    BCol,
+    BLink,
+    BButton,
+    BForm,
+    BCardText,
+    BCardTitle,
+    BFormCheckbox,
+    BFormGroup,
+    BFormInput,
+    BInputGroup,
+    BInputGroupAppend,
+    BAlert,
+    BListGroup,
+    BListGroupItem,
+    BFormSelect,
+    BFormSelectOption,
+    // validations
+    ValidationProvider,
+    ValidationObserver,
+    BSpinner,
+  },
+  mixins: [togglePasswordVisibility],
+  data() {
+    return {
+      name: "",
+      max: 11,
+      errors: [],
+      email: "",
+      telefon: "",
+      role: " ",
+      Şifre: "",
+      spin: false,
+
+      password_confirmation: "",
+      mustVerifyEmail: false,
+      show: false,
+      sideImg: require("@/assets/images/pages/register-v2.svg"),
+      // validation
+      required,
+      email,
+    };
+  },
+  computed: {
+    passwordToggleIcon() {
+      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
+    },
+    imgUrl() {
+      if (store.state.appConfig.layout.skin === "dark") {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.sideImg = require("@/assets/images/pages/register-v2-dark.svg");
+        return this.sideImg;
+      }
+      return this.sideImg;
+    },
+  },
+  methods: {
+    register() {
+      this.$refs.registerForm.validate().then((success) => {
+        this.spin = true;
+        if (success) {
+          axios
+            .post("/api/register", {
+              name: this.name,
+              email: this.email,
+              Şifre: this.Şifre,
+              telefon: this.telefon,
+              role: this.role,
+              password_confirmation: this.password_confirmation,
+            })
+            .then((response) => {
+              this.$router.replace("/login").then(() => {
+                this.$toast({
+                  component: ToastificationContent,
+                  position: "top-right",
+                  props: {
+                    title: `Kayıt Başarılı`,
+                    icon: "CoffeeIcon",
+                    variant: "success",
+                    text: `Kayıt onayı için lütfen mail adresinizi kontrol ediniz!`,
+                  },
+                });
+              });
+            })
+            .then(
+              axios.post("/api/email", {
+                name: this.name,
+                email: this.email,
+                telefon: this.telefon,
+                role: this.role,
+              })
+            )
+            .catch((error) => {
+              this.errors = error.response.data.errors;
+              this.show = true;
+              this.spin = false;
+            });
+        }
+      });
+    },
+  },
+};
+/* eslint-disable global-require */
+</script>
+
+<style lang="scss">
+@import "@core/scss/vue/pages/page-auth.scss";
+</style>
