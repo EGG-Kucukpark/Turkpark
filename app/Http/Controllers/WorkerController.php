@@ -78,10 +78,7 @@ class WorkerController extends Controller
     public function getfile(Request $request)
     {
 
-
-
-
-        if ($request->status === 1) {
+         if ($request->status === 1) {
 
             return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
@@ -91,7 +88,14 @@ class WorkerController extends Controller
             return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         }
+
+
+
     }
+
+
+
+
     ////////////////////////////////////////////////////////////////////////////////////
     public function showfile(Request $request)
     {

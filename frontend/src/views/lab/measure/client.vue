@@ -120,7 +120,7 @@
         </b-modal>
       </span>
 
-      <b-col cols="12">
+     <b-col cols="12" class="table-responsive">
         <b-table
           striped
           hover

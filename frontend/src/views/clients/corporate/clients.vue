@@ -128,98 +128,7 @@
                 ></b-form-input>
               </b-form-group>
 
-              <b-form-group
-                label="İl Seçiniz: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select aria-placeholder="İl Seçiniz" v-model="il">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option>------</option>
-                  <option>Adana</option>
-                  <option>Adıyaman</option>
-                  <option>Afyonkarahisar</option>
-                  <option>Ağrı</option>
-                  <option>Amasya</option>
-                  <option>Ankara</option>
-                  <option>Antalya</option>
-                  <option>Artvin</option>
-                  <option>Aydın</option>
-                  <option>Balıkesir</option>
-                  <option>Bilecik</option>
-                  <option>Bingöl</option>
-                  <option>Bitlis</option>
-                  <option>Bolu</option>
-                  <option>Burdur</option>
-                  <option>Bursa</option>
-                  <option>Çanakkale</option>
-                  <option>Çankırı</option>
-                  <option>Çorum</option>
-                  <option>Denizli</option>
-                  <option>Diyarbakır</option>
-                  <option>Edirne</option>
-                  <option>Elazığ</option>
-                  <option>Erzincan</option>
-                  <option>Erzurum</option>
-                  <option>Eskişehir</option>
-                  <option>Gaziantep</option>
-                  <option>Giresun</option>
-                  <option>Gümüşhane</option>
-                  <option>Hakkâri</option>
-                  <option>Hatay</option>
-                  <option>Isparta</option>
-                  <option>Mersin</option>
-                  <option>İstanbul</option>
-                  <option>İzmir</option>
-                  <option>Kars</option>
-                  <option>Kastamonu</option>
-                  <option>Kayseri</option>
-                  <option>Kırklareli</option>
-                  <option>Kırşehir</option>
-                  <option>Kocaeli</option>
-                  <option>Konya</option>
-                  <option>Kütahya</option>
-                  <option>Malatya</option>
-                  <option>Manisa</option>
-                  <option>Kahramanmaraş</option>
-                  <option>Mardin</option>
-                  <option>Muğla</option>
-                  <option>Muş</option>
-                  <option>Nevşehir</option>
-                  <option>Niğde</option>
-                  <option>Ordu</option>
-                  <option>Rize</option>
-                  <option>Sakarya</option>
-                  <option>Samsun</option>
-                  <option>Siirt</option>
-                  <option>Sinop</option>
-                  <option>Sivas</option>
-                  <option>Tekirdağ</option>
-                  <option>Tokat</option>
-                  <option>Trabzon</option>
-                  <option>Tunceli</option>
-                  <option>Şanlıurfa</option>
-                  <option>Uşak</option>
-                  <option>Van</option>
-                  <option>Yozgat</option>
-                  <option>Zonguldak</option>
-                  <option>Aksaray</option>
-                  <option>Bayburt</option>
-                  <option>Karaman</option>
-                  <option>Kırıkkale</option>
-                  <option>Batman</option>
-                  <option>Şırnak</option>
-                  <option>Bartın</option>
-                  <option>Ardahan</option>
-                  <option>Iğdır</option>
-                  <option>Yalova</option>
-                  <option>Karabük</option>
-                  <option>Kilis</option>
-                  <option>Osmaniye</option>
-                  <option>Düzce</option>
-                </b-form-select>
-              </b-form-group>
+
 
 
 
@@ -238,23 +147,25 @@
         </b-modal>
       </span>
 
-      <b-col cols="12">
+      <b-col cols="12" class="table-responsive">
         <b-table
-          striped
-          hover
-          responsive
-          :per-page="perPage"
-          :current-page="currentPage"
-          :items="items"
-
-          :fields="fields"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
-          :sort-direction="sortDirection"
-          :filter="filter"
-          :filter-included-fields="filterOn"
-         @row-clicked="tikla"
-          @filtered="onFiltered"
+            striped
+            hover
+            responsive
+            :per-page="perPage"
+            :current-page="currentPage"
+            :items="items"
+            :fields="fields"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            :filter="filter"
+            :filter-included-fields="filterOn"
+            @row-clicked="tikla"
+            show-empty
+            empty-text="Veri Bulunamadı."
+            empty-filtered-text="Veri Bulunamadı."
+            @filtered="onFiltered"
         >
           <template #cell(actions)="data">
             <span>
@@ -347,98 +258,6 @@
                       ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group
-                      label="İl Seçiniz: "
-                      label-for="nested-city"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-select aria-placeholder="İl Seçiniz" v-model="il">
-                        <option disabled value="">Lütfen Seçim Yapınız</option>
-                        <option>------</option>
-                        <option>Adana</option>
-                        <option>Adıyaman</option>
-                        <option>Afyonkarahisar</option>
-                        <option>Ağrı</option>
-                        <option>Amasya</option>
-                        <option>Ankara</option>
-                        <option>Antalya</option>
-                        <option>Artvin</option>
-                        <option>Aydın</option>
-                        <option>Balıkesir</option>
-                        <option>Bilecik</option>
-                        <option>Bingöl</option>
-                        <option>Bitlis</option>
-                        <option>Bolu</option>
-                        <option>Burdur</option>
-                        <option>Bursa</option>
-                        <option>Çanakkale</option>
-                        <option>Çankırı</option>
-                        <option>Çorum</option>
-                        <option>Denizli</option>
-                        <option>Diyarbakır</option>
-                        <option>Edirne</option>
-                        <option>Elazığ</option>
-                        <option>Erzincan</option>
-                        <option>Erzurum</option>
-                        <option>Eskişehir</option>
-                        <option>Gaziantep</option>
-                        <option>Giresun</option>
-                        <option>Gümüşhane</option>
-                        <option>Hakkâri</option>
-                        <option>Hatay</option>
-                        <option>Isparta</option>
-                        <option>Mersin</option>
-                        <option>İstanbul</option>
-                        <option>İzmir</option>
-                        <option>Kars</option>
-                        <option>Kastamonu</option>
-                        <option>Kayseri</option>
-                        <option>Kırklareli</option>
-                        <option>Kırşehir</option>
-                        <option>Kocaeli</option>
-                        <option>Konya</option>
-                        <option>Kütahya</option>
-                        <option>Malatya</option>
-                        <option>Manisa</option>
-                        <option>Kahramanmaraş</option>
-                        <option>Mardin</option>
-                        <option>Muğla</option>
-                        <option>Muş</option>
-                        <option>Nevşehir</option>
-                        <option>Niğde</option>
-                        <option>Ordu</option>
-                        <option>Rize</option>
-                        <option>Sakarya</option>
-                        <option>Samsun</option>
-                        <option>Siirt</option>
-                        <option>Sinop</option>
-                        <option>Sivas</option>
-                        <option>Tekirdağ</option>
-                        <option>Tokat</option>
-                        <option>Trabzon</option>
-                        <option>Tunceli</option>
-                        <option>Şanlıurfa</option>
-                        <option>Uşak</option>
-                        <option>Van</option>
-                        <option>Yozgat</option>
-                        <option>Zonguldak</option>
-                        <option>Aksaray</option>
-                        <option>Bayburt</option>
-                        <option>Karaman</option>
-                        <option>Kırıkkale</option>
-                        <option>Batman</option>
-                        <option>Şırnak</option>
-                        <option>Bartın</option>
-                        <option>Ardahan</option>
-                        <option>Iğdır</option>
-                        <option>Yalova</option>
-                        <option>Karabük</option>
-                        <option>Kilis</option>
-                        <option>Osmaniye</option>
-                        <option>Düzce</option>
-                      </b-form-select>
-                    </b-form-group>
 
                     <div style="float: right">
                       <b-button variant="success" type="submit">

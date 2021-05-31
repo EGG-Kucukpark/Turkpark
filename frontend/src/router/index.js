@@ -8,6 +8,7 @@ import clients from './routes/clients'
 import workers from './routes/workers'
 import users from './routes/users'
 import todo from './routes/todo'
+import calendar from './routes/calendar'
 
 
 Vue.use(VueRouter)
@@ -29,6 +30,7 @@ const router = new VueRouter({
         ...workers,
         ...users,
         ...todo,
+        ...calendar,
         {
             path: '*',
             redirect: 'error-404',

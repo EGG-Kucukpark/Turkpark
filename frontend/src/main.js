@@ -15,6 +15,9 @@ import App from './App.vue'
 import './global-components'
 import VueGoodTablePlugin from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
+import JsonExcel from "vue-json-excel";
+
+
 
 
 // 3rd party plugins
@@ -26,6 +29,7 @@ Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
 Vue.use(VueGoodTablePlugin);
 Vue.component('v-select', vSelect)
+Vue.component("downloadExcel", JsonExcel);
 
 // Composition API
 Vue.use(VueCompositionAPI)

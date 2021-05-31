@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function status(Request $request)
     {
-     DB::table('users')->where('email', $request->email)->update([
+        DB::table('users')->where('email', $request->email)->update([
 
             'status' => "1"
         ]);
@@ -31,8 +31,8 @@ class UserController extends Controller
     {
 
 
-        $date = new DateTime("now", new DateTimeZone('Europe/Istanbul') );
-         $date->format('d.m.Y, H:i');
+        $date = new DateTime("now", new DateTimeZone('Europe/Istanbul'));
+        $date->format('d.m.Y, H:i');
 
 
         try {
@@ -43,7 +43,7 @@ class UserController extends Controller
                 'telefon' => $request->telefon,
                 'password' => Hash::make($request->password),
                 'status' => '2',
-                'created_at'=>$date,
+                'created_at' => $date,
                 'email_verified_at' => $date
             ]);
             return $add;
@@ -64,8 +64,33 @@ class UserController extends Controller
                 'role' => $request->role,
                 'telefon' => $request->telefon,
                 'status' => $request->status,
-                'password'=>Hash::make($request->password),
+                'password' => Hash::make($request->password),
             ]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'Başarısız'], 404);
+        }
+    }
+
+    public function import(Request $request)
+    {
+
+
+
+        try {
+            $data = $request->data;
+
+            for ($i = 0; $i < count($data); $i++) {
+
+                DB::table('users')->insert([
+                    'name' => $data[$i]['name'],
+                    'email' => $data[$i]['email'],
+                    'role' =>  $data[$i]['role'],
+                    'telefon' => $data[$i]['telefon'],
+                    'status' => $data[$i]['status'],
+                    'password' => Hash::make($data[$i]['password'])
+
+                ]);
+            }
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }

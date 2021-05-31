@@ -51,7 +51,7 @@ export default function userCalendar() {
     extendedProps: {
       calendar: '',
       guests: [],
-      location: '',
+      location: 'tr',
       description: '',
     },
   }
@@ -252,6 +252,7 @@ export default function userCalendar() {
   const calendarOptions = ref({
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
+    locale:'tr',
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
       end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',

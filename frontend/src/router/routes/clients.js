@@ -122,6 +122,17 @@ export default [
         }
 
 
+    },
+
+    {
+        path: '/sertifika',
+        name: 'sertifika',
+        component: () => import('@/views/belge/belge.vue'),
+        meta: {
+            requiresAuth: true,
+        }
+
+
     }
 
 

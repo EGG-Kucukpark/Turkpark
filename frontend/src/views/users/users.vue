@@ -1,6 +1,37 @@
 <template>
   <b-card title="Kullanıcılar">
     <b-row>
+      <button hidden id="hata" @click.prevent="hata"></button>
+      <button hidden id="basarili" @click.prevent="basarili"></button>
+      <h4 style="margin: 10px">Excel İşlemleri:</h4>
+      <download-excel :fetch="fetchData">
+        <b-button
+
+          variant="success"
+          class="btn-icon"
+          style="height: 40px"
+        >
+          <feather-icon size="24" icon="ArrowDownCircleIcon" />
+        </b-button>
+      </download-excel>
+
+      <b-button
+
+        variant="success"
+        class="btn-icon"
+        style="margin-left: 5px; height: 40px"
+        @click="$refs.refInputEl.click()"
+      >
+        <input
+          ref="refInputEl"
+          type="file"
+          class="d-none"
+          @input="excelfile"
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        />
+        <feather-icon size="24" icon="ArrowUpCircleIcon" />
+      </b-button>
+
       <b-col>
         <b-form-group
           label-cols-sm="7"
@@ -19,16 +50,14 @@
           </b-input-group>
         </b-form-group>
       </b-col>
-
+      <b-button
+        class="mb-1"
+        style="margin: auto"
+        variant="success"
+        @click="Modal1"
+        >Yeni Kullanıcı</b-button
+      >
       <span>
-        <b-button
-          class="mb-1"
-          style="margin-right: 50px"
-          variant="success"
-          @click="Modal1"
-          >Yeni Kullanıcı</b-button
-        >
-
         <b-modal
           hide-header-close
           ok-title="Kaydet"
@@ -119,7 +148,7 @@
         </b-modal>
       </span>
 
-      <b-col cols="12">
+      <b-col cols="12" class="table-responsive">
         <b-table
           striped
           hover
@@ -133,7 +162,7 @@
           :sort-direction="sortDirection"
           :filter="filter"
           :filter-included-fields="filterOn"
-           show-empty
+          show-empty
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
         >
@@ -326,9 +355,10 @@
     </b-row>
   </b-card>
 </template>
-
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import downloadexcel from "vue-json-excel";
+
 
 import {
   BTable,
@@ -346,6 +376,7 @@ import {
   BCard,
   BModal,
   BForm,
+  BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
 
@@ -367,6 +398,9 @@ export default {
     BModal,
     ToastificationContent,
     BForm,
+    downloadexcel,
+    BFormFile,
+
   },
   data() {
     return {
@@ -411,6 +445,9 @@ export default {
       password: "",
       userid: null,
       searchTerm: "",
+      excel: null,
+      error: "",
+      status:null,
 
       show: false,
     };
@@ -448,10 +485,15 @@ export default {
   },
   created() {
     axios.post("/api/users").then((response) => (this.items = response.data));
+    let ckeditor = document.createElement("script");
+    ckeditor.setAttribute(
+      "src",
+      "//cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"
+    );
+    document.head.appendChild(ckeditor);
   },
   mounted() {
     setTimeout(() => {
-
       this.totalRows = this.items.length;
     }, 500);
   },
@@ -543,6 +585,57 @@ export default {
         });
     },
 
+    async fetchData() {
+      const response = await axios.post("/api/users");
+
+      return response.data;
+    },
+    basarili() {
+      this.refreshStop();
+    },
+    hata() {
+      this.$toast({
+        component: ToastificationContent,
+        position: "top-right",
+        props: {
+          title: `Kullanıcı İşlemleri `,
+          icon: "UserIcon",
+          variant: "danger",
+          text: ` İşlem Başarısız.`,
+        },
+      });
+    },
+
+    excelfile(event) {
+      var file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function () {
+        let data = reader.result;
+
+        try {
+          var workbook = XLSX.read(data, { type: "binary" });
+        } catch (err) {
+          document.getElementById("hata").click();
+        }
+
+        workbook.SheetNames.forEach((sheet) => {
+          let rowObject = XLSX.utils.sheet_to_row_object_array(
+            workbook.Sheets[sheet]
+          );
+
+          this.excel = rowObject;
+        });
+
+        setTimeout(() => {
+          axios
+            .post("/api/excelimport", { data: this.excel })
+            .then((res) => document.getElementById("basarili").click())
+            .catch((error) => document.getElementById("hata").click());
+        }, 500);
+      };
+
+      reader.readAsBinaryString(file);
+    },
     form() {
       this.$refs["modal1"].hide(),
         this.$refs["modal2"].hide(),

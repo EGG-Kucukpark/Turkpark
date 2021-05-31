@@ -15,6 +15,7 @@
           <div class="card-body pb-0">
             <full-calendar
               ref="refCalendar"
+
               :options="calendarOptions"
               class="full-calendar"
             />

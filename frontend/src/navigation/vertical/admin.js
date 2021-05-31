@@ -6,53 +6,6 @@ export default [
         route: 'Home',
         icon: 'HomeIcon',
     },
-
-
-    {
-        title: 'Yapılacaklar',
-        route: 'apps-todo',
-        icon: 'CheckSquareIcon',
-    },
-    {
-        title: 'Belge İşlemleri',
-        icon: 'FileTextIcon',
-        children: [{
-                title: 'List',
-                route: 'apps-invoice-list',
-            },
-            {
-                title: 'Preview',
-                route: {
-                    name: 'apps-invoice-preview',
-                    params: {
-                        id: 4987
-                    }
-                },
-            },
-            {
-                title: 'Edit',
-                route: {
-                    name: 'apps-invoice-edit',
-                    params: {
-                        id: 4987
-                    }
-                },
-            },
-            {
-                title: 'Add',
-                route: {
-                    name: 'apps-invoice-add'
-                },
-            },
-        ],
-    },
-
-    {
-        title: 'Kullanıcılar',
-        route: 'users',
-        icon: 'UserIcon',
-
-    },
     {
         title: 'Müşteriler ',
         icon: 'BriefcaseIcon',
@@ -69,6 +22,76 @@ export default [
 
         ]
     },
+
+    {
+        title: 'Belge İşlemleri',
+        icon: 'FileTextIcon',
+        children: [{
+                title: 'İlkyardım',
+
+                route: 'apps-invoice-list',
+                children: [{
+
+                        title: 'Sertifikalar',
+
+                    },
+                    {
+                        title: 'Eğitimler',
+
+                    }
+
+
+                ]
+            },
+
+            {
+                title: 'Ortam Ölçümleri',
+
+            },
+
+            {
+                title: 'Periyodik Kontroller',
+
+            },
+
+
+            {
+                title: "Asansör Kontrolleri",
+
+            }
+
+        ],
+    },
+
+
+    {
+        title: 'Yapılacaklar',
+        route: 'apps-todo',
+        icon: 'CheckSquareIcon',
+    },
+    {
+        title: 'Takvim',
+        route: 'apps-calendar',
+        icon: 'CalendarIcon',
+    },
+
+
+
+    {
+        title: 'Ayarlar',
+        icon: 'SettingsIcon',
+        children:[
+
+            {
+                title: 'Kullanıcılar',
+                route: 'users',
+                icon: 'UserIcon',
+
+            },
+        ]
+
+    },
+
 
     {
         title: 'Sonuçlar',
