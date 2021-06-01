@@ -55,6 +55,15 @@ export default [
             layout: 'full',
         }
     },
+    {
+        path: '/email/resend',
+        name: 'email.request',
+        component: () => import('@/views/auth/emailforgot.vue'),
+        meta: {
+            guest:true,
+            layout: 'full',
+        }
+    },
 
     {
         path: '/password/reset/:token',

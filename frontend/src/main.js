@@ -7,6 +7,7 @@ import 'vue-search-select/dist/VueSearchSelect.css'
 
 
 
+
 import router from './router'
 import store from './store'
 import App from './App.vue'
@@ -30,6 +31,7 @@ Vue.use(ModalPlugin)
 Vue.use(VueGoodTablePlugin);
 Vue.component('v-select', vSelect)
 Vue.component("downloadExcel", JsonExcel);
+
 
 // Composition API
 Vue.use(VueCompositionAPI)

@@ -21,9 +21,12 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@chenfengyuan/vue-qrcode": "^1.0.2",
         "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
         "@vue/babel-plugin-transform-vue-jsx": "^1.2.1",
         "postcss-rtl": "^1.7.3",
+        "qrcode": "^1.4.4",
+        "vue": "^2.6.12",
         "vue-excel-export": "^0.1.3",
         "vue-good-table": "^2.21.10",
         "vue-json-excel": "^0.3.0",

@@ -6,13 +6,15 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\EmailController;
+use App\Http\Controllers\Email\EmailController;
 
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Client\ClientController;
 
-use App\Http\Controllers\TodoController;
-use App\Http\Controllers\WorkerController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Apps\TodoController;
+use App\Http\Controllers\Apps\CerfController;
+use App\Http\Controllers\Worker\WorkerController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\File\FileController;
 
 
 
@@ -55,6 +57,7 @@ route::post('firmanotduzenle', [clientController::class, 'notdüzenle']);
 
 
 
+
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Bireysel İşlemler
 Route::get('bireyselgöster/{id}', [clientController::class, 'client']);
@@ -69,12 +72,17 @@ route::post('bireyseller', [clientController::class, 'getindividual']);
 
 Route::get('calisangoster/{id}', [WorkerController::class, 'worker']);
 Route::post('calisanlar', [WorkerController::class, 'workers']);
-Route::post('belgeyukle', [WorkerController::class, 'upload']);
-Route::post('getfile', [WorkerController::class, 'getfile']);
-Route::post('showfile', [WorkerController::class, 'showfile']);
-Route::post('indir', [WorkerController::class, 'download']);
 route::post('calisanekle', [WorkerController::class, 'addworker']);
-route::post('dosyasil', [WorkerController::class, 'deletefile']);
+
+////////////////////////////////////////////////////////////////////////////////////
+//                      Dosya İşlemleri
+Route::post('belgeyukle', [FileController::class, 'upload']);
+Route::post('getfile', [FileController::class, 'getfile']);
+Route::post('showfile', [FileController::class, 'showfile']);
+Route::post('indir', [FileController::class, 'download']);
+route::post('dosyasil', [FileController::class, 'deletefile']);
+route::post('excelsertifika', [FileController::class, 'importsertf']);
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Todo İşlemleri
@@ -96,3 +104,12 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('password/reset', [ResetPasswordController::class, 'reset']);
 });
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+//                      Sertifika İşlemleri
+
+route::post('sertifikagetir', [CerfController::class, 'get']);
+route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);
+

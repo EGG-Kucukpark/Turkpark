@@ -40,13 +40,19 @@
           <!-- form -->
           <validation-observer ref="loginValidation">
             <b-form class="auth-login-form mt-2" @submit.prevent>
+                 <b-link :to="{ name: 'email.request' }">
+                    <small style="float:right" >Doğrulamayı Yeniden Gönder.</small>
+                  </b-link>
               <!-- email -->
+
               <b-form-group label="E-posta Adresiniz:" label-for="login-email">
+
                 <validation-provider
                   #default="{ errors }"
                   name="Email"
                   rules="required|email"
                 >
+
                   <b-form-input
                     id="login-email"
                     v-model="email"
@@ -54,8 +60,11 @@
                     name="login-email"
                     placeholder="john@example.com"
                   />
+
                   <small class="text-danger">{{ errors[0] }}</small>
+
                 </validation-provider>
+
               </b-form-group>
 
               <!-- forgot password -->

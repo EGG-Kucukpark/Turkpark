@@ -14,21 +14,6 @@ class ApplicationController extends Controller
     {
         return view('application');
     }
-    public function register(Request $request)
-    {
-        $kayit= DB::table('users')->insert([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password'=> Hash::make($request->password),
-            'role' => 'Client',
-            'status' => '2',
 
-
-        ]);
-
-        return response()->json($request);
-
-
-    }
 
 }

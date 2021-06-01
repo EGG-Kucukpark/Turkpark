@@ -127,13 +127,30 @@ export default [
     {
         path: '/sertifika',
         name: 'sertifika',
-        component: () => import('@/views/belge/belge.vue'),
+        component: () => import('@/views/belge/certficate/certifa.vue'),
         meta: {
             requiresAuth: true,
+
         }
+    },
+    {
+        path: '/egitimler',
+        name: 'egitim',
+        component: () => import('@/views/belge/egitim/egitim.vue'),
+        meta: {
+            requiresAuth: true,
 
+        }
+    },
+    {
+        path: '/sertifika/:id',
+        name: 'sertifika-goster',
+        component: () => import('@/views/belge/certficate/sertifika.vue'),
+        meta: {
+            requiresAuth: true, uzman:true
 
-    }
+        }
+    },
 
 
 

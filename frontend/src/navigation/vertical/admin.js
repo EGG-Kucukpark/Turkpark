@@ -33,10 +33,12 @@ export default [
                 children: [{
 
                         title: 'Sertifikalar',
+                        route: 'sertifika'
 
                     },
                     {
                         title: 'Eğitimler',
+                        route: 'egitim'
 
                     }
 
@@ -51,6 +53,10 @@ export default [
 
             {
                 title: 'Periyodik Kontroller',
+                children:[{
+
+                    title: "Yangın Güvenlik Sistemleri"
+                }]
 
             },
 
