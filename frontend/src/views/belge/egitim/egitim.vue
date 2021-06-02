@@ -15,8 +15,8 @@
             <v-select />
           </b-col>
           <b-col cols="12" md="4" class="mb-md-0 mb-2">
-            <label>Status</label>
-            <v-select />
+            <label>Tarih</label>
+            <b-form-datepicker id="datepicker-valid" ref=datepick  v-model="sortdate" />
           </b-col>
         </b-row>
       </b-card-body>
@@ -368,6 +368,8 @@ import ToastificationContent from "@core/components/toastification/Toastificatio
 import downloadexcel from "vue-json-excel";
 
 import {
+    BCardHeader,
+    BCardBody,
   BTable,
   BAvatar,
   BBadge,
@@ -384,6 +386,9 @@ import {
   BModal,
   BForm,
   BFormFile,
+  BFormDatepicker
+
+
 } from "bootstrap-vue";
 import axios from "@axios";
 
@@ -407,6 +412,9 @@ export default {
     BForm,
     downloadexcel,
     BFormFile,
+    BFormDatepicker,
+       BCardHeader,
+    BCardBody
   },
   data() {
     return {
@@ -455,6 +463,8 @@ export default {
       error: "",
       status: null,
       show: false,
+
+      sortdate:'',
     };
   },
 
@@ -552,6 +562,7 @@ export default {
     Modal1() {
       this.$refs["modal1"].show();
     },
+
     Modal2(row) {
       this.$refs["modal2"].show();
 
