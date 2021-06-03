@@ -11,6 +11,7 @@ use App\Http\Controllers\Email\EmailController;
 use App\Http\Controllers\Client\ClientController;
 
 use App\Http\Controllers\Apps\TodoController;
+use App\Http\Controllers\Apps\EduController;
 use App\Http\Controllers\Apps\CerfController;
 use App\Http\Controllers\Worker\WorkerController;
 use App\Http\Controllers\User\UserController;
@@ -112,4 +113,13 @@ Route::group(['middleware' => 'guest:api'], function () {
 
 route::post('sertifikagetir', [CerfController::class, 'get']);
 route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);
+
+////////////////////////////////////////////////////////////////////////////////////
+//                      Eğitim İşlemleri
+
+route::post('egitimgetir', [EduController::class, 'get']);
+route::get('egitimgoster/{id}', [EduController::class, 'view']);
+route::post('egitimekle', [EduController::class, 'add']);
+route::post('katilimcigetir', [EduController::class, 'getusers']);
+
 

@@ -17,6 +17,9 @@ import './global-components'
 import VueGoodTablePlugin from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
 import JsonExcel from "vue-json-excel";
+import VCalendar from 'v-calendar';
+
+
 
 
 
@@ -31,6 +34,7 @@ Vue.use(ModalPlugin)
 Vue.use(VueGoodTablePlugin);
 Vue.component('v-select', vSelect)
 Vue.component("downloadExcel", JsonExcel);
+Vue.use(VCalendar)
 
 
 // Composition API

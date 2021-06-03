@@ -24,13 +24,17 @@
         "@chenfengyuan/vue-qrcode": "^1.0.2",
         "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
         "@vue/babel-plugin-transform-vue-jsx": "^1.2.1",
+        "luxon": "^1.27.0",
         "postcss-rtl": "^1.7.3",
         "qrcode": "^1.4.4",
+        "v-calendar": "^2.3.0",
         "vue": "^2.6.12",
+        "vue-datetime": "*",
         "vue-excel-export": "^0.1.3",
         "vue-good-table": "^2.21.10",
         "vue-json-excel": "^0.3.0",
         "vue-search-select": "^2.9.3",
-        "vue-select": "^3.11.2"
+        "vue-select": "^3.11.2",
+        "weekstart": "^1.1.0"
     }
 }

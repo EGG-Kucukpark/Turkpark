@@ -142,12 +142,22 @@ export default [
 
         }
     },
+
+    {
+        path: '/egitimler/:id',
+        name: 'egitim-goster',
+        component: () => import('@/views/belge/egitim/egitimgoster.vue'),
+        meta: {
+            requiresAuth: true,
+
+        }
+    },
     {
         path: '/sertifika/:id',
         name: 'sertifika-goster',
         component: () => import('@/views/belge/certficate/sertifika.vue'),
         meta: {
-            requiresAuth: true, uzman:true
+            requiresAuth: true,
 
         }
     },

@@ -1,30 +1,6 @@
 <template>
-  <b-card title="Eğitimler">
-    <b-card no-body>
-      <b-card-header class="pb-50">
-        <h5>Filtreler</h5>
-      </b-card-header>
-      <b-card-body>
-        <b-row>
-          <b-col cols="12" md="4" class="mb-md-0 mb-2">
-            <label>Role</label>
-            <v-select />
-          </b-col>
-          <b-col cols="12" md="4" class="mb-md-0 mb-2">
-            <label>Plan</label>
-            <v-select />
-          </b-col>
-          <b-col cols="12" md="4" class="mb-md-0 mb-2">
-            <label>Tarih</label>
-            <b-form-datepicker
-              id="datepicker-valid"
-              ref="datepick"
-              v-model="sortdate"
-            />
-          </b-col>
-        </b-row>
-      </b-card-body>
-    </b-card>
+  <b-card title="Katılımcılar">
+
 
     <b-row>
       <b-col>
@@ -51,7 +27,7 @@
         style="margin: auto; margin-right: 40px"
         variant="success"
         @click="Modal1"
-        >Yeni Etkinlik</b-button
+        >Yeni Katılımcı</b-button
       >
       <span>
         <!-- Update -->
@@ -78,12 +54,12 @@
         <!--  Yeni Ekle -->
         <b-modal
           hide-header-close
-          ok-title="Kaydet"
+
           :hide-footer="true"
           size="lg"
           ref="modal1"
           centered
-          title="Araç Ekle"
+          title="Katılımcı Ekle"
         >
           <b-card>
             <b-form @submit.prevent="submit">
@@ -186,15 +162,32 @@
             <b> Kullanıcı Bulunamadı.</b>
           </p>
 
+         <template #cell(payed)="data">
+
+            <b-badge
+              v-if="data.item.payed === '1'"
+              variant="light-success"
+            >
+              <span> Ödeme Yapıldı.</span>
+            </b-badge>
+
+            <b-badge
+              v-if="data.item.payed === '0'"
+              variant="light-danger"
+            >
+              <span> Ödeme Yapılmamış.</span>
+            </b-badge>
+          </template>
+
+
+
+
           <template #cell(actions)="data">
             <span>
               <b-button variant="gradient-warning" @click="Modal2(data.item)">
                 Düzenle
               </b-button>
 
-                  <b-button variant="gradient-success" @click="egitim(data.item)">
-                Eğitimi Görüntüle
-              </b-button>
 
               <b-button variant="gradient-danger" disabled>
                 Sil
@@ -231,8 +224,9 @@
 </template>
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-
+import router from "@/router";
 import {
+
   BCardHeader,
   BCardBody,
   BTable,
@@ -297,10 +291,10 @@ export default {
         content: "",
       },
       fields: [
-        { key: "kota", label: "Kontenjan", sortable: true, filter: true },
-        { key: "category", label: "Kategori", sortable: true, filter: true },
-        { key: "time", label: "Tarih", sortable: true, filter: true },
-        { key: "location", label: "Eğitim Yeri", sortable: true, filter: true },
+        { key: "Name", label: "Katılımcı Adı", sortable: true, filter: true },
+        { key: "email", label: "E-Posta", sortable: true, filter: true },
+        { key: "telefon", label: "Telefon Numarası", sortable: true, filter: true },
+        { key: "payed", label: "Ödeme Durumu", sortable: true, filter: true },
 
         { key: "actions", label: "Eylemler" },
       ],
@@ -319,9 +313,11 @@ export default {
   },
 
   created() {
+    var id = router.currentRoute.params.id;
+
     axios
-      .post("/api/egitimgetir")
-      .then((response) => (this.items = response.data));
+      .post(`/api/katilimcigetir`, {id:id})
+      .then((res) => (this.items = res.data));
   },
   mounted() {
     setTimeout(() => {
@@ -386,15 +382,6 @@ export default {
         .then(this.form());
     },
 
-    egitim(params) {
-
-
-      this.$router.push({
-        name: "egitim-goster",
-        params: { id: params.id },
-
-      });
-    },
 
     update() {
       axios
