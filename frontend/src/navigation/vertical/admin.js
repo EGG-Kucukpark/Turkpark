@@ -40,6 +40,10 @@ export default [
                         title: 'Eğitimler',
                         route: 'egitim'
 
+                    } {
+
+                        title: "Yangın Güvenlik Sistemleri",
+                        tag: "Yapım Aşamasında"
                     }
 
 
@@ -53,10 +57,7 @@ export default [
 
             {
                 title: 'Periyodik Kontroller',
-                children:[{
 
-                    title: "Yangın Güvenlik Sistemleri"
-                }]
 
             },
 
@@ -86,7 +87,7 @@ export default [
     {
         title: 'Ayarlar',
         icon: 'SettingsIcon',
-        children:[
+        children: [
 
             {
                 title: 'Kullanıcılar',
