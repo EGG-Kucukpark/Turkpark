@@ -65,6 +65,68 @@
         >
           <b-card>
             <b-form @submit.prevent="update">
+              <b-form-group
+                label="Tarih:"
+                label-for="Tarih"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-datepicker
+                  placeholder="Etkinlik Tarihi"
+                  v-model="date"
+                />
+              </b-form-group>
+
+              <b-form-group
+                label="Etkinlik Saati:"
+                label-for="Etkinlik Saati"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-timepicker
+                  placeholder="Etkinlik Saati"
+                  v-model="time"
+                />
+              </b-form-group>
+
+              <b-form-group
+                label="Kategori:"
+                label-for="kategori"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-select v-model="kategori">
+                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option>İlk Yardım Eğitimi</option>
+                  <option>Yangın Eğitimi</option>
+                </b-form-select>
+              </b-form-group>
+
+              <b-form-group
+                label="Etkinlik Yeri:"
+                label-for="yer"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-select v-model="etkinlik">
+                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option>İzmir-Bornova</option>
+                  <option>İzmir-Bayraklı</option>
+                </b-form-select>
+              </b-form-group>
+              <b-form-group
+                label="Kontenjan:"
+                label-for="Kontenjan"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="Kontenjan"
+                  v-model="kontenjan"
+                  placeholder="Kişi Sayısını Giriniz"
+                  type="number"
+                ></b-form-input>
+              </b-form-group>
               <div style="float: right">
                 <b-button variant="success" type="submit"> Tamam </b-button>
               </div>
@@ -192,7 +254,7 @@
                 Düzenle
               </b-button>
 
-                  <b-button variant="gradient-success" @click="egitim(data.item)">
+              <b-button variant="gradient-success" @click="egitim(data.item)">
                 Eğitimi Görüntüle
               </b-button>
 
@@ -313,8 +375,8 @@ export default {
       kategori: null,
       etkinlik: null,
       kontenjan: null,
-
-      sortdate: "",
+      sortdate: null,
+      id: null,
     };
   },
 
@@ -364,15 +426,13 @@ export default {
       }, 1000);
     },
     submit() {
+      let tarih = this.date;
 
+      let zaman = " " + this.time;
 
-        let tarih = this.date
-
-        let zaman = ' ' + this.time
-
-        let etktime = tarih.concat(zaman);
-        console.log(etktime)
-       axios
+      let etktime = tarih.concat(zaman);
+      console.log(etktime);
+      axios
         .post("api/egitimekle", {
           date: etktime,
           kategori: this.kategori,
@@ -387,28 +447,31 @@ export default {
     },
 
     egitim(params) {
-
-
       this.$router.push({
         name: "egitim-goster",
         params: { id: params.id },
-
       });
     },
 
     update() {
+      let tarih = this.date;
+
+      let zaman = " " + this.time;
+
+      let etktime = tarih.concat(zaman);
+
+      console.log(etktime)
+
       axios
-        .post("api/userupdate", {
-          userid: this.userid,
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-          role: this.role,
-          status: this.status,
-          password: this.password,
+        .post("/api/egitimduzenle", {
+          id: this.id,
+          date: etktime,
+          kategori: this.kategori,
+          kontenjan: this.kontenjan,
+          etkinlik: this.etkinlik,
         })
 
-        .then((res) => this.refreshStop())
+        .then((res) => this.ok())
         .then(this.form())
         .catch((error) => {
           this.error();
@@ -422,12 +485,16 @@ export default {
     Modal2(row) {
       this.$refs["modal2"].show();
 
-      (this.userid = row.id),
-        (this.name = row.name),
-        (this.email = row.email),
-        (this.telefon = row.telefon),
-        (this.role = row.role),
-        (this.status = row.status);
+      let clock = row.time;
+      var clock2 = clock.slice(11);
+
+
+        (this.id = row.id),
+        (this.date = row.time),
+        (this.time = clock2),
+        (this.kategori = row.category),
+        (this.kontenjan = row.kota),
+        (this.etkinlik = row.location);
     },
 
     form() {

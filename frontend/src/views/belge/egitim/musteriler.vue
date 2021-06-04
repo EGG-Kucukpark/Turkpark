@@ -1,7 +1,5 @@
 <template>
   <b-card title="Katılımcılar">
-
-
     <b-row>
       <b-col>
         <b-form-group
@@ -41,8 +39,68 @@
         >
           <b-card>
             <b-form @submit.prevent="update">
+              <b-form-group
+                label="Katılımcı Adı:"
+                label-for="ad"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="ad"
+                  v-model="name"
+                  placeholder="Katılımcı Adını Giriniz"
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                label="E-posta Adresi:"
+                label-for="email"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="email"
+                  v-model="email"
+                  placeholder="E-posta Adresini Giriniz"
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label="Telefon:"
+                label-for="Telefon"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="Telefon"
+                  v-model="telefon"
+                  placeholder="Telefon Numarasını Giriniz"
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label="Ödeme:"
+                label-for="ödeme"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-select
+                  aria-placeholder="Sürücü Seçiniz"
+                  v-model="payed"
+                >
+                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option value="1">Ödeme Yapıldı</option>
+                  <option value="0">Ödeme Yapılmadı</option>
+                </b-form-select>
+              </b-form-group>
+
               <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
+                <b-button
+                  variant="success"
+                  @click="$emit('submit')"
+                  type="submit"
+                >
+                  Tamam
+                </b-button>
               </div>
               <div style="float: right; padding-right: 10px">
                 <b-button variant="danger" @click="form()"> İptal</b-button>
@@ -54,7 +112,6 @@
         <!--  Yeni Ekle -->
         <b-modal
           hide-header-close
-
           :hide-footer="true"
           size="lg"
           ref="modal1"
@@ -64,66 +121,57 @@
           <b-card>
             <b-form @submit.prevent="submit">
               <b-form-group
-                label="Tarih:"
-                label-for="Tarih"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-datepicker
-                  placeholder="Etkinlik Tarihi"
-                  v-model="date"
-                />
-              </b-form-group>
-
-              <b-form-group
-                label="Etkinlik Saati:"
-                label-for="Etkinlik Saati"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-timepicker
-                  placeholder="Etkinlik Saati"
-                  v-model="time"
-                />
-              </b-form-group>
-
-              <b-form-group
-                label="Kategori:"
-                label-for="kategori"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select v-model="kategori">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option>İlk Yardım Eğitimi</option>
-                  <option>Yangın Eğitimi</option>
-                </b-form-select>
-              </b-form-group>
-
-              <b-form-group
-                label="Etkinlik Yeri:"
-                label-for="yer"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select v-model="etkinlik">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option>İzmir-Bornova</option>
-                  <option>İzmir-Bayraklı</option>
-                </b-form-select>
-              </b-form-group>
-              <b-form-group
-                label="Kontenjan:"
-                label-for="Kontenjan"
+                label="Katılımcı Adı:"
+                label-for="ad"
                 label-cols-sm="3"
                 label-align-sm="right"
               >
                 <b-form-input
-                  id="Kontenjan"
-                  v-model="kontenjan"
-                  placeholder="Kişi Sayısını Giriniz"
-                  type="number"
+                  id="ad"
+                  v-model="name"
+                  placeholder="Katılımcı Adını Giriniz"
                 ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                label="E-posta Adresi:"
+                label-for="email"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="email"
+                  v-model="email"
+                  placeholder="E-posta Adresini Giriniz"
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label="Telefon:"
+                label-for="Telefon"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="Telefon"
+                  v-model="telefon"
+                  placeholder="Telefon Numarasını Giriniz"
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label="Ödeme:"
+                label-for="ödeme"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-select
+                  aria-placeholder="Sürücü Seçiniz"
+                  v-model="payed"
+                >
+                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option value="1">Ödeme Yapıldı</option>
+                  <option value="0">Ödeme Yapılmadı</option>
+                </b-form-select>
               </b-form-group>
 
               <div style="float: right">
@@ -162,32 +210,21 @@
             <b> Kullanıcı Bulunamadı.</b>
           </p>
 
-         <template #cell(payed)="data">
-
-            <b-badge
-              v-if="data.item.payed === '1'"
-              variant="light-success"
-            >
+          <template #cell(payed)="data">
+            <b-badge v-if="data.item.payed === '1'" variant="light-success">
               <span> Ödeme Yapıldı.</span>
             </b-badge>
 
-            <b-badge
-              v-if="data.item.payed === '0'"
-              variant="light-danger"
-            >
+            <b-badge v-if="data.item.payed === '0'" variant="light-danger">
               <span> Ödeme Yapılmamış.</span>
             </b-badge>
           </template>
-
-
-
 
           <template #cell(actions)="data">
             <span>
               <b-button variant="gradient-warning" @click="Modal2(data.item)">
                 Düzenle
               </b-button>
-
 
               <b-button variant="gradient-danger" disabled>
                 Sil
@@ -226,7 +263,6 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import router from "@/router";
 import {
-
   BCardHeader,
   BCardBody,
   BTable,
@@ -293,7 +329,12 @@ export default {
       fields: [
         { key: "Name", label: "Katılımcı Adı", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
-        { key: "telefon", label: "Telefon Numarası", sortable: true, filter: true },
+        {
+          key: "telefon",
+          label: "Telefon Numarası",
+          sortable: true,
+          filter: true,
+        },
         { key: "payed", label: "Ödeme Durumu", sortable: true, filter: true },
 
         { key: "actions", label: "Eylemler" },
@@ -301,22 +342,17 @@ export default {
       items: null,
 
       excel: null,
-
-      date: null,
-      time: null,
-      kategori: null,
-      etkinlik: null,
-      kontenjan: null,
-
-      sortdate: "",
+      id: router.currentRoute.params.id,
+      name: null,
+      email: null,
+      telefon: null,
+      payed: null,
     };
   },
 
   created() {
-    var id = router.currentRoute.params.id;
-
     axios
-      .post(`/api/katilimcigetir`, {id:id})
+      .post(`/api/katilimcigetir`, { id: this.id })
       .then((res) => (this.items = res.data));
   },
   mounted() {
@@ -341,7 +377,7 @@ export default {
     ok() {
       setTimeout(() => {
         axios
-          .post("/api/egitimgetir")
+          .post("/api/katilimcigetir", { id: this.id })
           .then((response) => {
             this.items = response.data;
           })
@@ -360,20 +396,13 @@ export default {
       }, 1000);
     },
     submit() {
-
-
-        let tarih = this.date
-
-        let zaman = ' ' + this.time
-
-        let etktime = tarih.concat(zaman);
-        console.log(etktime)
-       axios
-        .post("api/egitimekle", {
-          date: etktime,
-          kategori: this.kategori,
-          kontenjan: this.kontenjan,
-          etkinlik: this.etkinlik,
+      axios
+        .post("/api/katilimciekle", {
+          name: this.name,
+          email: this.email,
+          telefon: this.telefon,
+          payed: this.payed,
+          id: this.id,
         })
         .then((res) => this.ok())
         .catch((error) => {
@@ -382,20 +411,17 @@ export default {
         .then(this.form());
     },
 
-
     update() {
       axios
-        .post("api/userupdate", {
-          userid: this.userid,
+        .post("/api/katilimciduzenle", {
           name: this.name,
           email: this.email,
           telefon: this.telefon,
-          role: this.role,
-          status: this.status,
-          password: this.password,
+          payed: this.payed,
+          id: this.id,
         })
 
-        .then((res) => this.refreshStop())
+        .then((res) => this.ok())
         .then(this.form())
         .catch((error) => {
           this.error();
@@ -409,12 +435,11 @@ export default {
     Modal2(row) {
       this.$refs["modal2"].show();
 
-      (this.userid = row.id),
-        (this.name = row.name),
+      (this.id = row.id),
+        (this.name = row.Name),
         (this.email = row.email),
         (this.telefon = row.telefon),
-        (this.role = row.role),
-        (this.status = row.status);
+        (this.payed = row.payed);
     },
 
     form() {

@@ -1,9 +1,8 @@
 <template>
   <div>
     <template>
-
       <egitiminfo class="mt-2 pt-75" />
-      <musteriler class="mt-2 pt-75" />
+      <musteriler @submit-event="submit" class="mt-2 pt-75" />
     </template>
   </div>
 </template>
@@ -28,6 +27,12 @@ export default {
 
     egitiminfo,
     musteriler,
+  },
+
+  methods: {
+    submit() {
+      alert("Deniz");
+    },
   },
 };
 </script>

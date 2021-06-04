@@ -120,6 +120,10 @@ route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);
 route::post('egitimgetir', [EduController::class, 'get']);
 route::get('egitimgoster/{id}', [EduController::class, 'view']);
 route::post('egitimekle', [EduController::class, 'add']);
+route::post('egitimduzenle', [EduController::class, 'update']);
 route::post('katilimcigetir', [EduController::class, 'getusers']);
+route::post('katilimciekle', [EduController::class, 'addusers']);
+route::post('katilimcisil', [EduController::class, 'deleteusers']);
+route::post('katilimciduzenle', [EduController::class, 'updateuser']);
 
 
