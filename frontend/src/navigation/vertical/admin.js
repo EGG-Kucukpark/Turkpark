@@ -40,7 +40,8 @@ export default [
                         title: 'Eğitimler',
                         route: 'egitim'
 
-                    } {
+                    },
+                    {
 
                         title: "Yangın Güvenlik Sistemleri",
                         tag: "Yapım Aşamasında"
