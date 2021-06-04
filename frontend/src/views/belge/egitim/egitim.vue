@@ -17,6 +17,7 @@
           <b-col cols="12" md="4" class="mb-md-0 mb-2">
             <label>Tarih</label>
             <b-form-datepicker
+              @input="sorttime"
               id="datepicker-valid"
               ref="datepick"
               v-model="sortdate"
@@ -460,7 +461,7 @@ export default {
 
       let etktime = tarih.concat(zaman);
 
-      console.log(etktime)
+      console.log(etktime);
 
       axios
         .post("/api/egitimduzenle", {
@@ -478,6 +479,12 @@ export default {
         });
     },
 
+    sorttime() {
+      axios
+        .post("/api/egitimgetir", { sortdate: this.sortdate })
+        .then((response) => (this.items = response.data));
+    },
+
     Modal1() {
       this.$refs["modal1"].show();
     },
@@ -488,8 +495,7 @@ export default {
       let clock = row.time;
       var clock2 = clock.slice(11);
 
-
-        (this.id = row.id),
+      (this.id = row.id),
         (this.date = row.time),
         (this.time = clock2),
         (this.kategori = row.category),

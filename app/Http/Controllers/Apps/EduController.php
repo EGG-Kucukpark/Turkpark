@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class EduController extends Controller
 {
-    public function get()
+    public function get(Request $req)
     {
+        if ($req->sortdate) {
 
+            return DB::table('activity')->orWhere('time', 'LIKE', '%' . $req->sortdate . '%')->get();
+        } else {
+        }
         return DB::table('activity')->get();
     }
 

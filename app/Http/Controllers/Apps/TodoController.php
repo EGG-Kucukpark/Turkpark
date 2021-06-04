@@ -58,6 +58,8 @@ class TodoController extends Controller
 
     public function addtask(Request $request)
     {
+        $tarih= substr($request->task['dueDate'], 0,10);
+
 
         try {
             return DB::table('todo')->insert(
@@ -67,7 +69,7 @@ class TodoController extends Controller
                     'description' => $request->task['description'],
 
 
-                    'dueDate' => $request->task['dueDate']
+                    'dueDate' => $tarih
 
                 ]
 
