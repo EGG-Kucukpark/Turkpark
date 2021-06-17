@@ -261,7 +261,7 @@ export default {
             this.spin === false;
           } else if (error.response.status === 400) {
             this.error =
-              "Hesabınız hala onay aşamasasındadır. Lütfen Admin tarafından onaylanana kadar bekleyiniz.";
+              "Sistem yetkilisi tarafından hesabınız onaylandıktan sonra giriş yapabilirsiniz.";
             this.show = true;
             this.show2 = false;
             this.spin === false;
