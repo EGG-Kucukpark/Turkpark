@@ -133,5 +133,3 @@ route::post('katilimcigetir', [EduController::class, 'getusers']);
 route::post('katilimciekle', [EduController::class, 'addusers']);
 route::post('katilimcisil', [EduController::class, 'deleteusers']);
 route::post('katilimciduzenle', [EduController::class, 'updateuser']);
-
-

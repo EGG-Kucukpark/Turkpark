@@ -2,20 +2,20 @@
   <div>
     <!-- Alert: No item found -->
 
-<b-form-group>
-    <b-form-select
-      v-model="sonuclar"
-      @input="selected"
-      style="margin-bottom: 30px"
-    >
-      <option value="lab">Laboratuvar</option>
-      <option>Asansör</option>
-      <option value="ölçüm">Ortam Ölçümleri</option>
-      <option>Periyodik Kontroller</option>
-      <option>İlkyardım</option>
-      <option>Eğitimler</option>
-    </b-form-select>
-    </b-form-group>
+    <b-card title="Sonuç Seçiniz">
+      <b-form-select
+        v-model="sonuclar"
+        @input="selected"
+        style="margin-bottom: 30px"
+      >
+        <option value="lab">Laboratuvar</option>
+        <option>Asansör</option>
+        <option value="ölçüm">Ortam Ölçümleri</option>
+        <option>Periyodik Kontroller</option>
+        <option>İlkyardım</option>
+        <option>Eğitimler</option>
+      </b-form-select>
+    </b-card>
 
     <b-alert variant="danger" v-if="sonuc === null">
       <h4 class="alert-heading">Veri Çekilemedi</h4>
@@ -34,7 +34,7 @@
               size="16"
               class="mr-0 mr-sm-50"
             />
-            <span class="d-none d-sm-inline"> za Sonuçları </span>
+            <span class="d-none d-sm-inline"> Firma Sonuçları </span>
           </template>
           <client :user-data="userData" class="mt-2 pt-75" />
         </b-tab>
@@ -64,7 +64,7 @@
             />
             <span class="d-none d-sm-inline"> Firma Sonuçları </span>
           </template>
-          <client :user-data="userData" class="mt-2 pt-75" />
+          <olcumfirma :user-data="userData" class="mt-2 pt-75" />
         </b-tab>
 
         <!-- Tab: Information -->
@@ -73,7 +73,7 @@
             <feather-icon icon="InfoIcon" size="16" class="mr-0 mr-sm-50" />
             <span class="d-none d-sm-inline">Bireysel Sonuçlar</span>
           </template>
-          <individual :user-data="userData" class="mt-2 pt-75" />
+          <olcumbirey :user-data="userData" class="mt-2 pt-75" />
         </b-tab>
 
         <!-- Tab: Social -->
@@ -88,6 +88,7 @@ import ToastificationContent from "@core/components/toastification/Toastificatio
 import { ref } from "@vue/composition-api";
 import {
   BRow,
+  BCard,
   BCol,
   BAlert,
   BLink,
@@ -96,15 +97,18 @@ import {
   BButton,
   BFormSelect,
   BFormGroup,
-
 } from "bootstrap-vue";
 import individual from "./individual";
 import client from "./client";
+
+import olcumbirey from "./measure/individual";
+import olcumfirma from "./measure/client";
 
 export default {
   components: {
     BRow,
     BCol,
+    BCard,
     BAlert,
     BLink,
     BTabs,
@@ -112,12 +116,14 @@ export default {
     BButton,
     BFormSelect,
     ToastificationContent,
-     BFormGroup,
+    BFormGroup,
 
     // Local Components
 
     individual,
     client,
+    olcumbirey,
+    olcumfirma,
   },
   data() {
     return {

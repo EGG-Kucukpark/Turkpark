@@ -113,16 +113,7 @@ export default [
 
     },
 
-    {
-        path: '/measures',
-        name: 'measures',
-        component: () => import('@/views/lab/measure/measure.vue'),
-        meta: {
-            requiresAuth: true,
-        }
 
-
-    },
 
     {
         path: '/sertifika',
