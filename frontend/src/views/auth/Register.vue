@@ -39,17 +39,14 @@
           <validation-observer ref="registerForm" #default="{ invalid }">
             <b-form class="auth-register-form mt-2" @submit.prevent="register">
               <!-- username -->
-              <b-form-group label="İsminiz:" label-for="register-username">
+              <b-form-group label="İsminiz:">
                 <validation-provider
                   #default="{ errors }"
                   name="İsim"
-                  vid="username"
-                  rules="required"
+                  rules="required|alpha"
                 >
                   <b-form-input
-                    id="register-username"
                     v-model="name"
-                    name="register-username"
                     :state="errors.length > 0 ? false : null"
                     placeholder="johndoe"
                   />
@@ -64,12 +61,16 @@
                   name="Telefon"
                   rules="required"
                 >
-                  <b-form-input
-                    type="number"
+                  <cleave
+                    id="phone"
                     v-model="telefon"
+                    class="form-control"
+                    :raw="false"
                     :state="errors.length > 0 ? false : null"
-                    placeholder="0555 555 55 55"
+                    :options="options.phone"
+                    placeholder="555 555 55 55"
                   />
+
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -157,12 +158,11 @@
                 </validation-provider>
               </b-form-group>
 
-              <b-form-group label="Rol:" label-for="register-email">
+              <b-form-group label="Rol:(*)" label-for="register-email">
                 <validation-provider
                   v-slot="{ errors }"
                   rules="required"
                   name="Rol"
-
                 >
                   <b-form-select v-model="role" class="mb-3">
                     <b-form-select-option disabled value=" "
@@ -185,11 +185,8 @@
                     >
                   </b-form-select>
 
-
-                    <small class="text-danger">{{ errors[0] }}</small>
-
+                  <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
-
               </b-form-group>
               <b-button
                 v-if="spin"
@@ -270,12 +267,16 @@ import {
   BListGroup,
   BListGroupItem,
   BSpinner,
+  BInputGroupPrepend,
 } from "bootstrap-vue";
 import { required, email } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import store from "@/store/index";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import axios from "@axios";
+import Cleave from "vue-cleave-component";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import "cleave.js/dist/addons/cleave-phone.us";
 
 export default {
   components: {
@@ -297,14 +298,22 @@ export default {
     BListGroupItem,
     BFormSelect,
     BFormSelectOption,
+    BInputGroupPrepend,
     // validations
     ValidationProvider,
     ValidationObserver,
     BSpinner,
+    Cleave,
   },
   mixins: [togglePasswordVisibility],
   data() {
     return {
+      options: {
+        phone: {
+          phone: true,
+          phoneRegionCode: "US",
+        },
+      },
       name: "",
       max: 11,
       errors: [],

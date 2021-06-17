@@ -64,19 +64,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        date_default_timezone_set('Europe/Istanbul');
+        $date =  date("d.m.Y, H:i");
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['Şifre']),
             'role' => $data['role'],
             'status' => '2',
-            'telefon'=> $data['telefon']
+            'telefon' => $data['telefon'],
+            'created_at' => $date
 
 
         ]);
-
-
-
-
     }
 }
