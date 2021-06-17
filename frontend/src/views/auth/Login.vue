@@ -20,7 +20,6 @@
         <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
           <b-card-title title-tag="h2" class="font-weight-bold mb-1">
             Türkpark Paneline Hoşgeldiniz! 👋
-
           </b-card-title>
           <b-card-text class="mb-2">
             Maceraya başlamak için lütfen giriş yapınız!
@@ -40,19 +39,17 @@
           <!-- form -->
           <validation-observer ref="loginValidation">
             <b-form class="auth-login-form mt-2" @submit.prevent>
-                 <b-link :to="{ name: 'email.request' }">
-                    <small style="float:right" >Doğrulamayı Yeniden Gönder.</small>
-                  </b-link>
+              <b-link :to="{ name: 'email.request' }">
+                <small style="float: right">Doğrulamayı Yeniden Gönder.</small>
+              </b-link>
               <!-- email -->
 
               <b-form-group label="E-posta Adresiniz:" label-for="login-email">
-
                 <validation-provider
                   #default="{ errors }"
                   name="Email"
                   rules="required|email"
                 >
-
                   <b-form-input
                     id="login-email"
                     v-model="email"
@@ -62,9 +59,7 @@
                   />
 
                   <small class="text-danger">{{ errors[0] }}</small>
-
                 </validation-provider>
-
               </b-form-group>
 
               <!-- forgot password -->
@@ -186,7 +181,6 @@ import {
   BAlert,
   BButton,
   BSpinner,
-
 } from "bootstrap-vue";
 import { required, email } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
@@ -215,7 +209,6 @@ export default {
     BAlert,
     ValidationObserver,
     BSpinner,
-
   },
   mixins: [togglePasswordVisibility],
   data() {
@@ -261,7 +254,7 @@ export default {
             this.spin === false;
           } else if (error.response.status === 400) {
             this.error =
-              "Sistem yetkilisi tarafından hesabınız onaylandıktan sonra giriş yapabilirsiniz.";
+              "Sistem yetkilisi tarafından hesabınız onaylandıktan sonra giriş yapabilirsiniz!";
             this.show = true;
             this.show2 = false;
             this.spin === false;
