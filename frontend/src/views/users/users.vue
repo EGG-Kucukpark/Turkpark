@@ -398,7 +398,7 @@ export default {
   },
   data() {
     return {
-      perPage: 5,
+      perPage: 10,
       pageOptions: [10, 20, 30],
       totalRows: 1,
       currentPage: 1,
