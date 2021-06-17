@@ -1,17 +1,58 @@
 <template>
   <div>
     <!-- Alert: No item found -->
-    <b-alert variant="danger" :show="userData === undefined">
+
+<b-form-group>
+    <b-form-select
+      v-model="sonuclar"
+      @input="selected"
+      style="margin-bottom: 30px"
+    >
+      <option value="lab">Laboratuvar</option>
+      <option>Asansör</option>
+      <option value="ölçüm">Ortam Ölçümleri</option>
+      <option>Periyodik Kontroller</option>
+      <option>İlkyardım</option>
+      <option>Eğitimler</option>
+    </b-form-select>
+    </b-form-group>
+
+    <b-alert variant="danger" v-if="sonuc === null">
       <h4 class="alert-heading">Veri Çekilemedi</h4>
       <div class="alert-body">
-        Bu ID'ye sahip firma bulunamadı. Diğer Firmalar için:
-        <b-link class="alert-link" :to="{ name: 'firmalar' }">
-          Firmalar
-        </b-link>
+        Gösterilecek sonuç yok. Lütfen Yukarıdan sonuç tipini seçiniz.
       </div>
     </b-alert>
 
-    <template v-if="userData">
+    <template v-if="sonuc === 'lab'">
+      <b-tabs v-if="userData" pills>
+        <!-- Tab: Account -->
+        <b-tab active>
+          <template #title>
+            <feather-icon
+              icon="BriefcaseIcon"
+              size="16"
+              class="mr-0 mr-sm-50"
+            />
+            <span class="d-none d-sm-inline"> za Sonuçları </span>
+          </template>
+          <client :user-data="userData" class="mt-2 pt-75" />
+        </b-tab>
+
+        <!-- Tab: Information -->
+        <b-tab v-if="show">
+          <template #title>
+            <feather-icon icon="InfoIcon" size="16" class="mr-0 mr-sm-50" />
+            <span class="d-none d-sm-inline">Bireysel Sonuçlar</span>
+          </template>
+          <individual :user-data="userData" class="mt-2 pt-75" />
+        </b-tab>
+
+        <!-- Tab: Social -->
+      </b-tabs>
+    </template>
+
+    <template v-if="sonuc === 'ölçüm'">
       <b-tabs v-if="userData" pills>
         <!-- Tab: Account -->
         <b-tab active>
@@ -42,9 +83,21 @@
 </template>
 
 <script>
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
 import { ref } from "@vue/composition-api";
-import { BRow, BCol, BAlert, BLink, BTabs, BTab, BButton } from "bootstrap-vue";
+import {
+  BRow,
+  BCol,
+  BAlert,
+  BLink,
+  BTabs,
+  BTab,
+  BButton,
+  BFormSelect,
+  BFormGroup,
+
+} from "bootstrap-vue";
 import individual from "./individual";
 import client from "./client";
 
@@ -57,6 +110,9 @@ export default {
     BTabs,
     BTab,
     BButton,
+    BFormSelect,
+    ToastificationContent,
+     BFormGroup,
 
     // Local Components
 
@@ -66,13 +122,26 @@ export default {
   data() {
     return {
       show: true,
+      sonuclar: null,
+      sonuc: null,
     };
   },
   created() {
-    var user =  JSON.parse(localStorage.getItem("user"));
+    var user = JSON.parse(localStorage.getItem("user"));
     if (user.role == "Client") {
-      this.show = false
+      this.show = false;
     }
+
+    this.$toast({
+      component: ToastificationContent,
+      position: "top-right",
+      props: {
+        title: `Sonuç İşlemleri `,
+        icon: "FileTextIcon",
+        variant: "success",
+        text: ` Lütfen Sonuç Tipini Seçiniz`,
+      },
+    });
   },
   setup() {
     const userData = ref(null);
@@ -81,6 +150,18 @@ export default {
     return {
       userData,
     };
+  },
+
+  methods: {
+    selected() {
+      if (this.sonuclar === "lab") {
+        this.sonuc = "lab";
+        console.log(this.sonuc);
+      } else if (this.sonuclar === "ölçüm") {
+        this.sonuc = "ölçüm";
+        console.log(this.sonuc);
+      }
+    },
   },
 };
 </script>

@@ -10,14 +10,21 @@ use Illuminate\Support\Facades\DB;
 class EduController extends Controller
 {
     public function get(Request $req)
-    {
-        if ($req->sortdate) {
 
-            return DB::table('activity')->orWhere('time', 'LIKE', '%' . $req->sortdate . '%')->get();
+    {
+
+        if ($req->kategori ||$req->sortdate || $req->yer ) {
+
+            return DB::table('activity')->orWhere('date', 'LIKE', '%' . $req->sortdate . '%')
+            ->orWhere('title', $req->kategori)->orWhere('location', $req->yer)->get();
         } else {
-        }
+
         return DB::table('activity')->get();
+        }
+
+
     }
+
 
     public function view(Request $request)
     {
@@ -33,9 +40,9 @@ class EduController extends Controller
 
 
             DB::table('activity')->insert([
-                'time' => $request->date,
+                'date' => $request->date,
                 'kota' => $request->kontenjan,
-                'category' => $request->kategori,
+                'title' => $request->title,
                 'location' => $request->etkinlik
 
 
@@ -51,15 +58,15 @@ class EduController extends Controller
 
 
             DB::table('activity')->where('id', $request->id)->update([
-                'time' => $request->date,
+                'date' => $request->date,
                 'kota' => $request->kontenjan,
-                'category' => $request->kategori,
+                'title' => $request->title,
                 'location' => $request->etkinlik
 
 
             ]);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'Başarısız'], 404);
+            return $exception;
         }
     }
     //////////////////////
@@ -115,5 +122,70 @@ class EduController extends Controller
 
     public function deleteuser()
     {
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+    // Kategorii
+
+    public function getcategory()
+
+    {
+
+
+        return DB::table('activity_category')->get();
+    }
+    public function addcategory(Request $request)
+    {
+        try {
+
+
+            DB::table('activity_category')->insert([
+                'name' => $request->name,
+
+            ]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'Başarısız'], 404);
+        }
+    }
+
+    public function delcategory(Request $req)
+    {
+        try {
+
+
+            DB::table('activity_category')->where('id', $req->id)->delete();
+        } catch (Exception $ex) {
+            return response()->json(['error' => 'Başarısız'], 404);
+        }
+    }
+
+    public function getplace()
+
+    {
+        return DB::table('activity_place')->get();
+    }
+    public function addplace(Request $request)
+    {
+        try {
+
+
+            DB::table('activity_place')->insert([
+                'name' => $request->name,
+
+            ]);
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
+
+    public function delplace(Request $req)
+    {
+        try {
+
+
+            DB::table('activity_place')->where('id', $req->id)->delete();
+        } catch (Exception $ex) {
+            return $ex;
+        }
     }
 }

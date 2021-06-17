@@ -24,7 +24,7 @@ export default [
     },
 
     {
-        title: 'Belge İşlemleri',
+        title: 'Hizmetler',
         icon: 'FileTextIcon',
         children: [{
                 title: 'İlkyardım',
@@ -41,16 +41,30 @@ export default [
                         route: 'egitim'
 
                     },
-                    {
 
-                        title: "Yangın Güvenlik Sistemleri",
-                        tag: "Yapım Aşamasında"
-                    }
 
 
                 ]
             },
+            {
 
+                title: "Eğitimler",
+                children: [{
+                        title: "Yüksekte Çalışma"
+                    },
+                    {
+                        title: "Sapancı"
+                    },
+                    {
+                        title: "NEBOSH  "
+                    }
+                ]
+
+            }, {
+
+                title: "Yangın Güvenlik Sistemleri",
+
+            },
             {
                 title: 'Ortam Ölçümleri',
 
@@ -64,24 +78,37 @@ export default [
 
 
             {
-                title: "Asansör Kontrolleri",
+                title: "Asansör Muayene",
 
-            }
+            },
+            {
+                title: "Mobil Sağlık",
+
+            },
+
+
 
         ],
     },
-
-
     {
-        title: 'Yapılacaklar',
-        route: 'apps-todo',
-        icon: 'CheckSquareIcon',
+        title: 'Sonuçlar',
+        route: 'results',
+        icon: 'HeartIcon',
+
+
     },
+
     {
         title: 'Takvim',
         route: 'apps-calendar',
         icon: 'CalendarIcon',
     },
+    {
+        title: 'Yapılacaklar',
+        route: 'apps-todo',
+        icon: 'CheckSquareIcon',
+    },
+
 
 
 
@@ -101,36 +128,6 @@ export default [
     },
 
 
-    {
-        title: 'Sonuçlar',
-        route: 'results',
-        icon: 'HeartIcon',
-        children: [
-
-            {
-                title: 'Laboratuvar',
-                route: 'results',
-                icon: 'ChevronsRightIcon',
-
-            },
-
-            {
-                title: 'Ölçümler',
-                route: 'measures',
-                icon: 'ChevronsRightIcon',
-                tag: "Yeni"
-            },
-
-            {
-                title: 'Tahliller',
-                route: '',
-                icon: 'ChevronsRightIcon',
-            }
-
-
-        ]
-
-    },
 
 
 ]

@@ -118,6 +118,14 @@ route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);
 //                      Eğitim İşlemleri
 
 route::post('egitimgetir', [EduController::class, 'get']);
+route::post('kategorigetir', [EduController::class, 'getcategory']);
+route::post('kategoriekle', [EduController::class, 'addcategory']);
+route::post('kategorisil', [EduController::class, 'delcategory']);
+
+route::post('yergetir', [EduController::class, 'getplace']);
+route::post('yerekle', [EduController::class, 'addplace']);
+route::post('yersil', [EduController::class, 'delplace']);
+
 route::get('egitimgoster/{id}', [EduController::class, 'view']);
 route::post('egitimekle', [EduController::class, 'add']);
 route::post('egitimduzenle', [EduController::class, 'update']);
