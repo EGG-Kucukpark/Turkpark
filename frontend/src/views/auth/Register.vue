@@ -217,25 +217,9 @@
             </b-link>
           </p>
 
-          <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">ya da</div>
-          </div>
 
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button variant="facebook" href="javascript:void(0)">
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button variant="twitter" href="javascript:void(0)">
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button variant="google" href="javascript:void(0)">
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button variant="github" href="javascript:void(0)">
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
+
+
         </b-col>
       </b-col>
       <!-- /Register-->

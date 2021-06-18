@@ -39,9 +39,11 @@
           />
         </template>
 
-        <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon size="16" icon="UserIcon" class="mr-50" />
-          <router-link to="/profil"><span>Profilim</span></router-link>
+        <b-dropdown-item   :to="{ path: '/profil'}" link-class="d-flex align-items-center">
+
+            <feather-icon size="16" icon="UserIcon" class="mr-50" />
+            <span>Profilim</span>
+
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
@@ -49,10 +51,11 @@
           <span>Inbox</span>
         </b-dropdown-item>
 
-        <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon size="16" icon="CheckSquareIcon" class="mr-50" />
-          <router-link to="/todo"><span>Görevlerim</span></router-link>
-        </b-dropdown-item>
+          <b-dropdown-item :to="{ path: '/todo'}"  link-class="d-flex align-items-center">
+            <feather-icon size="16" icon="CheckSquareIcon" class="mr-50" />
+            <span>Görevlerim</span>
+          </b-dropdown-item>
+
 
         <b-dropdown-divider />
 

@@ -9,6 +9,7 @@ import workers from './routes/workers'
 import users from './routes/users'
 import todo from './routes/todo'
 import calendar from './routes/calendar'
+import axios from '@axios'
 
 
 Vue.use(VueRouter)
@@ -52,6 +53,13 @@ router.beforeEach((to, from, next) => {
             next('/login')
         } else {
             var user = JSON.parse(localStorage.getItem('user'))
+            var database;
+            axios.post('/api/usergetir', {
+                id: user.id
+            }).then(function (response){
+                console.log(response.data)
+            })
+
 
 
             if (to.matched.some(record => record.meta.admin)) {

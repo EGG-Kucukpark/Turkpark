@@ -18,13 +18,8 @@
       </b-form-select>
     </b-card>
 
-    <b-alert variant="danger" :show="sonuc === null">
-      <h4 class="alert-heading">Veri Çekilemedi</h4>
-      <div class="alert-body">
-        Gösterilecek sonuç yok. Lütfen Yukarıdan sonuç tipini seçiniz.
-      </div>
-    </b-alert>
-    <!-- Tab: LAB -->
+
+
     <template v-if="sonuc === 'lab'">
       <b-tabs v-if="userData" pills>
         <b-tab active>

@@ -11,7 +11,7 @@
       <!-- title -->
       <template #title>
         <feather-icon icon="UserIcon" size="18" class="mr-50" />
-        <span class="font-weight-bold">General</span>
+        <span class="font-weight-bold">Genel</span>
       </template>
 
       <account-setting-general v-if="options" :options="options" />
@@ -23,7 +23,7 @@
       <!-- title -->
       <template #title>
         <feather-icon icon="LockIcon" size="18" class="mr-50" />
-        <span class="font-weight-bold">Change Password</span>
+        <span class="font-weight-bold">Şifre İşlemleri</span>
       </template>
 
       <account-setting-password />
@@ -31,26 +31,7 @@
     <!--/ change password tab -->
 
     <!-- info -->
-    <b-tab>
-      <!-- title -->
-      <template #title>
-        <feather-icon icon="InfoIcon" size="18" class="mr-50" />
-        <span class="font-weight-bold">Information</span>
-      </template>
 
-      <account-setting-information v-if="options" options="options" />
-    </b-tab>
-
-    <!-- social links -->
-    <b-tab>
-      <!-- title -->
-      <template #title>
-        <feather-icon icon="LinkIcon" size="18" class="mr-50" />
-        <span class="font-weight-bold">Social</span>
-      </template>
-
-      <account-setting-social v-if="options" :social-data="options" />
-    </b-tab>
   </b-tabs>
 </template>
 
@@ -58,8 +39,7 @@
 import { BTabs, BTab } from "bootstrap-vue";
 import AccountSettingGeneral from "./AccountSettingGeneral.vue";
 import AccountSettingPassword from "./AccountSettingPassword.vue";
-import AccountSettingInformation from "./AccountSettingInformation.vue";
-import AccountSettingSocial from "./AccountSettingSocial.vue";
+
 
 export default {
   components: {
@@ -67,8 +47,7 @@ export default {
     BTab,
     AccountSettingGeneral,
     AccountSettingPassword,
-    AccountSettingInformation,
-    AccountSettingSocial,
+
   },
   setup() {
     var options = null;

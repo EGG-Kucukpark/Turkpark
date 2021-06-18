@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Ui\Presets\React;
+
 
 class UserController extends Controller
 
@@ -27,6 +27,12 @@ class UserController extends Controller
     {
 
         return   DB::table('users')->get();
+    }
+
+    public function giris(Request $request)
+    {
+
+        return DB::table('users')->where('id', intval($request->id))->first();
     }
 
     public function adduser(Request $request)
@@ -103,7 +109,9 @@ class UserController extends Controller
     {
         $user = DB::table('users')->where('id', $request->id)->first();
 
-        if (Hash::check($request->oldpass, $user->password)) {
+        $sifre = Hash::check($request->password, $user->password);
+        return dd($sifre);
+        if ($sifre) {
 
             $user = DB::table('users')->where('id', $request->id)->update([
                 'password' => Hash::make($request->newpass)
