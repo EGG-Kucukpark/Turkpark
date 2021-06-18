@@ -186,14 +186,14 @@
             <span>
               <b-button
                 variant="success"
-                @click.prevent="indir(data.item.dosya)"
+                @click.prevent="indir(data.item.dosya_ad)"
               >
                 İndir
               </b-button>
               <b-button v-if="show" variant="warning"> Sil </b-button>
               <b-button
                 variant="danger"
-                @click.prevent="göster(data.item.dosya)"
+                @click.prevent="göster(data.item.dosya_ad)"
               >
                 Göster
               </b-button>
@@ -352,7 +352,7 @@ export default {
         }
 
         axios
-          .post("/api/getfile", { firma_email: email, status: 1 })
+          .post("/api/getfile", { firma_email: email, status: 4 })
           .then((res) => (this.items = res.data))
           .then(
             this.$toast({
@@ -379,7 +379,7 @@ export default {
       formData.append("id", this.calisanselected.id);
       formData.append("name", this.calisanselected.name);
       formData.append("firma_email", this.firmaselected.firma_email);
-      formData.append('status', '1')
+      formData.append('status', '4')
       axios
         .post("/api/belgeyukle", formData)
         .then((res) => this.refreshStop())
@@ -405,7 +405,7 @@ export default {
 
       var email = this.Selected.firma_email;
       axios
-        .post("/api/getfile", { firma_email: email, status: 1 })
+        .post("/api/getfile", { firma_email: email, status: 4 })
         .then((res) => (this.items = res.data));
     },
 

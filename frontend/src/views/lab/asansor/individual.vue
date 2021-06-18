@@ -133,14 +133,14 @@
             <span>
               <b-button
                 variant="success"
-                @click.prevent="indir(data.item.dosya)"
+                @click.prevent="indir(data.item.dosya_ad)"
               >
                 İndir
               </b-button>
               <b-button v-if="show" variant="warning"> Sil </b-button>
               <b-button
                 variant="danger"
-                @click.prevent="göster(data.item.dosya)"
+                @click.prevent="göster(data.item.dosya_ad)"
               >
                 Göster
               </b-button>
@@ -288,17 +288,16 @@ export default {
       this.totalRows = this.items.length;
     }, 500);
   },
-  methods: {
+ methods: {
     refreshStop() {
       setTimeout(() => {
         var email = this.firmaselected.firma_email;
         this.Selected = {
-
-            firma_email: this.firmaselected.firma_email
-        }
+          firma_email: this.firmaselected.firma_email,
+        };
 
         axios
-          .post("/api/getfile", { firma_email: email })
+          .post("/api/getfile", { firma_email: email, status: 5 })
           .then((res) => (this.items = res.data))
           .then(
             this.$toast({
@@ -325,6 +324,7 @@ export default {
       formData.append("id", this.firmaselected.id);
       formData.append("name", this.firmaselected.name);
       formData.append("firma_email", this.firmaselected.firma_email);
+      formData.append("status", "5");
       axios
         .post("/api/belgeyukle", formData)
         .then((res) => this.refreshStop())
@@ -343,11 +343,9 @@ export default {
         .then(this.$refs["modal"].hide());
     },
     select() {
-
-
       var email = this.Selected.firma_email;
       axios
-        .post("/api/getfile", { firma_email: email })
+        .post("/api/getfile", { firma_email: email, status: 5 })
         .then((res) => (this.items = res.data));
     },
     göster(dosya) {

@@ -186,14 +186,14 @@
             <span>
               <b-button
                 variant="success"
-                @click.prevent="indir(data.item.dosya)"
+                @click.prevent="indir(data.item.dosya_ad)"
               >
                 İndir
               </b-button>
               <b-button v-if="show" variant="warning"> Sil </b-button>
               <b-button
                 variant="danger"
-                @click.prevent="göster(data.item.dosya)"
+                @click.prevent="göster(data.item.dosya_ad)"
               >
                 Göster
               </b-button>

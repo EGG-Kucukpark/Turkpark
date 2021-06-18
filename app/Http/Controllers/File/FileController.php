@@ -17,20 +17,75 @@ class FileController extends Controller
     {
 
         try {
+            if ($request->status === "1") {
 
-            $filename = $request->file('file')->getClientOriginalName();
-            $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
+                $filename = $request->file('file')->getClientOriginalName();
+                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
 
 
-            DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isMeasure' => $request->status, 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isMeasure' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
 
-            $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
+                $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
-            return $request;
+                return $request;
+            } else if ($request->status === "2") {
+
+                $filename = $request->file('file')->getClientOriginalName();
+                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
+
+
+
+                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isYardim' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+
+                $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
+
+                return $request;
+            } else if ($request->status === '3') {
+
+                $filename = $request->file('file')->getClientOriginalName();
+                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
+
+
+
+                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isPeriyodik' => '1', 'name' => $request->name, 'firma_email' => $request->firma_email]);
+
+                $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
+
+                return $request;
+            } else if ($request->status === "4") {
+
+                $filename = $request->file('file')->getClientOriginalName();
+                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
+
+
+
+                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isEgitim' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+
+                $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
+
+                return $request;
+            } else if ($request->status === "5") {
+
+                $filename = $request->file('file')->getClientOriginalName();
+                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
+
+
+
+                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isAsansor' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+
+                $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
+
+                return $request;
+            } else {
+
+
+                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '0']])
+                    ->orwhere('calisan_id', $request->calisan_id)->get();
+            }
         } catch (Exception $exception) {
 
-            return response()->json(['error' => 'Başarısız'], 404);
+            return $exception;
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +105,22 @@ class FileController extends Controller
         if ($request->status === 1) {
 
             return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 2) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isYardim', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 3) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isPeriyodik', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 4) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isEgitim', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 5) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isAsansor', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else {
 

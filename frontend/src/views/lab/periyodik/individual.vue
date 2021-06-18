@@ -62,10 +62,14 @@
                 label="Kişi: "
                 label-cols-sm="1"
               >
-                <b-form-select  v-model="firmaselected">
+                <b-form-select v-model="firmaselected">
                   <option disabled value="">Lütfen Seçim Yapınız</option>
                   <option
-                    v-bind:value="{ firma_email: firma.email, id: firma.id, name:firma.name }"
+                    v-bind:value="{
+                      firma_email: firma.email,
+                      id: firma.id,
+                      name: firma.name,
+                    }"
                     v-for="firma in firma"
                     :key="firma.id"
                   >
@@ -73,8 +77,6 @@
                   </option>
                 </b-form-select>
               </b-form-group>
-
-
 
               <b-form-group
                 style="font-size: 13px"
@@ -105,7 +107,7 @@
         </b-modal>
       </span>
 
-     <b-col cols="12" class="table-responsive">
+      <b-col cols="12" class="table-responsive">
         <b-table
           striped
           hover
@@ -120,27 +122,22 @@
           :filter="filter"
           :filter-included-fields="filterOn"
           @filtered="onFiltered"
-           show-empty
+          show-empty
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
         >
-
-
-
-
-
           <template #cell(actions)="data">
             <span>
               <b-button
                 variant="success"
-                @click.prevent="indir(data.item.dosya)"
+                @click.prevent="indir(data.item.dosya_ad)"
               >
                 İndir
               </b-button>
               <b-button v-if="show" variant="warning"> Sil </b-button>
               <b-button
                 variant="danger"
-                @click.prevent="göster(data.item.dosya)"
+                @click.prevent="göster(data.item.dosya_ad)"
               >
                 Göster
               </b-button>
@@ -284,7 +281,7 @@ export default {
     }
   },
   mounted() {
-  setTimeout(() => {
+    setTimeout(() => {
       this.totalRows = this.items.length;
     }, 500);
   },
@@ -293,12 +290,11 @@ export default {
       setTimeout(() => {
         var email = this.firmaselected.firma_email;
         this.Selected = {
-
-            firma_email: this.firmaselected.firma_email
-        }
+          firma_email: this.firmaselected.firma_email,
+        };
 
         axios
-          .post("/api/getfile", { firma_email: email })
+          .post("/api/getfile", { firma_email: email, status: 3 })
           .then((res) => (this.items = res.data))
           .then(
             this.$toast({
@@ -325,6 +321,7 @@ export default {
       formData.append("id", this.firmaselected.id);
       formData.append("name", this.firmaselected.name);
       formData.append("firma_email", this.firmaselected.firma_email);
+      formData.append("status", "3");
       axios
         .post("/api/belgeyukle", formData)
         .then((res) => this.refreshStop())
@@ -343,11 +340,9 @@ export default {
         .then(this.$refs["modal"].hide());
     },
     select() {
-
-
       var email = this.Selected.firma_email;
       axios
-        .post("/api/getfile", { firma_email: email })
+        .post("/api/getfile", { firma_email: email, status: 3 })
         .then((res) => (this.items = res.data));
     },
     göster(dosya) {
