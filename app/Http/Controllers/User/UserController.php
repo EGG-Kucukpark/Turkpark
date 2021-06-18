@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\User;
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use DateTime;
@@ -9,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Ui\Presets\React;
 
 class UserController extends Controller
 
@@ -92,6 +94,22 @@ class UserController extends Controller
                 ]);
             }
         } catch (Exception $exception) {
+            return response()->json(['error' => 'Başarısız'], 404);
+        }
+    }
+
+
+    function sifirla(Request $request)
+    {
+        $user = DB::table('users')->where('id', $request->id)->first();
+
+        if (Hash::check($request->oldpass, $user->password)) {
+
+            $user = DB::table('users')->where('id', $request->id)->update([
+                'password' => Hash::make($request->newpass)
+
+            ]);
+        } else {
             return response()->json(['error' => 'Başarısız'], 404);
         }
     }

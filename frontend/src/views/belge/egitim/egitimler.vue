@@ -161,7 +161,7 @@
           size="lg"
           ref="modal1"
           centered
-          title="Araç Ekle"
+          title="Eğitim Ekle"
         >
           <b-card>
             <b-form @submit.prevent="submit">

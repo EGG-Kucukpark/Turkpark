@@ -41,6 +41,7 @@ Route::post('userupdate', [UserController::class, 'updateuser']);
 route::post('userekle', [UserController::class, 'adduser']);
 route::post('status', [UserController::class, 'status']);
 route::post('excelimport', [UserController::class, 'import']);
+route::post('sifreguncelle', [UserController::class, 'sifirla']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Firma İşlemleri

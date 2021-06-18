@@ -1,23 +1,18 @@
 <template>
   <div class="navbar-container d-flex content align-items-center">
-
     <!-- Nav Menu Toggler -->
     <ul class="nav navbar-nav d-xl-none">
       <li class="nav-item">
-        <b-link
-          class="nav-link"
-          @click="toggleVerticalMenuActive"
-        >
-          <feather-icon
-            icon="MenuIcon"
-            size="21"
-          />
+        <b-link class="nav-link" @click="toggleVerticalMenuActive">
+          <feather-icon icon="MenuIcon" size="21" />
         </b-link>
       </li>
     </ul>
 
     <!-- Left Col -->
-    <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
+    <div
+      class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex"
+    >
       <dark-Toggler class="d-none d-lg-block" />
     </div>
 
@@ -30,13 +25,9 @@
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">
-
-
-              {{user.name}}
-
-
+              {{ user.name }}
             </p>
-            <span class="user-status"> {{user.role}}</span>
+            <span class="user-status"> {{ user.role }}</span>
           </div>
           <b-avatar
             size="40"
@@ -49,42 +40,27 @@
         </template>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="UserIcon"
-            class="mr-50"
-          />
-          <span>Profilim</span>
+          <feather-icon size="16" icon="UserIcon" class="mr-50" />
+          <router-link to="/profil"><span>Profilim</span></router-link>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="MailIcon"
-            class="mr-50"
-          />
+          <feather-icon size="16" icon="MailIcon" class="mr-50" />
           <span>Inbox</span>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="CheckSquareIcon"
-            class="mr-50"
-          />
-          <span>Görevlerim</span>
+          <feather-icon size="16" icon="CheckSquareIcon" class="mr-50" />
+          <router-link to="/todo"><span>Görevlerim</span></router-link>
         </b-dropdown-item>
-
-
 
         <b-dropdown-divider />
 
-        <b-dropdown-item @click.prevent="logout" link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="LogOutIcon"
-            class="mr-50"
-          />
+        <b-dropdown-item
+          @click.prevent="logout"
+          link-class="d-flex align-items-center"
+        >
+          <feather-icon size="16" icon="LogOutIcon" class="mr-50" />
           <span>Çıkış</span>
         </b-dropdown-item>
       </b-nav-item-dropdown>
@@ -94,10 +70,15 @@
 
 <script>
 import {
-  BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar,
-} from 'bootstrap-vue'
-import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
-import axios from '@axios'
+  BLink,
+  BNavbarNav,
+  BNavItemDropdown,
+  BDropdownItem,
+  BDropdownDivider,
+  BAvatar,
+} from "bootstrap-vue";
+import DarkToggler from "@core/layouts/components/app-navbar/components/DarkToggler.vue";
+import axios from "@axios";
 
 export default {
   components: {
@@ -112,33 +93,25 @@ export default {
     DarkToggler,
   },
 
-  data(){
-      return {
-          user: JSON.parse(localStorage.getItem('user')),
-
-      }
-
+  data() {
+    return {
+      user: JSON.parse(localStorage.getItem("user")),
+    };
   },
-  created(){
+  created() {},
+  methods: {
+    logout() {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
 
-
-
+      this.$router.push("login");
     },
-methods: {
-
-     logout(){
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-
-
-      this.$router.push('login');
   },
-},
   props: {
     toggleVerticalMenuActive: {
       type: Function,
       default: () => {},
     },
   },
-}
+};
 </script>
