@@ -120,7 +120,7 @@
         </b-modal>
       </span>
 
-     <b-col cols="12" class="table-responsive">
+      <b-col cols="12" class="table-responsive">
         <b-table
           striped
           hover
@@ -135,7 +135,7 @@
           :filter="filter"
           :filter-included-fields="filterOn"
           @filtered="onFiltered"
-           show-empty
+          show-empty
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
         >
@@ -185,17 +185,29 @@
           <template #cell(actions)="data">
             <span>
               <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="warning"
+                @click.prevent="göster(data.item.dosya_ad)"
+                class="btn-icon"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="danger"
+                @click.prevent="indir(data.item.dosya_ad)"
+                class="btn-icon"
+              >
+                <feather-icon icon="ArchiveIcon" />
+              </b-button>
+
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
+                class="btn-icon"
               >
-                İndir
-              </b-button>
-              <b-button v-if="show" variant="warning"> Sil </b-button>
-              <b-button
-                variant="danger"
-                @click.prevent="göster(data.item.dosya_ad)"
-              >
-                Göster
+                <feather-icon icon="DownloadIcon" />
               </b-button>
             </span>
           </template>
@@ -248,7 +260,6 @@ import {
   BModal,
   BForm,
   BFormFile,
-
 } from "bootstrap-vue";
 import axios from "@axios";
 
@@ -338,8 +349,7 @@ export default {
     }
   },
   mounted() {
-   setTimeout(() => {
-
+    setTimeout(() => {
       this.totalRows = this.items.length;
     }, 500);
   },
@@ -348,9 +358,8 @@ export default {
       setTimeout(() => {
         var email = this.firmaselected.firma_email;
         this.Selected = {
-
-            firma_email: this.firmaselected.firma_email
-        }
+          firma_email: this.firmaselected.firma_email,
+        };
 
         axios
           .post("/api/getfile", { firma_email: email })
@@ -380,7 +389,7 @@ export default {
       formData.append("id", this.calisanselected.id);
       formData.append("name", this.calisanselected.name);
       formData.append("firma_email", this.firmaselected.firma_email);
-      formData.append("status", '0');
+      formData.append("status", "0");
       axios
         .post("/api/belgeyukle", formData)
         .then((res) => this.refreshStop())
@@ -423,11 +432,7 @@ export default {
 
     indir(dosya) {
       axios
-        .post(
-          "/api/indir",
-          { dosya: dosya },
-          { responseType: "blob" }
-        )
+        .post("/api/indir", { dosya: dosya }, { responseType: "blob" })
         .then((response) => {
           var data = response.data;
           const url = window.URL.createObjectURL(new Blob([data]));

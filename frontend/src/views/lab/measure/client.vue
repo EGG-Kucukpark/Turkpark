@@ -184,18 +184,30 @@
 
           <template #cell(actions)="data">
             <span>
+             <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="warning"
+                @click.prevent="göster(data.item.dosya_ad)"
+                class="btn-icon"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
               <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="danger"
+                @click.prevent="indir(data.item.dosya_ad)"
+                class="btn-icon"
+              >
+                <feather-icon icon="ArchiveIcon" />
+              </b-button>
+
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
+                class="btn-icon"
               >
-                İndir
-              </b-button>
-              <b-button v-if="show" variant="warning"> Sil </b-button>
-              <b-button
-                variant="danger"
-                @click.prevent="göster(data.item.dosya_ad)"
-              >
-                Göster
+                <feather-icon icon="DownloadIcon" />
               </b-button>
             </span>
           </template>
