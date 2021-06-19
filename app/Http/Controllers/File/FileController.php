@@ -16,9 +16,10 @@ class FileController extends Controller
     public function upload(Request $request)
     {
 
-        try {
-            if ($request->status === "1") {
 
+        if ($request->status === "1") {
+
+            try {
                 $filename = $request->file('file')->getClientOriginalName();
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
@@ -29,8 +30,11 @@ class FileController extends Controller
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
                 return $request;
-            } else if ($request->status === "2") {
-
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Başarısız'], 404);
+            }
+        } else if ($request->status === "2") {
+            try {
                 $filename = $request->file('file')->getClientOriginalName();
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
@@ -41,8 +45,11 @@ class FileController extends Controller
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
                 return $request;
-            } else if ($request->status === '3') {
-
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Başarısız'], 404);
+            }
+        } else if ($request->status === '3') {
+            try {
                 $filename = $request->file('file')->getClientOriginalName();
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
@@ -53,8 +60,11 @@ class FileController extends Controller
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
                 return $request;
-            } else if ($request->status === "4") {
-
+            } catch (Exception $exception) {
+                return response()->json(['error' => 'Başarısız'], 404);
+            }
+        } else if ($request->status === "4") {
+            try {
                 $filename = $request->file('file')->getClientOriginalName();
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
@@ -65,8 +75,11 @@ class FileController extends Controller
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
                 return $request;
-            } else if ($request->status === "5") {
-
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Başarısız'], 404);
+            }
+        } else if ($request->status === "5") {
+            try {
                 $filename = $request->file('file')->getClientOriginalName();
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
@@ -77,15 +90,27 @@ class FileController extends Controller
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
                 return $request;
-            } else {
-
-
-                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '0']])
-                    ->orwhere('calisan_id', $request->calisan_id)->get();
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Başarısız'], 404);
             }
-        } catch (Exception $exception) {
+        } else {
 
-            return $exception;
+            try {
+
+
+                $filename = $request->file('file')->getClientOriginalName();
+                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
+
+
+
+                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isLab' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+
+                $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
+
+                return $request;
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Başarısız'], 404);
+            }
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////
@@ -124,9 +149,12 @@ class FileController extends Controller
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else {
 
-
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '0']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            try {
+                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1']])
+                    ->orwhere('calisan_id', $request->calisan_id)->get();
+            } catch (Exception $ex) {
+                return response()->json(['error' => 'Başarısız'], 404);
+            }
         }
     }
 

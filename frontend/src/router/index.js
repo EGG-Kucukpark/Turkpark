@@ -10,6 +10,7 @@ import users from './routes/users'
 import todo from './routes/todo'
 import calendar from './routes/calendar'
 import axios from '@axios'
+import archive from './routes/archive'
 
 
 Vue.use(VueRouter)
@@ -32,6 +33,7 @@ const router = new VueRouter({
         ...users,
         ...todo,
         ...calendar,
+        ...archive,
         {
             path: '*',
             redirect: 'error-404',

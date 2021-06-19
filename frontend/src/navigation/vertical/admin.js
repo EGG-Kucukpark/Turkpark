@@ -110,7 +110,13 @@ export default [
     },
 
 
+    {
+        title: 'Arşivler',
+        route: 'arsiv',
+        icon: 'ArchiveIcon',
 
+
+    },
 
     {
         title: 'Ayarlar',

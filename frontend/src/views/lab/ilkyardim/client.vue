@@ -56,23 +56,7 @@
         >
           <b-card>
             <b-form @submit.prevent="submit">
-              <b-form-group
-                v-if="show"
-                style="font-size: 13px"
-                label="Firma: "
-                label-cols-sm="1"
-              >
-                <b-form-select @change="select2" v-model="firmaselected">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option
-                    v-bind:value="{ firma_email: firma.email }"
-                    v-for="firma in firma"
-                    :key="firma.id"
-                  >
-                    {{ firma.name }}
-                  </option>
-                </b-form-select>
-              </b-form-group>
+
 
               <b-form-group
                 style="font-size: 13px"
@@ -357,10 +341,10 @@ export default {
   methods: {
     refreshStop() {
       setTimeout(() => {
-        var email = this.firmaselected.firma_email;
+        var email = this.Selected.firma_email;
         this.Selected = {
 
-            firma_email: this.firmaselected.firma_email
+            firma_email: this.Selected.firma_email
         }
 
         axios
@@ -390,7 +374,7 @@ export default {
       formData.set("file", this.file);
       formData.append("id", this.calisanselected.id);
       formData.append("name", this.calisanselected.name);
-      formData.append("firma_email", this.firmaselected.firma_email);
+      formData.append("firma_email", this.Selected.firma_email);
       formData.append('status', '2')
       axios
         .post("/api/belgeyukle", formData)
@@ -419,6 +403,9 @@ export default {
       axios
         .post("/api/getfile", { firma_email: email, status: 2 })
         .then((res) => (this.items = res.data));
+         axios
+        .post("/api/calisanlar", { firma_email: email })
+        .then((res) => (this.calisan = res.data));
     },
 
 
@@ -428,12 +415,6 @@ export default {
       window.open("/Dosyalar/" + dosya, "_blank");
     },
 
-    select2() {
-      var email = this.firmaselected.firma_email;
-      axios
-        .post("/api/calisanlar", { firma_email: email })
-        .then((res) => (this.calisan = res.data));
-    },
     form() {
       this.$refs["modal"].hide();
       this.file == null;

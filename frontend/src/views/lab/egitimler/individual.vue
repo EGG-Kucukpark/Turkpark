@@ -8,7 +8,7 @@
       <b-form-select @change="select" v-model="Selected">
         <option disabled value="">Lütfen Seçim Yapınız</option>
         <option
-          v-bind:value="{ firma_email: firma.email }"
+          v-bind:value="{ firma: firma }"
           v-for="firma in firma"
           :key="firma.id"
         >
@@ -57,26 +57,6 @@
           <b-card>
             <b-form @submit.prevent="submit">
               <b-form-group
-                v-if="show"
-                style="font-size: 13px"
-                label="Kişi: "
-                label-cols-sm="1"
-              >
-                <b-form-select  v-model="firmaselected">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option
-                    v-bind:value="{ firma_email: firma.email, id: firma.id, name:firma.name }"
-                    v-for="firma in firma"
-                    :key="firma.id"
-                  >
-                    {{ firma.name }}
-                  </option>
-                </b-form-select>
-              </b-form-group>
-
-
-
-              <b-form-group
                 style="font-size: 13px"
                 label="Rapor: "
                 label-cols-sm="1"
@@ -105,7 +85,7 @@
         </b-modal>
       </span>
 
-     <b-col cols="12" class="table-responsive">
+      <b-col cols="12" class="table-responsive">
         <b-table
           striped
           hover
@@ -120,18 +100,13 @@
           :filter="filter"
           :filter-included-fields="filterOn"
           @filtered="onFiltered"
-           show-empty
+          show-empty
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
         >
-
-
-
-
-
           <template #cell(actions)="data">
             <span>
-             <b-button
+              <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
@@ -303,9 +278,9 @@ export default {
   methods: {
     refreshStop() {
       setTimeout(() => {
-        var email = this.firmaselected.firma_email;
+        var email = this.Selected.firma.email;
         this.Selected = {
-          firma_email: this.firmaselected.firma_email,
+          firma: this.Selected.firma,
         };
 
         axios
@@ -333,9 +308,9 @@ export default {
     submit() {
       const formData = new FormData();
       formData.set("file", this.file);
-      formData.append("id", this.firmaselected.id);
-      formData.append("name", this.firmaselected.name);
-      formData.append("firma_email", this.firmaselected.firma_email);
+      formData.append("id", this.Selected.firma.id);
+      formData.append("name", this.Selected.firma.name);
+      formData.append("firma_email", this.Selected.firma.email);
       formData.append("status", "4");
       axios
         .post("/api/belgeyukle", formData)
@@ -355,21 +330,21 @@ export default {
         .then(this.$refs["modal"].hide());
     },
     select() {
-      var email = this.Selected.firma_email;
+      var email = this.Selected.firma.email;
       axios
         .post("/api/getfile", { firma_email: email, status: 4 })
         .then((res) => (this.items = res.data));
+         axios
+        .post("/api/calisanlar", { firma_email: email })
+        .then((res) => (this.calisan = res.data));
+
     },
     göster(dosya) {
       window.open("/Dosyalar/" + dosya, "_blank");
     },
 
-    select2() {
-      var email = this.firmaselected.firma_email;
-      axios
-        .post("/api/calisanlar", { firma_email: email })
-        .then((res) => (this.calisan = res.data));
-    },
+
+
     form() {
       this.$refs["modal"].hide();
       this.file == null;
