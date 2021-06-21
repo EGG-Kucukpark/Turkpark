@@ -85,6 +85,7 @@ Route::post('showfile', [FileController::class, 'showfile']);
 Route::post('indir', [FileController::class, 'download']);
 route::post('dosyasil', [FileController::class, 'deletefile']);
 route::post('excelsertifika', [FileController::class, 'importsertf']);
+Route::post('rapor', [FileController::class, 'getrapor']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////

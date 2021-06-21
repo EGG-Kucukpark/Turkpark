@@ -20,12 +20,12 @@ class FileController extends Controller
         if ($request->status === "1") {
 
             try {
-                $filename = $request->file('file')->getClientOriginalName();
+
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
 
 
-                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isMeasure' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isMeasure' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -35,12 +35,12 @@ class FileController extends Controller
             }
         } else if ($request->status === "2") {
             try {
-                $filename = $request->file('file')->getClientOriginalName();
+
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
 
 
-                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isYardim' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isYardim' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -50,12 +50,12 @@ class FileController extends Controller
             }
         } else if ($request->status === '3') {
             try {
-                $filename = $request->file('file')->getClientOriginalName();
+
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
 
 
-                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isPeriyodik' => '1', 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isPeriyodik' => '1', 'name' => $request->name, 'firma_email' => $request->firma_email]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -65,12 +65,12 @@ class FileController extends Controller
             }
         } else if ($request->status === "4") {
             try {
-                $filename = $request->file('file')->getClientOriginalName();
+
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
 
 
-                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isEgitim' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isEgitim' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -80,12 +80,12 @@ class FileController extends Controller
             }
         } else if ($request->status === "5") {
             try {
-                $filename = $request->file('file')->getClientOriginalName();
+
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
 
 
-                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isAsansor' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isAsansor' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -98,23 +98,22 @@ class FileController extends Controller
             try {
 
 
-                $filename = $request->file('file')->getClientOriginalName();
+
                 $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
 
 
 
-                DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isLab' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isLab' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
+
                 return $request;
             } catch (Exception $ex) {
-                return response()->json(['error' => 'Başarısız'], 404);
+                return $ex;
             }
         }
     }
-    ////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////
     public function download(Request $request)
     {
         $file = public_path("Dosyalar/" . $request->dosya);
@@ -122,6 +121,7 @@ class FileController extends Controller
 
         return response()->download($file);
     }
+
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
     public function getfile(Request $request)
@@ -153,7 +153,7 @@ class FileController extends Controller
                 return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1']])
                     ->orwhere('calisan_id', $request->calisan_id)->get();
             } catch (Exception $ex) {
-                return response()->json(['error' => 'Başarısız'], 404);
+                return $ex;
             }
         }
     }
@@ -207,5 +207,10 @@ class FileController extends Controller
         } catch (Exception $exception) {
             return  $exception;
         }
+    }
+
+    function getraport()
+    {
+        DB::table('raporlar')->get();
     }
 }

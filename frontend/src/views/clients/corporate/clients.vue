@@ -54,6 +54,19 @@
               </b-form-group>
 
               <b-form-group
+                label="Firma Yetkilisi:"
+                label-for="isim"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="isim"
+                  v-model="firma_yetkilisi"
+                  placeholder="Firma Yetkilisinin Adını Giriniz..."
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
                 label="SGK Sicil No:"
                 label-for="isim"
                 label-cols-sm="3"
@@ -128,14 +141,8 @@
                 ></b-form-input>
               </b-form-group>
 
-
-
-
-
               <div style="float: right">
-                <b-button variant="success" type="submit">
-                  Tamam
-                </b-button>
+                <b-button variant="success" type="submit"> Tamam </b-button>
               </div>
               <div style="float: right; padding-right: 10px">
                 <b-button variant="danger" @click="form()"> İptal</b-button>
@@ -149,23 +156,23 @@
 
       <b-col cols="12" class="table-responsive">
         <b-table
-            striped
-            hover
-            responsive
-            :per-page="perPage"
-            :current-page="currentPage"
-            :items="items"
-            :fields="fields"
-            :sort-by.sync="sortBy"
-            :sort-desc.sync="sortDesc"
-            :sort-direction="sortDirection"
-            :filter="filter"
-            :filter-included-fields="filterOn"
-            @row-clicked="tikla"
-            show-empty
-            empty-text="Veri Bulunamadı."
-            empty-filtered-text="Veri Bulunamadı."
-            @filtered="onFiltered"
+          striped
+          hover
+          responsive
+          :per-page="perPage"
+          :current-page="currentPage"
+          :items="items"
+          :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          :sort-direction="sortDirection"
+          :filter="filter"
+          :filter-included-fields="filterOn"
+          @row-clicked="tikla"
+          show-empty
+          empty-text="Veri Bulunamadı."
+          empty-filtered-text="Veri Bulunamadı."
+          @filtered="onFiltered"
         >
           <template #cell(actions)="data">
             <span>
@@ -192,6 +199,18 @@
                         id="isim"
                         v-model="name"
                         placeholder="İş Yeri Adını Giriniz..."
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      label="Firma Yetkilisi:"
+                      label-for="isim"
+                      label-cols-sm="3"
+                      label-align-sm="right"
+                    >
+                      <b-form-input
+                        id="isim"
+                        v-model="firma_yetkilisi"
+                        placeholder="Firma Yetkilisinin Adını Giriniz..."
                       ></b-form-input>
                     </b-form-group>
 
@@ -257,7 +276,6 @@
                         placeholder="Firma Telefon Numarası"
                       ></b-form-input>
                     </b-form-group>
-
 
                     <div style="float: right">
                       <b-button variant="success" type="submit">
@@ -389,8 +407,8 @@ export default {
           filter: true,
         },
         {
-          key: "il",
-          label: "İl",
+          key: "firma_yetkilisi",
+          label: "Firma Yetkilisi",
           sortable: true,
         },
 
@@ -401,7 +419,7 @@ export default {
       sgkno: "",
       vergino: "",
       vergiad: "",
-      il: "",
+      firma_yetkilisi: "",
 
       email: "",
       role: "",
@@ -410,7 +428,6 @@ export default {
       id: "",
       searchTerm: "",
       options: "",
-
 
       show: false,
     };
@@ -425,8 +442,7 @@ export default {
     },
   },
   mounted() {
-  setTimeout(() => {
-
+    setTimeout(() => {
       this.totalRows = this.items.length;
     }, 500);
   },
@@ -434,7 +450,6 @@ export default {
     axios.post("/api/firmalar").then((response) => {
       this.items = response.data;
     });
-
   },
 
   methods: {
@@ -460,8 +475,6 @@ export default {
       }, 1000);
     },
     tikla(params) {
-
-
       this.$router.push({
         name: "firmalar-goster",
         params: { id: params.id },
@@ -476,7 +489,7 @@ export default {
           password: this.password,
           vergino: this.vergino,
           vergiad: this.vergiad,
-          il: this.il,
+          firma_yetkilisi: this.firma_yetkilisi,
           sgk: this.sgkno,
           nace: this.nace,
         })
@@ -492,7 +505,8 @@ export default {
               text: ` İşlem Başarısız.`,
             },
           });
-        }).then(this.form())
+        })
+        .then(this.form());
     },
 
     Modal1() {
@@ -507,20 +521,20 @@ export default {
         (this.vergiad = row.vergiad),
         (this.vergino = row.vergino),
         (this.email = row.email),
-        (this.il = row.il),
+        (this.firma_yetkilisi = row.firma_yetkilisi),
         (this.telefon = row.telefon);
     },
 
     update() {
       axios
         .post("/api/firmaduzenle", {
-          id:this.id,
+          id: this.id,
           name: this.name,
           email: this.email,
           telefon: this.telefon,
           vergino: this.vergino,
           vergiad: this.vergiad,
-          il: this.il,
+          firma_yetkilisi: this.firma_yetkilisi,
           sgk: this.sgkno,
         })
         .then((res) => this.refreshStop())
@@ -548,7 +562,7 @@ export default {
         (this.vergiad = ""),
         (this.vergino = ""),
         (this.email = ""),
-        (this.il = ""),
+        (this.firma_yetkilisi = ""),
         (this.telefon = "");
     },
 

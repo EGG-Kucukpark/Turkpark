@@ -2,7 +2,7 @@
   <b-card title="İlk Yardım">
     <b-form-group
       style="font-size: 18px"
-      label="Firma Seçiniz: "
+      label="Kişi Seçiniz: "
       label-cols-sm="1"
     >
       <b-form-select @change="select" v-model="Selected">

@@ -65,7 +65,7 @@ class ClientController extends Controller
                 'telefon' => $request->telefon,
                 'vergino' => $request->vergino,
                 'vergiad' => $request->vergiad,
-                'il' => $request->il,
+                'firma_yetkilisi' => $request->firma_yetkilisi,
                 'sgk' => $request->sgk,
 
 
@@ -73,7 +73,7 @@ class ClientController extends Controller
 
             return $a;
         } catch (Exception $exception) {
-            return response()->json(['error' => 'Başarısız'], 404);
+            return $exception;
         }
     }
     public function firmaduzenle(Request $request)
@@ -87,7 +87,7 @@ class ClientController extends Controller
                 'telefon' => $request->telefon,
                 'vergino' => $request->vergino,
                 'vergiad' => $request->vergiad,
-                'il' => $request->il,
+                'firma_yetkilisi' => $request->firma_yetkilisi,
                 'sgk' => $request->sgk,
 
 
