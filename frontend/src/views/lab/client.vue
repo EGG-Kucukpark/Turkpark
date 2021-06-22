@@ -384,8 +384,8 @@ export default {
 
     basarisiz() {
       var data = document.getElementById("basarisiz").value;
-      setTimeout(() => {
-           this.$toast({
+
+      this.$toast({
         component: ToastificationContent,
         position: "top-right",
         props: {
@@ -395,8 +395,6 @@ export default {
           text: data + ` Dosya İşlemi Başarsız`,
         },
       });
-      }, 1000);
-
     },
     refreshStop() {
       setTimeout(() => {
@@ -407,7 +405,7 @@ export default {
 
         axios
           .post("/api/getfile", { firma_email: email })
-          .then((res) => (this.files = res.data))
+          .then((res) => this.files === res.data)
           .then(
             this.$toast({
               component: ToastificationContent,
@@ -451,13 +449,12 @@ export default {
           axios
             .post("api/belgeyukle", formData)
             .then((res) => document.getElementById("basarili").click())
-            .catch(
-              (error) => document.getElementById("basarisiz").value = error.response.data.error,
-
-              console.log(document.getElementById("basarisiz").value),
-
-              document.getElementById("basarisiz").click()
-            );
+            .catch((error) => {
+              (document.getElementById("basarisiz").value =
+                error.response.data.error),
+                console.log(document.getElementById("basarisiz").value),
+                document.getElementById("basarisiz").click();
+            });
         }, (time += 1000));
       });
 
