@@ -493,7 +493,7 @@ export default {
     refreshStop() {
       setTimeout(() => {
         axios
-          .post("/api/users", { status: 7 })
+          .post("/api/users", )
           .then((response) => {
             this.items = response.data;
           })
