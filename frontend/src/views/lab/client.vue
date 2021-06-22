@@ -59,7 +59,7 @@
               <div v-for="form in form" :key="form.id">
                 <hr />
                 <b-form-group style="display: none" label-cols-sm="1">
-                  <b-form-select @change="select" v-model="form.Selected2">
+                  <b-form-select v-model="form.Selected2">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option
                       v-bind:value="{ firma_email: firma.email }"
@@ -92,7 +92,7 @@
 
                 <b-form-group style="font-size: 13px" label-cols-sm="1">
                   <b-form-file
-                    @change.prevent="change"
+
                     v-model="form.file"
                     name="file"
                     placeholder=" Bir dosya seçin veya buraya sürükleyin..."
@@ -405,7 +405,7 @@ export default {
 
         axios
           .post("/api/getfile", { firma_email: email })
-          .then((res) => this.files === res.data)
+          .then((res) => this.files = res.data)
           .then(
             this.$toast({
               component: ToastificationContent,
