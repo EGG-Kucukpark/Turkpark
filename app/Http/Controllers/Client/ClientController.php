@@ -21,7 +21,7 @@ class ClientController extends Controller
             return  DB::table('clients')->where('isArch', '1')->get();
         }
 
-        return  DB::table('Clients')->where('isArch', '0')->get();
+        return  DB::table('clients')->where('isArch', '0')->get();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
