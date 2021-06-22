@@ -148,7 +148,11 @@ class FileController extends Controller
 
             return  DB::table('files')->where([['firma_email', $request->firma_email], ['isAsansor', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
-        } else {
+        } else if ($request->status === 7) {
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1']])->get();
+        }
+
+        else {
 
             try {
                 return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1']])

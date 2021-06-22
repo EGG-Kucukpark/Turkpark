@@ -43,6 +43,8 @@ route::post('status', [UserController::class, 'status']);
 route::post('excelimport', [UserController::class, 'import']);
 route::post('sifreguncelle', [UserController::class, 'sifirla']);
 route::post('usergetir', [UserController::class, 'giris']);
+route::post('arsivuser', [UserController::class, 'arsiv']);
+route::post('usersil', [UserController::class, 'delete']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Firma İşlemleri
@@ -57,6 +59,8 @@ route::post('firmanotekle', [clientController::class, 'notekle']);
 route::post('firmanotsil', [clientController::class, 'notsil']);
 route::post('firmanot', [clientController::class, 'notlar']);
 route::post('firmanotduzenle', [clientController::class, 'notdüzenle']);
+route::post('arsivfirma', [ClientController::class, 'arsiv']);
+route::post('firmasil', [ClientController::class, 'delete']);
 
 
 

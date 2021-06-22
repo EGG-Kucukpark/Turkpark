@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Client;
+
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
@@ -13,17 +14,34 @@ class ClientController extends Controller
 
     public function getclients(Request $request)
     {
-        if($request->q){
-            return  DB::table('clients')->where('name', 'LIKE', '%' . $request->q . '%')->get();
+        if ($request->q) {
+            return  DB::table('clients')->where([['name', 'LIKE', '%' . $request->q . '%'], ['isArch', '0']])->get();
+        } else if ($request->status === 7) {
+
+            return  DB::table('clients')->where('isArch', '1')->get();
         }
 
-        return  DB::table('clients')->get();
+        return  DB::table('Clients')->where('isArch', '0')->get();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
+    public function arsiv(Request $request)
+    {
 
+        DB::table('clients')->where('id', $request->id)->update([
+
+            'isArch' => '1'
+        ]);
+    } ////////////////////////////////////////////////////////////////////////////////////
+    public function delete(Request $request)
+    {
+
+        DB::table('clients')->where('id', $request->id)->delete();
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
     function client(Request $request)
     {
+        return $request;
 
         $a = DB::table('clients')->where('id', $request->id)->first();
 
@@ -52,8 +70,8 @@ class ClientController extends Controller
                 'email' => $request->email,
                 'role' => 'Firma',
                 'telefon' => $request->telefon,
-                'email_verified_at'=> now(),
-                'created_at'=>now(),
+                'email_verified_at' => now(),
+                'created_at' => now(),
                 'password' => bcrypt($request->password),
                 'status' => '1',
             ]);

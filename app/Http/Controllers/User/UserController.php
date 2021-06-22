@@ -23,11 +23,28 @@ class UserController extends Controller
             'status' => "1"
         ]);
     }
-    public function getuser()
+    public function getuser(Request $request)
+    {
+        if ($request->status === 7) {
+
+            return   DB::table('users')->where('isArch', '1')->get();
+        }
+        return   DB::table('users')->where('isArch', '0' || null)->get();
+    }
+    function delete(Request $request)
+    {
+        DB::table('users')->where('id', $request->id)->delete();
+    }
+    public function arsiv(Request $request)
+
     {
 
-        return   DB::table('users')->get();
+        DB::table('users')->where('id', $request->id)->update([
+            'isArch' => '1'
+
+        ]);
     }
+
 
     public function giris(Request $request)
     {

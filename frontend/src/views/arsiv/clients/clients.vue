@@ -20,140 +20,6 @@
         </b-form-group>
       </b-col>
 
-      <span>
-        <b-button
-          class="mb-1"
-          style="margin-right: 50px"
-          variant="success"
-          @click="Modal1"
-          >Yeni Firma</b-button
-        >
-
-        <b-modal
-          hide-header-close
-          ok-title="Kaydet"
-          :hide-footer="true"
-          size="lg"
-          ref="modal1"
-          centered
-          title="Firma Ekle"
-        >
-          <b-card>
-            <b-form @submit.prevent="submit">
-              <b-form-group
-                label="İşyeri Ünvanı:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="name"
-                  placeholder="İş Yeri Adını Giriniz..."
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Firma Yetkilisi:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="firma_yetkilisi"
-                  placeholder="Firma Yetkilisinin Adını Giriniz..."
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="SGK Sicil No:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="sgkno"
-                  placeholder="SGK Sicil Numarasını Giriniz..."
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Vergi Dairesi"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="vergiad"
-                  placeholder="Vergi Dairesi Adını Giriniz"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Vergi No:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="vergino"
-                  placeholder="Vergi Numarası"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="E-Posta Adresi"
-                label-for="email"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Telefon No:"
-                label-for="telefon"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="telefon"
-                  v-model="telefon"
-                  placeholder="Firma Telefon Numarası"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Firma Şifresi:"
-                label-for="password"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="password"
-                  v-model="password"
-                  placeholder="Şifre Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
-
-            <!-- Emulate built in modal footer ok and cancel button actions -->
-          </b-card>
-        </b-modal>
-      </span>
-
       <b-col cols="12" class="table-responsive">
         <b-table
           striped
@@ -301,10 +167,10 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
-                @click.prevent="arsiv(data.item)"
+                @click.prevent="sil(data.item)"
                 class="btn-icon"
               >
-                <feather-icon icon="ArchiveIcon" /> </b-button
+                <feather-icon icon="TrashIcon" /> </b-button
             ></span>
           </template>
         </b-table>
@@ -456,7 +322,7 @@ export default {
     }, 500);
   },
   created() {
-    axios.post("/api/firmalar").then((response) => {
+    axios.post("/api/firmalar", { status: 7 }).then((response) => {
       this.items = response.data;
     });
   },
@@ -465,7 +331,7 @@ export default {
     refreshStop() {
       setTimeout(() => {
         axios
-          .post("/api/firmalar")
+          .post("/api/firmalar", { status: 7 })
           .then((response) => {
             this.items = response.data;
           })
@@ -488,12 +354,6 @@ export default {
         name: "firmalar-goster",
         params: { id: params.id },
       });
-    },
-    arsiv(data){
-        console.log(data.id)
-
-        axios.post('api/arsivfirma', {id: data.id}) .then(this.refreshStop())
-
     },
     submit() {
       axios
@@ -566,6 +426,9 @@ export default {
           });
         })
         .then(this.form());
+    },
+    sil(data) {
+      axios.post("api/firmasil", { id: data.id }).then(this.refreshStop());
     },
 
     form() {
