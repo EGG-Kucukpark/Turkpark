@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Kurumsal Müşteriler">
+  <b-card title="Arşivlenen Müşteriler">
     <b-row>
       <b-col>
         <b-form-group

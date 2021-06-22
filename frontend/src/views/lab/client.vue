@@ -106,9 +106,10 @@
                   <b-alert variant="danger" show>
                     <div class="alert-body">
                       <span
-                        ><strong>En fazla 4 toplu yükleme yapabilirsiniz!</strong>
-                       </span
-                      >
+                        ><strong
+                          >En fazla 4 toplu yükleme yapabilirsiniz!</strong
+                        >
+                      </span>
                     </div>
                   </b-alert>
                 </span>
@@ -120,10 +121,12 @@
                   Rapor Ekle
                 </b-button>
               </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="formcikis()">
-                  İptal</b-button
-                >
+              <div id="iptal">
+                <div style="float: right; padding-right: 10px">
+                  <b-button variant="danger" @click="formcikis()">
+                    İptal</b-button
+                  >
+                </div>
               </div>
             </b-form>
           </b-card>
@@ -538,3 +541,12 @@ export default {
   },
 };
 </script>
+<style >
+@media screen and (max-width: 374) {
+
+  .iptal {
+    margin-top: 10px !important;
+ }
+
+}
+</style>
