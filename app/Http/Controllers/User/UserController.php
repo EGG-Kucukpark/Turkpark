@@ -29,7 +29,7 @@ class UserController extends Controller
 
             return   DB::table('users')->where('isArch', '1')->get();
         }
-        return   DB::table('users')->where('isArch', '0' || null)->get();
+        return   DB::table('users')->where('isArch', '0')->get();
     }
     function delete(Request $request)
     {
