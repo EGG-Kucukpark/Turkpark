@@ -42,7 +42,7 @@ route::post('userekle', [UserController::class, 'adduser']);
 route::post('status', [UserController::class, 'status']);
 route::post('excelimport', [UserController::class, 'import']);
 route::post('sifreguncelle', [UserController::class, 'sifirla']);
-route::post('usergetir', [UserController::class, 'giris']);
+
 route::post('arsivuser', [UserController::class, 'arsiv']);
 route::post('usersil', [UserController::class, 'delete']);
 

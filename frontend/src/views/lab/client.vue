@@ -92,7 +92,6 @@
 
                 <b-form-group style="font-size: 13px" label-cols-sm="1">
                   <b-form-file
-
                     v-model="form.file"
                     name="file"
                     placeholder=" Bir dosya seçin veya buraya sürükleyin..."
@@ -103,6 +102,17 @@
               </div>
 
               <div style="float: left">
+                <span v-if="warn === true">
+                  <b-alert variant="danger" show>
+                    <div class="alert-body">
+                      <span
+                        ><strong>En fazla 4 toplu yükleme yapabilirsiniz!</strong>
+                       </span
+                      >
+                    </div>
+                  </b-alert>
+                </span>
+
                 <b-button @click="addField" variant="info"> +1 </b-button>
               </div>
               <div style="float: right">
@@ -265,6 +275,7 @@ import {
   BModal,
   BForm,
   BFormFile,
+  BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
 
@@ -289,6 +300,7 @@ export default {
     BFormFile,
     Ripple,
     heightTransition,
+    BAlert,
   },
   props: {
     userData: {
@@ -339,7 +351,7 @@ export default {
       searchTerm: "",
       Selected: "",
       firma: [],
-
+      warn: false,
       firmaselected: "",
       calisan: "",
       raporlar: "",
@@ -375,7 +387,6 @@ export default {
     setTimeout(() => {
       this.totalRows = this.files.length;
     }, 500);
-    this.initTrHeight();
   },
   methods: {
     basarili() {
@@ -405,7 +416,7 @@ export default {
 
         axios
           .post("/api/getfile", { firma_email: email })
-          .then((res) => this.files = res.data)
+          .then((res) => (this.files = res.data))
           .then(
             this.$toast({
               component: ToastificationContent,
@@ -422,12 +433,16 @@ export default {
     },
 
     addField() {
-      this.form.push({
-        calisanselected: "",
-        rapor: "",
-        file: "",
-        Selected2: this.Selected.firma_email,
-      });
+      if (this.form.length === 4) {
+        this.warn = true;
+      } else {
+        this.form.push({
+          calisanselected: "",
+          rapor: "",
+          file: "",
+          Selected2: this.Selected.firma_email,
+        });
+      }
     },
 
     submit(event) {

@@ -130,29 +130,27 @@ class FileController extends Controller
 
         if ($request->status === 1) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1']])
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 2) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isYardim', '1']])
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isYardim', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 3) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isPeriyodik', '1']])
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isPeriyodik', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 4) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isEgitim', '1']])
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isEgitim', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 5) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isAsansor', '1']])
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isAsansor', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 7) {
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1']])->get();
-        }
-
-        else {
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1'], ['isArch', '0']])->get();
+        } else {
 
             try {
                 return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1']])

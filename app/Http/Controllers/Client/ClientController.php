@@ -41,7 +41,7 @@ class ClientController extends Controller
     ////////////////////////////////////////////////////////////////////////////////////
     function client(Request $request)
     {
-        return $request;
+
 
         $a = DB::table('clients')->where('id', $request->id)->first();
 

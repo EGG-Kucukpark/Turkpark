@@ -56,11 +56,7 @@ router.beforeEach((to, from, next) => {
         } else {
             var user = JSON.parse(localStorage.getItem('user'))
             var database;
-            axios.post('/api/usergetir', {
-                id: user.id
-            }).then(function (response){
-                console.log(response.data)
-            })
+
 
 
 

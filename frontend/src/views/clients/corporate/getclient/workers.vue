@@ -412,6 +412,9 @@ export default {
     };
   },
   created() {
+      console.log(this.userData)
+
+
     axios
       .post("/api/calisanlar", { firma_email: this.userData.email })
       .then((response) => {
@@ -444,6 +447,8 @@ export default {
     },
 
     submit() {
+
+
       axios
         .post("/api/calisanekle", {
           firma_email: this.userData.email,
