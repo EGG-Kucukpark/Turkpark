@@ -64,6 +64,7 @@
                 <b-form-file
                   @change.prevent="change"
                   v-model="file"
+                  id="file"
                   placeholder=" Bir dosya seçin veya buraya sürükleyin..."
                   drop-placeholder="Drop file here..."
                   accept=".jpg, .png, .pdf, "
@@ -313,6 +314,8 @@ export default {
       formData.append("name", this.Selected.firma.name);
       formData.append("firma_email", this.Selected.firma.email);
       formData.append("status", "0");
+
+      console.log(formData)
       axios
         .post("/api/belgeyukle", formData)
         .then((res) => this.refreshStop())

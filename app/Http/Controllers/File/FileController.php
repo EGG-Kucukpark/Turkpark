@@ -95,6 +95,7 @@ class FileController extends Controller
             }
         } else {
 
+
             try {
 
 
@@ -109,8 +110,8 @@ class FileController extends Controller
 
 
                 return $request;
-            } catch (Exception $ex) {
-                return $ex;
+            } catch (Exception $exception) {
+                return response()->json(['error' => $request->file('file')->getClientOriginalName()], 404);
             }
         }
     }
