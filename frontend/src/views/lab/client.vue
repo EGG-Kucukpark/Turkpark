@@ -56,9 +56,14 @@
         >
           <b-card>
             <b-form @submit.prevent="submit">
-              <div v-for="form in form" :key="form.id">
+              <b-row
+                style="margin: 12px"
+                v-for="(form, index) in form"
+                :key="form.id"
+              >
                 <hr />
-                <b-form-group style="display: none" label-cols-sm="1">
+
+                <b-col style="display: none" sm="1">
                   <b-form-select v-model="form.Selected2">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option
@@ -69,9 +74,9 @@
                       {{ firma.name }}
                     </option>
                   </b-form-select>
-                </b-form-group>
+                </b-col>
 
-                <b-form-group style="font-size: 13px" label-cols-sm="1">
+                <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option
@@ -82,15 +87,14 @@
                       {{ calisan.name }}
                     </option>
                   </b-form-select>
-                </b-form-group>
-                <b-form-group style="font-size: 13px" label-cols-sm="1">
+                </b-col>
+                <b-col md="4">
                   <b-form-select v-model="form.rapor">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option>Rapor Tipi A</option>
                   </b-form-select>
-                </b-form-group>
-
-                <b-form-group style="font-size: 13px" label-cols-sm="1">
+                </b-col>
+                <b-col md="3">
                   <b-form-file
                     v-model="form.file"
                     name="file"
@@ -98,8 +102,19 @@
                     drop-placeholder="Drop file here..."
                     accept=".jpg, .png, .pdf, "
                   />
-                </b-form-group>
-              </div>
+                </b-col>
+
+                <b-col md="1">
+                  <b-button
+                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                    variant="danger"
+                    @click.prevent="delField(index)"
+                    class="btn-icon"
+                  >
+                    <feather-icon icon="DeleteIcon" />
+                  </b-button>
+                </b-col>
+              </b-row>
 
               <div style="float: left">
                 <span v-if="warn === true">
@@ -208,7 +223,7 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
-                @click.prevent="indir(data.item.dosya_ad)"
+                @click.prevent="arsivle(data.item)"
                 class="btn-icon"
               >
                 <feather-icon icon="ArchiveIcon" />
@@ -448,6 +463,10 @@ export default {
       }
     },
 
+    delField(index) {
+      this.form.splice(index, 1);
+    },
+
     submit(event) {
       var form = this.form;
       var time = 1000;
@@ -468,10 +487,13 @@ export default {
             .post("api/belgeyukle", formData)
             .then((res) => document.getElementById("basarili").click())
             .catch((error) => {
-              (document.getElementById("basarisiz").value =
-                error.response.data.error),
-                console.log(document.getElementById("basarisiz").value),
+              if (error.response.data.error === undefined) {
+                document.getElementById("basarisiz").value = "";
                 document.getElementById("basarisiz").click();
+              } else {
+                document.getElementById("basarisiz").value === error.response.data.error,
+                document.getElementById("basarisiz").click();
+              }
             });
         }, (time += 1000));
       });
@@ -498,6 +520,10 @@ export default {
     göster(dosya) {
       window.open("/Dosyalar/" + dosya, "_blank");
     },
+    arsivle(data){
+        axios.post('api/dosyaarsiv', {id: data.id}).then(this.refreshStop())
+    },
+
 
     formcikis() {
       this.$refs["modal"].hide();
@@ -543,10 +569,8 @@ export default {
 </script>
 <style >
 @media screen and (max-width: 374) {
-
   .iptal {
     margin-top: 10px !important;
- }
-
+  }
 }
 </style>

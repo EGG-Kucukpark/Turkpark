@@ -2,21 +2,15 @@
   <div>
     <!-- Alert: No item found -->
 
-
-    <template >
-      <b-tabs  pills>
+    <template>
+      <b-tabs pills>
         <!-- Tab: Account -->
         <b-tab active>
           <template #title>
-            <feather-icon
-              icon="HeartIcon"
-              size="16"
-              class="mr-0 mr-sm-50"
-            />
+            <feather-icon icon="HeartIcon" size="16" class="mr-0 mr-sm-50" />
             <span class="d-none d-sm-inline">Sonuçlar</span>
           </template>
-
-
+          <results />
         </b-tab>
 
         <!-- Tab: Information -->
@@ -24,37 +18,33 @@
           <template #title>
             <feather-icon icon="UsersIcon" size="16" class="mr-0 mr-sm-50" />
             <span class="d-none d-sm-inline">Kullanıcılar</span>
-
           </template>
-          <users/>
-
+          <users />
         </b-tab>
         <b-tab>
           <template #title>
-            <feather-icon icon="BriefcaseIcon" size="16" class="mr-0 mr-sm-50" />
+            <feather-icon
+              icon="BriefcaseIcon"
+              size="16"
+              class="mr-0 mr-sm-50"
+            />
             <span class="d-none d-sm-inline">Firmalar</span>
           </template>
-          <clients/>
-
+          <clients />
         </b-tab>
-
-
-
       </b-tabs>
     </template>
   </div>
 </template>
 
 <script>
-
 import router from "@/router";
 
 import { BRow, BCol, BAlert, BLink, BTabs, BTab, BButton } from "bootstrap-vue";
 
-import users from './users/users.vue'
-import clients from './clients/clients'
-
-
+import users from "./users/users.vue";
+import clients from "./clients/clients";
+import results from "./results/lab.vue";
 
 export default {
   components: {
@@ -66,16 +56,12 @@ export default {
     BTab,
     BButton,
     users,
-    clients
-
+    clients,
+    results,
 
     // Local Components
-
-
   },
-  setup() {
-
-  },
+  setup() {},
 };
 </script>
 

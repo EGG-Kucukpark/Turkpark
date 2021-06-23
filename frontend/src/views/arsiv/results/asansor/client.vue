@@ -226,7 +226,7 @@
                 @click.prevent="arsivle(data.item)"
                 class="btn-icon"
               >
-                <feather-icon icon="ArchiveIcon" />
+                <feather-icon icon="TrashIcon" />
               </b-button>
 
               <b-button
@@ -393,7 +393,7 @@ export default {
       this.show = false;
       var mail = user.email;
       axios
-        .post("/api/getfile", { firma_email: mail, status: 4 })
+        .post("/api/getfile2", { firma_email: mail, status:5 })
         .then((res) => (this.rows = res.data));
     } else {
       axios.post("/api/firmalar").then((response) => {
@@ -433,7 +433,7 @@ export default {
         };
 
         axios
-          .post("/api/getfile", { firma_email: email, status:4 })
+          .post("/api/getfile2", { firma_email: email, status:5 })
           .then((res) => (this.files = res.data))
           .then(
             this.$toast({
@@ -480,7 +480,7 @@ export default {
         formData.append("name", form.calisanselected.name);
         formData.append("firma_email", form.Selected2);
         formData.append("rapor", form.rapor);
-        formData.append("status", "4");
+        formData.append("status", "5");
 
         setTimeout(() => {
           axios
@@ -509,7 +509,7 @@ export default {
       console.log(this.form[0].Selected2);
 
       axios
-        .post("/api/getfile", { firma_email: email, status:4 })
+        .post("/api/getfile2", { firma_email: email, status:5 })
 
         .then((res) => (this.files = res.data));
 
@@ -521,7 +521,7 @@ export default {
       window.open("/Dosyalar/" + dosya, "_blank");
     },
     arsivle(data){
-        axios.post('api/dosyaarsiv', {id: data.id}).then(this.refreshStop())
+        axios.post('api/dosyasil', {id: data.id}).then(this.refreshStop())
     },
 
 

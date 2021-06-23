@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Sonuçlar">
+  <b-card title="Raporlar">
     <b-form-group
       style="font-size: 18px"
       label="Firma Seçiniz: "
@@ -8,7 +8,7 @@
       <b-form-select @change="select" v-model="Selected">
         <option disabled value="">Lütfen Seçim Yapınız</option>
         <option
-          v-bind:value="{ firma_email: firma.email }"
+          v-bind:value="{ firma: firma }"
           v-for="firma in firma"
           :key="firma.id"
         >
@@ -56,46 +56,19 @@
         >
           <b-card>
             <b-form @submit.prevent="submit">
-              <b-row
-                style="margin: 12px"
-                v-for="(form, index) in form"
-                :key="form.id"
-              >
-                <hr />
-
-                <b-col style="display: none" sm="1">
-                  <b-form-select v-model="form.Selected2">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
-                    <option
-                      v-bind:value="{ firma_email: firma.email }"
-                      v-for="firma in firma"
-                      :key="firma.id"
-                    >
-                      {{ firma.name }}
-                    </option>
-                  </b-form-select>
-                </b-col>
-
-                <b-col md="4">
-                  <b-form-select v-model="form.calisanselected">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
-                    <option
-                      v-bind:value="{ name: calisan.name, id: calisan.id }"
-                      v-for="calisan in calisan"
-                      :key="calisan.id"
-                    >
-                      {{ calisan.name }}
-                    </option>
-                  </b-form-select>
-                </b-col>
+              <b-row v-for="(form, index) in form" :key="form.id">
+                <!-- Item Name -->
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option>Rapor Tipi A</option>
                   </b-form-select>
                 </b-col>
-                <b-col md="3">
+
+                <!-- Cost -->
+                <b-col md="5">
                   <b-form-file
+                    @change.prevent="change"
                     v-model="form.file"
                     name="file"
                     placeholder=" Bir dosya seçin veya buraya sürükleyin..."
@@ -104,7 +77,17 @@
                   />
                 </b-col>
 
-                <b-col md="1">
+                <b-form-select style="display: none" v-model="form.Selected2">
+                  <option
+                    v-bind:value="{ firma: firma }"
+                    v-for="firma in firma"
+                    :key="firma.id"
+                  >
+                    {{ firma.name }}
+                  </option>
+                </b-form-select>
+
+                <b-col >
                   <b-button
                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                     variant="danger"
@@ -113,6 +96,9 @@
                   >
                     <feather-icon icon="DeleteIcon" />
                   </b-button>
+                </b-col>
+                <b-col cols="12">
+                  <hr />
                 </b-col>
               </b-row>
 
@@ -128,7 +114,6 @@
                     </div>
                   </b-alert>
                 </span>
-
                 <b-button @click="addField" variant="info"> +1 </b-button>
               </div>
               <div style="float: right">
@@ -136,14 +121,15 @@
                   Rapor Ekle
                 </b-button>
               </div>
-              <div id="iptal">
-                <div style="float: right; padding-right: 10px">
-                  <b-button variant="danger" @click="formcikis()">
-                    İptal</b-button
-                  >
-                </div>
+
+              <div style="float: right; padding-right: 10px">
+                <b-button variant="danger" @click="formcikis()">
+                  iptal</b-button
+                >
               </div>
             </b-form>
+
+            <!-- Emulate built in modal footer ok and cancel button actions -->
           </b-card>
         </b-modal>
       </span>
@@ -155,7 +141,7 @@
           responsive
           :per-page="perPage"
           :current-page="currentPage"
-          :items="files"
+          :items="items"
           :fields="fields"
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
@@ -167,49 +153,6 @@
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
         >
-          <template #cell(role)="data">
-            <div class="text-nowrap">
-              <feather-icon
-                :icon="roleVariant(data.item.role)"
-                size="18"
-                class="mr-50"
-                style="color: red"
-              />
-              <span class="align-text-top text-capitalize">{{
-                data.item.role
-              }}</span>
-            </div>
-          </template>
-
-          <template #cell(email_verified_at)="data">
-            <b-badge
-              v-if="data.item.email_verified_at != null"
-              variant="light-success"
-            >
-              <span> Onaylanmış</span>
-            </b-badge>
-
-            <b-badge
-              v-if="data.item.email_verified_at === null"
-              variant="light-danger"
-            >
-              <span> Onaylanmamış</span>
-            </b-badge>
-          </template>
-
-          <template #cell(status)="data">
-            <b-badge :variant="statusVariant(data.item.status)">
-              <span v-if="data.item.status == 1"> Aktif</span>
-              <span v-if="data.item.status == 2"> Beklemede</span>
-              <span v-if="data.item.status == 0"> Red</span>
-            </b-badge>
-          </template>
-
-          <p style="text-align: center; width: 100%" show-empty>
-            >
-            <b> Kullanıcı Bulunamadı.</b>
-          </p>
-
           <template #cell(actions)="data">
             <span>
               <b-button
@@ -226,7 +169,7 @@
                 @click.prevent="arsivle(data.item)"
                 class="btn-icon"
               >
-                <feather-icon icon="ArchiveIcon" />
+                <feather-icon icon="TrashIcon" />
               </b-button>
 
               <b-button
@@ -264,17 +207,14 @@
           class="my-0"
         />
       </b-col>
+      <button style="display: none" @click="basarili" id="basarili2"></button>
+      <button style="display: none" @click="basarisiz" id="basarisiz2"></button>
     </b-row>
-
-    <button style="display: none" @click="basarili" id="basarili"></button>
-    <button style="display: none" @click="basarisiz" id="basarisiz"></button>
   </b-card>
 </template>
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import { heightTransition } from "@core/mixins/ui/transition";
-import Ripple from "vue-ripple-directive";
 
 import {
   BTable,
@@ -293,7 +233,6 @@ import {
   BModal,
   BForm,
   BFormFile,
-  BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
 
@@ -316,9 +255,6 @@ export default {
     ToastificationContent,
     BForm,
     BFormFile,
-    Ripple,
-    heightTransition,
-    BAlert,
   },
   props: {
     userData: {
@@ -328,7 +264,7 @@ export default {
   },
   data() {
     return {
-      perPage: 10,
+      perPage: 5,
       pageOptions: [3, 5, 10],
       totalRows: 1,
       currentPage: 1,
@@ -346,23 +282,12 @@ export default {
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
         { key: "name", label: "Çalışan ismi", sortable: true, filter: true },
-        { key: "rapor", label: "Rapor Tipi", sortable: true, filter: true },
-        {
-          key: "created_at",
-          label: "Rapor Oluşturulma",
-          sortable: true,
-          filter: true,
-        },
-        {
-          key: "created_at",
-          label: "Rapor Sonuç",
-          sortable: true,
-          filter: true,
-        },
+        { key: "rapor", label: "Dosya Adı", sortable: true, filter: true },
+        { key: "created_at", label: "Tarih", sortable: true, filter: true },
 
         { key: "actions", label: "Eylemler" },
       ],
-      files: [],
+      items: [],
       id: null,
 
       show: true,
@@ -372,9 +297,8 @@ export default {
       warn: false,
       firmaselected: "",
       calisan: "",
-      raporlar: "",
 
-      form: [{ calisanselected: "", rapor: "", file: "", Selected2: null }],
+      form: [{ rapor: "", file: "", Selected2: "" }],
     };
   },
 
@@ -393,17 +317,17 @@ export default {
       this.show = false;
       var mail = user.email;
       axios
-        .post("/api/getfile", { firma_email: mail, status: 4 })
+        .post("/api/getfile2", { firma_email: mail,status:3 })
         .then((res) => (this.rows = res.data));
     } else {
-      axios.post("/api/firmalar").then((response) => {
+      axios.post("/api/bireyseller").then((response) => {
         this.firma = response.data;
       });
     }
   },
   mounted() {
     setTimeout(() => {
-      this.totalRows = this.files.length;
+      this.totalRows = this.items.length;
     }, 500);
   },
   methods: {
@@ -427,14 +351,16 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-        var email = this.Selected.firma_email;
-        this.Selected = {
-          firma_email: this.Selected.firma_email,
-        };
+
+
+
+
+        var email = this.Selected.firma.email;
+
 
         axios
-          .post("/api/getfile", { firma_email: email, status:4 })
-          .then((res) => (this.files = res.data))
+          .post("/api/getfile2", { firma_email: email, status:3 })
+          .then((res) => (this.items = res.data))
           .then(
             this.$toast({
               component: ToastificationContent,
@@ -450,80 +376,58 @@ export default {
       }, 2000);
     },
 
-    addField() {
-      if (this.form.length === 4) {
-        this.warn = true;
-      } else {
-        this.form.push({
-          calisanselected: "",
-          rapor: "",
-          file: "",
-          Selected2: this.Selected.firma_email,
-        });
-      }
+    change(event) {
+      this.file = event.target.files[0];
+    },
+    arsivle(data){
+        axios.post('api/dosyasil', {id: data.id}).then(this.refreshStop())
     },
 
-    delField(index) {
-      this.form.splice(index, 1);
-    },
 
-    submit(event) {
+    submit() {
       var form = this.form;
       var time = 1000;
 
       form.forEach(function (form) {
-        let file = event.target.file;
-
         const formData = new FormData();
         formData.set("file", form.file);
-        formData.append("id", form.calisanselected.id);
-        formData.append("name", form.calisanselected.name);
-        formData.append("firma_email", form.Selected2);
+        formData.append("id", form.Selected2.id);
+        formData.append("name", form.Selected2.name);
+        formData.append("firma_email", form.Selected2.email);
         formData.append("rapor", form.rapor);
-        formData.append("status", "4");
+         formData.append("status", "3");
+
 
         setTimeout(() => {
           axios
             .post("api/belgeyukle", formData)
-            .then((res) => document.getElementById("basarili").click())
+            .then((res) => document.getElementById("basarili2").click())
             .catch((error) => {
-              if (error.response.data.error === undefined) {
-                document.getElementById("basarisiz").value = "";
+              (document.getElementById("basarisiz").value =
+                error.response.data.error),
+                console.log(document.getElementById("basarisiz2").value),
                 document.getElementById("basarisiz").click();
-              } else {
-                document.getElementById("basarisiz").value === error.response.data.error,
-                document.getElementById("basarisiz").click();
-              }
             });
         }, (time += 1000));
       });
 
       this.formcikis();
     },
-
     select() {
-      var email = this.Selected.firma_email;
+      var email = this.Selected.firma.email;
 
-      this.form[0].Selected2 = this.Selected.firma_email;
-
-      console.log(this.form[0].Selected2);
-
-      axios
-        .post("/api/getfile", { firma_email: email, status:4 })
-
-        .then((res) => (this.files = res.data));
+      this.form[0].Selected2 = this.Selected.firma;
 
       axios
         .post("/api/calisanlar", { firma_email: email })
         .then((res) => (this.calisan = res.data));
+      axios
+        .post("/api/getfile2", { firma_email: email, status:3 })
+        .then((res) => (this.items = res.data));
     },
     göster(dosya) {
       window.open("/Dosyalar/" + dosya, "_blank");
     },
-    arsivle(data){
-        axios.post('api/dosyaarsiv', {id: data.id}).then(this.refreshStop())
-    },
-
 
     formcikis() {
       this.$refs["modal"].hide();
@@ -534,7 +438,11 @@ export default {
 
     indir(dosya) {
       axios
-        .post("/api/indir", { dosya: dosya }, { responseType: "blob" })
+        .post(
+          "/api/indir",
+          { id: this.id, dosya: dosya },
+          { responseType: "blob" }
+        )
         .then((response) => {
           var data = response.data;
           const url = window.URL.createObjectURL(new Blob([data]));
@@ -544,6 +452,20 @@ export default {
           document.body.appendChild(link);
           link.click();
         });
+    },
+    delField(index) {
+      this.form.splice(index, 1);
+    },
+    addField() {
+      if (this.form.length === 4) {
+        this.warn = true;
+      } else {
+        this.form.push({
+          rapor: "",
+          file: "",
+          Selected2: this.Selected.firma,
+        });
+      }
     },
 
     modal() {
@@ -567,10 +489,3 @@ export default {
   },
 };
 </script>
-<style >
-@media screen and (max-width: 374) {
-  .iptal {
-    margin-top: 10px !important;
-  }
-}
-</style>

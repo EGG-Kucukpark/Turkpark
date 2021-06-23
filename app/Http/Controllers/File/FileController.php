@@ -149,11 +149,47 @@ class FileController extends Controller
             return  DB::table('files')->where([['firma_email', $request->firma_email], ['isAsansor', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 7) {
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1'], ['isArch', '0']])->get();
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1']])->get();
         } else {
 
             try {
-                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1']])
+                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1'], ['isArch', '0'] ])
+                    ->orwhere('calisan_id', $request->calisan_id)->get();
+            } catch (Exception $ex) {
+                return $ex;
+            }
+        }
+    }
+
+    public function getfile2(Request $request)
+    {
+
+        if ($request->status === 1) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1'], ['isArch', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 2) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isYardim', '1'], ['isArch', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 3) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isPeriyodik', '1'], ['isArch', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 4) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isEgitim', '1'], ['isArch', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 5) {
+
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isAsansor', '1'], ['isArch', '1']])
+                ->orwhere('calisan_id', $request->calisan_id)->get();
+        } else if ($request->status === 7) {
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1']])->get();
+        } else {
+
+            try {
+                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1'], ['isArch', '1'] ])
                     ->orwhere('calisan_id', $request->calisan_id)->get();
             } catch (Exception $ex) {
                 return $ex;
@@ -170,7 +206,8 @@ class FileController extends Controller
     {
         try {
 
-            DB::table('files')->where('dosya', $request->dosya)->delete();
+
+            DB::table('files')->where('id', $request->id)->delete();
 
             $file = public_path("Dosyalar/" . $request->dosya);
 
@@ -179,6 +216,12 @@ class FileController extends Controller
         } catch (Exception $ex) {
             return $ex;
         }
+    }
+
+    public function arsiv(Request $request){
+
+        DB::table('files')->where('id', $request->id)->update([
+            'isArch' => '1']);
     }
 
     public function importsertf(Request $request)

@@ -85,11 +85,13 @@ route::post('calisanekle', [WorkerController::class, 'addworker']);
 //                      Dosya İşlemleri
 Route::post('belgeyukle', [FileController::class, 'upload']);
 Route::post('getfile', [FileController::class, 'getfile']);
+Route::post('getfile2', [FileController::class, 'getfile2']);
 Route::post('showfile', [FileController::class, 'showfile']);
 Route::post('indir', [FileController::class, 'download']);
 route::post('dosyasil', [FileController::class, 'deletefile']);
 route::post('excelsertifika', [FileController::class, 'importsertf']);
 Route::post('rapor', [FileController::class, 'getrapor']);
+route::post('dosyaarsiv', [FileController::class, 'arsiv']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////
