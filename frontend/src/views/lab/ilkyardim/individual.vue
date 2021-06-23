@@ -114,7 +114,14 @@
                     </div>
                   </b-alert>
                 </span>
-                <b-button @click="addField" variant="info"> +1 </b-button>
+              <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="info"
+                  @click="addField"
+                  class="btn-icon"
+                >
+                  <feather-icon size="20px;" icon="PlusIcon" />
+                 </b-button>
               </div>
               <div style="float: right">
                 <b-button variant="success" type="submit">

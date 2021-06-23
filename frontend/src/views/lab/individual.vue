@@ -87,7 +87,7 @@
                   </option>
                 </b-form-select>
 
-                <b-col >
+                <b-col>
                   <b-button
                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                     variant="danger"
@@ -114,7 +114,14 @@
                     </div>
                   </b-alert>
                 </span>
-                <b-button @click="addField" variant="info"> +1 </b-button>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="info"
+                  @click="addField"
+                  class="btn-icon"
+                >
+                  <feather-icon size="20px;" icon="PlusIcon" />
+                </b-button>
               </div>
               <div style="float: right">
                 <b-button variant="success" type="submit">
@@ -351,12 +358,7 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-
-
-
-
         var email = this.Selected.firma.email;
-
 
         axios
           .post("/api/getfile", { firma_email: email })
@@ -379,10 +381,9 @@ export default {
     change(event) {
       this.file = event.target.files[0];
     },
-    arsivle(data){
-        axios.post('api/dosyaarsiv', {id: data.id}).then(this.refreshStop())
+    arsivle(data) {
+      axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
     },
-
 
     submit() {
       var form = this.form;
@@ -395,7 +396,6 @@ export default {
         formData.append("name", form.Selected2.name);
         formData.append("firma_email", form.Selected2.email);
         formData.append("rapor", form.rapor);
-
 
         setTimeout(() => {
           axios
