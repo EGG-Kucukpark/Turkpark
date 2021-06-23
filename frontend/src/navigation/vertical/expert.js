@@ -6,50 +6,103 @@ export default [
     route: 'anasayfa',
     icon: 'HomeIcon',
 },
+
+{
+    title: 'Müşteriler ',
+    icon: 'BriefcaseIcon',
+    children: [{
+            title: 'Kurumsal Müşteri',
+            route: 'clients',
+            icon: 'ChevronsRightIcon',
+        },
+        {
+            title: 'Bireysel Müşteri',
+            route: 'individual',
+            icon: 'ChevronsRightIcon',
+        },
+
+    ]
+},
+
+  {
+    title: 'Hizmetler',
+    icon: 'FileTextIcon',
+    children: [{
+            title: 'İlkyardım',
+
+            route: 'apps-invoice-list',
+            children: [{
+
+                    title: 'Sertifikalar',
+                    route: 'sertifika'
+
+                },
+                {
+                    title: 'Eğitimler',
+                    route: 'egitim'
+
+                },
+
+
+
+            ]
+        },
+        {
+
+            title: "Eğitimler",
+            children: [{
+                    title: "Yüksekte Çalışma"
+                },
+                {
+                    title: "Sapancı"
+                },
+                {
+                    title: "NEBOSH  "
+                }
+            ]
+
+        }, {
+
+            title: "Yangın Güvenlik Sistemleri",
+
+        },
+        {
+            title: 'Ortam Ölçümleri',
+
+        },
+
+        {
+            title: 'Periyodik Kontroller',
+
+
+        },
+
+
+        {
+            title: "Asansör Muayene",
+
+        },
+        {
+            title: "Mobil Sağlık",
+
+        },
+
+
+
+    ],
+},
+{
+    title: 'Sonuçlar',
+    route: 'results',
+    icon: 'HeartIcon',
+
+
+},
 {
     title: 'Yapılacaklar',
     route: 'apps-todo',
     icon: 'CheckSquareIcon',
   },
-  {
-    title: 'Belge İşlemleri',
-    icon: 'FileTextIcon',
-    children: [
-      {
-        title: 'List',
-        route: 'apps-invoice-list',
-      },
-      {
-        title: 'Preview',
-        route: { name: 'apps-invoice-preview', params: { id: 4987 } },
-      },
-      {
-        title: 'Edit',
-        route: { name: 'apps-invoice-edit', params: { id: 4987 } },
-      },
-      {
-        title: 'Add',
-        route: { name: 'apps-invoice-add' },
-      },
-    ],
-  },
-{
-    title: 'Kurumlar',
-    icon: 'BriefcaseIcon',
-    children: [
-
-        {
-            title: 'Çalışanlar',
-            route: 'calisanlar',
-            icon: 'ChevronsRightIcon',
-        },
-        {
-            title: 'Firmalar',
-            route: 'firmalar',
-            icon: 'ChevronsRightIcon',
-        }
-    ]
-},
 
 
 
