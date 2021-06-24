@@ -78,17 +78,12 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
-                    <option disabled value="" v-if="form.Selected2 != null">Lütfen Çalışan Seçiniz</option>
-                    <option disabled value="" v-if="form.Selected2 === null">Lütfen Firma Seçiniz</option>
-
-
-
-
-
-
-
-
-
+                    <option disabled value="" v-if="form.Selected2 != null">
+                      Lütfen Çalışan Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
 
                     <option
                       v-bind:value="{ name: calisan.name, id: calisan.id }"
@@ -102,7 +97,9 @@
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
-                    <option>Rapor Tipi A</option>
+                    <option v-for="raporlar in raporlar" :key="raporlar.id">
+                      {{ raporlar.name }}
+                    </option>
                   </b-form-select>
                 </b-col>
                 <b-col md="3">
@@ -405,6 +402,7 @@ export default {
     },
   },
   created() {
+    axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
     if (user.role === "Client") {
@@ -490,7 +488,6 @@ export default {
       var time = 1000;
 
       form.forEach(function (form) {
-
         if (form.calisanselected === "") {
           document.getElementById("basarisiz").value =
             "Çalışan veya Firma Girilmedi.";

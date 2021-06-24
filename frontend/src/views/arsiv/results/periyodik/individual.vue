@@ -59,10 +59,9 @@
               <b-row v-for="(form, index) in form" :key="form.id">
                 <!-- Item Name -->
                 <b-col md="4">
-                  <b-form-select v-model="form.rapor">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
-                    <option>Rapor Tipi A</option>
-                  </b-form-select>
+                 <b-form-select v-model="form.calisanselected">
+                    <option disabled value="" v-if="form.Selected2 != null">Lütfen Çalışan Seçiniz</option>
+                    <option disabled value="" v-if="form.Selected2 === null">Lütfen Firma Seçiniz</option>
                 </b-col>
 
                 <!-- Cost -->

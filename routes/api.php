@@ -46,6 +46,9 @@ route::post('sifreguncelle', [UserController::class, 'sifirla']);
 route::post('arsivuser', [UserController::class, 'arsiv']);
 route::post('usersil', [UserController::class, 'delete']);
 
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Firma İşlemleri
 
@@ -92,6 +95,12 @@ route::post('dosyasil', [FileController::class, 'deletefile']);
 route::post('excelsertifika', [FileController::class, 'importsertf']);
 Route::post('rapor', [FileController::class, 'getrapor']);
 route::post('dosyaarsiv', [FileController::class, 'arsiv']);
+route::post('raporlar', [FileController::class, 'raporlar']);
+route::post('raporekle', [FileController::class, 'raporekle']);
+route::post('raporsil', [FileController::class, 'raporsil']);
+
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////

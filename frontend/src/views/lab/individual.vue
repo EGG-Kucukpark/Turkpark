@@ -59,9 +59,11 @@
               <b-row v-for="(form, index) in form" :key="form.id">
                 <!-- Item Name -->
                 <b-col md="4">
-                  <b-form-select v-model="form.rapor">
+                   <b-form-select v-model="form.rapor">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
-                    <option>Rapor Tipi A</option>
+                    <option v-for="raporlar in raporlar" :key="raporlar.id">
+                      {{ raporlar.name }}
+                    </option>
                   </b-form-select>
                 </b-col>
 
@@ -318,6 +320,7 @@ export default {
     },
   },
   created() {
+      axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
     if (user.role === "Client") {

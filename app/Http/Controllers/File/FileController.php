@@ -10,6 +10,17 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
+    public function raporlar(){
+       return DB::table('reports')->get();
+    }
+    public function raporekle(Request $request){
+        DB::table('reports')->insert([
+            'name' => $request->name
+        ]);
+    }
+    public function raporsil(Request $request){
+        DB::table('reports')->where('id', $request->id)->delete();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////

@@ -8,6 +8,17 @@ export default [
 
         }
     },
+    {
+        path: '/raporlar',
+        name: 'raporlar',
+        component: () => import('@/views/lab/raporlar/raporlar.vue'),
+        meta: {
+            requiresAuth: true, admin:true
+
+        }
+    },
+
+
 
 
 

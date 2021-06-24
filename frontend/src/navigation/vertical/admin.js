@@ -128,6 +128,10 @@ export default [
                 route: 'users',
                 icon: 'UserIcon',
 
+            }, {
+                title: 'Rapor Tipleri',
+                route: 'raporlar',
+                icon: 'FileTextIcon',
             },
         ]
 
