@@ -78,7 +78,8 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option disabled value="" v-if="form.Selected2 != null">Lütfen Çalışan Seçiniz</option>
+                    <option disabled value="" v-if="form.Selected2 === null">Lütfen Firma Seçiniz</option>
                     <option
                       v-bind:value="{ name: calisan.name, id: calisan.id }"
                       v-for="calisan in calisan"

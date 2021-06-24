@@ -78,7 +78,12 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option disabled value="" v-if="form.Selected2 != null">
+                      Lütfen Çalışan Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
                     <option
                       v-bind:value="{ name: calisan.name, id: calisan.id }"
                       v-for="calisan in calisan"
@@ -128,14 +133,14 @@
                     </div>
                   </b-alert>
                 </span>
-   <b-button
+                <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="info"
                   @click="addField"
                   class="btn-icon"
                 >
                   <feather-icon size="20px;" icon="PlusIcon" />
-                 </b-button>
+                </b-button>
               </div>
               <div style="float: right">
                 <b-button variant="success" type="submit">
@@ -439,7 +444,7 @@ export default {
         };
 
         axios
-          .post("/api/getfile", { firma_email: email, status:3 })
+          .post("/api/getfile", { firma_email: email, status: 3 })
           .then((res) => (this.files = res.data))
           .then(
             this.$toast({
@@ -478,30 +483,38 @@ export default {
       var time = 1000;
 
       form.forEach(function (form) {
-        let file = event.target.file;
+        if (form.calisanselected === "") {
+          document.getElementById("basarisiz").value =
+            "Çalışan veya Firma Girilmedi.";
 
-        const formData = new FormData();
-        formData.set("file", form.file);
-        formData.append("id", form.calisanselected.id);
-        formData.append("name", form.calisanselected.name);
-        formData.append("firma_email", form.Selected2);
-        formData.append("rapor", form.rapor);
-        formData.append("status", "3");
+          document.getElementById("basarisiz").click();
+        } else {
+          let file = event.target.file;
 
-        setTimeout(() => {
-          axios
-            .post("api/belgeyukle", formData)
-            .then((res) => document.getElementById("basarili").click())
-            .catch((error) => {
-              if (error.response.data.error === undefined) {
-                document.getElementById("basarisiz").value = "";
-                document.getElementById("basarisiz").click();
-              } else {
-                document.getElementById("basarisiz").value === error.response.data.error,
-                document.getElementById("basarisiz").click();
-              }
-            });
-        }, (time += 1000));
+          const formData = new FormData();
+          formData.set("file", form.file);
+          formData.append("id", form.calisanselected.id);
+          formData.append("name", form.calisanselected.name);
+          formData.append("firma_email", form.Selected2);
+          formData.append("rapor", form.rapor);
+          formData.append("status", "3");
+
+          setTimeout(() => {
+            axios
+              .post("api/belgeyukle", formData)
+              .then((res) => document.getElementById("basarili").click())
+              .catch((error) => {
+                if (error.response.data.error === undefined) {
+                  document.getElementById("basarisiz").value = "";
+                  document.getElementById("basarisiz").click();
+                } else {
+                  document.getElementById("basarisiz").value ===
+                    error.response.data.error,
+                    document.getElementById("basarisiz").click();
+                }
+              });
+          }, (time += 1000));
+        }
       });
 
       this.formcikis();
@@ -515,7 +528,7 @@ export default {
       console.log(this.form[0].Selected2);
 
       axios
-        .post("/api/getfile", { firma_email: email, status:3 })
+        .post("/api/getfile", { firma_email: email, status: 3 })
 
         .then((res) => (this.files = res.data));
 
@@ -526,10 +539,9 @@ export default {
     göster(dosya) {
       window.open("/Dosyalar/" + dosya, "_blank");
     },
-    arsivle(data){
-        axios.post('api/dosyaarsiv', {id: data.id}).then(this.refreshStop())
+    arsivle(data) {
+      axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
     },
-
 
     formcikis() {
       this.$refs["modal"].hide();
