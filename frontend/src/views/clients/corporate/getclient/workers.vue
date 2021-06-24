@@ -219,7 +219,12 @@
                         aria-placeholder="Sürücü Seçiniz"
                         v-model="role"
                       >
-                        <option disabled value="">Lütfen Seçim Yapınız</option>
+                        <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                         <option>Admin</option>
                         <option>Uzman</option>
                         <option>Hekim</option>
@@ -233,7 +238,12 @@
                       label-align-sm="right"
                     >
                       <b-form-select v-model="status">
-                        <option disabled value="">Lütfen Seçim Yapınız</option>
+                        <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                         <option value="1">Aktif</option>
                         <option value="2">Beklemede</option>
                         <option value="3">Red</option>

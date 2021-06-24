@@ -6,7 +6,12 @@
       label-cols-sm="1"
     >
       <b-form-select @change="select" v-model="Selected">
-        <option disabled value="">Lütfen Seçim Yapınız</option>
+        <option disabled value="" v-if="form.Selected2 === null">
+          Lütfen Firma Seçiniz
+        </option>
+        <option disabled value="" v-if="form.Selected2 != null">
+          Lütfen Çalışan Seçiniz
+        </option>
         <option
           v-bind:value="{ firma_email: firma.email }"
           v-for="firma in firma"
@@ -65,7 +70,12 @@
 
                 <b-col style="display: none" sm="1">
                   <b-form-select v-model="form.Selected2">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                     <option
                       v-bind:value="{ firma_email: firma.email }"
                       v-for="firma in firma"
@@ -78,7 +88,12 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                     <option
                       v-bind:value="{ name: calisan.name, id: calisan.id }"
                       v-for="calisan in calisan"
@@ -90,7 +105,12 @@
                 </b-col>
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                     <option>Rapor Tipi A</option>
                   </b-form-select>
                 </b-col>
@@ -136,7 +156,7 @@
                   class="btn-icon"
                 >
                   <feather-icon size="20px;" icon="PlusIcon" />
-                 </b-button>
+                </b-button>
               </div>
               <div style="float: right">
                 <b-button variant="success" type="submit">
@@ -431,6 +451,7 @@ export default {
           text: data + ` Dosya İşlemi Başarsız`,
         },
       });
+
     },
     refreshStop() {
       setTimeout(() => {
@@ -477,35 +498,44 @@ export default {
     submit(event) {
       var form = this.form;
       var time = 1000;
+       this.formcikis();
 
       form.forEach(function (form) {
-        let file = event.target.file;
+        if (form.calisanselected === "") {
+          document.getElementById("basarisiz").value =
+            "Firma veya Çalışan Seçilmedi,";
 
-        const formData = new FormData();
-        formData.set("file", form.file);
-        formData.append("id", form.calisanselected.id);
-        formData.append("name", form.calisanselected.name);
-        formData.append("firma_email", form.Selected2);
-        formData.append("rapor", form.rapor);
-        formData.append("status", "0");
+          document.getElementById("basarisiz").click();
+        } else {
+          let file = event.target.file;
 
-        setTimeout(() => {
-          axios
-            .post("api/belgeyukle", formData)
-            .then((res) => document.getElementById("basarili").click())
-            .catch((error) => {
-              if (error.response.data.error === undefined) {
-                document.getElementById("basarisiz").value = "";
-                document.getElementById("basarisiz").click();
-              } else {
-                document.getElementById("basarisiz").value === error.response.data.error,
-                document.getElementById("basarisiz").click();
-              }
-            });
-        }, (time += 1000));
+          const formData = new FormData();
+          formData.set("file", form.file);
+          formData.append("id", form.calisanselected.id);
+          formData.append("name", form.calisanselected.name);
+          formData.append("firma_email", form.Selected2);
+          formData.append("rapor", form.rapor);
+          formData.append("status", "0");
+
+          setTimeout(() => {
+            axios
+              .post("api/belgeyukle", formData)
+              .then((res) => document.getElementById("basarili").click())
+              .catch((error) => {
+                if (error.response.data.error === undefined) {
+                  document.getElementById("basarisiz").value = "";
+                  document.getElementById("basarisiz").click();
+                } else {
+                  document.getElementById("basarisiz").value =
+                    error.response.data.error,
+                    document.getElementById("basarisiz").click();
+                }
+              });
+          }, (time += 1000));
+        }
+
+
       });
-
-      this.formcikis();
     },
 
     select() {
@@ -527,16 +557,13 @@ export default {
     göster(dosya) {
       window.open("/Dosyalar/" + dosya, "_blank");
     },
-    arsivle(data){
-        axios.post('api/dosyaarsiv', {id: data.id}).then(this.refreshStop())
+    arsivle(data) {
+      axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
     },
-
 
     formcikis() {
       this.$refs["modal"].hide();
-      this.file == null;
-      this.firmaselected == null;
-      this.calisanselected == null;
+
     },
 
     indir(dosya) {

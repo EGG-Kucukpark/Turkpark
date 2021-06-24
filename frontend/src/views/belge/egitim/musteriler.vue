@@ -87,7 +87,12 @@
                   aria-placeholder="Sürücü Seçiniz"
                   v-model="payed"
                 >
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                   <option value="1">Ödeme Yapıldı</option>
                   <option value="0">Ödeme Yapılmadı</option>
                 </b-form-select>
@@ -168,7 +173,12 @@
                   aria-placeholder="Sürücü Seçiniz"
                   v-model="payed"
                 >
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                   <option value="1">Ödeme Yapıldı</option>
                   <option value="0">Ödeme Yapılmadı</option>
                 </b-form-select>

@@ -9,7 +9,12 @@
           <b-col cols="12" md="4" class="mb-md-0 mb-2">
             <label>Kategoriler</label>
             <b-form-select @input="filtrele" v-model="selected_kategori">
-              <option disabled value="">Lütfen Seçim Yapınız</option>
+              <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
               <option v-for="kategoriler in kategoriler" :key="kategoriler.id">
                 {{ kategoriler.name }}
               </option>
@@ -18,7 +23,12 @@
           <b-col cols="12" md="4" class="mb-md-0 mb-2">
             <label>Etkinlik Yeri</label>
             <b-form-select @input="filtrele" v-model="selected_yer">
-              <option disabled value="">Lütfen Seçim Yapınız</option>
+              <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
               <option v-for="yerler in yerler" :key="yerler.id">
                 {{ yerler.name }}
               </option>
@@ -107,7 +117,12 @@
                 label-align-sm="right"
               >
                 <b-form-select v-model="kategori">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                   <option
                     v-for="kategoriler in kategoriler"
                     :key="kategoriler.id"
@@ -124,7 +139,12 @@
                 label-align-sm="right"
               >
                 <b-form-select v-model="etkinlik">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                   <option v-for="yerler in yerler" :key="yerler.id">
                     {{ yerler.name }}
                   </option>
@@ -196,7 +216,12 @@
                 label-align-sm="right"
               >
                 <b-form-select v-model="kategori">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                   <option
                     v-for="kategoriler in kategoriler"
                     :key="kategoriler.id"
@@ -213,7 +238,12 @@
                 label-align-sm="right"
               >
                 <b-form-select v-model="etkinlik">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                   <option v-for="yerler in yerler" :key="yerler.id">
                     {{ yerler.name }}
                   </option>

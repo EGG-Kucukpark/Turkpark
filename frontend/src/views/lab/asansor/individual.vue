@@ -6,7 +6,12 @@
       label-cols-sm="1"
     >
       <b-form-select @change="select" v-model="Selected">
-        <option disabled value="">Lütfen Seçim Yapınız</option>
+        <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
         <option
           v-bind:value="{ firma: firma }"
           v-for="firma in firma"
@@ -60,7 +65,12 @@
                 <!-- Item Name -->
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option disabled value="" v-if="form.Selected2 === null">
+                      Lütfen Firma Seçiniz
+                    </option>
+                    <option disabled value="" v-if="form.Selected2 != null ">
+                      Lütfen Çalışan Seçiniz
+                    </option>
                     <option>Rapor Tipi A</option>
                   </b-form-select>
                 </b-col>
