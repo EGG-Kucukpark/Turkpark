@@ -1,6 +1,6 @@
 <template>
   <b-card title="Sonuçlar">
-    <b-form-group
+    <b-form-group v-if="show"
       style="font-size: 18px"
       label="Firma Seçiniz: "
       label-cols-sm="1"
@@ -42,11 +42,11 @@
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
-          @click="modal"
+          @click="modal" v-if="show"
           >Yeni Rapor</b-button
         >
 
-        <b-modal
+        <b-modal v-if="show"
           hide-header-close
           :hide-footer="true"
           size="lg"
@@ -412,12 +412,12 @@ export default {
   created() {axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
-    if (user.role === "Client") {
+    if (user.role === "Firma") {
       this.show = false;
       var mail = user.email;
       axios
         .post("/api/getfile", { firma_email: mail, status: 4 })
-        .then((res) => (this.rows = res.data));
+        .then((res) => (this.files = res.data));
     } else {
       axios.post("/api/firmalar").then((response) => {
         this.firma = response.data;

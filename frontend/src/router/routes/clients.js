@@ -108,6 +108,7 @@ export default [
         component: () => import('@/views/lab/lab.vue'),
         meta: {
             requiresAuth: true,
+
         }
 
 

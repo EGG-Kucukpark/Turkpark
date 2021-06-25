@@ -6,7 +6,7 @@ export default [
         name: 'error-404',
         component: () => import('@/views/additional/error.vue'),
         meta: {
-            requiresAuth: true,
+
             layout: 'full',
         },
     },
@@ -16,7 +16,7 @@ export default [
         name: 'unauthorized',
         component: () => import('@/views/additional/unauthorized.vue'),
         meta: {
-            guest: true,
+
             layout: 'full',
         },
     },

@@ -5,6 +5,8 @@ export default [
         component: () => import('@/views/homepage/Analytics.vue'),
         meta:{
             requiresAuth: true,
-            uzman:true}
+
+
+        }
     },
 ]

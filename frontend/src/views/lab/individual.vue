@@ -39,6 +39,7 @@
 
       <span>
         <b-button
+        v-if="show"
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
@@ -289,7 +290,7 @@ export default {
   },
   data() {
     return {
-      perPage: 5,
+      perPage: 10,
       pageOptions: [3, 5, 10],
       totalRows: 1,
       currentPage: 1,

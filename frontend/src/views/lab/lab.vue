@@ -154,7 +154,7 @@
         <option value="egitimler">Eğitimler</option>
       </b-form-select>
 
-      <b-button variant="success" v-on:click="$refs['firmaekle'].show()"
+      <b-button  v-if="show" variant="success" v-on:click="$refs['firmaekle'].show()"
         >Firma Ekle
       </b-button>
     </b-card>
@@ -416,7 +416,7 @@ export default {
   },
   created() {
     var user = JSON.parse(localStorage.getItem("user"));
-    if (user.role == "Client") {
+    if (user.role == "Firma") {
       this.show = false;
     }
   },

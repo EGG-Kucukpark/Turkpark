@@ -112,7 +112,7 @@ export default {
   },
   data() {
     return {
-      perPage: 5,
+      perPage: 10,
       pageOptions: [3, 5, 10],
       totalRows: 1,
       currentPage: 1,

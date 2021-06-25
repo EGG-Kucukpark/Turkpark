@@ -9,7 +9,9 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'todo-application',
+      requiresAuth: true,
     },
+
   },
   {
     path: '/todo/:filter',
@@ -18,7 +20,7 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'todo-application',
-      navActiveLink: 'apps-todo',
+      navActiveLink: 'apps-todo',requiresAuth: true,
     },
     beforeEnter(to, _, next) {
       if (['important', 'completed', 'deleted'].includes(to.params.filter)) next()
@@ -38,7 +40,7 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'todo-application',
-      navActiveLink: 'apps-todo',
+      navActiveLink: 'apps-todo',requiresAuth: true,
     },
     beforeEnter(to, _, next) {
       if (['team', 'low', 'medium', 'high', 'update'].includes(to.params.tag)) next()

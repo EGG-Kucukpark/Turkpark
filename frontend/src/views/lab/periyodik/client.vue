@@ -1,6 +1,7 @@
 <template>
   <b-card title="Sonuçlar">
     <b-form-group
+      v-if="show"
       style="font-size: 18px"
       label="Firma Seçiniz: "
       label-cols-sm="1"
@@ -39,6 +40,7 @@
 
       <span>
         <b-button
+          v-if="show"
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
@@ -94,7 +96,7 @@
                   </b-form-select>
                 </b-col>
                 <b-col md="4">
-                 <b-form-select v-model="form.rapor">
+                  <b-form-select v-model="form.rapor">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option v-for="raporlar in raporlar" :key="raporlar.id">
                       {{ raporlar.name }}
@@ -225,12 +227,12 @@
 
           <template #cell(actions)="data">
             <span>
-             <b-button
+              <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
-                  v-b-tooltip.hover.v-warning
+                v-b-tooltip.hover.v-warning
                 title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
@@ -251,7 +253,7 @@
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
-                 v-b-tooltip.hover.v-success
+                v-b-tooltip.hover.v-success
                 title="İndir"
               >
                 <feather-icon icon="DownloadIcon" />
@@ -292,7 +294,7 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import ripple from 'vue-ripple-directive'
+import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
 
 import {
@@ -300,7 +302,8 @@ import {
   BAvatar,
   BBadge,
   BRow,
-  BCol,  VBTooltip,
+  BCol,
+  VBTooltip,
   BFormGroup,
   BFormSelect,
   BPagination,
@@ -321,7 +324,8 @@ export default {
     BTable,
     BAvatar,
     BBadge,
-    BRow,  VBTooltip,
+    BRow,
+    VBTooltip,
     BCol,
     BFormGroup,
     BFormSelect,
@@ -338,8 +342,9 @@ export default {
     ripple,
     heightTransition,
     BAlert,
-  },directives: {
-    'b-tooltip': VBTooltip,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
     ripple,
   },
   props: {
@@ -409,19 +414,15 @@ export default {
     },
   },
   created() {
-
-
-
-
-      axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
+    axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
-    if (user.role === "Client") {
+    if (user.role === "Firma") {
       this.show = false;
       var mail = user.email;
       axios
         .post("/api/getfile", { firma_email: mail, status: 3 })
-        .then((res) => (this.rows = res.data));
+        .then((res) => (this.files = res.data));
     } else {
       axios.post("/api/firmalar").then((response) => {
         this.firma = response.data;
