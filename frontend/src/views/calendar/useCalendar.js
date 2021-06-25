@@ -46,14 +46,10 @@ export default function userCalendar() {
     title: '',
     start: '',
     end: '',
-    allDay: false,
-    url: '',
-    extendedProps: {
-      calendar: '',
-      guests: [],
-      location: 'tr',
-      description: '',
-    },
+
+
+
+
   }
   const event = ref(JSON.parse(JSON.stringify(blankEvent)))
   const clearEventData = () => {
@@ -148,8 +144,8 @@ export default function userCalendar() {
       start,
       end,
       // eslint-disable-next-line object-curly-newline
-      extendedProps: { calendar, guests, location, description },
-      allDay,
+
+
     } = eventApi
 
     return {
@@ -157,13 +153,7 @@ export default function userCalendar() {
       title,
       start,
       end,
-      extendedProps: {
-        calendar,
-        guests,
-        location,
-        description,
-      },
-      allDay,
+
     }
   }
 
@@ -185,7 +175,7 @@ export default function userCalendar() {
       const updatedEvent = response.data.event
 
       const propsToUpdate = ['id', 'title', 'url']
-      const extendedPropsToUpdate = ['calendar', 'guests', 'location', 'description']
+      const extendedPropsToUpdate = ['calendar']
 
       updateEventInCalendar(updatedEvent, propsToUpdate, extendedPropsToUpdate)
     })
@@ -251,11 +241,11 @@ export default function userCalendar() {
   // ------------------------------------------------------------------------
   const calendarOptions = ref({
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
-    initialView: 'dayGridMonth',
+    initialView: 'timeGridWeek',
     locale:'tr',
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+      end: 'timeGridWeek,timeGridDay,listMonth',
     },
     events: fetchEvents,
 

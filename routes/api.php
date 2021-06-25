@@ -13,6 +13,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Apps\TodoController;
 use App\Http\Controllers\Apps\EduController;
 use App\Http\Controllers\Apps\CerfController;
+use App\Http\Controllers\Apps\TakvimController;
 use App\Http\Controllers\Worker\WorkerController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\File\FileController;
@@ -110,6 +111,26 @@ Route::get('tasks', [TodoController::class, 'tasks']);
 Route::post('addtask', [TodoController::class, 'addtask']);
 Route::post('deletetask/{id}', [TodoController::class, 'deletetask']);
 Route::post('updatetask/{id}', [TodoController::class, 'updatetask']);
+
+////////////////////////////////////////////////////////////////////////////////////
+//                      Takvim İşlemleri
+
+   route::post("takvim", [TakvimController::class, 'takvimler']);
+   route::get("takvimekle", [TakvimController::class, 'takvimekle']);
+   route::post("takvimduzenle/{id}", [TakvimController::class, 'takvimduzenle']);
+   route::get("takvimsil", [TakvimController::class, 'takvimsil']);
+
+
+
+
+
+
+
+
+
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Email İşlemleri

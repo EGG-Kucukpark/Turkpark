@@ -9,39 +9,16 @@
         block
         @click="$emit('update:isEventHandlerSidebarActive', true)"
       >
-        Add Event
+        Etkinlik Oluştur
       </b-button>
-      <div class="mt-3">
-        <h5 class="app-label section-label mb-1">
-          <span class="align-middle">Calendars</span>
-        </h5>
-        <b-form-checkbox
-          v-model="checkAll"
-          class="mb-1"
-        >
-          View All
-        </b-form-checkbox>
-        <b-form-group>
-          <b-form-checkbox-group
-            v-model="selectedCalendars"
-            name="event-filter"
-            stacked
-          >
-            <b-form-checkbox
-              v-for="item in calendarOptions"
-              :key="item.label"
-              name="event-filter"
-              :value="item.label"
-              class="mb-1"
-              :class="`custom-control-${item.color}`"
-            >
-              {{ item.label }}
-            </b-form-checkbox>
-          </b-form-checkbox-group>
-        </b-form-group>
+      <div class="mt-9">
+
+
+
       </div>
+      <b-img style="padding-top:580px;" :src="require('@/assets/images/pages/calendar-illustration.png')" />
     </div>
-    <b-img :src="require('@/assets/images/pages/calendar-illustration.png')" />
+
   </div>
 </template>
 

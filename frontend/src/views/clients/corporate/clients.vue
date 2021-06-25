@@ -1,339 +1,354 @@
 <template>
-  <b-card title="Kurumsal Müşteriler">
-    <b-row>
-      <b-col>
-        <b-form-group
-          label-cols-sm="7"
-          label-align-sm="left"
-          label-size="sm"
-          label-for="filterInput"
-          class="mb-1"
-        >
-          <b-input-group>
-            <b-form-input
-              id="filterInput"
-              v-model="filter"
-              type="search"
-              placeholder="........"
-            />
-          </b-input-group>
-        </b-form-group>
-      </b-col>
+  <div>
+    <b-breadcrumb style="margin: 18px" class="breadcrumb-slash">
+      <b-breadcrumb-item to="/">
+        <feather-icon icon="HomeIcon" size="25" variant="primary" />
+      </b-breadcrumb-item>
 
-      <span>
-        <b-button
-          class="mb-1"
-          style="margin-right: 50px"
-          variant="success"
-          @click="Modal1"
-          >Yeni Firma</b-button
-        >
+      <b-breadcrumb-item style="font-size: 18px" to="/">
+        Ana Sayfa
+      </b-breadcrumb-item>
 
-        <b-modal
-          hide-header-close
-          ok-title="Kaydet"
-          :hide-footer="true"
-          size="lg"
-          ref="modal1"
-          centered
-          title="Firma Ekle"
-        >
-          <b-card>
-            <b-form @submit.prevent="submit">
-              <b-form-group
-                label="İşyeri Ünvanı:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="name"
-                  placeholder="İş Yeri Adını Giriniz..."
-                ></b-form-input>
-              </b-form-group>
+      <b-breadcrumb-item style="font-size: 18px" active>
+        Sonuçlar
+      </b-breadcrumb-item>
+    </b-breadcrumb>
+    <b-card title="Kurumsal Müşteriler">
+      <b-row>
+        <b-col>
+          <b-form-group
+            label-cols-sm="7"
+            label-align-sm="left"
+            label-size="sm"
+            label-for="filterInput"
+            class="mb-1"
+          >
+            <b-input-group>
+              <b-form-input
+                id="filterInput"
+                v-model="filter"
+                type="search"
+                placeholder="........"
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
 
-              <b-form-group
-                label="Firma Yetkilisi:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="firma_yetkilisi"
-                  placeholder="Firma Yetkilisinin Adını Giriniz..."
-                ></b-form-input>
-              </b-form-group>
+        <span>
+          <b-button
+            class="mb-1"
+            style="margin-right: 50px"
+            variant="success"
+            @click="Modal1"
+            >Yeni Firma</b-button
+          >
 
-              <b-form-group
-                label="SGK Sicil No:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="sgkno"
-                  placeholder="SGK Sicil Numarasını Giriniz..."
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Vergi Dairesi"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="vergiad"
-                  placeholder="Vergi Dairesi Adını Giriniz"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Vergi No:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="vergino"
-                  placeholder="Vergi Numarası"
-                ></b-form-input>
-              </b-form-group>
+          <b-modal
+            hide-header-close
+            ok-title="Kaydet"
+            :hide-footer="true"
+            size="lg"
+            ref="modal1"
+            centered
+            title="Firma Ekle"
+          >
+            <b-card>
+              <b-form @submit.prevent="submit">
+                <b-form-group
+                  label="İşyeri Ünvanı:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="name"
+                    placeholder="İş Yeri Adını Giriniz..."
+                  ></b-form-input>
+                </b-form-group>
 
-              <b-form-group
-                label="E-Posta Adresi"
-                label-for="email"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
+                <b-form-group
+                  label="Firma Yetkilisi:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="firma_yetkilisi"
+                    placeholder="Firma Yetkilisinin Adını Giriniz..."
+                  ></b-form-input>
+                </b-form-group>
 
-              <b-form-group
-                label="Telefon No:"
-                label-for="telefon"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="telefon"
-                  v-model="telefon"
-                  placeholder="Firma Telefon Numarası"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Firma Şifresi:"
-                label-for="password"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="password"
-                  v-model="password"
-                  placeholder="Şifre Giriniz"
-                ></b-form-input>
-              </b-form-group>
+                <b-form-group
+                  label="SGK Sicil No:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="sgkno"
+                    placeholder="SGK Sicil Numarasını Giriniz..."
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Vergi Dairesi"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="vergiad"
+                    placeholder="Vergi Dairesi Adını Giriniz"
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Vergi No:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="vergino"
+                    placeholder="Vergi Numarası"
+                  ></b-form-input>
+                </b-form-group>
 
-              <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
+                <b-form-group
+                  label="E-Posta Adresi"
+                  label-for="email"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="email"
+                    v-model="email"
+                    placeholder="E-posta Adresini Giriniz"
+                  ></b-form-input>
+                </b-form-group>
 
-            <!-- Emulate built in modal footer ok and cancel button actions -->
-          </b-card>
-        </b-modal>
-      </span>
+                <b-form-group
+                  label="Telefon No:"
+                  label-for="telefon"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="telefon"
+                    v-model="telefon"
+                    placeholder="Firma Telefon Numarası"
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Firma Şifresi:"
+                  label-for="password"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="password"
+                    v-model="password"
+                    placeholder="Şifre Giriniz"
+                  ></b-form-input>
+                </b-form-group>
 
-      <b-col cols="12" class="table-responsive">
-        <b-table
-          striped
-          hover
-          responsive
-          :per-page="perPage"
-          :current-page="currentPage"
-          :items="items"
-          :fields="fields"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
-          :sort-direction="sortDirection"
-          :filter="filter"
-          :filter-included-fields="filterOn"
-          @row-clicked="tikla"
-          show-empty
-          empty-text="Veri Bulunamadı."
-          empty-filtered-text="Veri Bulunamadı."
-          @filtered="onFiltered"
-        >
-          <template #cell(actions)="data">
-            <span>
-              <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="warning"
-                @click="Modal2(data.item)"
-                class="btn-icon"
-              >
-                <feather-icon icon="EditIcon" />
-              </b-button>
-              <b-modal
-                hide-header-close
-                :hide-footer="true"
-                size="lg"
-                ref="modal2"
-                centered
-                title="Firma Düzenle"
-              >
-                <b-card>
-                  <b-form @submit.prevent="update">
-                    <b-form-group
-                      label="İşyeri Ünvanı:"
-                      label-for="isim"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="isim"
-                        v-model="name"
-                        placeholder="İş Yeri Adını Giriniz..."
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="Firma Yetkilisi:"
-                      label-for="isim"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="isim"
-                        v-model="firma_yetkilisi"
-                        placeholder="Firma Yetkilisinin Adını Giriniz..."
-                      ></b-form-input>
-                    </b-form-group>
+                <div style="float: right">
+                  <b-button variant="success" type="submit"> Tamam </b-button>
+                </div>
+                <div style="float: right; padding-right: 10px">
+                  <b-button variant="danger" @click="form()"> İptal</b-button>
+                </div>
+              </b-form>
 
-                    <b-form-group
-                      label="SGK Sicil No:"
-                      label-for="isim"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="isim"
-                        v-model="sgkno"
-                        placeholder="SGK Sicil Numarasını Giriniz..."
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="Vergi Dairesi"
-                      label-for="isim"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="isim"
-                        v-model="vergiad"
-                        placeholder="Vergi Dairesi Adını Giriniz"
-                      ></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="Vergi No:"
-                      label-for="isim"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="isim"
-                        v-model="vergino"
-                        placeholder="Vergi Numarası"
-                      ></b-form-input>
-                    </b-form-group>
+              <!-- Emulate built in modal footer ok and cancel button actions -->
+            </b-card>
+          </b-modal>
+        </span>
 
-                    <b-form-group
-                      label="E-Posta Adresi"
-                      label-for="email"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="email"
-                        v-model="email"
-                        placeholder="E-posta Adresini Giriniz"
-                      ></b-form-input>
-                    </b-form-group>
-
-                    <b-form-group
-                      label="Telefon No:"
-                      label-for="telefon"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="telefon"
-                        v-model="telefon"
-                        placeholder="Firma Telefon Numarası"
-                      ></b-form-input>
-                    </b-form-group>
-
-                    <div style="float: right">
-                      <b-button variant="success" type="submit">
-                        Tamam
-                      </b-button>
-                    </div>
-                    <div style="float: right; padding-right: 10px">
-                      <b-button variant="danger" @click="form()">
-                        İptal</b-button
+        <b-col cols="12" class="table-responsive">
+          <b-table
+            striped
+            hover
+            responsive
+            :per-page="perPage"
+            :current-page="currentPage"
+            :items="items"
+            :fields="fields"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            :filter="filter"
+            :filter-included-fields="filterOn"
+            @row-clicked="tikla"
+            show-empty
+            empty-text="Veri Bulunamadı."
+            empty-filtered-text="Veri Bulunamadı."
+            @filtered="onFiltered"
+          >
+            <template #cell(actions)="data">
+              <span>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="warning"
+                  @click="Modal2(data.item)"
+                  class="btn-icon"
+                >
+                  <feather-icon icon="EditIcon" />
+                </b-button>
+                <b-modal
+                  hide-header-close
+                  :hide-footer="true"
+                  size="lg"
+                  ref="modal2"
+                  centered
+                  title="Firma Düzenle"
+                >
+                  <b-card>
+                    <b-form @submit.prevent="update">
+                      <b-form-group
+                        label="İşyeri Ünvanı:"
+                        label-for="isim"
+                        label-cols-sm="3"
+                        label-align-sm="right"
                       >
-                    </div>
-                  </b-form>
+                        <b-form-input
+                          id="isim"
+                          v-model="name"
+                          placeholder="İş Yeri Adını Giriniz..."
+                        ></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="Firma Yetkilisi:"
+                        label-for="isim"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                      >
+                        <b-form-input
+                          id="isim"
+                          v-model="firma_yetkilisi"
+                          placeholder="Firma Yetkilisinin Adını Giriniz..."
+                        ></b-form-input>
+                      </b-form-group>
 
-                  <!-- Emulate built in modal footer ok and cancel button actions -->
-                </b-card>
-              </b-modal>
+                      <b-form-group
+                        label="SGK Sicil No:"
+                        label-for="isim"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                      >
+                        <b-form-input
+                          id="isim"
+                          v-model="sgkno"
+                          placeholder="SGK Sicil Numarasını Giriniz..."
+                        ></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="Vergi Dairesi"
+                        label-for="isim"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                      >
+                        <b-form-input
+                          id="isim"
+                          v-model="vergiad"
+                          placeholder="Vergi Dairesi Adını Giriniz"
+                        ></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="Vergi No:"
+                        label-for="isim"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                      >
+                        <b-form-input
+                          id="isim"
+                          v-model="vergino"
+                          placeholder="Vergi Numarası"
+                        ></b-form-input>
+                      </b-form-group>
 
-              <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="danger"
-                @click.prevent="arsiv(data.item)"
-                class="btn-icon"
-              >
-                <feather-icon icon="ArchiveIcon" /> </b-button
-            ></span>
-          </template>
-        </b-table>
-      </b-col>
+                      <b-form-group
+                        label="E-Posta Adresi"
+                        label-for="email"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                      >
+                        <b-form-input
+                          id="email"
+                          v-model="email"
+                          placeholder="E-posta Adresini Giriniz"
+                        ></b-form-input>
+                      </b-form-group>
 
-      <b-col md="2" sm="4" class="my-1">
-        <b-form-group class="mb-0">
-          <b-form-select
-            id="perPageSelect"
-            v-model="perPage"
+                      <b-form-group
+                        label="Telefon No:"
+                        label-for="telefon"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                      >
+                        <b-form-input
+                          id="telefon"
+                          v-model="telefon"
+                          placeholder="Firma Telefon Numarası"
+                        ></b-form-input>
+                      </b-form-group>
+
+                      <div style="float: right">
+                        <b-button variant="success" type="submit">
+                          Tamam
+                        </b-button>
+                      </div>
+                      <div style="float: right; padding-right: 10px">
+                        <b-button variant="danger" @click="form()">
+                          İptal</b-button
+                        >
+                      </div>
+                    </b-form>
+
+                    <!-- Emulate built in modal footer ok and cancel button actions -->
+                  </b-card>
+                </b-modal>
+
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="danger"
+                  @click.prevent="arsiv(data.item)"
+                  class="btn-icon"
+                >
+                  <feather-icon icon="ArchiveIcon" /> </b-button
+              ></span>
+            </template>
+          </b-table>
+        </b-col>
+
+        <b-col md="2" sm="4" class="my-1">
+          <b-form-group class="mb-0">
+            <b-form-select
+              id="perPageSelect"
+              v-model="perPage"
+              size="sm"
+              :options="pageOptions"
+              class="w-50"
+            />
+          </b-form-group>
+        </b-col>
+
+        <b-col cols="12">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            align="center"
             size="sm"
-            :options="pageOptions"
-            class="w-50"
+            class="my-0"
           />
-        </b-form-group>
-      </b-col>
-
-      <b-col cols="12">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          align="center"
-          size="sm"
-          class="my-0"
-        />
-      </b-col>
-    </b-row>
-  </b-card>
+        </b-col>
+      </b-row>
+    </b-card>
+  </div>
 </template>
 
 <script>
@@ -342,6 +357,8 @@ import ToastificationContent from "@core/components/toastification/Toastificatio
 import {
   BTable,
   BAvatar,
+  BBreadcrumb,
+  BBreadcrumbItem,
   BBadge,
   BRow,
   BCol,
@@ -365,6 +382,8 @@ export default {
     BBadge,
     BRow,
     BCol,
+    BBreadcrumb,
+    BBreadcrumbItem,
     BFormGroup,
     BFormSelect,
     BPagination,
@@ -489,11 +508,10 @@ export default {
         params: { id: params.id },
       });
     },
-    arsiv(data){
-        console.log(data.id)
+    arsiv(data) {
+      console.log(data.id);
 
-        axios.post('api/arsivfirma', {id: data.id}) .then(this.refreshStop())
-
+      axios.post("api/arsivfirma", { id: data.id }).then(this.refreshStop());
     },
     submit() {
       axios

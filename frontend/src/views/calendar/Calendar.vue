@@ -58,7 +58,7 @@ export default {
   },
   setup() {
     const CALENDAR_APP_STORE_MODULE_NAME = 'calendar'
-
+    console.log(new Date())
     // Register module
     if (!store.hasModule(CALENDAR_APP_STORE_MODULE_NAME)) store.registerModule(CALENDAR_APP_STORE_MODULE_NAME, calendarStoreModule)
 

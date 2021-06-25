@@ -1,4 +1,22 @@
 <template>
+<div>
+     <b-breadcrumb style="margin: 18px" class="breadcrumb-slash">
+      <b-breadcrumb-item to="/">
+        <feather-icon icon="HomeIcon" size="20" variant="primary" />
+      </b-breadcrumb-item>
+
+      <b-breadcrumb-item style="font-size: 14px" to="/">
+        Ana Sayfa
+      </b-breadcrumb-item>
+
+      <b-breadcrumb-item style="font-size: 14px" to="/clients">
+        Kurumsal Firmalar
+      </b-breadcrumb-item>
+
+      <b-breadcrumb-item style="font-size: 14px" active
+        >{{ userData.name }}
+      </b-breadcrumb-item>
+    </b-breadcrumb>
   <b-card>
 
     <b-row>
@@ -151,17 +169,18 @@
       </b-col>
     </b-row>
   </b-card>
+</div>
 </template>
 
 <script>
 import {
-  BCard, BButton, BAvatar, BRow, BCol,
+  BCard, BButton, BAvatar, BRow, BCol, BBreadcrumb, BBreadcrumbItem,
 } from 'bootstrap-vue'
 
 
 export default {
   components: {
-    BCard, BButton, BRow, BCol, BAvatar,
+    BCard, BButton, BRow, BCol, BAvatar,BBreadcrumb, BBreadcrumbItem,
   },
   props: {
     userData: {

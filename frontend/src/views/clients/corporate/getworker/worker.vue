@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Alert: No item found -->
+
     <b-alert variant="danger" :show="userData === undefined">
       <h4 class="alert-heading">Error fetching user data</h4>
       <div class="alert-body">
@@ -34,7 +34,7 @@
 import store from "@/store";
 import router from "@/router";
 import { ref, onUnmounted } from "@vue/composition-api";
-import { BRow, BCol, BAlert, BLink, } from "bootstrap-vue";
+import { BRow, BCol, BAlert, BLink,BBreadcrumb, BBreadcrumbItem, } from "bootstrap-vue";
 
 import getworker from "./getworker";
 import workerinfo from "./workerinfo.vue";
@@ -46,6 +46,8 @@ export default {
     BCol,
     BAlert,
     BLink,
+    BBreadcrumb,
+    BBreadcrumbItem,
 
 
     // Local Components
