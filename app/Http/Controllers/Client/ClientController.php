@@ -91,7 +91,7 @@ class ClientController extends Controller
 
             return $a;
         } catch (Exception $exception) {
-            return $exception;
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
     public function firmaduzenle(Request $request)
@@ -111,7 +111,7 @@ class ClientController extends Controller
 
             ]);
 
-            return $a;
+
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }

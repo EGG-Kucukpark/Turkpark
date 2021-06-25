@@ -166,26 +166,16 @@
         >
           <template #cell(actions)="data">
             <span>
-
-
-
-
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
-                  v-b-tooltip.hover.v-warning
+                v-b-tooltip.hover.v-warning
                 title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
               </b-button>
-
-
-
-
-
-
 
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -198,13 +188,12 @@
                 <feather-icon icon="ArchiveIcon" />
               </b-button>
 
-
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
-                 v-b-tooltip.hover.v-success
+                v-b-tooltip.hover.v-success
                 title="İndir"
               >
                 <feather-icon icon="DownloadIcon" />

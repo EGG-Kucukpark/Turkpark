@@ -227,12 +227,12 @@
 
           <template #cell(actions)="data">
             <span>
-             <b-button
+              <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
-                  v-b-tooltip.hover.v-warning
+                v-b-tooltip.hover.v-warning
                 title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
@@ -253,7 +253,7 @@
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
-                 v-b-tooltip.hover.v-success
+                v-b-tooltip.hover.v-success
                 title="İndir"
               >
                 <feather-icon icon="DownloadIcon" />
@@ -414,6 +414,7 @@ export default {
     },
   },
   created() {
+    console.log(this.$router);
     axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
@@ -436,7 +437,24 @@ export default {
   },
   methods: {
     basarili() {
-      this.refreshStop();
+      if ((document.getElementById("basarili").value = "firma")) {
+        this.$toast({
+          component: ToastificationContent,
+          position: "top-right",
+          props: {
+            title: `Firma İşlemleri `,
+            icon: "BriefCaseIcon",
+            variant: "success",
+            text: ` İşlem Başarılı.`,
+          },
+        });
+
+        axios.post("/api/firmalar").then((response) => {
+          this.firma = response.data;
+        });
+      } else {
+        this.refreshStop();
+      }
     },
 
     basarisiz() {

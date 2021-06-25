@@ -1,4 +1,18 @@
 <template>
+<div>
+    <b-breadcrumb style="margin: 18px" class="breadcrumb-slash">
+        <b-breadcrumb-item to="/">
+          <feather-icon icon="HomeIcon" size="25" variant="primary" />
+        </b-breadcrumb-item>
+
+        <b-breadcrumb-item style="font-size: 18px" to="/">
+          Ana Sayfa
+        </b-breadcrumb-item>
+
+        <b-breadcrumb-item style="font-size: 18px" active>
+          Sonuçlar
+        </b-breadcrumb-item>
+      </b-breadcrumb>
   <b-card title="Kullanıcılar">
     <b-row>
       <button hidden id="hata" @click.prevent="hata"></button>
@@ -348,7 +362,7 @@
         />
       </b-col>
     </b-row>
-  </b-card>
+  </b-card></div>
 </template>
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
@@ -356,7 +370,8 @@ import downloadexcel from "vue-json-excel";
 
 import {
   BTable,
-  BAvatar,
+  BAvatar,BBreadcrumb,
+    BBreadcrumbItem,
   BBadge,
   BRow,
   BCol,
@@ -389,7 +404,8 @@ export default {
     BInputGroupAppend,
     BButton,
     BCard,
-    BModal,
+    BModal,BBreadcrumb,
+    BBreadcrumbItem,
     ToastificationContent,
     BForm,
     downloadexcel,
@@ -493,7 +509,7 @@ export default {
     refreshStop() {
       setTimeout(() => {
         axios
-          .post("/api/users", )
+          .post("/api/users")
           .then((response) => {
             this.items = response.data;
           })

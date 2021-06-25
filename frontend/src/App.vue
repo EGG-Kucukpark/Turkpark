@@ -1,129 +1,7 @@
 <template>
   <div id="app" class="h-100" :class="[skinClasses]">
     <component :is="layout">
-      <b-modal
-        hide-header-close
-        ok-title="Kaydet"
-        :hide-footer="true"
-        size="lg"
-        ref="modal1"
-        centered
-        title="Firma Ekle"
-      >
-        <b-card>
-          <b-form @submit.prevent="submit">
-            <b-form-group
-              label="İşyeri Ünvanı:"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="name"
-                placeholder="İş Yeri Adını Giriniz..."
-              ></b-form-input>
-            </b-form-group>
 
-            <b-form-group
-              label="Firma Yetkilisi:"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="firma_yetkilisi"
-                placeholder="Firma Yetkilisinin Adını Giriniz..."
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label="SGK Sicil No:"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="sgkno"
-                placeholder="SGK Sicil Numarasını Giriniz..."
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="Vergi Dairesi"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="vergiad"
-                placeholder="Vergi Dairesi Adını Giriniz"
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="Vergi No:"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="vergino"
-                placeholder="Vergi Numarası"
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label="E-Posta Adresi"
-              label-for="email"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="email"
-                v-model="email"
-                placeholder="E-posta Adresini Giriniz"
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label="Telefon No:"
-              label-for="telefon"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="telefon"
-                v-model="telefon"
-                placeholder="Firma Telefon Numarası"
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="Firma Şifresi:"
-              label-for="password"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="password"
-                v-model="password"
-                placeholder="Şifre Giriniz"
-              ></b-form-input>
-            </b-form-group>
-
-            <div style="float: right">
-              <b-button variant="success" type="submit" id="firmaekle">
-                Tamam
-              </b-button>
-            </div>
-            <div style="float: right; padding-right: 10px">
-              <b-button variant="danger" @click="form()"> İptal</b-button>
-            </div>
-          </b-form>
-        </b-card>
-      </b-modal>
 
       <router-view />
     </component>
@@ -138,8 +16,9 @@ import { watch } from "@vue/composition-api";
 import useAppConfig from "@core/app-config/useAppConfig";
 
 import { useWindowSize, useCssVar } from "@vueuse/core";
-import { BModal, BButton, BCard } from "bootstrap-vue";
-import axios from "@axios";
+import { BModal, BButton, BCard,BBreadcrumb,
+    BBreadcrumbItem, } from "bootstrap-vue";
+
 
 import store from "@/store";
 
@@ -168,7 +47,8 @@ export default {
     LayoutVertical,
     LayoutFull,
     BModal,
-    BButton,
+    BButton,BBreadcrumb,
+    BBreadcrumbItem,
     BCard,
   },
   // ! We can move this computed: layout & contentLayoutType once we get to use Vue 3
@@ -251,38 +131,7 @@ export default {
   },
 
   methods: {
-    submit() {
-      axios
-        .post("/api/firmaekle", {
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-          password: this.password,
-          vergino: this.vergino,
-          vergiad: this.vergiad,
-          firma_yetkilisi: this.firma_yetkilisi,
-          sgk: this.sgkno,
-          nace: this.nace,
-        })
-        .then((res) => this.refreshStop())
-        .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Firma İşlemleri `,
-              icon: "BriefcaseIcon",
-              variant: "danger",
-              text: ` İşlem Başarısız.`,
-            },
-          });
-        })
-        .then(this.form());
-    },
 
-    form() {
-      this.$refs["modal"].hide();
-    },
   },
 };
 </script>
