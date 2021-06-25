@@ -26,117 +26,171 @@
       title="Firma Ekle"
     >
       <b-card>
-        <b-form @submit.prevent="submit">
-          <b-form-group
-            label="İşyeri Ünvanı:"
-            label-for="isim"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="isim"
-              v-model="name"
-              placeholder="İş Yeri Adını Giriniz..."
-            ></b-form-input>
-          </b-form-group>
+        <validation-observer ref="registerForm" #default="{ invalid }">
+          <b-form @submit.prevent="submit">
+            <b-form-group
+              label="İşyeri Ünvanı:"
+              label-for="isim"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="İsim"
+                rules="required"
+              >
+                <b-form-input
+                  id="isim"
+                  :state="errors.length > 0 ? false : null"
+                  v-model="name"
+                  placeholder="İş Yeri Adını Giriniz..."
+                ></b-form-input>
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
 
-          <b-form-group
-            label="Firma Yetkilisi:"
-            label-for="isim"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="isim"
-              v-model="firma_yetkilisi"
-              placeholder="Firma Yetkilisinin Adını Giriniz..."
-            ></b-form-input>
-          </b-form-group>
+            <b-form-group
+              label="Firma Yetkilisi:"
+              label-for="isim"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="isim"
+                v-model="firma_yetkilisi"
+                placeholder="Firma Yetkilisinin Adını Giriniz..."
+              ></b-form-input>
+              <small class="text-danger">{{ errors[0] }}</small>
+            </b-form-group>
 
-          <b-form-group
-            label="SGK Sicil No:"
-            label-for="isim"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="isim"
-              v-model="sgkno"
-              placeholder="SGK Sicil Numarasını Giriniz..."
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="Vergi Dairesi"
-            label-for="isim"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="isim"
-              v-model="vergiad"
-              placeholder="Vergi Dairesi Adını Giriniz"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="Vergi No:"
-            label-for="isim"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="isim"
-              v-model="vergino"
-              placeholder="Vergi Numarası"
-            ></b-form-input>
-          </b-form-group>
+            <b-form-group
+              label="SGK Sicil No:"
+              label-for="isim"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="isim"
+                v-model="sgkno"
+                placeholder="SGK Sicil Numarasını Giriniz..."
+              ></b-form-input>
+              <small class="text-danger">{{ errors[0] }}</small>
+            </b-form-group>
 
-          <b-form-group
-            label="E-Posta Adresi"
-            label-for="email"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="email"
-              v-model="email"
-              placeholder="E-posta Adresini Giriniz"
-            ></b-form-input>
-          </b-form-group>
+            <b-form-group
+              label="Vergi Dairesi"
+              label-for="isim"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="isim"
+                v-model="vergiad"
+                placeholder="Vergi Dairesi Adını Giriniz"
+              ></b-form-input>
+              <small class="text-danger">{{ errors[0] }}</small>
+            </b-form-group>
 
-          <b-form-group
-            label="Telefon No:"
-            label-for="telefon"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="telefon"
-              v-model="telefon"
-              placeholder="Firma Telefon Numarası"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="Firma Şifresi:"
-            label-for="password"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="password"
-              v-model="password"
-              placeholder="Şifre Giriniz"
-            ></b-form-input>
-          </b-form-group>
+            <b-form-group
+              label="Vergi No:"
+              label-for="isim"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="isim"
+                v-model="vergino"
+                placeholder="Vergi Numarası"
+              ></b-form-input>
+              <small class="text-danger">{{ errors[0] }}</small>
+            </b-form-group>
 
-          <div style="float: right">
-            <b-button variant="success" type="submit" id="firmaekle">
-              Tamam
-            </b-button>
-          </div>
-          <div style="float: right; padding-right: 10px">
-            <b-button variant="danger" @click="form()"> İptal</b-button>
-          </div>
-        </b-form>
+            <b-form-group
+              label="E-Posta Adresi"
+              label-for="email"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="E-Posta"
+                rules="required|email"
+              >
+                <b-form-input
+                  id="email"
+                  :state="errors.length > 0 ? false : null"
+                  v-model="email"
+                  placeholder="E-posta Adresini Giriniz"
+                ></b-form-input>
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+            <b-form-group
+              label="Telefon No:"
+              label-for="telefon"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="telefon"
+                v-model="telefon"
+                placeholder="Firma Telefon Numarası"
+              ></b-form-input>
+            </b-form-group>
+            <small class="text-danger">{{ errors[0] }}</small>
+            <b-form-group
+              label="Firma Şifresi:"
+              label-for="password"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="Şifre"
+                rules="required|min:6"
+              >
+                <b-input-group
+                  class="input-group-merge"
+                  :class="errors.length > 0 ? 'is-invalid' : null"
+                >
+                  <b-form-input
+                    v-model="Şifre"
+                    class="form-control-merge"
+                    :type="passwordFieldType"
+                    :state="errors.length > 0 ? false : null"
+                    placeholder="············"
+                  />
+                  <b-input-group-append is-text>
+                    <feather-icon
+                      :icon="passwordToggleIcon"
+                      class="cursor-pointer"
+                      @click="togglePasswordVisibility"
+                    />
+                  </b-input-group-append>
+                </b-input-group>
+
+                <small class="text-danger">{{
+                  errors[0]
+                }}</small></validation-provider
+              >
+            </b-form-group>
+
+            <div style="float: right">
+              <b-button
+                variant="success"
+                block
+                type="submit"
+                :disabled="invalid"
+              >
+                Tamam
+              </b-button>
+            </div>
+            <div style="float: right; padding-right: 10px">
+              <b-button variant="danger" @click="form()"> İptal</b-button>
+            </div>
+          </b-form>
+        </validation-observer>
       </b-card>
     </b-modal>
     <b-card title="Sonuç Seçiniz">
@@ -154,7 +208,10 @@
         <option value="egitimler">Eğitimler</option>
       </b-form-select>
 
-      <b-button  v-if="show" variant="success" v-on:click="$refs['firmaekle'].show()"
+      <b-button
+        v-if="show"
+        variant="success"
+        v-on:click="$refs['firmaekle'].show()"
         >Firma Ekle
       </b-button>
     </b-card>
@@ -341,9 +398,14 @@ import {
   BTab,
   BButton,
   BFormSelect,
+  BInputGroup,
+  BInputGroupAppend,
   BFormGroup,
 } from "bootstrap-vue";
 
+import { required } from "@validations";
+import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 import individual from "./individual";
 import client from "./client";
 
@@ -373,10 +435,16 @@ export default {
     BLink,
     BBreadcrumb,
     BBreadcrumbItem,
+    ValidationProvider,
+    ValidationObserver,
+    BInputGroup,
+    BInputGroupAppend,
     BForm,
     BFormInput,
     BTabs,
     BTab,
+    togglePasswordVisibility,
+    required,
     BButton,
     BFormSelect,
     ToastificationContent,
@@ -398,6 +466,7 @@ export default {
     ilkyardimfirma,
     FeatherIcon,
   },
+  mixins: [togglePasswordVisibility],
   data() {
     return {
       show: true,
@@ -412,6 +481,7 @@ export default {
       role: "",
       telefon: "",
       password: "",
+      errors: [],
     };
   },
   created() {
@@ -427,6 +497,11 @@ export default {
     return {
       userData,
     };
+  },
+  computed: {
+    passwordToggleIcon() {
+      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
+    },
   },
 
   methods: {

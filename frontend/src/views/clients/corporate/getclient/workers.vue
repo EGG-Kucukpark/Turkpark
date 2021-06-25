@@ -1,9 +1,5 @@
 <template>
-  <b-card-actions
-    ref="cardAction"
-    @refresh="refreshStop('cardAction')"
-    title="Kullanıcı Listesi"
-  >
+  <b-card title="Çalışan Listesi">
     <!-- input search -->
     <div class="custom-search d-flex justify-content-end">
       <b-form-group>
@@ -50,7 +46,7 @@
           size="lg"
           ref="modal1"
           centered
-          title="Firma Ekle"
+          title="Çalışan Ekle"
         >
           <b-card>
             <b-form @submit.prevent="submit">
@@ -95,7 +91,7 @@
 
               <div style="float: right">
                 <b-button variant="success" @click="form()" type="submit">
-                  Çalışan Ekle
+                  Tamam
                 </b-button>
               </div>
               <div style="float: right; padding-right: 10px">
@@ -151,7 +147,7 @@
               <b-dropdown-item
                 :to="{ name: 'calisan-goster', params: { id: props.row.id } }"
               >
-                <feather-icon icon="TrashIcon" class="mr-50" />
+                <feather-icon icon="ImageIcon" class="mr-50" />
                 <span>Göster</span>
               </b-dropdown-item>
               <b-dropdown-item @click="Modal2(props.row)">
@@ -165,7 +161,7 @@
                 :hide-footer="true"
                 size="lg"
                 centered
-                title="Araç Düzenle"
+                title="Çalışan Düzenle"
                 ref="modal2"
               >
                 <b-card>
@@ -209,40 +205,9 @@
                       ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group
-                      label="Yetki Seçiniz: "
-                      label-for="nested-city"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-select
-                        aria-placeholder="Sürücü Seçiniz"
-                        v-model="role"
-                      >
-                        <option disabled value="">Lütfen Seçim Yapınız</option>
-                        <option>Admin</option>
-                        <option>Uzman</option>
-                        <option>Hekim</option>
-                        <option>Firma</option>
-                      </b-form-select>
-                    </b-form-group>
-                    <b-form-group
-                      label="Kullanıcı Durumu: "
-                      label-for="nested-city"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-select v-model="status">
-                        <option disabled value="">Lütfen Seçim Yapınız</option>
-                        <option value="1">Aktif</option>
-                        <option value="2">Beklemede</option>
-                        <option value="3">Red</option>
-                      </b-form-select>
-                    </b-form-group>
-
                     <div style="float: right">
-                      <b-button variant="success" type="submit" @click="form()">
-                        Düzenle
+                      <b-button variant="success" type="submit">
+                        Tamam
                       </b-button>
                     </div>
                     <div style="float: right; padding-right: 10px">
@@ -311,7 +276,7 @@
     <template #code>
       {{ codeColumnSearch }}
     </template>
-  </b-card-actions>
+  </b-card>
 </template>
 
 <script>
@@ -407,13 +372,12 @@ export default {
       password: "",
       id: this.userData.id,
       searchTerm: "",
-
+      workerid: null,
       show: false,
     };
   },
   created() {
-      console.log(this.userData)
-
+    console.log(this.userData);
 
     axios
       .post("/api/calisanlar", { firma_email: this.userData.email })
@@ -423,7 +387,7 @@ export default {
   },
 
   methods: {
-    refreshStop(cardName) {
+    refreshStop() {
       setTimeout(() => {
         axios
           .post("/api/calisanlar", { firma_email: this.userData.email })
@@ -438,17 +402,14 @@ export default {
                 title: `Firma Ekleme `,
                 icon: "BriefcaseIcon",
                 variant: "success",
-                text: `Ekleme İşlemi Başarılı.`,
+                text: `Firma İşlemi Başarılı.`,
               },
             })
           );
-        this.$refs[cardName].showLoading = false;
       }, 500);
     },
 
     submit() {
-
-
       axios
         .post("/api/calisanekle", {
           firma_email: this.userData.email,
@@ -465,7 +426,7 @@ export default {
               title: `Firma Ekleme `,
               icon: "BriefcaseIcon",
               variant: "danger",
-              text: `Ekleme İşlemi Başarısız.`,
+              text: `Firma İşlemi Başarısız.`,
             },
           });
         });
@@ -486,48 +447,47 @@ export default {
 
     update() {
       axios
-        .post("api/userupdate", {
+        .post("/api/calisanduzenle", {
           userid: this.userid,
           name: this.name,
           email: this.email,
           telefon: this.telefon,
-          role: this.role,
-          status: this.status,
         })
-        .then(
-          axios.post("/api/users").then((response) => {
-            this.rows = response.data;
+        .then((res) => this.refreshStop(), this.form())
+        .catch((error) =>
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: `Firma Ekleme `,
+              icon: "BriefcaseIcon",
+              variant: "danger",
+              text: `Firma İşlemi Başarısız.`,
+            },
           })
-        )
-        .then(
-          this.$refs["modal2"].hide(),
-          (this.Arac_ismi = ""),
-          (this.Model = ""),
-          (this.Plaka = ""),
-          (this.GsmNo = ""),
-          (this.Arac_Tipi = ""),
-          (this.DeviceName = ""),
-          (this.surucuadi = "")
+        );
+    },
+
+    deleteRow(data) {
+      axios
+        .post("/api/workersil", { id: data })
+        .then(this.refreshStop(), this.form())
+        .catch((error) =>
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: `Firma Ekleme `,
+              icon: "BriefcaseIcon",
+              variant: "danger",
+              text: `Ekleme İşlemi Başarısız.`,
+            },
+          })
         );
     },
 
     form() {
-      this.$refs["modal1"].hide(),
-        this.$refs["modal2"].hide(),
-        (this.Name = ""),
-        (this.TC = ""),
-        (this.Telefon = ""),
-        (this.S_No = ""),
-        (this.Selected = ""),
-        (this.Sk_No = ""),
-        (this.id = ""),
-        (this.Arac_ismi = ""),
-        (this.Model = ""),
-        (this.Plaka = ""),
-        (this.GsmNo = ""),
-        (this.Arac_Tipi = ""),
-        (this.DeviceName = ""),
-        (this.surucuadi = "");
+      this.$refs["modal1"].hide(), this.$refs["modal2"].hide();
     },
   },
 

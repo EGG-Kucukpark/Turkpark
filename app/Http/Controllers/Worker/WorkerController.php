@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Worker;
+
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -11,9 +12,9 @@ class WorkerController extends Controller
 {
     function workers(Request $request)
     {
-        if($request->q){
+        if ($request->q) {
 
-            return DB::table('workers')->where([['firma_email', $request->firma_email],['name', 'LIKE', '%' . $request->q . '%']])->get();
+            return DB::table('workers')->where([['firma_email', $request->firma_email], ['name', 'LIKE', '%' . $request->q . '%']])->get();
         }
 
 
@@ -84,7 +85,7 @@ class WorkerController extends Controller
     public function getfile(Request $request)
     {
 
-         if ($request->status === 1) {
+        if ($request->status === 1) {
 
             return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
@@ -94,13 +95,32 @@ class WorkerController extends Controller
             return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         }
-
-
-
     }
 
 
+    function calisanduzenle(Request $request)
+    {
 
+        try {
+            DB::table('workers')->where('id', $request->userid)->update([
+
+                'name' => $request->name,
+                'email' => $request->email,
+                'telefon' => $request->telefon,
+
+            ]);
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
+
+    function workersil(Request $request){
+        try {
+            DB::table('workers')->where('id', $request->id)->delete();
+        } catch (Exception $exception) {
+            return $exception;
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     public function showfile(Request $request)

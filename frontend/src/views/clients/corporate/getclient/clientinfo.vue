@@ -48,23 +48,7 @@
             </div>
           </div>
 
-          <div class="d-flex align-items-center">
-            <b-avatar
-              variant="light-success"
-              rounded
-            >
-              <feather-icon
-                icon="TrendingUpIcon"
-                size="18"
-              />
-            </b-avatar>
-            <div class="ml-1">
-              <h5 class="mb-0">
-                $99.87k
-              </h5>
-              <small>Annual Profit</small>
-            </div>
-          </div>
+
         </div>
       </b-col>
 
@@ -164,7 +148,7 @@ return{
   },
   created(){
 axios
-      .post("/api/calisanlar", { firma_id: this.userData.id })
+      .post("/api/calisanlar", { firma_email: this.userData.email })
       .then((response) => {
         this.calisan = response.data;
       });

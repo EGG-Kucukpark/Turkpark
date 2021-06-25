@@ -84,6 +84,8 @@ route::post('bireyseller', [clientController::class, 'getindividual']);
 Route::get('calisangoster/{id}', [WorkerController::class, 'worker']);
 Route::post('calisanlar', [WorkerController::class, 'workers']);
 route::post('calisanekle', [WorkerController::class, 'addworker']);
+route::post('calisanduzenle', [WorkerController::class, 'calisanduzenle']);
+Route::post('workersil', [WorkerController::class, 'workersil'] );
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Dosya İşlemleri
