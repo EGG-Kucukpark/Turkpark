@@ -59,7 +59,7 @@
               <b-row v-for="(form, index) in form" :key="form.id">
                 <!-- Item Name -->
                 <b-col md="4">
-                   <b-form-select v-model="form.rapor">
+                  <b-form-select v-model="form.rapor">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option v-for="raporlar in raporlar" :key="raporlar.id">
                       {{ raporlar.name }}
@@ -95,6 +95,8 @@
                     variant="danger"
                     @click.prevent="delField(index)"
                     class="btn-icon"
+                    v-b-tooltip.hover.v-danger
+                    title="Danger variant"
                   >
                     <feather-icon icon="DeleteIcon" />
                   </b-button>
@@ -164,28 +166,46 @@
         >
           <template #cell(actions)="data">
             <span>
+
+
+
+
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
+                  v-b-tooltip.hover.v-warning
+                title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
               </b-button>
+
+
+
+
+
+
+
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
                 class="btn-icon"
+                v-b-tooltip.hover.v-danger
+                title="Arşivle"
               >
                 <feather-icon icon="ArchiveIcon" />
               </b-button>
+
 
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
+                 v-b-tooltip.hover.v-success
+                title="İndir"
               >
                 <feather-icon icon="DownloadIcon" />
               </b-button>
@@ -224,6 +244,7 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import ripple from "vue-ripple-directive";
 
 import {
   BTable,
@@ -241,6 +262,7 @@ import {
   BCard,
   BModal,
   BForm,
+  VBTooltip,
   BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
@@ -263,7 +285,12 @@ export default {
     BModal,
     ToastificationContent,
     BForm,
+    VBTooltip,
     BFormFile,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
+    ripple,
   },
   props: {
     userData: {
@@ -306,6 +333,7 @@ export default {
       warn: false,
       firmaselected: "",
       calisan: "",
+      raporlar: "",
 
       form: [{ rapor: "", file: "", Selected2: "" }],
     };
@@ -320,7 +348,7 @@ export default {
     },
   },
   created() {
-      axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
+    axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
     if (user.role === "Client") {

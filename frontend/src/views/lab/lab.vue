@@ -183,6 +183,7 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import ripple from 'vue-ripple-directive'
 
 import { ref } from "@vue/composition-api";
 import {

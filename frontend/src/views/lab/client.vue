@@ -227,11 +227,13 @@
 
           <template #cell(actions)="data">
             <span>
-              <b-button
+             <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
+                  v-b-tooltip.hover.v-warning
+                title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
               </b-button>
@@ -240,6 +242,8 @@
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
                 class="btn-icon"
+                v-b-tooltip.hover.v-danger
+                title="Arşivle"
               >
                 <feather-icon icon="ArchiveIcon" />
               </b-button>
@@ -249,6 +253,8 @@
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
+                 v-b-tooltip.hover.v-success
+                title="İndir"
               >
                 <feather-icon icon="DownloadIcon" />
               </b-button>
@@ -288,8 +294,8 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
-import Ripple from "vue-ripple-directive";
 
 import {
   BTable,
@@ -304,6 +310,7 @@ import {
   BFormInput,
   BInputGroupAppend,
   BButton,
+  VBTooltip,
   BCard,
   BModal,
   BForm,
@@ -324,6 +331,7 @@ export default {
     BPagination,
     BInputGroup,
     BFormInput,
+    VBTooltip,
     BInputGroupAppend,
     BButton,
     BCard,
@@ -331,9 +339,13 @@ export default {
     ToastificationContent,
     BForm,
     BFormFile,
-    Ripple,
+    ripple,
     heightTransition,
     BAlert,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
+    ripple,
   },
   props: {
     userData: {

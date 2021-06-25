@@ -57,7 +57,7 @@
 
 <script>
 import axios from "@axios";
-import Ripple from "vue-ripple-directive";
+import ripple from "vue-ripple-directive";
 import {
   BListGroup,
   BListGroupItem,
