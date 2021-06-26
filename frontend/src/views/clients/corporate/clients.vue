@@ -64,7 +64,7 @@
                     <validation-provider
                       #default="{ errors }"
                       name="İsim"
-                      rules="required"
+                      rules="required|alpha"
                     >
                       <b-form-input
                         id="isim"
@@ -95,13 +95,18 @@
                     label-for="isim"
                     label-cols-sm="3"
                     label-align-sm="right"
-                  >
+                  > <validation-provider
+                      #default="{ errors }"
+                      name="Sgk Sicil No"
+                      rules="alpha"
+                    >
                     <b-form-input
                       id="isim"
                       v-model="sgkno"
                       placeholder="SGK Sicil Numarasını Giriniz..."
                     ></b-form-input>
                     <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
                   </b-form-group>
 
                   <b-form-group
@@ -250,6 +255,8 @@
                   variant="warning"
                   @click="Modal2(data.item)"
                   class="btn-icon"
+                   v-b-tooltip.hover.v-warning
+                    title="Düzenle"
                 >
                   <feather-icon icon="EditIcon" />
                 </b-button>
@@ -371,6 +378,8 @@
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="danger"
                   @click.prevent="arsiv(data.item)"
+                   v-b-tooltip.hover.v-danger
+                    title="Arşivle"
                   class="btn-icon"
                 >
                   <feather-icon icon="ArchiveIcon" /> </b-button
@@ -408,13 +417,14 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import Ripple from 'vue-ripple-directive'
 
 import {
   BTable,
   BAvatar,
   BBreadcrumb,
   BBreadcrumbItem,
-  BBadge,
+  BBadge,VBTooltip,
   BRow,
   BCol,
   BFormGroup,
@@ -437,7 +447,8 @@ export default {
     BTable,
     BAvatar,
     BBadge,
-    BRow,
+    BRow,VBTooltip
+    ,
     BCol,
     BBreadcrumb,
     BBreadcrumbItem,
@@ -458,6 +469,10 @@ export default {
     required,
   },
   mixins: [togglePasswordVisibility],
+  directives: {
+    'b-tooltip': VBTooltip,
+    Ripple,
+  },
   data() {
     return {
       errors: [],

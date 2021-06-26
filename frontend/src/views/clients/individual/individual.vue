@@ -108,14 +108,21 @@
           :filter-included-fields="filterOn"
           @row-clicked="tikla"
           @filtered="onFiltered"
-           show-empty
+          show-empty
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
         >
           <template #cell(actions)="data">
             <span>
-              <b-button variant="gradient-warning" @click="Modal2(data.item)">
-                Düzenle
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="warning"
+                @click="Modal2(data.item)"
+                class="btn-icon"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
+              >
+                <feather-icon icon="EditIcon" />
               </b-button>
               <b-modal
                 hide-header-close
@@ -181,10 +188,16 @@
                 </b-card>
               </b-modal>
 
-              <b-button variant="gradient-danger" disabled>
-                Sil
-              </b-button></span
-            >
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="danger"
+                @click.prevent="arsiv(data.item)"
+                v-b-tooltip.hover.v-danger
+                title="Arşivle"
+                class="btn-icon"
+              >
+                <feather-icon icon="ArchiveIcon" /> </b-button
+            ></span>
           </template>
         </b-table>
       </b-col>
@@ -217,7 +230,7 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-
+import Ripple from 'vue-ripple-directive'
 import {
   BTable,
   BAvatar,
@@ -232,7 +245,7 @@ import {
   BInputGroupAppend,
   BButton,
   BCard,
-  BModal,
+  BModal,VBTooltip,
   BForm,
 } from "bootstrap-vue";
 import axios from "@axios";
@@ -247,7 +260,7 @@ export default {
     BFormGroup,
     BFormSelect,
     BPagination,
-    BInputGroup,
+    BInputGroup,VBTooltip,
     BFormInput,
     BInputGroupAppend,
     BButton,
@@ -255,6 +268,9 @@ export default {
     BModal,
     ToastificationContent,
     BForm,
+  }, directives: {
+    'b-tooltip': VBTooltip,
+    Ripple,
   },
   data() {
     return {
@@ -283,7 +299,7 @@ export default {
       name: "",
       email: "",
       telefon: "",
-      userid:'',
+      userid: "",
 
       show: false,
     };
@@ -329,6 +345,7 @@ export default {
           );
       }, 1000);
     },
+    arsiv() {},
 
     tikla(params) {
       this.$router.push({
@@ -356,7 +373,8 @@ export default {
               text: ` İşlem Başarısız.`,
             },
           });
-        }).then(this.form())
+        })
+        .then(this.form());
     },
 
     Modal1() {
@@ -379,7 +397,8 @@ export default {
           email: this.email,
           telefon: this.telefon,
         })
-        .then(this.refreshStop()).then(this.form())
+        .then(this.refreshStop())
+        .then(this.form());
     },
 
     form() {
