@@ -6,6 +6,12 @@ export default [
         route: 'firma',
         icon: 'HomeIcon',
     },
+    {
+
+        title: 'Çalışanlar',
+        route: 'calisanlar',
+        icon: 'UserIcon',
+    },
 
 
     {
@@ -74,13 +80,44 @@ export default [
 
 
         ],
-    }, {
-        title: 'Sonuçlar',
-        route: 'results',
+    },
+
+
+    {
+        title: 'Sonuçlar & Belgeler',
         icon: 'HeartIcon',
+        children: [
+
+            {
+                title: 'Laboratuvar',
+
+            }, {
+                title: 'Asansör',
+
+            }, {
+                title: 'Ortam Ölçümleri',
+
+            }, {
+                title: 'Periyodik Kontroller',
+
+            }, {
+                title: 'İlk  Yardım',
+
+            }, {
+                title: 'Eğitimler',
+
+            },
 
 
-    }, {
+        ]
+
+
+    },
+
+
+
+
+    {
         title: 'Takvim',
         route: 'apps-calendar',
         icon: 'CalendarIcon',
