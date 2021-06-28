@@ -95,18 +95,13 @@
                     label-for="isim"
                     label-cols-sm="3"
                     label-align-sm="right"
-                  > <validation-provider
-                      #default="{ errors }"
-                      name="Sgk Sicil No"
-                      rules="alpha"
-                    >
+                  >
                     <b-form-input
                       id="isim"
                       v-model="sgkno"
                       placeholder="SGK Sicil Numarasını Giriniz..."
                     ></b-form-input>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                    </validation-provider>
+
                   </b-form-group>
 
                   <b-form-group
@@ -143,18 +138,13 @@
                     label-cols-sm="3"
                     label-align-sm="right"
                   >
-                    <validation-provider
-                      #default="{ errors }"
-                      name="E-Posta"
-                      rules="required|email"
-                    >
+
                       <b-form-input
                         id="email" :state="errors.length > 0 ? false : null"
                         v-model="email"
                         placeholder="E-posta Adresini Giriniz"
                       ></b-form-input>
-                      <small class="text-danger">{{ errors[0] }}</small>
-                    </validation-provider>
+
                   </b-form-group>
 
                   <b-form-group
@@ -176,11 +166,7 @@
                     label-cols-sm="3"
                     label-align-sm="right"
                   >
-                    <validation-provider
-                      #default="{ errors }"
-                      name="Şifre"
-                      rules="required|min:6"
-                    >
+
                       <b-input-group
                         class="input-group-merge"
                         :class="errors.length > 0 ? 'is-invalid' : null"
@@ -201,10 +187,7 @@
                         </b-input-group-append>
                       </b-input-group>
 
-                      <small class="text-danger">{{
-                        errors[0]
-                      }}</small></validation-provider
-                    >
+
                   </b-form-group>
 
                   <div style="float: right">

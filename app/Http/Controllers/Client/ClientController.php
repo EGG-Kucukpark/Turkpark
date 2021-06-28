@@ -48,18 +48,8 @@ class ClientController extends Controller
         return response()->json($a);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public function getnace()
-    {
 
 
-        //$a = DB::table('nace')->where('kod', '910202')->delete();
-        $a = DB::table('nace')->get();
-
-
-        return response($a);
-    }
     ////////////////////////////////////////////////////////////////////////////////////
 
     public function addclient(Request $request)
@@ -102,7 +92,7 @@ class ClientController extends Controller
 
             ]);
 
-            /* DB::table('users')->insert([
+           /* DB::table('users')->insert([
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => 'Firma',
@@ -113,6 +103,8 @@ class ClientController extends Controller
                 'status' => '1',
             ]);
             */
+
+
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }
@@ -125,7 +117,7 @@ class ClientController extends Controller
     public function addindividual(Request $request)
     {
         try {
-            DB::table('users')->insert([
+            /*DB::table('users')->insert([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt("test"),
@@ -133,7 +125,7 @@ class ClientController extends Controller
                 'telefon' => $request->telefon,
                 'email_verified_at' => now(),
                 'status' => '2',
-            ]);
+            ]);*/
 
             $a = DB::table('individual')->insert([
                 'name' => $request->name,
@@ -152,7 +144,7 @@ class ClientController extends Controller
     public function editindividual(Request $request)
     {
         try {
-            DB::table('users')->where('id', $request->id)->update([
+            /*DB::table('users')->where('id', $request->id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => 'Firma',
@@ -160,7 +152,7 @@ class ClientController extends Controller
                 'email_verified_at' => now(),
                 'created_at' => now(),
                 'status' => '1',
-            ]);
+            ]);*/
 
             $a = DB::table('individual')->where('id', $request->id)->insert([
                 'name' => $request->name,
