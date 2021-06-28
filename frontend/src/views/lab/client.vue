@@ -153,7 +153,7 @@
                 </b-button>
               </div>
 
-                <pre>{{ $data.form | json }}</pre>
+
               <div style="float: right">
                 <b-button variant="success" type="submit">
                   Rapor Ekle
