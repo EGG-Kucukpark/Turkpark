@@ -90,21 +90,26 @@ export default [
 
             {
                 title: 'Laboratuvar',
+                route:'laboratuvar'
 
             }, {
                 title: 'Asansör',
+                route:'asansor'
 
             }, {
                 title: 'Ortam Ölçümleri',
+                route: 'ortam'
 
             }, {
                 title: 'Periyodik Kontroller',
-
+                route:'periyodik'
             }, {
-                title: 'İlk  Yardım',
+                title: 'İlk Yardım',
+                route: 'ilkyardim'
 
             }, {
                 title: 'Eğitimler',
+                route: 'egitimler'
 
             },
 

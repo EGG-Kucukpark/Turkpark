@@ -10,15 +10,18 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    public function raporlar(){
-       return DB::table('reports')->get();
+    public function raporlar()
+    {
+        return DB::table('reports')->get();
     }
-    public function raporekle(Request $request){
+    public function raporekle(Request $request)
+    {
         DB::table('reports')->insert([
             'name' => $request->name
         ]);
     }
-    public function raporsil(Request $request){
+    public function raporsil(Request $request)
+    {
         DB::table('reports')->where('id', $request->id)->delete();
     }
 
@@ -161,10 +164,12 @@ class FileController extends Controller
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 7) {
             return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1']])->get();
+        } else if ($request->status === 8) {
+            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '0']])->get();
         } else {
 
             try {
-                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1'], ['isArch', '0'] ])
+                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1'], ['isArch', '0']])
                     ->orwhere('calisan_id', $request->calisan_id)->get();
             } catch (Exception $ex) {
                 return $ex;
@@ -200,7 +205,7 @@ class FileController extends Controller
         } else {
 
             try {
-                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1'], ['isArch', '1'] ])
+                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1'], ['isArch', '1']])
                     ->orwhere('calisan_id', $request->calisan_id)->get();
             } catch (Exception $ex) {
                 return $ex;
@@ -229,10 +234,12 @@ class FileController extends Controller
         }
     }
 
-    public function arsiv(Request $request){
+    public function arsiv(Request $request)
+    {
 
         DB::table('files')->where('id', $request->id)->update([
-            'isArch' => '1']);
+            'isArch' => '1'
+        ]);
     }
 
     public function importsertf(Request $request)
