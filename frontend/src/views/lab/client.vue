@@ -481,10 +481,6 @@ export default {
         axios.post("/api/firmalar").then((response) => {
           this.firma = response.data;
         });
-
-        setTimeout(() => {
-          this.formcikis();
-        }, 5500);
       } else {
         this.refreshStop();
       }
@@ -492,7 +488,6 @@ export default {
 
     basarisiz() {
       var data = document.getElementById("basarisiz").value;
-
 
       this.$toast({
         component: ToastificationContent,
@@ -542,6 +537,8 @@ export default {
           rapor: "",
           file: "",
           Selected2: this.Selected.firma_email,
+          variant: "success",
+          dgr: 0,
         });
 
         this.prog.push();
@@ -571,6 +568,8 @@ export default {
         if (form.calisanselected === "") {
           document.getElementById("basarisiz").value =
             "Çalışan veya Firma Girilmedi.";
+          form.variant = "danger";
+          form.dgr = 100;
 
           document.getElementById("basarisiz").click();
         } else {
@@ -594,12 +593,13 @@ export default {
                 (form.dgr = 100)
               )
               .catch((error) => {
+                form.dgr = 100;
+                form.variant = "danger";
+
                 if (error.response.data.error === undefined) {
-                  (form.dgr = 100)((form.variant = "danger"));
                   document.getElementById("basarisiz").value = "";
                   document.getElementById("basarisiz").click();
                 } else {
-                  (form.dgr = 100)((form.variant = "danger"));
                   document.getElementById("basarisiz").value ===
                     error.response.data.error,
                     document.getElementById("basarisiz").click();
@@ -608,6 +608,10 @@ export default {
           }, (time += 1000));
         }
       });
+
+      setTimeout(() => {
+        this.formcikis();
+      }, 6000);
     },
 
     select() {
@@ -634,9 +638,9 @@ export default {
     formcikis() {
       this.dgr = 0;
       this.$refs["modal"].hide();
-      this.file == null;
-      this.firmaselected == null;
-      this.calisanselected == null;
+      this.form.file === null;
+      this.form.calisanselected === null;
+      this.form.rapor === null;
     },
 
     indir(dosya) {
