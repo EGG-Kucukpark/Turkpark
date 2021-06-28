@@ -346,6 +346,19 @@
                       </b-form-group>
 
                       <b-form-group
+                        label="Firma Şifresi"
+                        label-for="isim"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                      >
+                        <b-form-input
+                          id="isim"
+                          v-model="password"
+                          placeholder="........"
+                        ></b-form-input>
+                      </b-form-group>
+
+                      <b-form-group
                         label="Telefon No:"
                         label-for="telefon"
                         label-cols-sm="3"

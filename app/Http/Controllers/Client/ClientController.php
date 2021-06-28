@@ -65,16 +65,7 @@ class ClientController extends Controller
     public function addclient(Request $request)
     {
         try {
-            DB::table('users')->insert([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => 'Firma',
-                'telefon' => $request->telefon,
-                'email_verified_at' => now(),
-                'created_at' => now(),
-                'password' => bcrypt($request->password),
-                'status' => '1',
-            ]);
+
 
             $a = DB::table('clients')->insert([
                 'name' => $request->name,
@@ -91,7 +82,7 @@ class ClientController extends Controller
 
             return $a;
         } catch (Exception $exception) {
-            return $exception;
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
     public function firmaduzenle(Request $request)
@@ -111,7 +102,17 @@ class ClientController extends Controller
 
             ]);
 
-
+            /* DB::table('users')->insert([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'Firma',
+                'telefon' => $request->telefon,
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'password' => bcrypt($request->password),
+                'status' => '1',
+            ]);
+            */
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }

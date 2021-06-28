@@ -111,19 +111,12 @@
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="E-Posta"
-                rules="required|email"
-              >
-                <b-form-input
-                  id="email"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <b-form-input
+                id="email"
+                :state="errors.length > 0 ? false : null"
+                v-model="email"
+                placeholder="E-posta Adresini Giriniz"
+              ></b-form-input>
             </b-form-group>
 
             <b-form-group
@@ -138,42 +131,32 @@
                 placeholder="Firma Telefon Numarası"
               ></b-form-input>
             </b-form-group>
-            <small class="text-danger">{{ errors[0] }}</small>
+
             <b-form-group
               label="Firma Şifresi:"
               label-for="password"
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <validation-provider
-                #default="{ errors }"
-                name="Şifre"
-                rules="required|min:6"
+              <b-input-group
+                class="input-group-merge"
+                :class="errors.length > 0 ? 'is-invalid' : null"
               >
-                <b-input-group
-                  class="input-group-merge"
-                  :class="errors.length > 0 ? 'is-invalid' : null"
-                >
-                  <b-form-input
-                    v-model="Şifre"
-                    class="form-control-merge"
-                    :type="passwordFieldType"
-                    :state="errors.length > 0 ? false : null"
-                    placeholder="············"
+                <b-form-input
+                  v-model="Şifre"
+                  class="form-control-merge"
+                  :type="passwordFieldType"
+                  :state="errors.length > 0 ? false : null"
+                  placeholder="············"
+                />
+                <b-input-group-append is-text>
+                  <feather-icon
+                    :icon="passwordToggleIcon"
+                    class="cursor-pointer"
+                    @click="togglePasswordVisibility"
                   />
-                  <b-input-group-append is-text>
-                    <feather-icon
-                      :icon="passwordToggleIcon"
-                      class="cursor-pointer"
-                      @click="togglePasswordVisibility"
-                    />
-                  </b-input-group-append>
-                </b-input-group>
-
-                <small class="text-danger">{{
-                  errors[0]
-                }}</small></validation-provider
-              >
+                </b-input-group-append>
+              </b-input-group>
             </b-form-group>
 
             <div style="float: right">
