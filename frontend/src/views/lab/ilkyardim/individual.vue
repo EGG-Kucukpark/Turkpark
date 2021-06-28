@@ -55,12 +55,29 @@
           title="Rapor Ekle"
         >
           <b-card>
-            <b-form @submit.prevent="submit">
+            <b-form @submit.prevent="submit"><b-progress
+                max="100"
+                style="margin: 10px"
+                v-for="form in form"
+                name="progress"
+                :key="form.id"
+                :value="form.dgr"
+                striped
+                animated
+                :variant="form.variant"
+                class="progress-bar-success"
+              />
+
               <b-row v-for="(form, index) in form" :key="form.id">
                 <!-- Item Name -->
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option disabled v-if="form.Selected2 != null" value="">
+                      Lütfen Rapor Tipini Seçiniz
+                    </option>
+                    <option disabled v-if="form.Selected2 === null" value="">
+                      Lütfen Kişi Seçiniz
+                    </option>
                     <option v-for="raporlar in raporlar" :key="raporlar.id">
                       {{ raporlar.name }}
                     </option>
@@ -90,11 +107,13 @@
                 </b-form-select>
 
                 <b-col >
-                  <b-button
+                <b-button
                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                     variant="danger"
                     @click.prevent="delField(index)"
                     class="btn-icon"
+                    v-b-tooltip.hover.v-danger
+                    title="Satırı Kaldır"
                   >
                     <feather-icon icon="DeleteIcon" />
                   </b-button>
@@ -116,14 +135,16 @@
                     </div>
                   </b-alert>
                 </span>
-              <b-button
+             <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="info"
                   @click="addField"
+                  v-b-tooltip.hover.v-info
+                  title="Satır Ekle"
                   class="btn-icon"
                 >
                   <feather-icon size="20px;" icon="PlusIcon" />
-                 </b-button>
+                </b-button>
               </div>
               <div style="float: right">
                 <b-button variant="success" type="submit">
@@ -243,7 +264,8 @@ import {
   BPagination,
   BInputGroup,
   BFormInput,
-  BInputGroupAppend,
+  BInputGroupAppend,  BAlert,
+  BProgress,
   BButton,
   BCard,
   BModal,
@@ -266,7 +288,8 @@ export default {
     BFormInput,
     BInputGroupAppend,
     BButton,
-    BCard,
+    BCard,  BAlert,
+  BProgress,
     BModal,
     ToastificationContent,
     BForm,
@@ -317,7 +340,7 @@ export default {
       firmaselected: "",
       calisan: "",
 
-      form: [{ rapor: "", file: "", Selected2: "" }],
+      form: [{ rapor: "", file: "", Selected2: null }],
     };
   },
 
@@ -407,35 +430,50 @@ export default {
       var form = this.form;
       var time = 1000;
 
-      form.forEach(function (form) {
-        const formData = new FormData();
+
+    form.forEach(function (form) {
+
+        if ((form.Selected2 === null)) {
+        document.getElementById("basarisiz").value = "Kişi Seçilmedi";
+        document.getElementById("basarisiz").click();
+        form.dgr = 100;
+        form.variant = "danger";
+      }else{ const formData = new FormData();
         formData.set("file", form.file);
         formData.append("id", form.Selected2.id);
         formData.append("name", form.Selected2.name);
         formData.append("firma_email", form.Selected2.email);
         formData.append("rapor", form.rapor);
-        formData.append('status', '2');
+        formData.append('status', '2');  form.variant = "success";
+          form.dgr = 50;
 
 
         setTimeout(() => {
           axios
             .post("api/belgeyukle", formData)
-            .then((res) => document.getElementById("basarili2").click())
-            .catch((error) => {
+            .then((res) => document.getElementById("basarili2").click(),form.dgr = 100)
+            .catch((error) => {form.dgr = 100;
+                form.variant = "danger";
               (document.getElementById("basarisiz").value =
                 error.response.data.error),
                 console.log(document.getElementById("basarisiz2").value),
                 document.getElementById("basarisiz").click();
             });
-        }, (time += 1000));
+        }, (time += 1000));}
+
       });
 
-      this.formcikis();
+    setTimeout(() => {
+        this.formcikis();
+      }, 6000);
     },
     select() {
       var email = this.Selected.firma.email;
 
-      this.form[0].Selected2 = this.Selected.firma;
+       this.form[0].Selected2 = this.Selected.firma;
+      this.form[1].Selected2 = this.Selected.firma;
+      this.form[2].Selected2 = this.Selected.firma;
+      this.form[3].Selected2 = this.Selected.firma;
 
       axios
         .post("/api/calisanlar", { firma_email: email })
@@ -451,8 +489,7 @@ export default {
     formcikis() {
       this.$refs["modal"].hide();
       this.file == null;
-      this.firmaselected == null;
-      this.calisanselected == null;
+ this.form.Selected2 = null;
     },
 
     indir(dosya) {
@@ -482,7 +519,8 @@ export default {
         this.form.push({
           rapor: "",
           file: "",
-          Selected2: this.Selected.firma,
+          Selected2: this.Selected.firma, dgr: 0,
+          variant: "success",
         });
       }
     },

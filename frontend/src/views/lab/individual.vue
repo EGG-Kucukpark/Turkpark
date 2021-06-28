@@ -39,7 +39,7 @@
 
       <span>
         <b-button
-        v-if="show"
+          v-if="show"
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
@@ -57,11 +57,39 @@
         >
           <b-card>
             <b-form @submit.prevent="submit">
+              <b-progress
+                max="100"
+                style="margin: 10px"
+                v-for="form in form"
+                name="progress"
+                :key="form.id"
+                :value="form.dgr"
+                striped
+                animated
+                :variant="form.variant"
+                class="progress-bar-success"
+              />
+
               <b-row v-for="(form, index) in form" :key="form.id">
-                <!-- Item Name -->
+                <b-form-select style="display: none" v-model="form.Selected2">
+                  <option
+                    v-bind:value="{ firma: firma }"
+                    v-for="firma in firma"
+                    :key="firma.id"
+                  >
+                    {{ firma.name }}
+                  </option>
+                </b-form-select>
+
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option disabled v-if="form.Selected2 != null" value="">
+                      Lütfen Rapor Tipini Seçiniz
+                    </option>
+                    <option disabled v-if="form.Selected2 === null" value="">
+                      Lütfen Kişi Seçiniz
+                    </option>
+
                     <option v-for="raporlar in raporlar" :key="raporlar.id">
                       {{ raporlar.name }}
                     </option>
@@ -97,7 +125,7 @@
                     @click.prevent="delField(index)"
                     class="btn-icon"
                     v-b-tooltip.hover.v-danger
-                    title="Danger variant"
+                    title="Satırı Kaldır"
                   >
                     <feather-icon icon="DeleteIcon" />
                   </b-button>
@@ -123,11 +151,15 @@
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="info"
                   @click="addField"
+                  v-b-tooltip.hover.v-info
+                  title="Satır Ekle"
                   class="btn-icon"
                 >
                   <feather-icon size="20px;" icon="PlusIcon" />
                 </b-button>
               </div>
+
+
               <div style="float: right">
                 <b-button variant="success" type="submit">
                   Rapor Ekle
@@ -250,6 +282,8 @@ import {
   BInputGroupAppend,
   BButton,
   BCard,
+  BAlert,
+  BProgress,
   BModal,
   BForm,
   VBTooltip,
@@ -269,6 +303,8 @@ export default {
     BPagination,
     BInputGroup,
     BFormInput,
+    BAlert,
+    BProgress,
     BInputGroupAppend,
     BButton,
     BCard,
@@ -325,7 +361,9 @@ export default {
       calisan: "",
       raporlar: "",
 
-      form: [{ rapor: "", file: "", Selected2: "" }],
+      form: [
+        { rapor: "", file: "", Selected2: null, dgr: 0, variant: "success" },
+      ],
     };
   },
 
@@ -364,7 +402,7 @@ export default {
     },
 
     basarisiz() {
-      var data = document.getElementById("basarisiz").value;
+      var data = document.getElementById("basarisiz2").value;
 
       this.$toast({
         component: ToastificationContent,
@@ -412,31 +450,53 @@ export default {
 
       form.forEach(function (form) {
         const formData = new FormData();
-        formData.set("file", form.file);
-        formData.append("id", form.Selected2.id);
-        formData.append("name", form.Selected2.name);
-        formData.append("firma_email", form.Selected2.email);
-        formData.append("rapor", form.rapor);
 
-        setTimeout(() => {
-          axios
-            .post("api/belgeyukle", formData)
-            .then((res) => document.getElementById("basarili2").click())
-            .catch((error) => {
-              (document.getElementById("basarisiz").value =
-                error.response.data.error),
-                console.log(document.getElementById("basarisiz2").value),
-                document.getElementById("basarisiz").click();
-            });
-        }, (time += 1000));
+        if (form.Selected2 === null) {
+          document.getElementById("basarisiz2").value = "Kişi Seçilmedi.";
+          document.getElementById("basarisiz2").click();
+        } else {
+          formData.set("file", form.file);
+          formData.append("id", form.Selected2.id);
+          formData.append("name", form.Selected2.name);
+          formData.append("firma_email", form.Selected2.email);
+          formData.append("rapor", form.rapor);
+          form.variant = "success";
+          form.dgr = 50;
+
+          setTimeout(() => {
+            axios
+              .post("api/belgeyukle", formData)
+              .then(
+                (res) => document.getElementById("basarili2").click(),
+                (form.dgr = 100)
+              )
+              .catch((error) => {
+                form.dgr = 100;
+                form.variant = "danger";
+                if (error.response.data.error === undefined) {
+                  document.getElementById("basarisiz2").value = "";
+                  document.getElementById("basarisiz").click();
+                } else {
+                  document.getElementById("basarisiz2").value ===
+                    error.response.data.error,
+                    document.getElementById("basarisiz2").click();
+                }
+              });
+          }, (time += 1000));
+        }
       });
 
-      this.formcikis();
+      setTimeout(() => {
+        this.formcikis();
+      }, 6000);
     },
     select() {
       var email = this.Selected.firma.email;
 
       this.form[0].Selected2 = this.Selected.firma;
+      this.form[1].Selected2 = this.Selected.firma;
+      this.form[2].Selected2 = this.Selected.firma;
+      this.form[3].Selected2 = this.Selected.firma;
 
       axios
         .post("/api/calisanlar", { firma_email: email })
@@ -452,8 +512,7 @@ export default {
     formcikis() {
       this.$refs["modal"].hide();
       this.file == null;
-      this.firmaselected == null;
-      this.calisanselected == null;
+      this.form.Selected2 = null;
     },
 
     indir(dosya) {
@@ -483,7 +542,9 @@ export default {
         this.form.push({
           rapor: "",
           file: "",
-          Selected2: this.Selected.firma,
+          Selected2: this.form[0].Selected2,
+          dgr: 0,
+          variant: "success",
         });
       }
     },

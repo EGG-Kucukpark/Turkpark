@@ -39,6 +39,7 @@
 
       <span>
         <b-button
+          v-if="show"
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
@@ -56,11 +57,39 @@
         >
           <b-card>
             <b-form @submit.prevent="submit">
+              <b-progress
+                max="100"
+                style="margin: 10px"
+                v-for="form in form"
+                name="progress"
+                :key="form.id"
+                :value="form.dgr"
+                striped
+                animated
+                :variant="form.variant"
+                class="progress-bar-success"
+              />
+
               <b-row v-for="(form, index) in form" :key="form.id">
-                <!-- Item Name -->
+                <b-form-select style="display: none" v-model="form.Selected2">
+                  <option
+                    v-bind:value="{ firma: firma }"
+                    v-for="firma in firma"
+                    :key="firma.id"
+                  >
+                    {{ firma.name }}
+                  </option>
+                </b-form-select>
+
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option disabled v-if="form.Selected2 != null" value="">
+                      Lütfen Rapor Tipini Seçiniz
+                    </option>
+                    <option disabled v-if="form.Selected2 === null" value="">
+                      Lütfen Kişi Seçiniz
+                    </option>
+
                     <option v-for="raporlar in raporlar" :key="raporlar.id">
                       {{ raporlar.name }}
                     </option>
@@ -89,12 +118,14 @@
                   </option>
                 </b-form-select>
 
-                <b-col >
+                <b-col>
                   <b-button
                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                     variant="danger"
                     @click.prevent="delField(index)"
                     class="btn-icon"
+                    v-b-tooltip.hover.v-danger
+                    title="Satırı Kaldır"
                   >
                     <feather-icon icon="DeleteIcon" />
                   </b-button>
@@ -116,15 +147,19 @@
                     </div>
                   </b-alert>
                 </span>
-             <b-button
+                <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="info"
                   @click="addField"
+                  v-b-tooltip.hover.v-info
+                  title="Satır Ekle"
                   class="btn-icon"
                 >
                   <feather-icon size="20px;" icon="PlusIcon" />
-                 </b-button>
+                </b-button>
               </div>
+
+
               <div style="float: right">
                 <b-button variant="success" type="submit">
                   Rapor Ekle
@@ -164,16 +199,17 @@
         >
           <template #cell(actions)="data">
             <span>
-             <b-button
+              <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
-                  v-b-tooltip.hover.v-warning
+                v-b-tooltip.hover.v-warning
                 title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
               </b-button>
+
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
@@ -190,7 +226,7 @@
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
-                 v-b-tooltip.hover.v-success
+                v-b-tooltip.hover.v-success
                 title="İndir"
               >
                 <feather-icon icon="DownloadIcon" />
@@ -230,7 +266,7 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import ripple from 'vue-ripple-directive'
+import ripple from "vue-ripple-directive";
 
 import {
   BTable,
@@ -242,12 +278,15 @@ import {
   BFormSelect,
   BPagination,
   BInputGroup,
-  BFormInput,VBTooltip,
+  BFormInput,
   BInputGroupAppend,
   BButton,
   BCard,
+  BAlert,
+  BProgress,
   BModal,
   BForm,
+  VBTooltip,
   BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
@@ -264,15 +303,19 @@ export default {
     BPagination,
     BInputGroup,
     BFormInput,
+    BAlert,
+    BProgress,
     BInputGroupAppend,
-    BButton,VBTooltip,
+    BButton,
     BCard,
     BModal,
     ToastificationContent,
     BForm,
+    VBTooltip,
     BFormFile,
-  },directives: {
-    'b-tooltip': VBTooltip,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
     ripple,
   },
   props: {
@@ -316,8 +359,11 @@ export default {
       warn: false,
       firmaselected: "",
       calisan: "",
+      raporlar: "",
 
-      form: [{ rapor: "", file: "", Selected2: "" }],
+      form: [
+        { rapor: "", file: "", Selected2: null, dgr: 0, variant: "success" },
+      ],
     };
   },
 
@@ -329,14 +375,15 @@ export default {
         .map((f) => ({ text: f.label, value: f.key }));
     },
   },
-  created() { axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
+  created() {
+    axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
     if (user.role === "Client") {
       this.show = false;
       var mail = user.email;
       axios
-        .post("/api/getfile", { firma_email: mail, status:5 })
+        .post("/api/getfile", { firma_email: mail, status: 5 })
         .then((res) => (this.rows = res.data));
     } else {
       axios.post("/api/bireyseller").then((response) => {
@@ -355,7 +402,7 @@ export default {
     },
 
     basarisiz() {
-      var data = document.getElementById("basarisiz").value;
+      var data = document.getElementById("basarisiz2").value;
 
       this.$toast({
         component: ToastificationContent,
@@ -370,15 +417,10 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-
-
-
-
         var email = this.Selected.firma.email;
 
-
         axios
-          .post("/api/getfile", { firma_email: email, status:5 })
+          .post("/api/getfile", { firma_email: email, status: 5 })
           .then((res) => (this.items = res.data))
           .then(
             this.$toast({
@@ -398,10 +440,9 @@ export default {
     change(event) {
       this.file = event.target.files[0];
     },
-    arsivle(data){
-        axios.post('api/dosyaarsiv', {id: data.id}).then(this.refreshStop())
+    arsivle(data) {
+      axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
     },
-
 
     submit() {
       var form = this.form;
@@ -409,39 +450,60 @@ export default {
 
       form.forEach(function (form) {
         const formData = new FormData();
-        formData.set("file", form.file);
-        formData.append("id", form.Selected2.id);
-        formData.append("name", form.Selected2.name);
-        formData.append("firma_email", form.Selected2.email);
-        formData.append("rapor", form.rapor);
-        formData.append("status", "5");
 
+        if (form.Selected2 === null) {
+          document.getElementById("basarisiz2").value = "Kişi Seçilmedi.";
+          document.getElementById("basarisiz2").click();
+        } else {
+          formData.set("file", form.file);
+          formData.append("id", form.Selected2.id);
+          formData.append("name", form.Selected2.name);
+          formData.append("firma_email", form.Selected2.email);
+          formData.append("rapor", form.rapor);
+          formData.append('status', '5');
+          form.variant = "success";
+          form.dgr = 50;
 
-        setTimeout(() => {
-          axios
-            .post("api/belgeyukle", formData)
-            .then((res) => document.getElementById("basarili2").click())
-            .catch((error) => {
-              (document.getElementById("basarisiz").value =
-                error.response.data.error),
-                console.log(document.getElementById("basarisiz2").value),
-                document.getElementById("basarisiz").click();
-            });
-        }, (time += 1000));
+          setTimeout(() => {
+            axios
+              .post("api/belgeyukle", formData)
+              .then(
+                (res) => document.getElementById("basarili2").click(),
+                (form.dgr = 100)
+              )
+              .catch((error) => {
+                form.dgr = 100;
+                form.variant = "danger";
+                if (error.response.data.error === undefined) {
+                  document.getElementById("basarisiz2").value = "";
+                  document.getElementById("basarisiz").click();
+                } else {
+                  document.getElementById("basarisiz2").value ===
+                    error.response.data.error,
+                    document.getElementById("basarisiz2").click();
+                }
+              });
+          }, (time += 1000));
+        }
       });
 
-      this.formcikis();
+      setTimeout(() => {
+        this.formcikis();
+      }, 6000);
     },
     select() {
       var email = this.Selected.firma.email;
 
       this.form[0].Selected2 = this.Selected.firma;
+      this.form[1].Selected2 = this.Selected.firma;
+      this.form[2].Selected2 = this.Selected.firma;
+      this.form[3].Selected2 = this.Selected.firma;
 
       axios
         .post("/api/calisanlar", { firma_email: email })
         .then((res) => (this.calisan = res.data));
       axios
-        .post("/api/getfile", { firma_email: email, status:5})
+        .post("/api/getfile", { firma_email: email, status:5 })
         .then((res) => (this.items = res.data));
     },
     göster(dosya) {
@@ -451,8 +513,7 @@ export default {
     formcikis() {
       this.$refs["modal"].hide();
       this.file == null;
-      this.firmaselected == null;
-      this.calisanselected == null;
+      this.form.Selected2 = null;
     },
 
     indir(dosya) {
@@ -482,7 +543,9 @@ export default {
         this.form.push({
           rapor: "",
           file: "",
-          Selected2: this.Selected.firma,
+          Selected2: this.form[0].Selected2,
+          dgr: 0,
+          variant: "success",
         });
       }
     },

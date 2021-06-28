@@ -1,6 +1,7 @@
 <template>
   <b-card title="Sonuçlar">
-    <b-form-group v-if="show"
+    <b-form-group
+      v-if="show"
       style="font-size: 18px"
       label="Firma Seçiniz: "
       label-cols-sm="1"
@@ -42,11 +43,13 @@
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
-          @click="modal" v-if="show"
+          @click="modal"
+          v-if="show"
           >Yeni Rapor</b-button
         >
 
-        <b-modal v-if="show"
+        <b-modal
+          v-if="show"
           hide-header-close
           :hide-footer="true"
           size="lg"
@@ -56,6 +59,19 @@
         >
           <b-card>
             <b-form @submit.prevent="submit">
+              <b-progress
+                max="100"
+                style="margin: 10px"
+                v-for="form in form"
+                name="progress"
+                :key="form.id"
+                :value="form.dgr"
+                striped
+                animated
+                :variant="form.variant"
+                class="progress-bar-success"
+              />
+
               <b-row
                 style="margin: 12px"
                 v-for="(form, index) in form"
@@ -94,7 +110,7 @@
                   </b-form-select>
                 </b-col>
                 <b-col md="4">
-                 <b-form-select v-model="form.rapor">
+                  <b-form-select v-model="form.rapor">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option v-for="raporlar in raporlar" :key="raporlar.id">
                       {{ raporlar.name }}
@@ -226,12 +242,12 @@
 
           <template #cell(actions)="data">
             <span>
-             <b-button
+              <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
-                  v-b-tooltip.hover.v-warning
+                v-b-tooltip.hover.v-warning
                 title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
@@ -252,7 +268,7 @@
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
-                 v-b-tooltip.hover.v-success
+                v-b-tooltip.hover.v-success
                 title="İndir"
               >
                 <feather-icon icon="DownloadIcon" />
@@ -293,13 +309,14 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import ripple from 'vue-ripple-directive'
+import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
 
 import {
   BTable,
   BAvatar,
   BBadge,
+  BProgress,
   BRow,
   BCol,
   BFormGroup,
@@ -312,7 +329,8 @@ import {
   BCard,
   BModal,
   BForm,
-  BFormFile,VBTooltip ,
+  BFormFile,
+  VBTooltip,
   BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
@@ -323,6 +341,7 @@ export default {
     BAvatar,
     BBadge,
     BRow,
+    BProgress,
     BCol,
     BFormGroup,
     BFormSelect,
@@ -330,7 +349,8 @@ export default {
     BInputGroup,
     BFormInput,
     BInputGroupAppend,
-    BButton,VBTooltip ,
+    BButton,
+    VBTooltip,
     BCard,
     BModal,
     ToastificationContent,
@@ -339,8 +359,9 @@ export default {
     ripple,
     heightTransition,
     BAlert,
-  },directives: {
-    'b-tooltip': VBTooltip,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
     ripple,
   },
   props: {
@@ -397,7 +418,16 @@ export default {
       calisan: "",
       raporlar: "",
 
-      form: [{ calisanselected: "", rapor: "", file: "", Selected2: null }],
+      form: [
+        {
+          calisanselected: "",
+          rapor: "",
+          file: "",
+          Selected2: null,
+          dgr: 0,
+          variant: "success",
+        },
+      ],
     };
   },
 
@@ -409,7 +439,8 @@ export default {
         .map((f) => ({ text: f.label, value: f.key }));
     },
   },
-  created() {axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
+  created() {
+    axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
     if (user.role === "Firma") {
@@ -482,6 +513,8 @@ export default {
           rapor: "",
           file: "",
           Selected2: this.Selected.firma_email,
+          dgr: 0,
+          variant: "success",
         });
       }
     },
@@ -510,12 +543,16 @@ export default {
           formData.append("firma_email", form.Selected2);
           formData.append("rapor", form.rapor);
           formData.append("status", "4");
+          form.variant = "success";
+          form.dgr = 50;
 
           setTimeout(() => {
             axios
               .post("api/belgeyukle", formData)
-              .then((res) => document.getElementById("basarili").click())
+              .then((res) => document.getElementById("basarili").click(), form.dgr === 100)
               .catch((error) => {
+                form.dgr = 100;
+                form.variant = "danger";
                 if (error.response.data.error === undefined) {
                   document.getElementById("basarisiz").value = "";
                   document.getElementById("basarisiz").click();
@@ -529,7 +566,9 @@ export default {
         }
       });
 
-      this.formcikis();
+      setTimeout(() => {
+        this.formcikis();
+      }, 6000);
     },
 
     select() {

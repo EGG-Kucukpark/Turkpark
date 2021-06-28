@@ -79,16 +79,7 @@
                 <hr />
 
                 <b-col style="display: none" sm="1">
-                  <b-form-select v-model="form.Selected2">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
-                    <option
-                      v-bind:value="{ firma_email: firma.email }"
-                      v-for="firma in firma"
-                      :key="firma.id"
-                    >
-                      {{ firma.name }}
-                    </option>
-                  </b-form-select>
+                  <b-form-select v-model="form.Selected2"> </b-form-select>
                 </b-col>
 
                 <b-col md="4">
@@ -161,6 +152,8 @@
                   <feather-icon size="20px;" icon="PlusIcon" />
                 </b-button>
               </div>
+
+                <pre>{{ $data.form | json }}</pre>
               <div style="float: right">
                 <b-button variant="success" type="submit">
                   Rapor Ekle
@@ -553,23 +546,10 @@ export default {
       var form = this.form;
       var time = 1000;
 
-      this.$toast({
-        component: ToastificationContent,
-        position: "top-right",
-        props: {
-          title: `Rapor İşlemleri `,
-          icon: "FileTextIcon",
-          variant: "info",
-
-          text: ` Dosyalar Yükleniyor`,
-        },
-      });
       form.forEach(function (form) {
         if (form.calisanselected === "") {
           document.getElementById("basarisiz").value =
             "Çalışan veya Firma Girilmedi.";
-          form.variant = "danger";
-          form.dgr = 100;
 
           document.getElementById("basarisiz").click();
         } else {
@@ -638,9 +618,9 @@ export default {
     formcikis() {
       this.dgr = 0;
       this.$refs["modal"].hide();
-      this.form.file === null;
-      this.form.calisanselected === null;
-      this.form.rapor === null;
+      this.file == null;
+      this.firmaselected == null;
+      this.calisanselected == null;
     },
 
     indir(dosya) {

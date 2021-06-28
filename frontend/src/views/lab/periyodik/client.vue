@@ -58,6 +58,19 @@
         >
           <b-card>
             <b-form @submit.prevent="submit">
+              <b-progress
+                max="100"
+                style="margin: 10px"
+                v-for="form in form"
+                name="progress"
+                :key="form.id"
+                :value="form.dgr"
+                striped
+                animated
+                :variant="form.variant"
+                class="progress-bar-success"
+              />
+
               <b-row
                 style="margin: 12px"
                 v-for="(form, index) in form"
@@ -308,6 +321,7 @@ import {
   BFormSelect,
   BPagination,
   BInputGroup,
+  BProgress,
   BFormInput,
   BInputGroupAppend,
   BButton,
@@ -326,6 +340,7 @@ export default {
     BBadge,
     BRow,
     VBTooltip,
+    BProgress,
     BCol,
     BFormGroup,
     BFormSelect,
@@ -401,7 +416,16 @@ export default {
       calisan: "",
       raporlar: "",
 
-      form: [{ calisanselected: "", rapor: "", file: "", Selected2: null }],
+      form: [
+        {
+          calisanselected: "",
+          rapor: "",
+          file: "",
+          Selected2: null,
+          dgr: 0,
+          variant: "success",
+        },
+      ],
     };
   },
 
@@ -487,6 +511,8 @@ export default {
           rapor: "",
           file: "",
           Selected2: this.Selected.firma_email,
+          dgr: 0,
+          variant: "success",
         });
       }
     },
@@ -515,12 +541,19 @@ export default {
           formData.append("firma_email", form.Selected2);
           formData.append("rapor", form.rapor);
           formData.append("status", "3");
+          form.variant = "success";
+          form.dgr = 50;
 
           setTimeout(() => {
             axios
               .post("api/belgeyukle", formData)
-              .then((res) => document.getElementById("basarili").click())
+              .then(
+                (res) => document.getElementById("basarili").click(),
+                form.dgr = 100
+              )
               .catch((error) => {
+                form.dgr = 100;
+                form.variant = "danger";
                 if (error.response.data.error === undefined) {
                   document.getElementById("basarisiz").value = "";
                   document.getElementById("basarisiz").click();
@@ -534,7 +567,9 @@ export default {
         }
       });
 
-      this.formcikis();
+      setTimeout(() => {
+        this.formcikis();
+      }, 6000);
     },
 
     select() {
