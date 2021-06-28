@@ -1,6 +1,7 @@
 <template>
   <b-card title="Sonuçlar">
-    <b-form-group v-if="show"
+    <b-form-group
+      v-if="show"
       style="font-size: 18px"
       label="Firma Seçiniz: "
       label-cols-sm="1"
@@ -39,7 +40,7 @@
 
       <span>
         <b-button
-        v-if="show"
+          v-if="show"
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
@@ -57,6 +58,18 @@
         >
           <b-card>
             <b-form @submit.prevent="submit">
+              <b-progress
+                :value="dgr"
+                max="100"
+                style="margin: 10px"
+                v-for="form in form"
+                :key="form.id"
+                striped
+                animated
+                variant="success"
+                class="progress-bar-success"
+              />
+
               <b-row
                 style="margin: 12px"
                 v-for="(form, index) in form"
@@ -302,11 +315,13 @@ import {
   BTable,
   BAvatar,
   BBadge,
+  BSpinner,
   BRow,
   BCol,
   BFormGroup,
   BFormSelect,
   BPagination,
+  BProgress,
   BInputGroup,
   BFormInput,
   BInputGroupAppend,
@@ -325,6 +340,7 @@ export default {
     BTable,
     BAvatar,
     BBadge,
+    BSpinner,
     BRow,
     BCol,
     BFormGroup,
@@ -332,6 +348,7 @@ export default {
     BPagination,
     BInputGroup,
     BFormInput,
+    BProgress,
     VBTooltip,
     BInputGroupAppend,
     BButton,
@@ -399,9 +416,10 @@ export default {
       firma: [],
       warn: false,
       firmaselected: "",
+      dgr: null,
       calisan: "",
       raporlar: "",
-
+      prog: null,
       form: [{ calisanselected: "", rapor: "", file: "", Selected2: null }],
     };
   },
@@ -420,18 +438,11 @@ export default {
     var user = JSON.parse(localStorage.getItem("user"));
 
     if (user.role === "Firma") {
-
-
-
       this.show = false;
       var mail = user.email;
       axios
         .post("/api/getfile", { firma_email: mail })
         .then((res) => (this.files = res.data));
-
-
-
-
     } else {
       axios.post("/api/firmalar").then((response) => {
         this.firma = response.data;
@@ -457,9 +468,14 @@ export default {
           },
         });
 
+        for (var i = 0; i < 100; i++) {
+          this.dgr = i;
+        }
+
         axios.post("/api/firmalar").then((response) => {
           this.firma = response.data;
         });
+        this.formcikis();
       } else {
         this.refreshStop();
       }
@@ -475,6 +491,7 @@ export default {
           title: `Rapor İşlemleri `,
           icon: "FileTextIcon",
           variant: "danger",
+
           text: data + ` Dosya İşlemi Başarsız`,
         },
       });
@@ -504,6 +521,8 @@ export default {
       }, 2000);
     },
 
+    arttir() {},
+
     addField() {
       if (this.form.length === 4) {
         this.warn = true;
@@ -514,6 +533,8 @@ export default {
           file: "",
           Selected2: this.Selected.firma_email,
         });
+
+        this.prog.push();
       }
     },
 
@@ -525,6 +546,17 @@ export default {
       var form = this.form;
       var time = 1000;
 
+      this.$toast({
+        component: ToastificationContent,
+        position: "top-right",
+        props: {
+          title: `Rapor İşlemleri `,
+          icon: "FileTextIcon",
+          variant: "info",
+
+          text: ` Dosyalar Yükleniyor`,
+        },
+      });
       form.forEach(function (form) {
         if (form.calisanselected === "") {
           document.getElementById("basarisiz").value =
@@ -559,8 +591,6 @@ export default {
           }, (time += 1000));
         }
       });
-
-      this.formcikis();
     },
 
     select() {
