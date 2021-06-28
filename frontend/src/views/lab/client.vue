@@ -59,14 +59,15 @@
           <b-card>
             <b-form @submit.prevent="submit">
               <b-progress
-                :value="dgr"
                 max="100"
                 style="margin: 10px"
                 v-for="form in form"
+                name="progress"
                 :key="form.id"
+                :value="form.dgr"
                 striped
                 animated
-                variant="success"
+                :variant="form.variant"
                 class="progress-bar-success"
               />
 
@@ -412,15 +413,25 @@ export default {
 
       show: true,
       searchTerm: "",
+
       Selected: "",
       firma: [],
       warn: false,
       firmaselected: "",
-      dgr: null,
+
       calisan: "",
       raporlar: "",
       prog: null,
-      form: [{ calisanselected: "", rapor: "", file: "", Selected2: null }],
+      form: [
+        {
+          calisanselected: "",
+          rapor: "",
+          file: "",
+          Selected2: null,
+          dgr: 0,
+          variant: "null",
+        },
+      ],
     };
   },
 
@@ -433,7 +444,6 @@ export default {
     },
   },
   created() {
-    console.log(this.$router);
     axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
     var user = JSON.parse(localStorage.getItem("user"));
 
@@ -468,14 +478,13 @@ export default {
           },
         });
 
-        for (var i = 0; i < 100; i++) {
-          this.dgr = i;
-        }
-
         axios.post("/api/firmalar").then((response) => {
           this.firma = response.data;
         });
-        this.formcikis();
+
+        setTimeout(() => {
+          this.formcikis();
+        }, 5500);
       } else {
         this.refreshStop();
       }
@@ -483,6 +492,7 @@ export default {
 
     basarisiz() {
       var data = document.getElementById("basarisiz").value;
+
 
       this.$toast({
         component: ToastificationContent,
@@ -518,7 +528,7 @@ export default {
               },
             })
           );
-      }, 2000);
+      }, 1000);
     },
 
     arttir() {},
@@ -573,16 +583,23 @@ export default {
           formData.append("firma_email", form.Selected2);
           formData.append("rapor", form.rapor);
           formData.append("status", "0");
+          form.variant = "success";
+          form.dgr = 50;
 
           setTimeout(() => {
             axios
               .post("api/belgeyukle", formData)
-              .then((res) => document.getElementById("basarili").click())
+              .then(
+                (res) => document.getElementById("basarili").click(),
+                (form.dgr = 100)
+              )
               .catch((error) => {
                 if (error.response.data.error === undefined) {
+                  (form.dgr = 100)((form.variant = "danger"));
                   document.getElementById("basarisiz").value = "";
                   document.getElementById("basarisiz").click();
                 } else {
+                  (form.dgr = 100)((form.variant = "danger"));
                   document.getElementById("basarisiz").value ===
                     error.response.data.error,
                     document.getElementById("basarisiz").click();
@@ -597,8 +614,6 @@ export default {
       var email = this.Selected.firma_email;
 
       this.form[0].Selected2 = this.Selected.firma_email;
-
-      console.log(this.form[0].Selected2);
 
       axios
         .post("/api/getfile", { firma_email: email })
@@ -617,6 +632,7 @@ export default {
     },
 
     formcikis() {
+      this.dgr = 0;
       this.$refs["modal"].hide();
       this.file == null;
       this.firmaselected == null;
