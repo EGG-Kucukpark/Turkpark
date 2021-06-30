@@ -1,18 +1,6 @@
 <template>
 <div>
-    <b-breadcrumb style="margin: 18px" class="breadcrumb-slash">
-        <b-breadcrumb-item to="/">
-          <feather-icon icon="HomeIcon" size="25" variant="primary" />
-        </b-breadcrumb-item>
 
-        <b-breadcrumb-item style="font-size: 18px" to="/">
-          Ana Sayfa
-        </b-breadcrumb-item>
-
-        <b-breadcrumb-item style="font-size: 18px" active>
-          Sonuçlar
-        </b-breadcrumb-item>
-      </b-breadcrumb>
   <b-card title="Kullanıcılar">
     <b-row>
       <button hidden id="hata" @click.prevent="hata"></button>
@@ -323,6 +311,8 @@
                 variant="warning"
                 @click="Modal2(data.item)"
                 class="btn-icon"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
               >
                 <feather-icon icon="EditIcon" />
               </b-button>
@@ -331,6 +321,8 @@
                 variant="danger"
                 @click.prevent="arsiv(data.item)"
                 class="btn-icon"
+                v-b-tooltip.hover.v-danger
+                title="Arşivle"
               >
                 <feather-icon icon="ArchiveIcon" />
               </b-button>
@@ -379,7 +371,7 @@ import {
   BFormSelect,
   BPagination,
   BInputGroup,
-  BFormInput,
+  BFormInput,VBTooltip,
   BInputGroupAppend,
   BButton,
   BCard,
@@ -388,13 +380,13 @@ import {
   BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
-
+import Ripple from 'vue-ripple-directive'
 export default {
   components: {
     BTable,
     BAvatar,
     BBadge,
-    BRow,
+    BRow,VBTooltip,
     BCol,
     BFormGroup,
     BFormSelect,
@@ -410,6 +402,9 @@ export default {
     BForm,
     downloadexcel,
     BFormFile,
+  },directives: {
+    'b-tooltip': VBTooltip,
+    Ripple,
   },
   data() {
     return {

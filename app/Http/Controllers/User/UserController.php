@@ -40,16 +40,28 @@ class UserController extends Controller
     {
 
         DB::table('users')->where('id', $request->id)->update([
-            'isArch' => '1'
+            'isArch' => '1',
+            'status' => '2'
+
+        ]);
+    }
+    public function arsivckr(Request $request)
+
+    {
+
+        DB::table('users')->where('id', $request->id)->update([
+            'isArch' => '0',
+            'status' => '1'
 
         ]);
     }
 
 
-    public function giris(Request $request)
+    public function getuserinfo(Request $request)
     {
 
-        return DB::table('users')->where('id', intval($request->id))->first();
+
+        return response()->json([DB::table('users')->where('id', $request->id)->first()]);
     }
 
     public function adduser(Request $request)
@@ -82,8 +94,10 @@ class UserController extends Controller
     public function updateuser(Request $request)
     {
 
+
+
         try {
-            DB::table('users')->where('id', $request->userid)->update([
+            return DB::table('users')->where('id', $request->userid)->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => $request->role,
@@ -127,7 +141,9 @@ class UserController extends Controller
         $user = DB::table('users')->where('id', $request->id)->first();
 
         $sifre = Hash::check($request->password, $user->password);
-        return dd($sifre);
+
+
+
         if ($sifre) {
 
             $user = DB::table('users')->where('id', $request->id)->update([
@@ -135,6 +151,7 @@ class UserController extends Controller
 
             ]);
         } else {
+
             return response()->json(['error' => 'Başarısız'], 404);
         }
     }

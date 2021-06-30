@@ -381,9 +381,9 @@ export default {
 
     if (user.role === "Client") {
       this.show = false;
-      var mail = user.email;
+      var id = user.id;
       axios
-        .post("/api/getfile", { firma_email: mail, status: 3 })
+        .post("/api/getfile", { firma_id: mail, status: 3 })
         .then((res) => (this.rows = res.data));
     } else {
       axios.post("/api/bireyseller").then((response) => {
@@ -417,10 +417,10 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-        var email = this.Selected.firma.email;
+        var id = this.Selected.firma.id;
 
         axios
-          .post("/api/getfile", { firma_email: email, status: 3 })
+          .post("/api/getfile", { firma_id: id, status: 3 })
           .then((res) => (this.items = res.data))
           .then(
             this.$toast({
@@ -458,7 +458,7 @@ export default {
           formData.set("file", form.file);
           formData.append("id", form.Selected2.id);
           formData.append("name", form.Selected2.name);
-          formData.append("firma_email", form.Selected2.email);
+          formData.append("firma_id", form.Selected2.id);
           formData.append("rapor", form.rapor);
           formData.append('status', '3');
           form.variant = "success";
@@ -492,18 +492,17 @@ export default {
       }, 6000);
     },
     select() {
-      var email = this.Selected.firma.email;
+      var id = this.Selected.firma.id;
 
-      this.form[0].Selected2 = this.Selected.firma;
-      this.form[1].Selected2 = this.Selected.firma;
-      this.form[2].Selected2 = this.Selected.firma;
-      this.form[3].Selected2 = this.Selected.firma;
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = this.Selected.firma;
+      }
 
       axios
-        .post("/api/calisanlar", { firma_email: email })
+        .post("/api/calisanlar", { firma_id: id })
         .then((res) => (this.calisan = res.data));
       axios
-        .post("/api/getfile", { firma_email: email, status:3 })
+        .post("/api/getfile", { firma_id: id, status:3 })
         .then((res) => (this.items = res.data));
     },
     göster(dosya) {

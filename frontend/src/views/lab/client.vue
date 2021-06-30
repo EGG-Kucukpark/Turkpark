@@ -9,7 +9,7 @@
       <b-form-select @change="select" v-model="Selected">
         <option disabled value="">Lütfen Seçim Yapınız</option>
         <option
-          v-bind:value="{ firma_email: firma.email }"
+          v-bind:value="{ firma_id: firma.id }"
           v-for="firma in firma"
           :key="firma.id"
         >
@@ -152,7 +152,6 @@
                   <feather-icon size="20px;" icon="PlusIcon" />
                 </b-button>
               </div>
-
 
               <div style="float: right">
                 <b-button variant="success" type="submit">
@@ -442,9 +441,9 @@ export default {
 
     if (user.role === "Firma") {
       this.show = false;
-      var mail = user.email;
+      var id = user.id;
       axios
-        .post("/api/getfile", { firma_email: mail })
+        .post("/api/getfile", { firma_id: id })
         .then((res) => (this.files = res.data));
     } else {
       axios.post("/api/firmalar").then((response) => {
@@ -459,7 +458,9 @@ export default {
   },
   methods: {
     basarili() {
-      if ((document.getElementById("basarili").value = "firma")) {
+      var a = document.getElementById("basarili").value;
+
+      if (a === "firma") {
         this.$toast({
           component: ToastificationContent,
           position: "top-right",
@@ -496,13 +497,15 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-        var email = this.Selected.firma_email;
+
+        var id = this.Selected.firma_id;
+        console.log(id);
         this.Selected = {
-          firma_email: this.Selected.firma_email,
+          firma_id: this.Selected.firma_id,
         };
 
         axios
-          .post("/api/getfile", { firma_email: email })
+          .post("/api/getfile", { firma_id: id })
           .then((res) => (this.files = res.data))
           .then(
             this.$toast({
@@ -529,7 +532,7 @@ export default {
           calisanselected: "",
           rapor: "",
           file: "",
-          Selected2: this.Selected.firma_email,
+          Selected2: this.Selected.firma_id,
           variant: "success",
           dgr: 0,
         });
@@ -559,7 +562,7 @@ export default {
           formData.set("file", form.file);
           formData.append("id", form.calisanselected.id);
           formData.append("name", form.calisanselected.name);
-          formData.append("firma_email", form.Selected2);
+          formData.append("firma_id", form.Selected2);
           formData.append("rapor", form.rapor);
           formData.append("status", "0");
           form.variant = "success";
@@ -595,17 +598,19 @@ export default {
     },
 
     select() {
-      var email = this.Selected.firma_email;
+      var id = this.Selected.firma_id;
 
-      this.form[0].Selected2 = this.Selected.firma_email;
+       for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = this.Selected.firma_id;
+      }
 
       axios
-        .post("/api/getfile", { firma_email: email })
+        .post("/api/getfile", { firma_id: id })
 
         .then((res) => (this.files = res.data));
 
       axios
-        .post("/api/calisanlar", { firma_email: email })
+        .post("/api/calisanlar", { firma_id: id })
         .then((res) => (this.calisan = res.data));
     },
     göster(dosya) {

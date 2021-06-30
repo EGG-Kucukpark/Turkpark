@@ -39,7 +39,7 @@ class FileController extends Controller
 
 
 
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isMeasure' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isMeasure' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -54,7 +54,7 @@ class FileController extends Controller
 
 
 
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isYardim' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isYardim' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -69,7 +69,7 @@ class FileController extends Controller
 
 
 
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isPeriyodik' => '1', 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isPeriyodik' => '1', 'name' => $request->name, 'firma_id' => $request->firma_id]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -84,7 +84,7 @@ class FileController extends Controller
 
 
 
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isEgitim' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isEgitim' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -99,7 +99,7 @@ class FileController extends Controller
 
 
 
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isAsansor' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isAsansor' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -118,7 +118,7 @@ class FileController extends Controller
 
 
 
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isLab' => "1", 'name' => $request->name, 'firma_email' => $request->firma_email]);
+                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isLab' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
 
                 $request->file('file')->storeas('Dosyalar', $name, ['disk' => 'dosyalar']);
 
@@ -144,32 +144,32 @@ class FileController extends Controller
 
         if ($request->status === 1) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1'], ['isArch', '0']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isMeasure', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 2) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isYardim', '1'], ['isArch', '0']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isYardim', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 3) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isPeriyodik', '1'], ['isArch', '0']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isPeriyodik', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 4) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isEgitim', '1'], ['isArch', '0']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isEgitim', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 5) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isAsansor', '1'], ['isArch', '0']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isAsansor', '1'], ['isArch', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 7) {
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1']])->get();
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isArch', '1']])->get();
         } else if ($request->status === 8) {
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '0']])->get();
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isArch', '0']])->get();
         } else {
 
             try {
-                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1'], ['isArch', '0']])
+                return  DB::table('files')->where([['firma_id', $request->firma_id], ['isLab', '1'], ['isArch', '0']])
                     ->orwhere('calisan_id', $request->calisan_id)->get();
             } catch (Exception $ex) {
                 return $ex;
@@ -182,30 +182,30 @@ class FileController extends Controller
 
         if ($request->status === 1) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1'], ['isArch', '1']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isMeasure', '1'], ['isArch', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 2) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isYardim', '1'], ['isArch', '1']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isYardim', '1'], ['isArch', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 3) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isPeriyodik', '1'], ['isArch', '1']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isPeriyodik', '1'], ['isArch', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 4) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isEgitim', '1'], ['isArch', '1']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isEgitim', '1'], ['isArch', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 5) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isAsansor', '1'], ['isArch', '1']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isAsansor', '1'], ['isArch', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else if ($request->status === 7) {
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isArch', '1']])->get();
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isArch', '1']])->get();
         } else {
 
             try {
-                return  DB::table('files')->where([['firma_email', $request->firma_email], ['isLab', '1'], ['isArch', '1']])
+                return  DB::table('files')->where([['firma_id', $request->firma_id], ['isLab', '1'], ['isArch', '1']])
                     ->orwhere('calisan_id', $request->calisan_id)->get();
             } catch (Exception $ex) {
                 return $ex;

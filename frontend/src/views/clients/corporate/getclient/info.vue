@@ -1,56 +1,56 @@
 <template>
-  <b-card-actions
+  <b-card
     title="Firma Ek Bilgiler"
-    ref="cardAction"
-    @refresh="refreshStop('cardAction')"
+
   >
     <b-form @submit.prevent>
       <b-row>
         <b-col md="6">
-          <b-form-group label="First Name" label-for="mc-first-name">
-            <b-form-input id="mc-first-name" v-model="userData.name" placeholder="First Name" />
+          <b-form-group label="Firma Adı" label-for="mc-first-name">
+            <b-form-input
+              id="mc-first-name"
+              v-model="name"
+              placeholder="First Name"
+            />
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label="Last Name" label-for="mc-last-name">
-            <b-form-input id="mc-last-name" placeholder="Last Name" />
+          <b-form-group label="Firma Yetkilisi" label-for="mc-last-name">
+            <b-form-input v-model="yetkili" id="mc-last-name" />
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label="City" label-for="mc-city">
-            <b-form-input id="mc-city" placeholder="City" />
+          <b-form-group label="Vergi Numarası" label-for="mc-city">
+            <b-form-input v-model="vergino" id="mc-city" />
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label="Country" label-for="mc-country">
-            <b-form-input id="mc-country" placeholder="Country" />
+          <b-form-group label="SGK Sicil Numarası" label-for="mc-country">
+            <b-form-input v-model="sgk" id="mc-country" />
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label="Company" label-for="mc-company">
+          <b-form-group label="Telefon Numarası" label-for="mc-country">
+            <b-form-input v-model="telefon" id="mc-country" />
+          </b-form-group>
+        </b-col>
+        <b-col md="6">
+          <b-form-group label="Vergi Dairesi" label-for="mc-company">
             <div class="form-label-group">
-              <b-form-input id="mc-company" placeholder="Company" />
+              <b-form-input v-model="vergiad" id="mc-company" />
             </div>
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label-for="mc-email" label="Email">
+          <b-form-group label-for="mc-email" label="E-Posta">
             <div class="form-label-group">
-              <b-form-input id="mc-email" type="email" placeholder="Email" />
+              <b-form-input v-model="email" id="mc-email" type="email" />
             </div>
           </b-form-group>
         </b-col>
 
         <b-col cols="12">
-          <b-form-group>
-            <b-form-checkbox
-              id="checkbox-10"
-              name="checkbox-10"
-              value="Remember_me"
-            >
-              Remember me
-            </b-form-checkbox>
-          </b-form-group>
+
         </b-col>
 
         <!-- submit and reset -->
@@ -73,7 +73,7 @@
         </b-col>
       </b-row>
     </b-form>
-  </b-card-actions>
+  </b-card>
 </template>
 
 
@@ -85,11 +85,11 @@ import {
   BFormGroup,
   BFormInput,
   BFormCheckbox,
+  BCard,
   BForm,
   BButton,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
-
 
 export default {
   components: {
@@ -99,9 +99,9 @@ export default {
     BFormInput,
     BFormCheckbox,
     BForm,
+    BCard,
     BButton,
     BCardActions,
-
   },
   props: {
     userData: {
@@ -114,17 +114,22 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+
+        name:this.userData.name,
+        email:this.userData.email,
+        vergino: this.userData.vergino,
+        vergiad: this.userData.vergiad,
+        telefon:this.userData.telefon,
+        sgk:this.userData.sgk,
+        yetkili:this.userData.firma_yetkilisi
+
+
+    };
   },
 
-  methods:{
-      refreshStop(cardName) {
-      setTimeout(() => {
-        this.$refs[cardName].showLoading = false
-      }, 3000)
-    },
+  methods: {
 
-
-  }
+  },
 };
 </script>

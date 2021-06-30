@@ -14,7 +14,7 @@
       <!-- Register-->
       <b-col lg="4" class="d-flex align-items-center auth-bg px-2 p-lg-5">
         <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
-          <b-card-title class="mb-1"> Mecera Burada Başlıyor 🚀 </b-card-title>
+          <b-card-title class="mb-1"> Macera Burada Başlıyor 🚀 </b-card-title>
           <b-card-text class="mb-2">
             Belge ve iş yönetimini eğlenceli hale Getirin!
           </b-card-text>
@@ -38,8 +38,39 @@
           <!-- form -->
           <validation-observer ref="registerForm" #default="{ invalid }">
             <b-form class="auth-register-form mt-2" @submit.prevent="register">
+              <b-form-group label="Rol:(*)" label-for="register-email">
+                <validation-provider
+                  v-slot="{ errors }"
+                  rules="required"
+                  name="Kullanıcı Türü:"
+                >
+                  <b-form-select v-model="role" @input="label">
+                    <b-form-select-option disabled value=" "
+                      >Lütfen Bir Seçim Yapınız</b-form-select-option
+                    >
+
+                    <b-form-select-option selected value="Admin"
+                      >Bireysel Kullanıcı</b-form-select-option
+                    > <b-form-select-option selected value="Firma"
+                      >Kurumsal Kullanıcı</b-form-select-option
+                    >
+
+                    <b-form-select-option selected value="Uzman"
+                      >Uzman</b-form-select-option
+                    >
+
+                    <b-form-select-option selected value="Hekim"
+                      >Hekim</b-form-select-option
+                    >
+
+                  </b-form-select>
+
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
               <!-- username -->
-              <b-form-group label="İsminiz:">
+
+              <b-form-group id="label" label="İsminiz">
                 <validation-provider
                   #default="{ errors }"
                   name="İsim"
@@ -158,36 +189,6 @@
                 </validation-provider>
               </b-form-group>
 
-              <b-form-group label="Rol:(*)" label-for="register-email">
-                <validation-provider
-                  v-slot="{ errors }"
-                  rules="required"
-                  name="Rol"
-                >
-                  <b-form-select v-model="role" class="mb-3">
-                    <b-form-select-option disabled value=" "
-                      >Lütfen Bir Seçim Yapınız</b-form-select-option
-                    >
-
-                    <b-form-select-option selected value="Admin"
-                      >Admin</b-form-select-option
-                    >
-
-                    <b-form-select-option selected value="Uzman"
-                      >Uzman</b-form-select-option
-                    >
-
-                    <b-form-select-option selected value="Hekim"
-                      >Hekim</b-form-select-option
-                    >
-                    <b-form-select-option selected value="Firma"
-                      >Firma</b-form-select-option
-                    >
-                  </b-form-select>
-
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
               <b-button
                 v-if="spin"
                 variant="primary"
@@ -216,10 +217,6 @@
               <span>&nbsp;Giriş yap</span>
             </b-link>
           </p>
-
-
-
-
         </b-col>
       </b-col>
       <!-- /Register-->
@@ -330,6 +327,13 @@ export default {
     },
   },
   methods: {
+    label() {
+      if ((this.role === "Firma")) {
+        document.getElementById("label__BV_label_").innerHTML = "Kurum Adı";
+      }else{
+             document.getElementById("label__BV_label_").innerHTML = "İsminiz";
+      }
+    },
     register() {
       this.$refs.registerForm.validate().then((success) => {
         this.spin = true;

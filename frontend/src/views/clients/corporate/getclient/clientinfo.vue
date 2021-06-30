@@ -148,7 +148,7 @@ return{
   },
   created(){
 axios
-      .post("/api/calisanlar", { firma_email: this.userData.email })
+      .post("/api/calisanlar", { firma_id: this.userData.id })
       .then((response) => {
         this.calisan = response.data;
       });

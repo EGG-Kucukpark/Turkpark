@@ -188,9 +188,9 @@ export default {
   created() {
     var user = JSON.parse(localStorage.getItem("user"));
 
-    var mail = user.email;
+    var id = user.user_id;
     axios
-      .post("/api/getfile", { firma_email: mail, status: 5 })
+      .post("/api/getfile", { firma_id: id, status: 5 })
       .then((res) => (this.items = res.data));
   },
 

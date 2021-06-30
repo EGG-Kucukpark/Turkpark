@@ -116,6 +116,7 @@ router.afterEach(() => {
     if (appLoading) {
         appLoading.style.display = 'none'
     }
+
 })
 
 export default router

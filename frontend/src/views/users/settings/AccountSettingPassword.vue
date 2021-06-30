@@ -138,6 +138,8 @@
 
 <script>
 import axios from "@axios";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import {
   BButton,
@@ -237,7 +239,7 @@ export default {
             props: {
               title: `Kullanıcı İşlemleri `,
               icon: "UserIcon",
-              variant: "succes",
+              variant: "success",
               text: ` İşlem Başarılı.`,
             },
           })
@@ -250,7 +252,7 @@ export default {
               title: "Rapor İşlemleri",
               icon: "FileTextIcon",
               variant: "danger",
-              text: " İşlem Başarısız.",
+              text: " Eski Şifre Yanlış. İşlem Başarısız.",
             },
           });
         });

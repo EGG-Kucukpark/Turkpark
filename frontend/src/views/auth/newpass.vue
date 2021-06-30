@@ -272,11 +272,10 @@ export default {
               this.show2 = true;
               this.show = false;
             } else {
-
             }
           })
-          .then((success) => {
-            if (success) {
+          .then((res) => {
+            this.$router.replace("/login").then(
               this.$toast({
                 component: ToastificationContent,
                 props: {
@@ -284,8 +283,8 @@ export default {
                   icon: "EditIcon",
                   variant: "success",
                 },
-              });
-            }
+              })
+            );
           })
       );
     },

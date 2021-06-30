@@ -6,7 +6,15 @@ export default [
         component: () => import('@/views/arsiv/arsiv.vue'),
         meta: {
             requiresAuth: true,
-            admin: true
+            admin: true,
+            pageTitle: 'Arşiv',
+            breadcrumb: [
+              {
+                text: 'Arşiv',
+
+                active: true,
+              },
+            ],
 
         }
     },

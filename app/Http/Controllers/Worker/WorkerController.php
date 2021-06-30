@@ -14,12 +14,12 @@ class WorkerController extends Controller
     {
         if ($request->q) {
 
-            return DB::table('workers')->where([['firma_email', $request->firma_email], ['name', 'LIKE', '%' . $request->q . '%']])->get();
+            return DB::table('workers')->where([['firma_id', $request->firma_id], ['name', 'LIKE', '%' . $request->q . '%']])->get();
         }
 
 
 
-        return DB::table('workers')->orwhere('firma_email', $request->firma_email)->get();
+        return DB::table('workers')->orwhere('firma_id', $request->firma_id)->get();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ class WorkerController extends Controller
 
         try {
             DB::table('workers')->insert([
-                'firma_email' => $request->firma_email,
+                'firma_id' => $request->firma_id,
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
@@ -59,7 +59,7 @@ class WorkerController extends Controller
             $filename = $request->file('file')->getClientOriginalName();
 
 
-            DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'isMeasure' => $request->status, 'name' => $request->name, 'firma_email' => $request->firma_email]);
+            DB::table('files')->insert(['dosya' => $filename, 'calisan_id' => $request->id, 'isMeasure' => $request->status, 'name' => $request->name, 'firma_id' => $request->firma_id]);
 
             $request->file('file')->storeas('Dosyalar', $filename, ['disk' => 'dosyalar']);
 
@@ -87,12 +87,12 @@ class WorkerController extends Controller
 
         if ($request->status === 1) {
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '1']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isMeasure', '1']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         } else {
 
 
-            return  DB::table('files')->where([['firma_email', $request->firma_email], ['isMeasure', '0']])
+            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isMeasure', '0']])
                 ->orwhere('calisan_id', $request->calisan_id)->get();
         }
     }

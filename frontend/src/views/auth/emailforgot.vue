@@ -163,6 +163,8 @@ export default {
           axios
             .post("/api/email/resend", { email: this.email })
             .then((res) => {
+                this.spin = false;
+                this.$router.replace("/login").then(
               this.$toast({
                 component: ToastificationContent,
                 props: {
@@ -170,8 +172,8 @@ export default {
                   icon: "EditIcon",
                   variant: "success",
                 },
-              }),
-                this.spin = false;
+              }))
+
             })
             .catch((error) => {
               this.show = true;

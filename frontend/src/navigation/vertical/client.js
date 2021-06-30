@@ -33,11 +33,11 @@ export default [
 
             {
                 title: 'Laboratuvar',
-                route:'laboratuvar'
+                route: 'laboratuvar'
 
             }, {
                 title: 'Asansör',
-                route:'asansor'
+                route: 'asansor'
 
             }, {
                 title: 'Ortam Ölçümleri',
@@ -45,7 +45,7 @@ export default [
 
             }, {
                 title: 'Periyodik Kontroller',
-                route:'periyodik'
+                route: 'periyodik'
             }, {
                 title: 'İlk Yardım',
                 route: 'ilkyardim'

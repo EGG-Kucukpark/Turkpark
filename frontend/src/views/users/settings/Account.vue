@@ -16,8 +16,27 @@
 
       <account-setting-general v-if="options" :options="options" />
     </b-tab>
-    <!--/ general tab -->
 
+    <!--/ general tab -->
+    <b-tab  v-if="options.role != 'Firma'">
+      <!-- title -->
+      <template  #title>
+        <feather-icon icon="InfoIcon" size="18" class="mr-50" />
+        <span class="font-weight-bold">Ek Bilgiler</span>
+      </template>
+
+      <bireyekbilgi  :options="options" />
+    </b-tab>
+    <b-tab  v-if="options.role === 'Firma'">
+      <!-- title -->
+      <template #title>
+        <feather-icon icon="InfoIcon" size="18" class="mr-50" />
+        <span class="font-weight-bold">Ek Bilgiler</span>
+      </template>
+
+      <firmaekbilgi :options="options" />
+
+    </b-tab>
     <!-- change password tab -->
     <b-tab>
       <!-- title -->
@@ -31,7 +50,6 @@
     <!--/ change password tab -->
 
     <!-- info -->
-
   </b-tabs>
 </template>
 
@@ -39,23 +57,26 @@
 import { BTabs, BTab } from "bootstrap-vue";
 import AccountSettingGeneral from "./AccountSettingGeneral.vue";
 import AccountSettingPassword from "./AccountSettingPassword.vue";
-
-
+import firmaekbilgi from './firmaekbilgi.vue'
+import bireyekbilgi from './bireyekbilgi.vue'
 export default {
   components: {
     BTabs,
     BTab,
     AccountSettingGeneral,
     AccountSettingPassword,
-
+    firmaekbilgi,
+    bireyekbilgi
   },
   setup() {
     var options = null;
+
     options = JSON.parse(localStorage.getItem("user"));
 
     return {
       options,
     };
+
   },
 };
 </script>

@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -33,6 +34,14 @@ class ClientController extends Controller
             'isArch' => '1'
         ]);
     } ////////////////////////////////////////////////////////////////////////////////////
+    public function arsivckr(Request $request)
+    {
+
+        DB::table('clients')->where('id', $request->id)->update([
+
+            'isArch' => '0'
+        ]);
+    } ////////////////////////////////////////////////////////////////////////////////////
     public function delete(Request $request)
     {
 
@@ -57,10 +66,11 @@ class ClientController extends Controller
         try {
 
 
-            $a = DB::table('clients')->insert([
+            DB::table('clients')->insert([
+
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password),
+                'password' => Hash::make($request->password),
                 'telefon' => $request->telefon,
                 'vergino' => $request->vergino,
                 'vergiad' => $request->vergiad,
@@ -69,8 +79,20 @@ class ClientController extends Controller
 
 
             ]);
+            $user = DB::table('clients')->where('name', $request->name)->first();
 
-            return $a;
+            DB::table('users')->insert([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'Firma',
+                'telefon' => $request->telefon,
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'password' => Hash::make($request->password),
+                'status' => '1',
+                'user_id' => $user->id
+
+            ]);
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }
@@ -92,7 +114,7 @@ class ClientController extends Controller
 
             ]);
 
-           /* DB::table('users')->insert([
+            /* DB::table('users')->insert([
                 'name' => $request->name,
                 'email' => $request->email,
                 'role' => 'Firma',
@@ -103,8 +125,6 @@ class ClientController extends Controller
                 'status' => '1',
             ]);
             */
-
-
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }

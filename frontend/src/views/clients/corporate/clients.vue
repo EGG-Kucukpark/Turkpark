@@ -1,18 +1,6 @@
 <template>
   <div>
-    <b-breadcrumb style="margin: 18px" class="breadcrumb-slash">
-      <b-breadcrumb-item to="/">
-        <feather-icon icon="HomeIcon" size="25" variant="primary" />
-      </b-breadcrumb-item>
 
-      <b-breadcrumb-item style="font-size: 18px" to="/">
-        Ana Sayfa
-      </b-breadcrumb-item>
-
-      <b-breadcrumb-item style="font-size: 18px" active>
-        Sonuçlar
-      </b-breadcrumb-item>
-    </b-breadcrumb>
     <b-card title="Kurumsal Müşteriler">
       <b-row>
         <b-col>
@@ -64,11 +52,11 @@
                     <validation-provider
                       #default="{ errors }"
                       name="İsim"
-                      rules="required|alpha"
+                      rules="required|"
                     >
                       <b-form-input
                         id="isim"
-                         :state="errors.length > 0 ? false : null"
+                        :state="errors.length > 0 ? false : null"
                         v-model="name"
                         placeholder="İş Yeri Adını Giriniz..."
                       ></b-form-input>
@@ -101,7 +89,6 @@
                       v-model="sgkno"
                       placeholder="SGK Sicil Numarasını Giriniz..."
                     ></b-form-input>
-
                   </b-form-group>
 
                   <b-form-group
@@ -138,13 +125,12 @@
                     label-cols-sm="3"
                     label-align-sm="right"
                   >
-
-                      <b-form-input
-                        id="email" :state="errors.length > 0 ? false : null"
-                        v-model="email"
-                        placeholder="E-posta Adresini Giriniz"
-                      ></b-form-input>
-
+                    <b-form-input
+                      id="email"
+                      :state="errors.length > 0 ? false : null"
+                      v-model="email"
+                      placeholder="E-posta Adresini Giriniz"
+                    ></b-form-input>
                   </b-form-group>
 
                   <b-form-group
@@ -166,28 +152,25 @@
                     label-cols-sm="3"
                     label-align-sm="right"
                   >
-
-                      <b-input-group
-                        class="input-group-merge"
-                        :class="errors.length > 0 ? 'is-invalid' : null"
-                      >
-                        <b-form-input
-                          v-model="Şifre"
-                          class="form-control-merge"
-                          :type="passwordFieldType"
-                          :state="errors.length > 0 ? false : null"
-                          placeholder="············"
+                    <b-input-group
+                      class="input-group-merge"
+                      :class="errors.length > 0 ? 'is-invalid' : null"
+                    >
+                      <b-form-input
+                        v-model="Şifre"
+                        class="form-control-merge"
+                        :type="passwordFieldType"
+                        :state="errors.length > 0 ? false : null"
+                        placeholder="············"
+                      />
+                      <b-input-group-append is-text>
+                        <feather-icon
+                          :icon="passwordToggleIcon"
+                          class="cursor-pointer"
+                          @click="togglePasswordVisibility"
                         />
-                        <b-input-group-append is-text>
-                          <feather-icon
-                            :icon="passwordToggleIcon"
-                            class="cursor-pointer"
-                            @click="togglePasswordVisibility"
-                          />
-                        </b-input-group-append>
-                      </b-input-group>
-
-
+                      </b-input-group-append>
+                    </b-input-group>
                   </b-form-group>
 
                   <div style="float: right">
@@ -238,8 +221,8 @@
                   variant="warning"
                   @click="Modal2(data.item)"
                   class="btn-icon"
-                   v-b-tooltip.hover.v-warning
-                    title="Düzenle"
+                  v-b-tooltip.hover.v-warning
+                  title="Düzenle"
                 >
                   <feather-icon icon="EditIcon" />
                 </b-button>
@@ -374,8 +357,8 @@
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="danger"
                   @click.prevent="arsiv(data.item)"
-                   v-b-tooltip.hover.v-danger
-                    title="Arşivle"
+                  v-b-tooltip.hover.v-danger
+                  title="Arşivle"
                   class="btn-icon"
                 >
                   <feather-icon icon="ArchiveIcon" /> </b-button
@@ -413,14 +396,15 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import Ripple from 'vue-ripple-directive'
+import Ripple from "vue-ripple-directive";
 
 import {
   BTable,
   BAvatar,
   BBreadcrumb,
   BBreadcrumbItem,
-  BBadge,VBTooltip,
+  BBadge,
+  VBTooltip,
   BRow,
   BCol,
   BFormGroup,
@@ -443,8 +427,8 @@ export default {
     BTable,
     BAvatar,
     BBadge,
-    BRow,VBTooltip
-    ,
+    BRow,
+    VBTooltip,
     BCol,
     BBreadcrumb,
     BBreadcrumbItem,
@@ -466,7 +450,7 @@ export default {
   },
   mixins: [togglePasswordVisibility],
   directives: {
-    'b-tooltip': VBTooltip,
+    "b-tooltip": VBTooltip,
     Ripple,
   },
   data() {

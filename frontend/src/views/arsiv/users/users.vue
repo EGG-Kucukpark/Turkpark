@@ -85,9 +85,21 @@
             <span>
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                @click="arsivckr(data.item)"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                title="Arşivden Çıkar"
+              >
+                <feather-icon icon="ExternalLinkIcon" />
+              </b-button>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click="Modal2(data.item)"
                 class="btn-icon"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
               >
                 <feather-icon icon="EditIcon" />
               </b-button>
@@ -96,6 +108,8 @@
                 variant="danger"
                 @click.prevent="sil(data.item)"
                 class="btn-icon"
+                v-b-tooltip.hover.v-danger
+                title="Sil"
               >
                 <feather-icon icon="TrashIcon" />
               </b-button>
@@ -104,104 +118,104 @@
         </b-table>
       </b-col>
       <b-modal
-          hide-header-close
-          ok-title="Kaydet"
-          :hide-footer="true"
-          size="lg"
-          ref="modal2"
-          centered
-        >
-          <b-card>
-            <b-form @submit.prevent="update">
-              <b-form-group
-                label="İsim:"
-                label-for="İsim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="İsim"
-                  v-model="name"
-                  placeholder=" İsim Giriniz"
-                ></b-form-input>
-              </b-form-group>
+        hide-header-close
+        ok-title="Kaydet"
+        :hide-footer="true"
+        size="lg"
+        ref="modal2"
+        centered
+      >
+        <b-card>
+          <b-form @submit.prevent="update">
+            <b-form-group
+              label="İsim:"
+              label-for="İsim"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="İsim"
+                v-model="name"
+                placeholder=" İsim Giriniz"
+              ></b-form-input>
+            </b-form-group>
 
-              <b-form-group
-                label="E-posta:"
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="nested-city"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
+            <b-form-group
+              label="E-posta:"
+              label-for="nested-city"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="nested-city"
+                v-model="email"
+                placeholder="E-posta Adresini Giriniz"
+              ></b-form-input>
+            </b-form-group>
 
-              <b-form-group
-                label="Telefon No:"
-                label-for="nested-state"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="nested-state"
-                  v-model="telefon"
-                  placeholder="İletişim Numarası"
-                ></b-form-input>
-              </b-form-group>
+            <b-form-group
+              label="Telefon No:"
+              label-for="nested-state"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="nested-state"
+                v-model="telefon"
+                placeholder="İletişim Numarası"
+              ></b-form-input>
+            </b-form-group>
 
-              <b-form-group
-                label="Yeni Şifre"
-                label-for="nested-state"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="Şifre"
-                  v-model="password"
-                  placeholder=" Şifre Giriniz"
-                ></b-form-input>
-              </b-form-group>
+            <b-form-group
+              label="Yeni Şifre"
+              label-for="nested-state"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="Şifre"
+                v-model="password"
+                placeholder=" Şifre Giriniz"
+              ></b-form-input>
+            </b-form-group>
 
-              <b-form-group
-                label="Yetki Seçiniz: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select aria-placeholder="Sürücü Seçiniz" v-model="role">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option>Admin</option>
-                  <option>Uzman</option>
-                  <option>Hekim</option>
-                  <option>Firma</option>
-                </b-form-select>
-              </b-form-group>
-              <b-form-group
-                label="Kullanıcı Durumu: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select v-model="status">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option value="1">Aktif</option>
-                  <option value="2">Beklemede</option>
-                  <option value="3">Red</option>
-                </b-form-select>
-              </b-form-group>
+            <b-form-group
+              label="Yetki Seçiniz: "
+              label-for="nested-city"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-select aria-placeholder="Sürücü Seçiniz" v-model="role">
+                <option disabled value="">Lütfen Seçim Yapınız</option>
+                <option>Admin</option>
+                <option>Uzman</option>
+                <option>Hekim</option>
+                <option>Firma</option>
+              </b-form-select>
+            </b-form-group>
+            <b-form-group
+              label="Kullanıcı Durumu: "
+              label-for="nested-city"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-select v-model="status">
+                <option disabled value="">Lütfen Seçim Yapınız</option>
+                <option value="1">Aktif</option>
+                <option value="2">Beklemede</option>
+                <option value="3">Red</option>
+              </b-form-select>
+            </b-form-group>
 
-              <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
-          </b-card>
-        </b-modal>
+            <div style="float: right">
+              <b-button variant="success" type="submit"> Tamam </b-button>
+            </div>
+            <div style="float: right; padding-right: 10px">
+              <b-button variant="danger" @click="form()"> İptal</b-button>
+            </div>
+          </b-form>
+        </b-card>
+      </b-modal>
 
       <b-col md="2" sm="4" class="my-1">
         <b-form-group class="mb-0">
@@ -242,6 +256,7 @@ import {
   BFormSelect,
   BPagination,
   BInputGroup,
+  VBTooltip,
   BFormInput,
   BInputGroupAppend,
   BButton,
@@ -251,7 +266,7 @@ import {
   BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
-
+import Ripple from 'vue-ripple-directive'
 export default {
   components: {
     BTable,
@@ -260,6 +275,7 @@ export default {
     BRow,
     BCol,
     BFormGroup,
+    VBTooltip,
     BFormSelect,
     BPagination,
     BInputGroup,
@@ -272,6 +288,10 @@ export default {
     BForm,
     downloadexcel,
     BFormFile,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
+    Ripple,
   },
   data() {
     return {
@@ -365,10 +385,13 @@ export default {
   },
 
   methods: {
+    arsivckr(data) {
+      axios.post("api/arsivckr", { id: data.id }).then(this.refreshStop());
+    },
     refreshStop() {
       setTimeout(() => {
         axios
-          .post("/api/users", {status: 7})
+          .post("/api/users", { status: 7 })
           .then((response) => {
             this.items = response.data;
           })
@@ -463,8 +486,7 @@ export default {
     },
 
     form() {
-
-        this.$refs["modal2"].hide(),
+      this.$refs["modal2"].hide(),
         (this.name = ""),
         (this.email = ""),
         (this.role = ""),

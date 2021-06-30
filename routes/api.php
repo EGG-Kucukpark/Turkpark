@@ -45,7 +45,10 @@ route::post('excelimport', [UserController::class, 'import']);
 route::post('sifreguncelle', [UserController::class, 'sifirla']);
 
 route::post('arsivuser', [UserController::class, 'arsiv']);
+Route::post('arsivckr', [UserController::class, 'arsivckr']);
 route::post('usersil', [UserController::class, 'delete']);
+route::post('getuser', [UserController::class, 'getuserinfo']);
+
 
 
 
@@ -64,6 +67,7 @@ route::post('firmanotsil', [clientController::class, 'notsil']);
 route::post('firmanot', [clientController::class, 'notlar']);
 route::post('firmanotduzenle', [clientController::class, 'notdüzenle']);
 route::post('arsivfirma', [ClientController::class, 'arsiv']);
+route::post('firmaarsvckr', [ClientController::class, 'arsivckr']);
 route::post('firmasil', [ClientController::class, 'delete']);
 
 
@@ -85,7 +89,7 @@ Route::get('calisangoster/{id}', [WorkerController::class, 'worker']);
 Route::post('calisanlar', [WorkerController::class, 'workers']);
 route::post('calisanekle', [WorkerController::class, 'addworker']);
 route::post('calisanduzenle', [WorkerController::class, 'calisanduzenle']);
-Route::post('workersil', [WorkerController::class, 'workersil'] );
+Route::post('workersil', [WorkerController::class, 'workersil']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Dosya İşlemleri
@@ -117,10 +121,10 @@ Route::post('updatetask/{id}', [TodoController::class, 'updatetask']);
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Takvim İşlemleri
 
-   route::post("takvim", [TakvimController::class, 'takvimler']);
-   route::get("takvimekle", [TakvimController::class, 'takvimekle']);
-   route::post("takvimduzenle/{id}", [TakvimController::class, 'takvimduzenle']);
-   route::get("takvimsil", [TakvimController::class, 'takvimsil']);
+route::post("takvim", [TakvimController::class, 'takvimler']);
+route::get("takvimekle", [TakvimController::class, 'takvimekle']);
+route::post("takvimduzenle/{id}", [TakvimController::class, 'takvimduzenle']);
+route::get("takvimsil", [TakvimController::class, 'takvimsil']);
 
 
 

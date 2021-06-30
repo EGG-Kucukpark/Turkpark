@@ -44,9 +44,21 @@
             <span>
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                @click="arsivckr(data.item)"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                title="Arşivden Çıkar"
+              >
+                <feather-icon icon="ExternalLinkIcon" />
+              </b-button>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click="Modal2(data.item)"
                 class="btn-icon"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
               >
                 <feather-icon icon="EditIcon" />
               </b-button>
@@ -169,6 +181,8 @@
                 variant="danger"
                 @click.prevent="sil(data.item)"
                 class="btn-icon"
+                v-b-tooltip.hover.v-danger
+                title="Sil"
               >
                 <feather-icon icon="TrashIcon" /> </b-button
             ></span>
@@ -218,12 +232,13 @@ import {
   BFormInput,
   BInputGroupAppend,
   BButton,
+  VBTooltip,
   BCard,
   BModal,
   BForm,
 } from "bootstrap-vue";
 import axios from "@axios";
-
+import Ripple from "vue-ripple-directive";
 export default {
   components: {
     BTable,
@@ -242,6 +257,10 @@ export default {
     BModal,
     ToastificationContent,
     BForm,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
+    Ripple,
   },
   data() {
     return {
@@ -386,6 +405,9 @@ export default {
 
     Modal1() {
       this.$refs["modal1"].show();
+    },
+     arsivckr(data) {
+      axios.post("api/firmaarsvckr", { id: data.id }).then(this.refreshStop());
     },
 
     Modal2(row) {

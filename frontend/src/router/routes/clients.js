@@ -9,7 +9,14 @@ export default [
         component: () => import('@/views/clients/corporate/getclient/getclient.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            uzman: true,
+            pageTitle: 'Bilgiler',
+            breadcrumb: [{
+                text: 'Firmalar',
+                to: '/clients',
+
+
+            }, ],
         }
     },
     {
@@ -18,7 +25,12 @@ export default [
         component: () => import('@/views/clients/corporate/clients.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            uzman: true,
+            pageTitle: 'Kurumsal Müşteriler',
+            breadcrumb: [{
+                text: 'Home',
+                active: true,
+            }, ],
         }
     },
 
@@ -61,7 +73,12 @@ export default [
         component: () => import('@/views/clients/individual/individual.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            uzman: true,
+            pageTitle: 'Bireysel Müşteriler',
+            breadcrumb: [{
+                text: 'Home',
+                active: true,
+            }, ],
         }
     },
 
@@ -92,7 +109,7 @@ export default [
 
 
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     //            Lab
 
 
@@ -108,6 +125,11 @@ export default [
         component: () => import('@/views/lab/lab.vue'),
         meta: {
             requiresAuth: true,
+            pageTitle: 'Laboratuvar',
+            breadcrumb: [{
+                text: 'Ana Sayfa',
+                active: true,
+            }, ],
 
         }
 

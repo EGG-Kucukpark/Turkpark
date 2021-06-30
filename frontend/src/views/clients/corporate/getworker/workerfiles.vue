@@ -256,7 +256,7 @@ export default {
       formData.set("file", this.file);
       formData.append("id", this.id);
       formData.append("name", this.isim);
-      formData.append("firma_email", this.userData.firma_email);
+      formData.append("firma_id", this.userData.id);
 
 
       axios

@@ -1,10 +1,17 @@
-export default [
-    {
+export default [{
+
         path: '/calisanlar/:id',
         name: 'calisan-goster',
         component: () => import('@/views/clients/corporate/getworker/worker.vue'),
         meta: {
-            requiresAuth: true, uzman:true
+            requiresAuth: true,
+            uzman: true,
+            pageTitle: 'Bilgiler',
+            breadcrumb: [{
+                text: 'Firmalar',
+
+
+            }, ]
 
         }
     },
@@ -13,7 +20,8 @@ export default [
         name: 'raporlar',
         component: () => import('@/views/lab/raporlar/raporlar.vue'),
         meta: {
-            requiresAuth: true, admin:true
+            requiresAuth: true,
+            admin: true
 
         }
     },
@@ -21,9 +29,9 @@ export default [
     {
         path: '/calisanlar',
         name: 'calisanlar',
-        component:()=> import('@/views/workers/workers.vue'),
-        meta:{
-            requiresAuth:true
+        component: () => import('@/views/workers/workers.vue'),
+        meta: {
+            requiresAuth: true
         }
 
 
@@ -88,7 +96,12 @@ export default [
         name: 'periyodik',
         component: () => import('@/views/workers/periyodik.vue'),
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            pageTitle: 'Periyodik Ölçümler',
+            breadcrumb: [{
+                text: 'Ana Sayfa',
+                active: true,
+            }, ],
         }
 
 

@@ -163,15 +163,18 @@ export default {
           axios
             .post("/api/password/email", { email: this.email, ip: this.ip })
             .then((res) => {
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: "E-Posta Gönderildi.",
-                  icon: "EditIcon",
-                  variant: "success",
-                },
-              }),
-                this.spin = false;
+                (this.spin = false);
+              this.$router.replace("/login").then(
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: "E-Posta Gönderildi.",
+                    icon: "EditIcon",
+                    variant: "success",
+                  },
+                })
+              );
+
             })
             .catch((error) => {
               this.show = true;

@@ -380,7 +380,7 @@ export default {
     console.log(this.userData);
 
     axios
-      .post("/api/calisanlar", { firma_email: this.userData.email })
+      .post("/api/calisanlar", { firma_id: this.userData.id })
       .then((response) => {
         this.rows = response.data;
       });
@@ -390,7 +390,7 @@ export default {
     refreshStop() {
       setTimeout(() => {
         axios
-          .post("/api/calisanlar", { firma_email: this.userData.email })
+          .post("/api/calisanlar", { firma_id: this.userData.id })
           .then((response) => {
             this.rows = response.data;
           })
@@ -412,7 +412,7 @@ export default {
     submit() {
       axios
         .post("/api/calisanekle", {
-          firma_email: this.userData.email,
+          firma_id: this.userData.id,
           name: this.name,
           email: this.email,
           telefon: this.telefon,

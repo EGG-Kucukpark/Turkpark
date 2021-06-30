@@ -9,7 +9,7 @@
       <b-form-select @change="select" v-model="Selected">
         <option disabled value="">Lütfen Seçim Yapınız</option>
         <option
-          v-bind:value="{ firma_email: firma.email }"
+          v-bind:value="{ firma_id: firma.id }"
           v-for="firma in firma"
           :key="firma.id"
         >
@@ -40,11 +40,11 @@
 
       <span>
         <b-button
+          v-if="show"
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
           @click="modal"
-          v-if="show"
           >Yeni Rapor</b-button
         >
 
@@ -52,7 +52,6 @@
           hide-header-close
           :hide-footer="true"
           size="lg"
-          v-if="show"
           ref="modal"
           centered
           title="Rapor Ekle"
@@ -83,7 +82,7 @@
                   <b-form-select v-model="form.Selected2">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option
-                      v-bind:value="{ firma_email: firma.email }"
+                      v-bind:value="{ firma_id: firma.id }"
                       v-for="firma in firma"
                       :key="firma.id"
                     >
@@ -151,7 +150,6 @@
                     </div>
                   </b-alert>
                 </span>
-
                 <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="info"
@@ -174,6 +172,8 @@
                 </div>
               </div>
             </b-form>
+
+            <pre> {{$data.form | json}} </pre>
           </b-card>
         </b-modal>
       </span>
@@ -338,11 +338,11 @@ import axios from "@axios";
 export default {
   components: {
     BTable,
-    BProgress,
     BAvatar,
     BBadge,
     BRow,
     VBTooltip,
+    BProgress,
     BCol,
     BFormGroup,
     BFormSelect,
@@ -445,9 +445,9 @@ export default {
 
     if (user.role === "Firma") {
       this.show = false;
-      var mail = user.email;
+      var id = user.id;
       axios
-        .post("/api/getfile", { firma_email: mail, status: 2 })
+        .post("/api/getfile", { firma_id: id, status: 2})
         .then((res) => (this.files = res.data));
     } else {
       axios.post("/api/firmalar").then((response) => {
@@ -481,13 +481,13 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-        var email = this.Selected.firma_email;
+        var id = this.Selected.firma_id;
         this.Selected = {
-          firma_email: this.Selected.firma_email,
+          firma_id: this.Selected.firma_id,
         };
 
         axios
-          .post("/api/getfile", { firma_email: email, status: 2 })
+          .post("/api/getfile", { firma_id: id, status: 2 })
           .then((res) => (this.files = res.data))
           .then(
             this.$toast({
@@ -512,7 +512,7 @@ export default {
           calisanselected: "",
           rapor: "",
           file: "",
-          Selected2: this.Selected.firma_email,
+          Selected2: this.Selected.firma_id,
           dgr: 0,
           variant: "success",
         });
@@ -540,7 +540,7 @@ export default {
           formData.set("file", form.file);
           formData.append("id", form.calisanselected.id);
           formData.append("name", form.calisanselected.name);
-          formData.append("firma_email", form.Selected2);
+          formData.append("firma_id", form.Selected2);
           formData.append("rapor", form.rapor);
           formData.append("status", "2");
           form.variant = "success";
@@ -549,8 +549,9 @@ export default {
           setTimeout(() => {
             axios
               .post("api/belgeyukle", formData)
-              .then((res) =>
-                document.getElementById("basarili").click(), form.dgr === 100
+              .then(
+                (res) => document.getElementById("basarili").click(),
+                (form.dgr = 100)
               )
               .catch((error) => {
                 form.dgr = 100;
@@ -574,19 +575,20 @@ export default {
     },
 
     select() {
-      var email = this.Selected.firma_email;
+      var id = this.Selected.firma_id;
 
-      this.form[0].Selected2 = this.Selected.firma_email;
 
-      console.log(this.form[0].Selected2);
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = this.Selected.firma_id;
+      }
 
       axios
-        .post("/api/getfile", { firma_email: email, status: 2 })
+        .post("/api/getfile", { firma_id: id, status: 2 })
 
         .then((res) => (this.files = res.data));
 
       axios
-        .post("/api/calisanlar", { firma_email: email })
+        .post("/api/calisanlar", { firma_id: id })
         .then((res) => (this.calisan = res.data));
     },
     göster(dosya) {
