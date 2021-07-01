@@ -79,7 +79,7 @@ class ClientController extends Controller
 
 
             ]);
-            $user = DB::table('clients')->where('name', $request->name)->first();
+          /*  $user = DB::table('clients')->where('name', $request->name)->first();
 
             DB::table('users')->insert([
                 'name' => $request->name,
@@ -93,6 +93,7 @@ class ClientController extends Controller
                 'user_id' => $user->id
 
             ]);
+            */
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }
