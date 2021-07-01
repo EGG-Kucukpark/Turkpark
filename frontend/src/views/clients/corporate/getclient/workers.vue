@@ -1,323 +1,324 @@
 <template>
-  <b-card title="Çalışan Listesi">
-    <!-- input search -->
-    <div class="custom-search d-flex justify-content-end">
-      <b-form-group>
-        <div class="d-flex align-items-center">
-          <label class="mr-1">Arama:</label>
-          <b-form-input
-            v-model="searchTerm"
-            placeholder="Ara"
-            type="text"
-            class="d-inline-block"
-          />
-        </div>
-      </b-form-group>
-    </div>
+  <b-card title="Çalışanlar">
+    <b-row>
+      <b-col>
+        <b-form-group
+          label-cols-sm="7"
+          label-align-sm="left"
+          label-size="sm"
+          label-for="filterInput"
+          class="mb-1"
+        >
+          <b-input-group>
+            <b-form-input
+              id="filterInput"
+              v-model="filter"
+              type="search"
+              placeholder="........"
+            />
+          </b-input-group>
+        </b-form-group>
+      </b-col>
 
-    <!-- table -->
-    <vue-good-table
-      :line-numbers="true"
-      :columns="columns"
-      :rows="rows"
-      theme="polar-bear"
-      :rtl="direction"
-      :search-options="{
-        enabled: true,
-
-        externalQuery: searchTerm,
-      }"
-      :pagination-options="{
-        enabled: true,
-        perPage: pageLength,
-      }"
-    >
-      <p style="text-align: center; width: 100%" slot="emptystate">
-        <b> Çalışan Bulunamadı.</b>
-      </p>
-      <!-- Araç Ekleme  -->
-      <div slot="table-actions" style="margin: 10px">
-        <b-button variant="success" @click="Modal1">Yeni Çalışan</b-button>
-
+      <span>
+        <b-button
+          class="mb-1"
+          style="margin-right: 50px"
+          variant="success"
+          v-on:click="$refs['modal'].show()"
+          >Yeni Çalışan</b-button
+        >
         <b-modal
           hide-header-close
           ok-title="Kaydet"
           :hide-footer="true"
           size="lg"
-          ref="modal1"
+          ref="modal"
           centered
           title="Çalışan Ekle"
         >
-          <b-card>
-            <b-form @submit.prevent="submit">
-              <b-form-group
-                label="İsim:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="name"
-                  placeholder="İsim Giriniz"
-                ></b-form-input>
-              </b-form-group>
+          <b-form @submit.prevent="ekle">
+            <b-form-group
+              label="İsim:"
+              label-for="isim"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="isim"
+                v-model="name"
+                placeholder="İsim Giriniz"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              label="TC. Kimlik Numarası:"
+              label-for="isim"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="isim"
+                v-model="tc"
+                placeholder="TC. Kimlik Numarası Giriniz"
+              ></b-form-input>
+            </b-form-group>
 
-              <b-form-group
-                label="E-Posta Adresi"
-                label-for="email"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
+            <b-form-group
+              label="E-Posta Adresi"
+              label-for="email"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="email"
+                v-model="email"
+                placeholder="E-posta Adresini Giriniz"
+              ></b-form-input>
+            </b-form-group>
 
-              <b-form-group
-                label="Telefon No:"
-                label-for="telefon"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="telefon"
-                  v-model="telefon"
-                  placeholder="Kullanıcı Telefon Numarası"
-                ></b-form-input>
-              </b-form-group>
+            <b-form-group
+              label="Telefon No:"
+              label-for="telefon"
+              label-cols-sm="3"
+              label-align-sm="right"
+            >
+              <b-form-input
+                id="telefon"
+                v-model="telefon"
+                placeholder="Kullanıcı Telefon Numarası"
+              ></b-form-input>
+            </b-form-group>
 
-              <div style="float: right">
-                <b-button variant="success" @click="form()" type="submit">
-                  Tamam
-                </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
+            <div style="float: right">
+              <b-button variant="success" type="submit"> Tamam </b-button>
+            </div>
+            <div style="float: right; padding-right: 10px">
+              <b-button variant="danger" @click="form()"> İptal</b-button>
+            </div>
+          </b-form>
 
-            <!-- Emulate built in modal footer ok and cancel button actions -->
-          </b-card>
+          <!-- Emulate built in modal footer ok and cancel button actions -->
         </b-modal>
-      </div>
+      </span>
 
-      <template slot="table-row" slot-scope="props">
-        <!--  Araç Ekleme Bitiş-->
+      <b-modal
+        hide-header-close
+        ok-title="Kaydet"
+        :hide-footer="true"
+        size="lg"
+        ref="modal2"
+        centered
+        title="Çalışan Düzenle"
+      >
+        <b-form @submit.prevent="duzenle">
+          <b-form-group
+            label="İsim:"
+            label-for="isim"
+            label-cols-sm="3"
+            label-align-sm="right"
+          >
+            <b-form-input
+              id="isim"
+              v-model="name"
+              placeholder="İsim Giriniz"
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            label="TC. Kimlik Numarası:"
+            label-for="isim"
+            label-cols-sm="3"
+            label-align-sm="right"
+          >
+            <b-form-input
+              id="isim"
+              v-model="tc"
+              placeholder="TC. Kimlik Numarası Giriniz"
+            ></b-form-input>
+          </b-form-group>
 
-        <!-- Column: Name -->
-        <div v-if="props.column.field === 'name'" class="text-nowrap">
-          <b-avatar :src="props.row.avatar" class="mx-1" />
-          <span class="text-nowrap">{{ props.row.name }}</span>
-        </div>
+          <b-form-group
+            label="E-Posta Adresi"
+            label-for="email"
+            label-cols-sm="3"
+            label-align-sm="right"
+          >
+            <b-form-input
+              id="email"
+              v-model="email"
+              placeholder="E-posta Adresini Giriniz"
+            ></b-form-input>
+          </b-form-group>
 
-        <span v-else-if="props.column.field === 'role'">
-          <div class="text-nowrap">
-            <feather-icon
-              :icon="roleVariant(props.row.role)"
-              size="18"
-              class="mr-50"
-              style="color: red"
-            />
-            <span class="align-text-top text-capitalize">{{
-              props.row.role
-            }}</span>
+          <b-form-group
+            label="Telefon No:"
+            label-for="telefon"
+            label-cols-sm="3"
+            label-align-sm="right"
+          >
+            <b-form-input
+              id="telefon"
+              v-model="telefon"
+              placeholder="Kullanıcı Telefon Numarası"
+            ></b-form-input>
+          </b-form-group>
+
+          <div style="float: right">
+            <b-button variant="success" type="submit"> Tamam </b-button>
           </div>
-        </span>
-        <!-- Column: Status -->
+          <div style="float: right; padding-right: 10px">
+            <b-button variant="danger" @click="form()"> İptal</b-button>
+          </div>
+        </b-form>
 
-        <!-- Column: Action -->
+        <!-- Emulate built in modal footer ok and cancel button actions -->
+      </b-modal>
 
-        <span v-else-if="props.column.field === 'action'">
-          <span>
-            <b-dropdown
-              variant="link"
-              toggle-class="text-decoration-none"
-              no-caret
+      <b-col cols="12" class="table-responsive">
+        <b-table
+          striped
+          hover
+          responsive
+          :per-page="perPage"
+          :current-page="currentPage"
+          :items="items"
+          :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          :sort-direction="sortDirection"
+          :filter="filter"
+          @row-clicked="tikla"
+          :filter-included-fields="filterOn"
+          show-empty
+          empty-text="Veri Bulunamadı."
+          empty-filtered-text="Veri Bulunamadı."
+        >
+          <p style="text-align: center; width: 100%" show-empty>
             >
-              <template v-slot:button-content>
-                <feather-icon
-                  icon="MoreVerticalIcon"
-                  size="16"
-                  class="text-body align-middle mr-25"
-                />
-              </template>
-              <b-dropdown-item
-                :to="{ name: 'calisan-goster', params: { id: props.row.id } }"
+            <b> Sonuç Bulunamadı.</b>
+          </p>
+
+          <template #cell(actions)="data">
+            <span>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="warning"
+                @click="Duzenlemodal(data.item)"
+                class="btn-icon"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
               >
-                <feather-icon icon="ImageIcon" class="mr-50" />
-                <span>Göster</span>
-              </b-dropdown-item>
-              <b-dropdown-item @click="Modal2(props.row)">
-                <feather-icon icon="Edit2Icon" class="mr-50" />
-                <span>Düzenle</span>
-              </b-dropdown-item>
-
-              <b-modal
-                hide-header-close
-                ok-title="Kaydet"
-                :hide-footer="true"
-                size="lg"
-                centered
-                title="Çalışan Düzenle"
-                ref="modal2"
+                <feather-icon icon="EditIcon" />
+              </b-button>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="danger"
+                @click.prevent="sil(data.item)"
+                class="btn-icon"
+                v-b-tooltip.hover.v-danger
+                title="Sil"
               >
-                <b-card>
-                  <b-form @submit.prevent="update">
-                    <b-form-group
-                      label="İsim:"
-                      label-for="İsim"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="İsim"
-                        v-model="name"
-                        placeholder=" İsim Giriniz"
-                      ></b-form-input>
-                    </b-form-group>
+                <feather-icon icon="TrashIcon" />
+              </b-button>
 
-                    <b-form-group
-                      label="E-posta:"
-                      label-for="nested-city"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="nested-city"
-                        v-model="email"
-                        placeholder="E-posta Adresini Giriniz"
-                      ></b-form-input>
-                    </b-form-group>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                :to="{ name: 'calisan-goster', params: { id: data.item.id } }"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                title="Göster"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
+            </span>
+          </template>
+        </b-table>
+      </b-col>
 
-                    <b-form-group
-                      label="Telefon No:"
-                      label-for="nested-state"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="nested-state"
-                        v-model="telefon"
-                        placeholder="İletişim Numarası"
-                      ></b-form-input>
-                    </b-form-group>
+      <b-col md="2" sm="4" class="my-1">
+        <b-form-group class="mb-0">
+          <b-form-select
+            id="perPageSelect"
+            v-model="perPage"
+            size="sm"
+            :options="pageOptions"
+            class="w-50"
+          />
+        </b-form-group>
+      </b-col>
 
-                    <div style="float: right">
-                      <b-button variant="success" type="submit">
-                        Tamam
-                      </b-button>
-                    </div>
-                    <div style="float: right; padding-right: 10px">
-                      <b-button variant="danger" @click="form()">
-                        İptal</b-button
-                      >
-                    </div>
-                  </b-form>
-                </b-card>
-              </b-modal>
-
-              <b-dropdown-item @click="deleteRow(props.row.id)">
-                <feather-icon icon="TrashIcon" class="mr-50" />
-                <span>Sil</span>
-              </b-dropdown-item>
-            </b-dropdown>
-          </span>
-        </span>
-
-        <!-- Column: Common -->
-        <span v-else>
-          {{ props.formattedRow[props.column.field] }}
-        </span>
-      </template>
-
-      <!-- pagination -->
-      <template slot="pagination-bottom" slot-scope="props">
-        <div class="d-flex justify-content-between flex-wrap">
-          <div class="d-flex align-items-center mb-0 mt-1">
-            <span class="text-nowrap"> Showing 1 to </span>
-            <b-form-select
-              v-model="pageLength"
-              :options="['10', '20', '30', '40', '50,']"
-              class="mx-1"
-              @input="
-                (value) => props.perPageChanged({ currentPerPage: value })
-              "
-            />
-            <span class="text-nowrap"> of {{ props.total }} entries </span>
-          </div>
-          <div>
-            <b-pagination
-              :value="1"
-              :total-rows="props.total"
-              :per-page="pageLength"
-              first-number
-              last-number
-              align="right"
-              prev-class="prev-item"
-              next-class="next-item"
-              class="mt-1 mb-0"
-              @input="(value) => props.pageChanged({ currentPage: value })"
-            >
-              <template #prev-text>
-                <feather-icon icon="ChevronLeftIcon" size="18" />
-              </template>
-              <template #next-text>
-                <feather-icon icon="ChevronRightIcon" size="18" />
-              </template>
-            </b-pagination>
-          </div>
-        </div>
-      </template>
-    </vue-good-table>
-
-    <template #code>
-      {{ codeColumnSearch }}
-    </template>
+      <b-col cols="12">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="center"
+          size="sm"
+          class="my-0"
+        />
+      </b-col>
+    </b-row>
   </b-card>
 </template>
 
 <script>
-import BCardCode from "@core/components/b-card-code/BCardCode.vue";
-import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import ripple from "vue-ripple-directive";
+import { heightTransition } from "@core/mixins/ui/transition";
 
 import {
+  BTable,
   BAvatar,
-  BForm,
   BBadge,
-  BPagination,
+  BSpinner,
+  BRow,
+  BCol,
   BFormGroup,
-  BFormInput,
   BFormSelect,
-  BDropdown,
-  BDropdownItem,
+  BPagination,
+  BProgress,
+  BInputGroup,
+  BFormInput,
+  BInputGroupAppend,
   BButton,
+  VBTooltip,
   BCard,
+  BModal,
+  BForm,
+  BFormFile,
+  BAlert,
 } from "bootstrap-vue";
-import { VueGoodTable } from "vue-good-table";
-import store from "@/store/index";
-import { codeColumnSearch } from "../code";
 import axios from "@axios";
 
 export default {
   components: {
-    BCardCode,
-    VueGoodTable,
+    BTable,
     BAvatar,
     BBadge,
-    BPagination,
+    BSpinner,
+    BRow,
+    BCol,
     BFormGroup,
-    BFormInput,
     BFormSelect,
-    BDropdown,
-    BDropdownItem,
-    BCardActions,
+    BPagination,
+    BInputGroup,
+    BFormInput,
+    BProgress,
+    VBTooltip,
+    BInputGroupAppend,
     BButton,
-    BForm,
     BCard,
+    BModal,
+    ToastificationContent,
+    BForm,
+    BFormFile,
+    ripple,
+    heightTransition,
+    BAlert,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
+    ripple,
   },
   props: {
     userData: {
@@ -327,181 +328,179 @@ export default {
   },
   data() {
     return {
-      pageLength: 10,
-      dir: false,
-      codeColumnSearch,
-      columns: [
+      perPage: 10,
+      pageOptions: [3, 5, 10],
+      totalRows: 1,
+      currentPage: 1,
+      sortBy: "",
+      sortDesc: false,
+      sortDirection: "asc",
+      filter: null,
+      filterOn: [],
+      infoModal: {
+        id: "info-modal",
+        title: "",
+        content: "",
+      },
+      fields: [
+        { key: "name", label: "Çalışan ismi", sortable: true, filter: true },
         {
-          label: "İsim",
-          field: "name",
-          filterOptions: {
-            enabled: true,
-            placeholder: "Araç Ara",
-          },
+          key: "tc",
+          label: "TC.Kimlik Numarası",
+          sortable: true,
+          filter: true,
         },
         {
-          label: "E-Posta",
-          field: "email",
-          filterOptions: {
-            enabled: true,
-            placeholder: "Search Email",
-          },
+          key: "telefon",
+          label: "Telefon Numarası",
+          sortable: true,
+          filter: true,
+        },
+        {
+          key: "email",
+          label: "E-Posta Adresi",
+          sortable: true,
+          filter: true,
         },
 
-        {
-          label: "Telefon",
-          field: "telefon",
-          filterOptions: {
-            enabled: true,
-            placeholder: "Search GsmNo",
-          },
-        },
-
-        {
-          label: "Eylemler",
-          field: "action",
-        },
+        { key: "actions", label: "Eylemler" },
       ],
-
-      rows: [],
-      name: "",
-      email: "",
-      role: "",
-      telefon: "",
-      status: null,
-      password: "",
+      items: [],
+      name: null,
+      tc: null,
+      email: null,
+      telefon: null,
       id: this.userData.id,
-      searchTerm: "",
-      workerid: null,
-      show: false,
+      calisan_id: null,
     };
-  },
-  created() {
-    console.log(this.userData);
-
-    axios
-      .post("/api/calisanlar", { firma_id: this.userData.id })
-      .then((response) => {
-        this.rows = response.data;
-      });
-  },
-
-  methods: {
-    refreshStop() {
-      setTimeout(() => {
-        axios
-          .post("/api/calisanlar", { firma_id: this.userData.id })
-          .then((response) => {
-            this.rows = response.data;
-          })
-          .then(
-            this.$toast({
-              component: ToastificationContent,
-              position: "top-right",
-              props: {
-                title: `Firma Ekleme `,
-                icon: "BriefcaseIcon",
-                variant: "success",
-                text: `Firma İşlemi Başarılı.`,
-              },
-            })
-          );
-      }, 500);
-    },
-
-    submit() {
-      axios
-        .post("/api/calisanekle", {
-          firma_id: this.userData.id,
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-        })
-        .then((res) => this.refreshStop())
-        .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Firma Ekleme `,
-              icon: "BriefcaseIcon",
-              variant: "danger",
-              text: `Firma İşlemi Başarısız.`,
-            },
-          });
-        });
-    },
-
-    Modal1() {
-      this.$refs["modal1"].show();
-    },
-    Modal2(row) {
-      this.$refs["modal2"].show();
-      (this.userid = row.id),
-        (this.name = row.name),
-        (this.email = row.email),
-        (this.telefon = row.telefon),
-        (this.role = row.role),
-        (this.status = row.status);
-    },
-
-    update() {
-      axios
-        .post("/api/calisanduzenle", {
-          userid: this.userid,
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-        })
-        .then((res) => this.refreshStop(), this.form())
-        .catch((error) =>
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Firma Ekleme `,
-              icon: "BriefcaseIcon",
-              variant: "danger",
-              text: `Firma İşlemi Başarısız.`,
-            },
-          })
-        );
-    },
-
-    deleteRow(data) {
-      axios
-        .post("/api/workersil", { id: data })
-        .then(this.refreshStop(), this.form())
-        .catch((error) =>
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Firma Ekleme `,
-              icon: "BriefcaseIcon",
-              variant: "danger",
-              text: `Ekleme İşlemi Başarısız.`,
-            },
-          })
-        );
-    },
-
-    form() {
-      this.$refs["modal1"].hide(), this.$refs["modal2"].hide();
-    },
   },
 
   computed: {
-    direction() {
-      if (store.state.appConfig.isRTL) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.dir = true;
-        return this.dir;
-      }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.dir = false;
-      return this.dir;
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter((f) => f.sortable)
+        .map((f) => ({ text: f.label, value: f.key }));
+    },
+  },
+  created() {
+    this.veri();
+  },
+  mounted() {
+    setTimeout(() => {
+      this.totalRows = this.files.length;
+    }, 500);
+  },
+  methods: {
+    basarili() {
+      this.$toast({
+        component: ToastificationContent,
+        position: "top-right",
+        props: {
+          title: `Firma İşlemleri `,
+          icon: "BriefCaseIcon",
+          variant: "success",
+          text: ` İşlem Başarılı.`,
+        },
+      });
+    },
+    basarisiz() {
+      this.$toast({
+        component: ToastificationContent,
+        position: "top-right",
+        props: {
+          title: `Firma İşlemleri `,
+          icon: "BriefCaseIcon",
+          variant: "danger",
+          text: ` İşlem Başarısız.`,
+        },
+      });
+    },
+    veri() {
+      axios
+        .post("/api/calisanlar", { firma_id: this.id })
+        .then((res) => (this.items = res.data));
+    },
+    ekle() {
+      axios
+        .post("/api/calisanekle", {
+          name: this.name,
+          firma_id: this.id,
+          telefon: this.telefon,
+          email: this.email,
+          tc: this.tc,
+        })
+        .then((res) => this.basarili(), this.veri(), this.form())
+        .catch((error) => this.basarisiz);
+    },
+    Duzenlemodal(row) {
+      this.$refs["modal2"].show();
+      (this.calisan_id = row.id),
+        (this.name = row.name),
+        (this.email = row.email),
+        (this.tc = row.tc),
+        (this.telefon = row.telefon);
+    },
+
+     tikla(params) {
+      this.$router.push({
+        name: "calisan-goster",
+        params: { id: params.id },
+      });
+    },
+
+    duzenle() {
+      axios
+        .post("/api/calisanduzenle", {
+          userid: this.calisan_id,
+          name: this.name,
+          telefon: this.telefon,
+          email: this.email,
+          tc: this.tc,
+        })
+        .then((res) => {this.basarili(), this.veri(), this.form()})
+        .catch((error) => this.basarisiz);
+    },
+
+    sil(data) {
+      axios
+        .post("/api/workersil", { id: data.id })
+        .then((res) => {
+          this.basarili(), this.veri(), this.form();
+        })
+        .catch((error) => this.basarisiz());
+    },
+
+    form() {
+      this.$refs["modal"].hide();
+      this.$refs["modal2"].hide();
+      (this.calisan_id = null),
+        (this.name = null),
+        (this.tc = null),
+        (this.email = null),
+        (this.telefon = null);
+    },
+
+    info(item, index, button) {
+      this.infoModal.title = `Row index: ${index}`;
+      this.infoModal.content = JSON.stringify(item, null, 2);
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    },
+    resetInfoModal() {
+      this.infoModal.title = "";
+      this.infoModal.content = "";
+    },
+    Filtered(filteredItems) {
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     },
   },
 };
 </script>
+<style >
+@media screen and (max-width: 374) {
+  .iptal {
+    margin-top: 10px !important;
+  }
+}
+</style>

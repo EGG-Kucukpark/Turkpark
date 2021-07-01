@@ -1,180 +1,151 @@
 <template>
-  <b-card>
-    <div style="padding-bottom: 30px">
-      <b-form-file
-        v-model="file"
-        @change="yukle"
-        :state="Boolean(file)"
-        placeholder="Dosya seçiniz veya sürükleyiniz..."
-        drop-placeholder="Buraya Bırak..."
-      />
-    </div>
-    <!-- input search -->
-    <div class="custom-search d-flex justify-content-end">
-      <b-form-group>
-        <div class="d-flex align-items-center">
-          <label class="mr-1">Arama:</label>
-          <b-form-input
-            v-model="searchTerm"
-            placeholder="Ara"
-            type="text"
-            class="d-inline-block"
+  <b-card >
+    <b-row>
+      <b-col>
+        <b-form-group
+          label-cols-sm="7"
+          label-align-sm="left"
+          label-size="sm"
+          label-for="filterInput"
+          class="mb-1"
+        >
+          <b-input-group>
+            <b-form-input
+              id="filterInput"
+              v-model="filter"
+              type="search"
+              placeholder="........"
+            />
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+
+      <b-col cols="12" class="table-responsive">
+        <b-table
+          striped
+          hover
+          responsive
+          :per-page="perPage"
+          :current-page="currentPage"
+          :items="items"
+          :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          :sort-direction="sortDirection"
+          :filter="filter"
+          :filter-included-fields="filterOn"
+          @filtered="onFiltered"
+          show-empty
+          empty-text="Veri Bulunamadı."
+          empty-filtered-text="Veri Bulunamadı."
+        >
+          <template #cell(actions)="data">
+            <span>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="warning"
+                @click.prevent="göster(data.item.dosya_ad)"
+                class="btn-icon"
+                v-b-tooltip.hover.v-warning
+                title="Göster"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
+
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                @click.prevent="indir(data.item.dosya_ad)"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                title="İndir"
+              >
+                <feather-icon icon="DownloadIcon" />
+              </b-button>
+            </span>
+          </template>
+        </b-table>
+      </b-col>
+
+      <b-col md="2" sm="4" class="my-1">
+        <b-form-group class="mb-0">
+          <b-form-select
+            id="perPageSelect"
+            v-model="perPage"
+            size="sm"
+            :options="pageOptions"
+            class="w-50"
           />
-        </div>
-      </b-form-group>
-    </div>
+        </b-form-group>
+      </b-col>
 
-    <!-- table -->
-    <vue-good-table
-      :line-numbers="true"
-      :columns="columns"
-      :rows="rows"
-      :fixed-header="true"
-      :rtl="direction"
-      :search-options="{
-        enabled: true,
-
-        externalQuery: searchTerm,
-      }"
-      :pagination-options="{
-        enabled: true,
-        perPage: pageLength,
-      }"
-    >
-      <p style="text-align: center; width: 100%" slot="emptystate">
-        <b> Dosya Bulunamadı.</b>
-      </p>
-      <!-- Araç Ekleme  -->
-
-      <template slot="table-row" slot-scope="props">
-        <!--  Araç Ekleme Bitiş-->
-
-        <!-- Column: Name -->
-        <div v-if="props.column.field === 'name'" class="text-nowrap">
-          <b-avatar :src="props.row.avatar" class="mx-1" />
-          <span class="text-nowrap">{{ props.row.name }}</span>
-        </div>
-
-        <span v-else-if="props.column.field === 'role'">
-          <div class="text-nowrap">
-            <feather-icon
-              :icon="roleVariant(props.row.role)"
-              size="18"
-              class="mr-50"
-              style="color: red"
-            />
-            <span class="align-text-top text-capitalize">{{
-              props.row.role
-            }}</span>
-          </div>
-        </span>
-        <!-- Column: Status -->
-
-        <!-- Column: Action -->
-
-        <span v-else-if="props.column.field === 'action'">
-          <span>
-            <b-button variant="success" @click.prevent="indir(props.row.dosya)">
-              İndir
-            </b-button>
-            <b-button   variant="warning"  @click.prevent="sil(props.row.dosya)" > Sil </b-button>
-            <b-button variant="danger" @click.prevent="göster(props.row.dosya)">
-              Göster
-            </b-button>
-          </span>
-        </span>
-
-        <!-- Column: Common -->
-        <span v-else>
-          {{ props.formattedRow[props.column.field] }}
-        </span>
-      </template>
-
-      <!-- pagination -->
-      <template slot="pagination-bottom" slot-scope="props">
-        <div class="d-flex justify-content-between flex-wrap">
-          <div class="d-flex align-items-center mb-0 mt-1">
-            <span class="text-nowrap"> Showing 1 to </span>
-            <b-form-select
-              v-model="pageLength"
-              :options="['10', '20', '30', '40', '50,']"
-              class="mx-1"
-              @input="
-                (value) => props.perPageChanged({ currentPerPage: value })
-              "
-            />
-            <span class="text-nowrap"> of {{ props.total }} entries </span>
-          </div>
-          <div>
-            <b-pagination
-              :value="1"
-              :total-rows="props.total"
-              :per-page="pageLength"
-              first-number
-              last-number
-              align="right"
-              prev-class="prev-item"
-              next-class="next-item"
-              class="mt-1 mb-0"
-              @input="(value) => props.pageChanged({ currentPage: value })"
-            >
-              <template #prev-text>
-                <feather-icon icon="ChevronLeftIcon" size="18" />
-              </template>
-              <template #next-text>
-                <feather-icon icon="ChevronRightIcon" size="18" />
-              </template>
-            </b-pagination>
-          </div>
-        </div>
-      </template>
-    </vue-good-table>
-
-    <template #code>
-      {{ codeColumnSearch }}
-    </template>
+      <b-col cols="12">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="center"
+          size="sm"
+          class="my-0"
+        />
+      </b-col>
+    </b-row>
   </b-card>
 </template>
 
 <script>
-import BCardCode from "@core/components/b-card-code/BCardCode.vue";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import ripple from "vue-ripple-directive";
 
 import {
+  BTable,
   BAvatar,
-  BForm,
   BBadge,
-  BPagination,
+  BRow,
+  BCol,
   BFormGroup,
-  BFormInput,
   BFormSelect,
-  BDropdown,
-  BDropdownItem,
-  BCard,
-  BFormFile,
+  BPagination,
+  BInputGroup,
+  BFormInput,
+  BInputGroupAppend,
   BButton,
+  BCard,
+  BAlert,
+  BProgress,
+  BModal,
+  BForm,
+  VBTooltip,
+  BFormFile,
 } from "bootstrap-vue";
-import { VueGoodTable } from "vue-good-table";
-import store from "@/store/index";
-import { codeColumnSearch } from "./code";
 import axios from "@axios";
 
 export default {
   components: {
-    BCardCode,
-    VueGoodTable,
+    BTable,
     BAvatar,
     BBadge,
-    BPagination,
+    BRow,
+    BCol,
     BFormGroup,
-    BFormInput,
     BFormSelect,
-    BDropdown,
-    BDropdownItem,
-    BForm,
-    BCard,
-    BFormFile,
+    BPagination,
+    BInputGroup,
+    BFormInput,
+    BAlert,
+    BProgress,
+    BInputGroupAppend,
     BButton,
+    BCard,
+    BModal,
+    ToastificationContent,
+    BForm,
+    VBTooltip,
+    BFormFile,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
+    ripple,
   },
   props: {
     userData: {
@@ -182,112 +153,58 @@ export default {
       required: true,
     },
   },
+
   data() {
     return {
-      pageLength: 10,
-      dir: false,
-      codeColumnSearch,
-      columns: [
-        {
-          label: "Dosya İsmi",
-          field: "dosya",
-          filterOptions: {
-            enabled: true,
-            placeholder: "Araç Ara",
-          },
-        },
-        {
-          label: "Tarih",
-          field: "created_at",
-          filterOptions: {
-            enabled: true,
-            placeholder: "Search Email",
-          },
-        },
+      perPage: 10,
+      pageOptions: [10, 20, 30],
+      totalRows: 1,
+      currentPage: 1,
+      sortBy: "",
+      sortDesc: false,
+      sortDirection: "asc",
+      filter: null,
+      filterOn: [],
+      infoModal: {
+        id: "info-modal",
+        title: "",
+        content: "",
+      },
+      fields: [
+        { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
-        {
-          label: "Eylemler",
-          field: "action",
-        },
+        { key: "rapor", label: "Dosya Adı", sortable: true, filter: true },
+        { key: "created_at", label: "Tarih", sortable: true, filter: true },
+
+        { key: "actions", label: "Eylemler" },
       ],
-
-      rows: [],
-      id: this.userData.id,
-      isim: this.userData.name,
-      file: null,
-
-      searchTerm: "",
+      items: [],
     };
+  },
+
+  computed: {
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter((f) => f.sortable)
+        .map((f) => ({ text: f.label, value: f.key }));
+    },
   },
   created() {
     axios
-      .post("/api/getfile", { calisan_id: this.userData.id })
-      .then((response) => {
-        this.rows = response.data;
-      });
+      .post("/api/getfile", { firma_id: this.userData.id, status: 8 })
+      .then((res) => (this.items = res.data));
   },
 
+  mounted() {
+    setTimeout(() => {
+      this.totalRows = this.items.length;
+    }, 500);
+  },
   methods: {
-    refreshStop() {
-      setTimeout(() => {
-        axios
-          .post("/api/getfile", { calisan_id: this.userData.id })
-          .then((response) => {
-            this.rows = response.data;
-          })
-          .then(
-            this.$toast({
-              component: ToastificationContent,
-              position: "top-right",
-              props: {
-                title: `Dosya İşlemleri `,
-                icon: "BriefcaseIcon",
-                variant: "success",
-                text: ` İşlem Başarılı.`,
-              },
-            })
-          );
-        this.$refs[cardName].showLoading = false;
-      }, 2000);
-    },
-    yukle(event) {
-      this.file = event.target.files[0];
-      const formData = new FormData();
-      formData.set("file", this.file);
-      formData.append("id", this.id);
-      formData.append("name", this.isim);
-      formData.append("firma_id", this.userData.id);
-
-
-      axios
-        .post("/api/belgeyukle", formData)
-        .then((res) => this.refreshStop())
-        .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: "Dosya İşlemleri",
-              icon: "FileIcon",
-              variant: "danger",
-              text: " İşlem Başarısız.",
-            },
-          });
-        });
-    },
-
     göster(dosya) {
-     window.open('/Dosyalar/' + dosya, '_blank' )
+      window.open("/Dosyalar/" + dosya, "_blank");
     },
-
-    sil(dosya){
-
-        axios.post('/api/dosyasil', {dosya: dosya}).then((res)=> this.refreshStop()).catch()
-
-    },
-
-
-
 
     indir(dosya) {
       axios
@@ -306,18 +223,20 @@ export default {
           link.click();
         });
     },
-  },
 
-  computed: {
-    direction() {
-      if (store.state.appConfig.isRTL) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.dir = true;
-        return this.dir;
-      }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.dir = false;
-      return this.dir;
+    info(item, index, button) {
+      this.infoModal.title = `Row index: ${index}`;
+      this.infoModal.content = JSON.stringify(item, null, 2);
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    },
+    resetInfoModal() {
+      this.infoModal.title = "";
+      this.infoModal.content = "";
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     },
   },
 };

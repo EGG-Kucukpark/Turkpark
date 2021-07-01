@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Firma Bilgileri">
+  <b-card title="Kişi Bilgileri">
     <b-row>
       <!-- User Info: Left col -->
       <b-col
@@ -11,33 +11,8 @@
         <div class="d-flex justify-content-start">
           <div class="d-flex flex-column ml-1">
             <div class="mb-1">
-              <h3 class="mb-2">Firma Adı: {{ userData.name }}</h3>
+              <h3 class="mb-2">Kişi Adı: {{ userData.name }}</h3>
               <span class="card-text">{{ userData.email }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- User Stats -->
-        <div class="d-flex align-items-center mt-2">
-          <div class="d-flex align-items-center mr-2">
-            <b-avatar variant="light-primary" rounded>
-              <feather-icon icon="UserIcon" size="18" />
-            </b-avatar>
-            <div class="ml-1">
-              <h5 class="mb-0">
-
-              </h5>
-              <small>Çalışan Sayısı</small>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center">
-            <b-avatar variant="light-success" rounded>
-              <feather-icon icon="TrendingUpIcon" size="18" />
-            </b-avatar>
-            <div class="ml-1">
-              <h5 class="mb-0">$99.87k</h5>
-              <small>Annual Profit</small>
             </div>
           </div>
         </div>
@@ -66,29 +41,20 @@
           </tr>
           <tr>
             <th class="pb-50">
-              <feather-icon icon="SlackIcon" class="mr-75" />
-              <span class="font-weight-bold">Vergi Numarası</span>
+              <feather-icon icon="MapPinIcon" class="mr-75" />
+              <span class="font-weight-bold">Adres</span>
             </th>
             <td class="pb-50 text-capitalize">
-              {{ userData.vergino }}
+              {{ userData.adres }}
             </td>
           </tr>
           <tr>
             <th class="pb-50">
-              <feather-icon icon="BriefcaseIcon" class="mr-75" />
-              <span class="font-weight-bold">Vergi Dairesi</span>
+              <feather-icon icon="CreditCardIcon" class="mr-75" />
+              <span class="font-weight-bold">TC. Kimlik Numarası</span>
             </th>
             <td class="pb-50">
-              {{ userData.vergiad }}
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <feather-icon icon="MapPinIcon" class="mr-75" />
-              <span class="font-weight-bold">İl</span>
-            </th>
-            <td>
-              {{ userData.il }}
+              {{ userData.tc }}
             </td>
           </tr>
         </table>
@@ -99,7 +65,7 @@
 
 <script>
 import { BCard, BButton, BAvatar, BRow, BCol } from "bootstrap-vue";
-import axios from "@axios";
+
 
 export default {
   components: {
@@ -114,16 +80,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-
-    };
-  },
-  created() {},
-
-  setup() {
-    return {};
   },
 };
 </script>

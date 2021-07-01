@@ -5,10 +5,11 @@ export default [{
         component: () => import('@/views/clients/corporate/getworker/worker.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true,
+
             pageTitle: 'Bilgiler',
             breadcrumb: [{
                 text: 'Firmalar',
+                to: '/clients'
 
 
             }, ]

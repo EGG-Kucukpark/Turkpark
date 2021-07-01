@@ -90,47 +90,14 @@
             <!-- Emulate built in modal footer ok and cancel button actions -->
           </b-card>
         </b-modal>
-      </span>
 
-      <b-col cols="12">
-        <b-table
-          striped
-          hover
-          responsive
-          :per-page="perPage"
-          :current-page="currentPage"
-          :items="items"
-          :fields="fields"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
-          :sort-direction="sortDirection"
-          :filter="filter"
-          :filter-included-fields="filterOn"
-          @row-clicked="tikla"
-          @filtered="onFiltered"
-          show-empty
-          empty-text="Veri Bulunamadı."
-          empty-filtered-text="Veri Bulunamadı."
-        >
-          <template #cell(actions)="data">
-            <span>
-              <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="warning"
-                @click="Modal2(data.item)"
-                class="btn-icon"
-                v-b-tooltip.hover.v-warning
-                title="Düzenle"
-              >
-                <feather-icon icon="EditIcon" />
-              </b-button>
-              <b-modal
+        <b-modal
                 hide-header-close
                 ok-title="Kaydet"
                 :hide-footer="true"
                 size="lg"
                 centered
-                title="Araç Düzenle"
+                title="Birey Düzenle"
                 ref="modal2"
               >
                 <b-card>
@@ -175,7 +142,7 @@
                     </b-form-group>
 
                     <div style="float: right">
-                      <b-button variant="success" type="submit" @click="form()">
+                      <b-button variant="success" type="submit">
                         Tamam
                       </b-button>
                     </div>
@@ -187,11 +154,47 @@
                   </b-form>
                 </b-card>
               </b-modal>
+      </span>
+
+      <b-col cols="12">
+        <b-table
+          striped
+          hover
+          responsive
+          :per-page="perPage"
+          :current-page="currentPage"
+          :items="items"
+          :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          :sort-direction="sortDirection"
+          :filter="filter"
+          :filter-included-fields="filterOn"
+          @row-clicked="tikla"
+          @filtered="onFiltered"
+          show-empty
+          empty-text="Veri Bulunamadı."
+          empty-filtered-text="Veri Bulunamadı."
+        >
+          <template #cell(actions)="data">
+            <span>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="warning"
+                @click.prevent="modal2(data.item)"
+                v-on:click="$refs['modal2'].show()"
+                class="btn-icon"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
+              >
+                <feather-icon icon="EditIcon" />
+              </b-button>
+
 
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
-                @click.prevent="arsiv(data.item)"
+                @click="arsiv(data.item)"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
                 class="btn-icon"
@@ -230,7 +233,7 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import Ripple from 'vue-ripple-directive'
+import Ripple from "vue-ripple-directive";
 import {
   BTable,
   BAvatar,
@@ -245,7 +248,8 @@ import {
   BInputGroupAppend,
   BButton,
   BCard,
-  BModal,VBTooltip,
+  BModal,
+  VBTooltip,
   BForm,
 } from "bootstrap-vue";
 import axios from "@axios";
@@ -260,7 +264,8 @@ export default {
     BFormGroup,
     BFormSelect,
     BPagination,
-    BInputGroup,VBTooltip,
+    BInputGroup,
+    VBTooltip,
     BFormInput,
     BInputGroupAppend,
     BButton,
@@ -268,8 +273,9 @@ export default {
     BModal,
     ToastificationContent,
     BForm,
-  }, directives: {
-    'b-tooltip': VBTooltip,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
     Ripple,
   },
   data() {
@@ -291,6 +297,8 @@ export default {
       fields: [
         { key: "name", label: "İsim", sortable: true },
         { key: "email", label: "E-Posta", sortable: true },
+        { key: "adres", label: "Adres", sortable: true },
+        { key: "tc", label: "TC. Kimlik Numarası", sortable: true },
         { key: "telefon", label: "Telefon", sortable: true },
 
         { key: "actions", label: "Eylemler" },
@@ -299,7 +307,7 @@ export default {
       name: "",
       email: "",
       telefon: "",
-      userid: "",
+      id: "",
 
       show: false,
     };
@@ -336,16 +344,39 @@ export default {
               component: ToastificationContent,
               position: "top-right",
               props: {
-                title: `Firma Ekleme `,
+                title: `Bireysel İşlemler `,
                 icon: "BriefcaseIcon",
                 variant: "success",
-                text: `Ekleme İşlemi Başarılı.`,
+                text: ` İşlem Başarılı.`,
               },
             })
           );
       }, 1000);
     },
-    arsiv() {},
+    arsiv(data) {
+      axios
+        .post("/api/indarsiv", { id: data.id })
+        .then((res) => {
+          this.refreshStop();
+        })
+        .catch((error) => {
+          this.hata();
+
+        });
+    },
+
+    hata() {
+      this.$toast({
+        component: ToastificationContent,
+        position: "top-right",
+        props: {
+          title: `Bireysel İşlemler `,
+          icon: "BriefcaseIcon",
+          variant: "danger",
+          text: ` İşlem Başarısız.`,
+        },
+      });
+    },
 
     tikla(params) {
       this.$router.push({
@@ -363,17 +394,21 @@ export default {
         })
         .then((res) => this.refreshStop())
         .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Kişi Ekleme `,
-              icon: "BriefcaseIcon",
-              variant: "danger",
-              text: ` İşlem Başarısız.`,
-            },
-          });
+          this.hata();
         })
+        .then(this.form());
+    },
+
+    update() {
+      axios
+        .post("/api/bireyselduzenle", {
+          id: this.id,
+          name: this.name,
+          email: this.email,
+          telefon: this.telefon,
+        })
+        .then((res) => this.refreshStop())
+        .catch((error) => this.hata())
         .then(this.form());
     },
 
@@ -381,24 +416,11 @@ export default {
       this.$refs["modal1"].show();
     },
 
-    Modal2(row) {
-      this.$refs["modal2"].show();
+    modal2(row) {
       (this.id = row.id),
         (this.name = row.name),
         (this.email = row.email),
         (this.telefon = row.telefon);
-    },
-
-    update() {
-      axios
-        .post("/api/bireyselupdate", {
-          userid: this.userid,
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-        })
-        .then(this.refreshStop())
-        .then(this.form());
     },
 
     form() {

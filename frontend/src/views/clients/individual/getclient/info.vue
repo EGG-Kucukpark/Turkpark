@@ -1,55 +1,35 @@
 <template>
-  <b-card-actions
-    title="Firma Ek Bilgiler"
-    ref="cardAction"
-    @refresh="refreshStop('cardAction')"
-  >
-    <b-form @submit.prevent>
+  <b-card title="Kişi Ek Bilgiler">
+    <b-form @submit.prevent="update">
       <b-row>
         <b-col md="6">
-          <b-form-group label="First Name" label-for="mc-first-name">
-            <b-form-input id="mc-first-name" v-model="userData.name" placeholder="First Name" />
+          <b-form-group label="Kişi Adı" label-for="mc-first-name">
+            <b-form-input id="mc-first-name" v-model="name" />
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label="Last Name" label-for="mc-last-name">
-            <b-form-input id="mc-last-name" placeholder="Last Name" />
+          <b-form-group label="TC. Kimlik Numarası" label-for="mc-last-name">
+            <b-form-input id="mc-last-name" v-model="tc" />
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label="City" label-for="mc-city">
-            <b-form-input id="mc-city" placeholder="City" />
-          </b-form-group>
-        </b-col>
-        <b-col md="6">
-          <b-form-group label="Country" label-for="mc-country">
-            <b-form-input id="mc-country" placeholder="Country" />
-          </b-form-group>
-        </b-col>
-        <b-col md="6">
-          <b-form-group label="Company" label-for="mc-company">
-            <div class="form-label-group">
-              <b-form-input id="mc-company" placeholder="Company" />
-            </div>
-          </b-form-group>
-        </b-col>
-        <b-col md="6">
-          <b-form-group label-for="mc-email" label="Email">
-            <div class="form-label-group">
-              <b-form-input id="mc-email" type="email" placeholder="Email" />
-            </div>
+          <b-form-group label="Adres" label-for="mc-city">
+            <b-form-input id="mc-city" v-model="adres" />
           </b-form-group>
         </b-col>
 
-        <b-col cols="12">
-          <b-form-group>
-            <b-form-checkbox
-              id="checkbox-10"
-              name="checkbox-10"
-              value="Remember_me"
-            >
-              Remember me
-            </b-form-checkbox>
+        <b-col md="6">
+          <b-form-group label="Telefon" label-for="mc-company">
+            <div class="form-label-group">
+              <b-form-input id="mc-company" v-model="telefon" />
+            </div>
+          </b-form-group>
+        </b-col>
+        <b-col md="6">
+          <b-form-group label-for="mc-email" label="E-Posta">
+            <div class="form-label-group">
+              <b-form-input id="mc-email" v-model="email" type="email" />
+            </div>
           </b-form-group>
         </b-col>
 
@@ -61,27 +41,30 @@
             variant="primary"
             class="mr-1"
           >
-            Submit
+            Güncelle
           </b-button>
           <b-button
             v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            type="reset"
             variant="outline-secondary"
+            @click="reset"
           >
-            Reset
+            Sıfırla
           </b-button>
         </b-col>
       </b-row>
     </b-form>
-  </b-card-actions>
+  </b-card>
 </template>
 
 
 <script>
 import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import axios from "@axios";
 import {
   BRow,
   BCol,
+  BCard,
   BFormGroup,
   BFormInput,
   BFormCheckbox,
@@ -89,7 +72,6 @@ import {
   BButton,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
-
 
 export default {
   components: {
@@ -99,9 +81,9 @@ export default {
     BFormInput,
     BFormCheckbox,
     BForm,
+    BCard,
     BButton,
     BCardActions,
-
   },
   props: {
     userData: {
@@ -114,17 +96,62 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      name: null,
+      tc: null,
+      telefon: null,
+      adres: null,
+      email: null,
+      id: this.userData.id,
+    };
+  },
+  created() {
+    this.reset();
   },
 
-  methods:{
-      refreshStop(cardName) {
-      setTimeout(() => {
-        this.$refs[cardName].showLoading = false
-      }, 3000)
+  methods: {
+    reset() {
+      (this.name = this.userData.name),
+        (this.tc = this.userData.tc),
+        (this.telefon = this.userData.telefon),
+        (this.adres = this.userData.adres),
+        (this.email = this.userData.email);
     },
-
-
-  }
+    update() {
+      axios
+        .post("/api/bireyselduzenle", {
+          id: this.id,
+          name: this.name,
+          email: this.email,
+          adres: this.adres,
+          tc: this.tc,
+          telefon:this.telefon
+        })
+        .then((res) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: `Firma Ekleme `,
+              icon: "BriefcaseIcon",
+              variant: "success",
+              text: `Ekleme İşlemi Başarılı.`,
+            },
+          });
+        })
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: `Kişi Ekleme `,
+              icon: "BriefcaseIcon",
+              variant: "danger",
+              text: ` İşlem Başarısız.`,
+            },
+          });
+        });
+    },
+  },
 };
 </script>

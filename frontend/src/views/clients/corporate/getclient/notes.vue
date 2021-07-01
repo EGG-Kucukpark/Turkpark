@@ -1,80 +1,112 @@
 
 <template>
   <b-card title="Firma Notu">
-    <b-form-textarea
-      id="textarea-rows"
-      v-model="not"
-      placeholder="Not giriniz"
-      rows="2"
-      style="background: #fffcdc"
-      @keydown.native="ekle"
-    />
+    <b-button
+      v-b-toggle.notekle
+      v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+      size="sm"
+      variant="outline-primary"
+      v-b-tooltip.hover.v-info
+      title="Not Ekle"
+    >
+      <feather-icon size="20px;" icon="PlusIcon" />
+    </b-button>
 
-    <b-list-group style="padding-top: 30px" title="Notlar">
-      <b-list-group-item v-for="notlar in notlar" :key="notlar.id">
-        {{ notlar.not }}
+    <b-collapse id="notekle">
+      <b-form-textarea
+        id="textarea-rows"
+        v-model="not"
+        placeholder="Not giriniz"
+        rows="2"
+        style="background: #fffcdc; margin-top: 10px"
+      />
 
-        <span>
-          <span style="float: right; margin: 20px">
-            <b-button variant="warning" @click.prevent="düzenle(notlar)">
-              Düzenle
-            </b-button>
-            <b-button variant="danger" @click.prevent="sil(notlar)">
-              Sil
-            </b-button>
-          </span>
-        </span>
+      <b-button
+        style="margin: 10px"
+        v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+        size="md"
+        variant="outline-success"
+        v-b-toggle.notekle
+        @click="ekle"
+      >
+        Ekle
+      </b-button>
+    </b-collapse>
+
+    <b-list-group style="margin-top: 10px">
+      <b-list-group-item
+        v-for="not in notlar"
+        :key="not.id"
+        class="flex-column align-items-start"
+      >
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1 text-white"></h5>
+          <small class="text-secondary">{{ not.time }}</small>
+        </div>
+        <b-card-text class="mb-1">
+          {{ not.not }}
+        </b-card-text>
+
+        <b-button
+          style="margin: 10px; float: right"
+          v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+          size="md"
+          variant="outline-danger"
+          @click="sil(not.id)"
+        >
+          Sil
+        </b-button>
       </b-list-group-item>
     </b-list-group>
-
-    <b-modal
-      id="modal-warning"
-      :hide-footer="true"
-      ref="modal"
-      ok-variant="warning"
-      modal-class="modal-warning"
-      centered
-      title="Not Düzenle"
-    >
-      <b-form @submit.prevent="edit">
-        <b-form-textarea
-          id="textarea-rows"
-          v-model="not"
-          placeholder="Not giriniz"
-          rows="2"
-          style="background: #fffcdc"
-        />
-
-        <div style="padding-top: 20px; float: right">
-          <b-button variant="warning" type="submit"> Düzenle </b-button>
-        </div>
-        <div style="padding-top: 20px; float: right; padding-right: 10px">
-          <b-button variant="danger" @click="form()"> İptal</b-button>
-        </div>
-      </b-form>
-    </b-modal>
   </b-card>
 </template>
 
 <script>
+import AppTimeline from "@core/components/app-timeline/AppTimeline.vue";
+import AppTimelineItem from "@core/components/app-timeline/AppTimelineItem.vue";
+import Ripple from "vue-ripple-directive";
+import axios from "@axios";
 import {
   BFormTextarea,
   BCard,
+  BImg,
+  BAvatar,
+  BMedia,
+  BRow,
+  BButton,
+  BCollapse,
+  VBToggle,
   BListGroup,
   BListGroupItem,
-  BButton,
-  BForm,
+  BAvatarGroup,
+  BBadge,
+  BCardText,
+  VBTooltip,
 } from "bootstrap-vue";
-import axios from "@axios";
+import FeatherIcon from "@/@core/components/feather-icon/FeatherIcon.vue";
 
 export default {
   components: {
     BFormTextarea,
+
     BCard,
+    BCardText,
+
+    BImg,
+    BAvatar,
+    AppTimelineItem,
+    AppTimeline,
+    BMedia,
+    BRow,
+    BButton,
+    BCollapse,
+    VBToggle,
     BListGroup,
     BListGroupItem,
-    BButton,
-    BForm,
+    BAvatarGroup,
+    BBadge,
+    VBTooltip,
+    FeatherIcon,
   },
   props: {
     userData: {
@@ -82,58 +114,33 @@ export default {
       required: true,
     },
   },
+  directives: { "b-toggle": VBToggle, "b-tooltip": VBTooltip, Ripple },
 
   data() {
     return {
-      not: null,
+      not: "",
       notlar: [],
       id: this.userData.id,
-      notid: null,
     };
   },
 
   created() {
-    axios
-      .post("/api/firmanot", { id: this.userData.id })
-      .then((response) => (this.notlar = response.data));
+    this.veri();
   },
-
   methods: {
-    data() {
+    veri() {
       axios
-        .post("/api/firmanot", { id: this.userData.id })
+        .post("/api/firmanot", { id: this.id })
         .then((res) => (this.notlar = res.data));
     },
-    ekle(event) {
-      if (event.which === 13) {
-        axios
-          .post("/api/firmanotekle", { id: this.userData.id, not: this.not })
-          .then((response) => (this.notlar = response.data))
-          .then(this.data(), (this.not = null));
-      }
-    },
-
-    düzenle(row) {
-      this.$refs["modal"].show();
-      this.not = row.not;
-      this.notid = row.id;
-    },
-    edit() {
+    ekle() {
       axios
-        .post("/api/firmanotduzenle", { id: this.notid, not: this.not })
-        .then(this.data(), (this.not = null), this.$refs["modal"].hide());
+        .post("/api/firmanotekle", { id: this.id, not: this.not })
+        .then(this.veri(), this.not = null);
     },
+    sil(data) {
 
-    form() {
-      this.$refs["modal"].hide();
-      this.not = null;
-    },
-
-    sil(row) {
-      axios
-        .post("/api/firmanotsil", { id: row.id })
-        .then((res) => (this.notlar = res.data))
-        .then(this.data());
+      axios.post("/api/firmanotsil", { id: data }).then(this.veri());
     },
   },
 };

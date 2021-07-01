@@ -16,15 +16,10 @@
         <!-- Tab: Account -->
         <b-tab active>
           <template #title>
-            <feather-icon
-              icon="UserIcon"
-              size="16"
-              class="mr-0 mr-sm-50"
-            />
+            <feather-icon icon="UserIcon" size="16" class="mr-0 mr-sm-50" />
             <span class="d-none d-sm-inline">Kişi Bilgileri</span>
           </template>
           <clientinfo :user-data="userData" class="mt-2 pt-75" />
-
         </b-tab>
 
         <!-- Tab: Information -->
@@ -68,6 +63,7 @@ import clientinfo from "./clientinfo.vue";
 import notes from "./notes.vue";
 import info from "./info.vue";
 import files from "./files.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -78,7 +74,6 @@ export default {
     BTabs,
     BTab,
     BButton,
-
 
     // Local Components
 
@@ -102,13 +97,9 @@ export default {
       if (store.hasModule(USER_APP_STORE_MODULE_NAME))
         store.unregisterModule(USER_APP_STORE_MODULE_NAME);
     });
-
-    store
-      .dispatch("app-user/fetchUser", { id: router.currentRoute.params.id })
-      .then((response) => {
-        userData.value = response.data;
-      });
-
+    axios("/api/bireyselgoster/" + router.currentRoute.params.id).then(
+      (res) => (userData.value = res.data)
+    );
     return {
       userData,
     };

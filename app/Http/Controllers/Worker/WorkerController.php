@@ -12,10 +12,6 @@ class WorkerController extends Controller
 {
     function workers(Request $request)
     {
-        if ($request->q) {
-
-            return DB::table('workers')->where([['firma_id', $request->firma_id], ['name', 'LIKE', '%' . $request->q . '%']])->get();
-        }
 
 
 
@@ -44,6 +40,7 @@ class WorkerController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
+                'tc'=> $request->tc
 
             ]);
         } catch (Exception $exception) {
@@ -107,6 +104,7 @@ class WorkerController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
+                'tc' => $request->tc
 
             ]);
         } catch (Exception $exception) {

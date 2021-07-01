@@ -75,9 +75,10 @@ route::post('firmasil', [ClientController::class, 'delete']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Bireysel İşlemler
-Route::get('bireyselgöster/{id}', [clientController::class, 'client']);
+Route::get('bireyselgoster/{id}', [clientController::class, 'individual']);
 route::post('bireyselekle', [clientController::class, 'addindividual']);
 route::post('bireyselduzenle', [clientController::class, 'editindividual']);
+route::post('indarsiv', [clientController::class, 'indarsiv']);
 
 route::post('bireyseller', [clientController::class, 'getindividual']);
 

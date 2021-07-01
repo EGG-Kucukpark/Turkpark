@@ -1,31 +1,37 @@
 <template>
-  <b-card title=" Ek Bilgiler">
-    <b-form @submit.prevent>
+  <b-card title="Kişi Ek Bilgiler">
+    <b-form @submit.prevent="update">
       <b-row>
         <b-col md="6">
-          <b-form-group label="Adınız" label-for="mc-first-name">
-            <b-form-input
-              id="mc-first-name"
-              v-model="name"
-              placeholder="First Name"
-            />
+          <b-form-group label="Kişi Adı" label-for="mc-first-name">
+            <b-form-input id="mc-first-name" v-model="name" />
+          </b-form-group>
+        </b-col>
+        <b-col md="6">
+          <b-form-group label="TC. Kimlik Numarası" label-for="mc-last-name">
+            <b-form-input id="mc-last-name" v-model="tc" />
+          </b-form-group>
+        </b-col>
+        <b-col md="6">
+          <b-form-group label="Adres" label-for="mc-city">
+            <b-form-input id="mc-city" v-model="adres" />
+          </b-form-group>
+        </b-col>
+
+        <b-col md="6">
+          <b-form-group label="Telefon" label-for="mc-company">
+            <div class="form-label-group">
+              <b-form-input id="mc-company" v-model="telefon" />
+            </div>
           </b-form-group>
         </b-col>
         <b-col md="6">
           <b-form-group label-for="mc-email" label="E-Posta">
             <div class="form-label-group">
-              <b-form-input v-model="email" id="mc-email" type="email" />
+              <b-form-input id="mc-email" v-model="email" type="email" />
             </div>
           </b-form-group>
         </b-col>
-
-        <b-col md="6">
-          <b-form-group label="Telefon Numarası" label-for="mc-country">
-            <b-form-input v-model="telefon" id="mc-country" />
-          </b-form-group>
-        </b-col>
-
-        <b-col cols="12"> </b-col>
 
         <!-- submit and reset -->
         <b-col>
@@ -33,15 +39,14 @@
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             type="submit"
             variant="primary"
-            @click="update"
             class="mr-1"
           >
             Güncelle
           </b-button>
           <b-button
             v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            @click="reset"
             variant="outline-secondary"
+            @click="reset"
           >
             Sıfırla
           </b-button>
@@ -54,14 +59,15 @@
 
 <script>
 import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import axios from "@axios";
 import {
   BRow,
   BCol,
+  BCard,
   BFormGroup,
   BFormInput,
   BFormCheckbox,
-  BCard,
   BForm,
   BButton,
 } from "bootstrap-vue";
@@ -82,51 +88,69 @@ export default {
   props: {
     options: {
       type: Object,
+      required: true,
     },
   },
   directives: {
     Ripple,
   },
+
   data() {
     return {
       name: null,
-      email: null,
-      id: null,
+      tc: null,
       telefon: null,
+      adres: null,
+      email: null,
+      id: this.options.id,
     };
   },
-
   created() {
-    axios.post("/api/getuser", { id: this.options.id }).then((res) => {
-      var user = res.data[0];
-      this.id = user.id;
-
-      this.name = user.name;
-      this.email = user.email;
-      this.telefon = user.telefon;
-    });
+    this.reset();
   },
 
   methods: {
+    reset() {
+      (this.name = this.options.name),
+        (this.tc = this.options.tc),
+        (this.telefon = this.options.telefon),
+        (this.adres = this.options.adres),
+        (this.email = this.options.email);
+    },
     update() {
-
       axios
-        .post("/api/userupdate", {
-          userid: this.id,
+        .post("/api/bireyselduzenle", {
+          id: this.id,
           name: this.name,
           email: this.email,
-          telefon: this.telefon,
+          adres: this.adres,
+          tc: this.tc,
+          telefon:this.telefon
         })
-        .then((res) => this.reset());
-    },
-    reset() {
-      axios.post("/api/getuser", { id: this.options.id }).then((res) => {
-        var user = res.data[0];
-
-        (this.name = user.name),
-          (this.email = user.email),
-          (this.telefon = user.telefon);
-      });
+        .then((res) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: `Firma Ekleme `,
+              icon: "BriefcaseIcon",
+              variant: "success",
+              text: `Ekleme İşlemi Başarılı.`,
+            },
+          });
+        })
+        .catch((error) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: `Kişi Ekleme `,
+              icon: "BriefcaseIcon",
+              variant: "danger",
+              text: ` İşlem Başarısız.`,
+            },
+          });
+        });
     },
   },
 };

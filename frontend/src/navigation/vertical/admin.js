@@ -27,6 +27,12 @@ export default [
         title: 'Hizmetler',
         icon: 'FileTextIcon',
         children: [{
+                title: 'Sonuçlar',
+                route: 'results',
+                icon: 'HeartIcon',
+
+
+            }, {
                 title: 'İlkyardım',
 
                 route: 'apps-invoice-list',
@@ -81,22 +87,13 @@ export default [
                 title: "Asansör Muayene",
 
             },
-            {
-                title: "Mobil Sağlık",
 
-            },
 
 
 
         ],
     },
-    {
-        title: 'Sonuçlar',
-        route: 'results',
-        icon: 'HeartIcon',
 
-
-    },
 
     {
         title: 'Takvim',
@@ -121,21 +118,30 @@ export default [
     {
         title: 'Ayarlar',
         icon: 'SettingsIcon',
-        children: [
-
-            {
+        children: [{
                 title: 'Kullanıcılar',
                 route: 'users',
                 icon: 'UserIcon',
 
-            }, {
-                title: 'Rapor Tipleri',
-                route: 'raporlar',
-                icon: 'FileTextIcon',
             },
+            {
+                title: "Tanımlamalar",
+                children: [{
+                        title: 'Rapor Tipleri',
+                        route: 'raporlar',
+                        icon: 'FileTextIcon',
+                    },
+                    {
+                        title: 'Dosya Tipleri',
+                        route: 'dosyalar',
+                        icon: 'FileTextIcon',
+                    },
+                ]
+
+            }
         ]
 
-    },
+    }
 
 
 

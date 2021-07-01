@@ -102,7 +102,7 @@ class ClientController extends Controller
         try {
 
 
-            $a = DB::table('clients')->where('email', $request->email)->update([
+            DB::table('clients')->where('id', $request->id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
@@ -110,6 +110,8 @@ class ClientController extends Controller
                 'vergiad' => $request->vergiad,
                 'firma_yetkilisi' => $request->firma_yetkilisi,
                 'sgk' => $request->sgk,
+                'adres' => $request->adres,
+                'muhasebe' => $request->muhasebe
 
 
             ]);
@@ -174,10 +176,12 @@ class ClientController extends Controller
                 'status' => '1',
             ]);*/
 
-            $a = DB::table('individual')->where('id', $request->id)->insert([
+            $a = DB::table('individual')->where('id', $request->id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
+                'tc' => $request->tc,
+                'adres' => $request->adres
 
 
 
@@ -188,9 +192,25 @@ class ClientController extends Controller
             return response()->json(['error' => 'Başarısız'], 404);
         }
     }
-    public function getindividual()
+    public function getindividual(Request $request)
     {
-        return  DB::table('individual')->get();
+        if ($request->status === 1) {
+
+            return  DB::table('individual')->where('isArch', '1')->get();
+        } else {
+            return  DB::table('individual')->where('isArch', '0')->get();
+        }
+    }
+
+
+    function indarsiv(Request $request)
+    {
+
+        try {
+            DB::table('individual')->where('id', $request->id)->update(['isArch' => '1',]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'Başarısız'], 404);
+        }
     }
 
 
@@ -201,6 +221,13 @@ class ClientController extends Controller
 
         return response()->json($a);
     }
+
+
+
+
+
+
+
     public function notlar(Request $request)
     {
         return DB::table('notes')->where('firma_id', $request->id)->orderBy("id", "desc")->get();

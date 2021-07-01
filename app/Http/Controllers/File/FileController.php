@@ -166,6 +166,8 @@ class FileController extends Controller
             return  DB::table('files')->where([['firma_id', $request->firma_id], ['isArch', '1']])->get();
         } else if ($request->status === 8) {
             return  DB::table('files')->where([['firma_id', $request->firma_id], ['isArch', '0']])->get();
+        } else if ($request->status === 9) {
+            return  DB::table('files')->where([['calisan_id', $request->calisan_id], ['isArch', '0']])->get();
         } else {
 
             try {

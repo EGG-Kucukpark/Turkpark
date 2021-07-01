@@ -93,20 +93,32 @@ class UserController extends Controller
 
     public function updateuser(Request $request)
     {
+        if ($request->status = 1) {
+            try {
+                return DB::table('users')->where('id', $request->userid)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
 
+                    'telefon' => $request->telefon,
 
+                ]);
+            } catch (Exception $exception) {
+                return response()->json(['error' => 'Başarısız'], 404);
+            }
+        } else {
 
-        try {
-            return DB::table('users')->where('id', $request->userid)->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => $request->role,
-                'telefon' => $request->telefon,
-                'status' => $request->status,
-                'password' => Hash::make($request->password),
-            ]);
-        } catch (Exception $exception) {
-            return response()->json(['error' => 'Başarısız'], 404);
+            try {
+                return DB::table('users')->where('id', $request->userid)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'role' => $request->role,
+                    'telefon' => $request->telefon,
+                    'status' => $request->status,
+                    'password' => Hash::make($request->password),
+                ]);
+            } catch (Exception $exception) {
+                return response()->json(['error' => 'Başarısız'], 404);
+            }
         }
     }
 

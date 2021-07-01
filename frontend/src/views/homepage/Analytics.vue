@@ -8,6 +8,13 @@
         <analytics-congratulation :data="data" />
       </b-col>
 
+       <b-col
+        lg="6"
+        md="12"
+      >
+        <CardAnalyticGoalOverview :data="data" />
+      </b-col>
+
 
     </b-row>
 
@@ -23,6 +30,7 @@
 import { BRow, BCol } from 'bootstrap-vue'
 
 import StatisticCardWithAreaChart from '@core/components/statistics-cards/StatisticCardWithAreaChart.vue'
+import CardAnalyticGoalOverview from './CardAnalyticGoalOverview.vue'
 import { kFormatter } from '@core/utils/filter'
 
 import AnalyticsCongratulation from './AnalyticsCongratulation.vue'
@@ -33,6 +41,7 @@ export default {
     BRow,
     BCol,
     AnalyticsCongratulation,
+    CardAnalyticGoalOverview,
 
 
   },
