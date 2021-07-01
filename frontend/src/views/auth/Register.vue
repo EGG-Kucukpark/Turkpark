@@ -38,11 +38,11 @@
           <!-- form -->
           <validation-observer ref="registerForm" #default="{ invalid }">
             <b-form class="auth-register-form mt-2" @submit.prevent="register">
-              <b-form-group label="Rol:(*)" label-for="register-email">
+              <b-form-group label="Kullanıcı Türü" label-for="register-email">
                 <validation-provider
                   v-slot="{ errors }"
                   rules="required"
-                  name="Kullanıcı Türü:"
+                  name="Kullanıcı Türü"
                 >
                   <b-form-select v-model="role" @input="label">
                     <b-form-select-option disabled value=" "
