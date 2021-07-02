@@ -26,8 +26,9 @@
           style="margin-right: 50px"
           variant="success"
           v-on:click="$refs['modal'].show()"
-          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
         >
+          <feather-icon size="20px;" icon="PlusIcon"
+        /></b-button>
         <b-modal
           hide-header-close
           ok-title="Kaydet"
@@ -215,6 +216,7 @@
                 variant="warning"
                 @click="Duzenlemodal(data.item)"
                 class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-warning
                 title="Düzenle"
               >
@@ -226,6 +228,7 @@
                 @click.prevent="sil(data.item)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-danger
+                style="margin: 5px"
                 title="Sil"
               >
                 <feather-icon icon="TrashIcon" />
@@ -237,6 +240,7 @@
                 :to="{ name: 'calisan-goster', params: { id: data.item.id } }"
                 class="btn-icon"
                 v-b-tooltip.hover.v-success
+                style="margin: 5px"
                 title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
@@ -383,7 +387,7 @@ export default {
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
-      errors:[],
+      errors: [],
       name: null,
       tc: null,
       email: null,

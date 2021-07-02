@@ -194,131 +194,127 @@
           </b-modal>
 
           <b-modal
-                  hide-header-close
-                  :hide-footer="true"
-                  size="lg"
-                  ref="modal2"
-                  centered
-                  title="Firma Düzenle"
+            hide-header-close
+            :hide-footer="true"
+            size="lg"
+            ref="modal2"
+            centered
+            title="Firma Düzenle"
+          >
+            <b-card>
+              <b-form @submit.prevent="update">
+                <b-form-group
+                  label="İşyeri Ünvanı:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
                 >
-                  <b-card>
-                    <b-form @submit.prevent="update">
-                      <b-form-group
-                        label="İşyeri Ünvanı:"
-                        label-for="isim"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                      >
-                        <b-form-input
-                          id="isim"
-                          v-model="name"
-                          placeholder="İş Yeri Adını Giriniz..."
-                        ></b-form-input>
-                      </b-form-group>
-                      <b-form-group
-                        label="Firma Yetkilisi:"
-                        label-for="isim"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                      >
-                        <b-form-input
-                          id="isim"
-                          v-model="firma_yetkilisi"
-                          placeholder="Firma Yetkilisinin Adını Giriniz..."
-                        ></b-form-input>
-                      </b-form-group>
+                  <b-form-input
+                    id="isim"
+                    v-model="name"
+                    placeholder="İş Yeri Adını Giriniz..."
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Firma Yetkilisi:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="firma_yetkilisi"
+                    placeholder="Firma Yetkilisinin Adını Giriniz..."
+                  ></b-form-input>
+                </b-form-group>
 
-                      <b-form-group
-                        label="SGK Sicil No:"
-                        label-for="isim"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                      >
-                        <b-form-input
-                          id="isim"
-                          v-model="sgkno"
-                          placeholder="SGK Sicil Numarasını Giriniz..."
-                        ></b-form-input>
-                      </b-form-group>
-                      <b-form-group
-                        label="Vergi Dairesi"
-                        label-for="isim"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                      >
-                        <b-form-input
-                          id="isim"
-                          v-model="vergiad"
-                          placeholder="Vergi Dairesi Adını Giriniz"
-                        ></b-form-input>
-                      </b-form-group>
-                      <b-form-group
-                        label="Vergi No:"
-                        label-for="isim"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                      >
-                        <b-form-input
-                          id="isim"
-                          v-model="vergino"
-                          placeholder="Vergi Numarası"
-                        ></b-form-input>
-                      </b-form-group>
+                <b-form-group
+                  label="SGK Sicil No:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="sgkno"
+                    placeholder="SGK Sicil Numarasını Giriniz..."
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Vergi Dairesi"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="vergiad"
+                    placeholder="Vergi Dairesi Adını Giriniz"
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Vergi No:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="vergino"
+                    placeholder="Vergi Numarası"
+                  ></b-form-input>
+                </b-form-group>
 
-                      <b-form-group
-                        label="E-Posta Adresi"
-                        label-for="email"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                      >
-                        <b-form-input
-                          id="email"
-                          v-model="email"
-                          placeholder="E-posta Adresini Giriniz"
-                        ></b-form-input>
-                      </b-form-group>
+                <b-form-group
+                  label="E-Posta Adresi"
+                  label-for="email"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="email"
+                    v-model="email"
+                    placeholder="E-posta Adresini Giriniz"
+                  ></b-form-input>
+                </b-form-group>
 
-                      <b-form-group
-                        label="Firma Şifresi"
-                        label-for="isim"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                      >
-                        <b-form-input
-                          id="isim"
-                          v-model="password"
-                          placeholder="........"
-                        ></b-form-input>
-                      </b-form-group>
+                <b-form-group
+                  label="Firma Şifresi"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="password"
+                    placeholder="........"
+                  ></b-form-input>
+                </b-form-group>
 
-                      <b-form-group
-                        label="Telefon No:"
-                        label-for="telefon"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                      >
-                        <b-form-input
-                          id="telefon"
-                          v-model="telefon"
-                          placeholder="Firma Telefon Numarası"
-                        ></b-form-input>
-                      </b-form-group>
+                <b-form-group
+                  label="Telefon No:"
+                  label-for="telefon"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="telefon"
+                    v-model="telefon"
+                    placeholder="Firma Telefon Numarası"
+                  ></b-form-input>
+                </b-form-group>
 
-                      <div style="float: right">
-                        <b-button variant="success" type="submit">
-                          Tamam
-                        </b-button>
-                      </div>
-                      <div style="float: right; padding-right: 10px">
-                        <b-button variant="danger" @click="form()">
-                          İptal</b-button
-                        >
-                      </div>
-                    </b-form>
+                <div style="float: right">
+                  <b-button variant="success" type="submit"> Tamam </b-button>
+                </div>
+                <div style="float: right; padding-right: 10px">
+                  <b-button variant="danger" @click="form()"> İptal</b-button>
+                </div>
+              </b-form>
 
-                    <!-- Emulate built in modal footer ok and cancel button actions -->
-                  </b-card>
-                </b-modal>
+              <!-- Emulate built in modal footer ok and cancel button actions -->
+            </b-card>
+          </b-modal>
         </span>
 
         <b-col cols="12" class="table-responsive">
@@ -349,16 +345,17 @@
                   @click="Modal2(data.item)"
                   class="btn-icon"
                   v-b-tooltip.hover.v-warning
+                  style="margin: 5px"
                   title="Düzenle"
                 >
                   <feather-icon icon="EditIcon" />
                 </b-button>
 
-
                 <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="danger"
                   @click.prevent="arsiv(data.item)"
+                  style="margin: 5px"
                   v-b-tooltip.hover.v-danger
                   title="Arşivle"
                   class="btn-icon"

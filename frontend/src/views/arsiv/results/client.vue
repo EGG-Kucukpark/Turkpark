@@ -238,7 +238,7 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
-                class="btn-icon"
+                class="btn-icon" style="margin:5px;"
                 v-b-tooltip.hover.v-warning
                 title="Göster"
               >
@@ -248,7 +248,7 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
-                class="btn-icon"
+                class="btn-icon" style="margin:5px;"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
               >
@@ -259,7 +259,7 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
-                class="btn-icon"
+                class="btn-icon" style="margin:5px;"
                 v-b-tooltip.hover.v-success
                 title="İndir"
               >

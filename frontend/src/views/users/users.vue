@@ -1,360 +1,369 @@
 <template>
-<div>
+  <div>
+    <b-card title="Kullanıcılar">
+      <b-row>
+        <button hidden id="hata" @click.prevent="hata"></button>
+        <button hidden id="basarili" @click.prevent="basarili"></button>
+        <h4 style="margin: 10px">Excel İşlemleri:</h4>
+        <download-excel :fetch="fetchData">
+          <b-button variant="success" class="btn-icon" style="height: 40px">
+            <feather-icon size="24" icon="ArrowDownCircleIcon" />
+          </b-button>
+        </download-excel>
 
-  <b-card title="Kullanıcılar">
-    <b-row>
-      <button hidden id="hata" @click.prevent="hata"></button>
-      <button hidden id="basarili" @click.prevent="basarili"></button>
-      <h4 style="margin: 10px">Excel İşlemleri:</h4>
-      <download-excel :fetch="fetchData">
-        <b-button variant="success" class="btn-icon" style="height: 40px">
-          <feather-icon size="24" icon="ArrowDownCircleIcon" />
-        </b-button>
-      </download-excel>
-
-      <b-button
-        variant="success"
-        class="btn-icon"
-        style="margin-left: 5px; height: 40px"
-        @click="$refs.refInputEl.click()"
-      >
-        <input
-          ref="refInputEl"
-          type="file"
-          class="d-none"
-          @input="excelfile"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-        />
-        <feather-icon size="24" icon="ArrowUpCircleIcon" />
-      </b-button>
-
-      <b-col>
-        <b-form-group
-          label-cols-sm="7"
-          label-align-sm="left"
-          label-size="sm"
-          label-for="filterInput"
-          class="mb-1"
+        <b-button
+          variant="success"
+          class="btn-icon"
+          style="margin-left: 5px; height: 40px"
+          @click="$refs.refInputEl.click()"
         >
-          <b-input-group>
-            <b-form-input
-              id="filterInput"
-              v-model="filter"
-              type="search"
-              placeholder="........"
-            />
-          </b-input-group>
-        </b-form-group>
-      </b-col>
-      <b-button
-        class="mb-1"
-        style="margin: auto"
-        variant="success"
-        @click="Modal1"
-        >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
-      >
-      <span>
-        <b-modal
-          hide-header-close
-          ok-title="Kaydet"
-          :hide-footer="true"
-          size="lg"
-          ref="modal2"
-          centered
-        >
-          <b-card>
-            <b-form @submit.prevent="update">
-              <b-form-group
-                label="İsim:"
-                label-for="İsim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="İsim"
-                  v-model="name"
-                  placeholder=" İsim Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="E-posta:"
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="nested-city"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Telefon No:"
-                label-for="nested-state"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="nested-state"
-                  v-model="telefon"
-                  placeholder="İletişim Numarası"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Yeni Şifre"
-                label-for="nested-state"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="Şifre"
-                  v-model="password"
-                  placeholder=" Şifre Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Yetki Seçiniz: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select aria-placeholder="Sürücü Seçiniz" v-model="role">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option>Admin</option>
-                  <option>Uzman</option>
-                  <option>Hekim</option>
-                  <option>Firma</option>
-                </b-form-select>
-              </b-form-group>
-              <b-form-group
-                label="Kullanıcı Durumu: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select v-model="status">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option value="1">Aktif</option>
-                  <option value="2">Beklemede</option>
-                  <option value="3">Red</option>
-                </b-form-select>
-              </b-form-group>
-
-              <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
-          </b-card>
-        </b-modal>
-        <b-modal
-          hide-header-close
-          ok-title="Kaydet"
-          :hide-footer="true"
-          size="lg"
-          ref="modal1"
-          centered
-          title="Kullanıcı Ekle"
-        >
-          <b-card>
-            <b-form @submit.prevent="submit">
-              <b-form-group
-                label="İsim:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="isim"
-                  v-model="name"
-                  placeholder="İsim Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="E-Posta Adresi"
-                label-for="email"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Telefon No:"
-                label-for="telefon"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="telefon"
-                  v-model="telefon"
-                  placeholder="Kullanıcı Telefon Numarası"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Kullanıcı Şifresi:"
-                label-for="password"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="password"
-                  v-model="password"
-                  placeholder="Şifre Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Rol Seçiniz: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select aria-placeholder="Sürücü Seçiniz" v-model="role">
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option>Admin</option>
-                  <option>Uzman</option>
-                  <option>Hekim</option>
-                  <option>Firma</option>
-                </b-form-select>
-              </b-form-group>
-
-              <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
-
-            <!-- Emulate built in modal footer ok and cancel button actions -->
-          </b-card>
-        </b-modal>
-      </span>
-
-      <b-col cols="12" class="table-responsive">
-        <b-table
-          striped
-          hover
-          responsive
-          :per-page="perPage"
-          :current-page="currentPage"
-          :items="items"
-          :fields="fields"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
-          :sort-direction="sortDirection"
-          :filter="filter"
-          :filter-included-fields="filterOn"
-          show-empty
-          empty-text="Veri Bulunamadı."
-          empty-filtered-text="Veri Bulunamadı."
-        >
-          <template #cell(role)="data">
-            <div class="text-nowrap">
-              <feather-icon
-                :icon="roleVariant(data.item.role)"
-                size="18"
-                class="mr-50"
-                style="color: red"
-              />
-              <span class="align-text-top text-capitalize">{{
-                data.item.role
-              }}</span>
-            </div>
-          </template>
-
-          <template #cell(email_verified_at)="data">
-            <b-badge
-              v-if="data.item.email_verified_at != null"
-              variant="light-success"
-            >
-              <span> Onaylanmış</span>
-            </b-badge>
-
-            <b-badge
-              v-if="data.item.email_verified_at === null"
-              variant="light-danger"
-            >
-              <span> Onaylanmamış</span>
-            </b-badge>
-          </template>
-
-          <template #cell(status)="data">
-            <b-badge :variant="statusVariant(data.item.status)">
-              <span v-if="data.item.status == 1"> Aktif</span>
-              <span v-if="data.item.status == 2"> Beklemede</span>
-              <span v-if="data.item.status == 0"> Red</span>
-            </b-badge>
-          </template>
-
-          <p style="text-align: center; width: 100%" show-empty>
-            >
-            <b> Kullanıcı Bulunamadı.</b>
-          </p>
-
-          <template #cell(actions)="data">
-            <span>
-              <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="warning"
-                @click="Modal2(data.item)"
-                class="btn-icon"
-                v-b-tooltip.hover.v-warning
-                title="Düzenle"
-              >
-                <feather-icon icon="EditIcon" />
-              </b-button>
-              <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="danger"
-                @click.prevent="arsiv(data.item)"
-                class="btn-icon"
-                v-b-tooltip.hover.v-danger
-                title="Arşivle"
-              >
-                <feather-icon icon="ArchiveIcon" />
-              </b-button>
-            </span>
-          </template>
-        </b-table>
-      </b-col>
-
-      <b-col md="2" sm="4" class="my-1">
-        <b-form-group class="mb-0">
-          <b-form-select
-            id="perPageSelect"
-            v-model="perPage"
-            size="sm"
-            :options="pageOptions"
-            class="w-50"
+          <input
+            ref="refInputEl"
+            type="file"
+            class="d-none"
+            @input="excelfile"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           />
-        </b-form-group>
-      </b-col>
+          <feather-icon size="24" icon="ArrowUpCircleIcon" />
+        </b-button>
 
-      <b-col cols="12">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          align="center"
-          size="sm"
-          class="my-0"
-        />
-      </b-col>
-    </b-row>
-  </b-card></div>
+        <b-col>
+          <b-form-group
+            label-cols-sm="7"
+            label-align-sm="left"
+            label-size="sm"
+            label-for="filterInput"
+            class="mb-1"
+          >
+            <b-input-group>
+              <b-form-input
+                id="filterInput"
+                v-model="filter"
+                type="search"
+                placeholder="........"
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <b-button
+          class="mb-1"
+          style="margin: auto"
+          variant="success"
+          @click="Modal1"
+        >
+          <feather-icon size="20px;" icon="PlusIcon"
+        /></b-button>
+        <span>
+          <b-modal
+            hide-header-close
+            ok-title="Kaydet"
+            :hide-footer="true"
+            size="lg"
+            ref="modal2"
+            centered
+          >
+            <b-card>
+              <b-form @submit.prevent="update">
+                <b-form-group
+                  label="İsim:"
+                  label-for="İsim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="İsim"
+                    v-model="name"
+                    placeholder=" İsim Giriniz"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="E-posta:"
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="nested-city"
+                    v-model="email"
+                    placeholder="E-posta Adresini Giriniz"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="Telefon No:"
+                  label-for="nested-state"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="nested-state"
+                    v-model="telefon"
+                    placeholder="İletişim Numarası"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="Yeni Şifre"
+                  label-for="nested-state"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="Şifre"
+                    v-model="password"
+                    placeholder=" Şifre Giriniz"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="Yetki Seçiniz: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-select
+                    aria-placeholder="Sürücü Seçiniz"
+                    v-model="role"
+                  >
+                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option>Admin</option>
+                    <option>Uzman</option>
+                    <option>Hekim</option>
+                    <option>Firma</option>
+                  </b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kullanıcı Durumu: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-select v-model="status">
+                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option value="1">Aktif</option>
+                    <option value="2">Beklemede</option>
+                    <option value="3">Red</option>
+                  </b-form-select>
+                </b-form-group>
+
+                <div style="float: right">
+                  <b-button variant="success" type="submit"> Tamam </b-button>
+                </div>
+                <div style="float: right; padding-right: 10px">
+                  <b-button variant="danger" @click="form()"> İptal</b-button>
+                </div>
+              </b-form>
+            </b-card>
+          </b-modal>
+          <b-modal
+            hide-header-close
+            ok-title="Kaydet"
+            :hide-footer="true"
+            size="lg"
+            ref="modal1"
+            centered
+            title="Kullanıcı Ekle"
+          >
+            <b-card>
+              <b-form @submit.prevent="submit">
+                <b-form-group
+                  label="İsim:"
+                  label-for="isim"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="name"
+                    placeholder="İsim Giriniz"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="E-Posta Adresi"
+                  label-for="email"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="email"
+                    v-model="email"
+                    placeholder="E-posta Adresini Giriniz"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="Telefon No:"
+                  label-for="telefon"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="telefon"
+                    v-model="telefon"
+                    placeholder="Kullanıcı Telefon Numarası"
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Kullanıcı Şifresi:"
+                  label-for="password"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input
+                    id="password"
+                    v-model="password"
+                    placeholder="Şifre Giriniz"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="Rol Seçiniz: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-select
+                    aria-placeholder="Sürücü Seçiniz"
+                    v-model="role"
+                  >
+                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option>Admin</option>
+                    <option>Uzman</option>
+                    <option>Hekim</option>
+                    <option>Firma</option>
+                  </b-form-select>
+                </b-form-group>
+
+                <div style="float: right">
+                  <b-button variant="success" type="submit"> Tamam </b-button>
+                </div>
+                <div style="float: right; padding-right: 10px">
+                  <b-button variant="danger" @click="form()"> İptal</b-button>
+                </div>
+              </b-form>
+
+              <!-- Emulate built in modal footer ok and cancel button actions -->
+            </b-card>
+          </b-modal>
+        </span>
+
+        <b-col cols="12" class="table-responsive">
+          <b-table
+            striped
+            hover
+            responsive
+            :per-page="perPage"
+            :current-page="currentPage"
+            :items="items"
+            :fields="fields"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            :filter="filter"
+            :filter-included-fields="filterOn"
+            show-empty
+            empty-text="Veri Bulunamadı."
+            empty-filtered-text="Veri Bulunamadı."
+          >
+            <template #cell(role)="data">
+              <div class="text-nowrap">
+                <feather-icon
+                  :icon="roleVariant(data.item.role)"
+                  size="18"
+                  class="mr-50"
+                  style="color: red"
+                />
+                <span class="align-text-top text-capitalize">{{
+                  data.item.role
+                }}</span>
+              </div>
+            </template>
+
+            <template #cell(email_verified_at)="data">
+              <b-badge
+                v-if="data.item.email_verified_at != null"
+                variant="light-success"
+              >
+                <span> Onaylanmış</span>
+              </b-badge>
+
+              <b-badge
+                v-if="data.item.email_verified_at === null"
+                variant="light-danger"
+              >
+                <span> Onaylanmamış</span>
+              </b-badge>
+            </template>
+
+            <template #cell(status)="data">
+              <b-badge :variant="statusVariant(data.item.status)">
+                <span v-if="data.item.status == 1"> Aktif</span>
+                <span v-if="data.item.status == 2"> Beklemede</span>
+                <span v-if="data.item.status == 0"> Red</span>
+              </b-badge>
+            </template>
+
+            <p style="text-align: center; width: 100%" show-empty>
+              >
+              <b> Kullanıcı Bulunamadı.</b>
+            </p>
+
+            <template #cell(actions)="data">
+              <span>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="warning"
+                  @click="Modal2(data.item)"
+                  class="btn-icon"
+                  style="margin:5px;"
+                  v-b-tooltip.hover.v-warning
+                  title="Düzenle"
+                >
+                  <feather-icon icon="EditIcon" />
+                </b-button>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="danger"
+                  @click.prevent="arsiv(data.item)"
+                  class="btn-icon"
+                   style="margin:5px;"
+                  v-b-tooltip.hover.v-danger
+                  title="Arşivle"
+                >
+                  <feather-icon icon="ArchiveIcon" />
+                </b-button>
+              </span>
+            </template>
+          </b-table>
+        </b-col>
+
+        <b-col md="2" sm="4" class="my-1">
+          <b-form-group class="mb-0">
+            <b-form-select
+              id="perPageSelect"
+              v-model="perPage"
+              size="sm"
+              :options="pageOptions"
+              class="w-50"
+            />
+          </b-form-group>
+        </b-col>
+
+        <b-col cols="12">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            align="center"
+            size="sm"
+            class="my-0"
+          />
+        </b-col>
+      </b-row>
+    </b-card>
+  </div>
 </template>
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
@@ -362,8 +371,9 @@ import downloadexcel from "vue-json-excel";
 
 import {
   BTable,
-  BAvatar,BBreadcrumb,
-    BBreadcrumbItem,
+  BAvatar,
+  BBreadcrumb,
+  BBreadcrumbItem,
   BBadge,
   BRow,
   BCol,
@@ -371,7 +381,8 @@ import {
   BFormSelect,
   BPagination,
   BInputGroup,
-  BFormInput,VBTooltip,
+  BFormInput,
+  VBTooltip,
   BInputGroupAppend,
   BButton,
   BCard,
@@ -380,13 +391,14 @@ import {
   BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
-import Ripple from 'vue-ripple-directive'
+import Ripple from "vue-ripple-directive";
 export default {
   components: {
     BTable,
     BAvatar,
     BBadge,
-    BRow,VBTooltip,
+    BRow,
+    VBTooltip,
     BCol,
     BFormGroup,
     BFormSelect,
@@ -396,14 +408,16 @@ export default {
     BInputGroupAppend,
     BButton,
     BCard,
-    BModal,BBreadcrumb,
+    BModal,
+    BBreadcrumb,
     BBreadcrumbItem,
     ToastificationContent,
     BForm,
     downloadexcel,
     BFormFile,
-  },directives: {
-    'b-tooltip': VBTooltip,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
     Ripple,
   },
   data() {

@@ -178,6 +178,8 @@
         >
           <template #cell(actions)="data">
             <span>
+
+
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
@@ -185,6 +187,7 @@
                 v-on:click="$refs['modal2'].show()"
                 class="btn-icon"
                 v-b-tooltip.hover.v-warning
+                         style="margin:5px;"
                 title="Düzenle"
               >
                 <feather-icon icon="EditIcon" />
@@ -194,6 +197,7 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
+                         style="margin:5px;"
                 @click="arsiv(data.item)"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
@@ -201,6 +205,11 @@
               >
                 <feather-icon icon="ArchiveIcon" /> </b-button
             ></span>
+
+
+
+
+
           </template>
         </b-table>
       </b-col>
