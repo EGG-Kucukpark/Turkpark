@@ -360,10 +360,10 @@ export default {
         content: "",
       },
       fields: [
-        { key: "name", label: "Çalışan ismi", sortable: true, filter: true },
+        { key: "name", label: "Çalışan İSMİ", sortable: true, filter: true },
         {
           key: "tc",
-          label: "TC.Kimlik Numarası",
+          label: "TC.Kİmlİk Numarası",
           sortable: true,
           filter: true,
         },
@@ -375,7 +375,7 @@ export default {
         },
         {
           key: "email",
-          label: "E-Posta Adresi",
+          label: "E-Posta Adresİ",
           sortable: true,
           filter: true,
         },

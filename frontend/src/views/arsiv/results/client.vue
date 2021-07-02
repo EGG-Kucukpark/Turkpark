@@ -383,8 +383,8 @@ export default {
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
-        { key: "name", label: "Çalışan ismi", sortable: true, filter: true },
-        { key: "rapor", label: "Rapor Tipi", sortable: true, filter: true },
+        { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
+        { key: "rapor", label: "RAPOR TİPİ", sortable: true, filter: true },
         {
           key: "created_at",
           label: "Rapor Oluşturulma",

@@ -184,9 +184,9 @@ export default {
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
-        { key: "name", label: "Çalışan ismi", sortable: true, filter: true },
-        { key: "rapor", label: "Dosya Adı", sortable: true, filter: true },
-        { key: "created_at", label: "Tarih", sortable: true, filter: true },
+        { key: "name", label: "Çalışan İSMİ", sortable: true, filter: true },
+        { key: "rapor", label: "RAPOR TİPİ", sortable: true, filter: true },
+        { key: "created_at", label: "Tarİh", sortable: true, filter: true },
 
         { key: "actions", label: "Eylemler" },
       ],

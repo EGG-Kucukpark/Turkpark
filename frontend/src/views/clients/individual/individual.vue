@@ -295,10 +295,10 @@ export default {
         content: "",
       },
       fields: [
-        { key: "name", label: "İsim", sortable: true },
+        { key: "name", label: "İSİM", sortable: true },
         { key: "email", label: "E-Posta", sortable: true },
         { key: "adres", label: "Adres", sortable: true },
-        { key: "tc", label: "TC. Kimlik Numarası", sortable: true },
+        { key: "tc", label: "TC. Kİmlİk Numarası", sortable: true },
         { key: "telefon", label: "Telefon", sortable: true },
 
         { key: "actions", label: "Eylemler" },

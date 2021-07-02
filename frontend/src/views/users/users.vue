@@ -423,7 +423,7 @@ export default {
         content: "",
       },
       fields: [
-        { key: "name", label: "İsim", sortable: true, filter: true },
+        { key: "name", label: "İSİM", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
         { key: "role", label: "Rol", sortable: true, filter: true },
         { key: "telefon", label: "Telefon", sortable: true, filter: true },
@@ -435,7 +435,7 @@ export default {
         },
         {
           key: "created_at",
-          label: "Oluşturulma Tarihi",
+          label: "OluŞturulma Tarİhİ",
           sortable: true,
           filter: true,
         },

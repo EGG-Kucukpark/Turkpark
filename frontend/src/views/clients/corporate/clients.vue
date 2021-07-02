@@ -478,13 +478,13 @@ export default {
         { key: "sgk", label: "SGK Numarası", sortable: true, filter: true },
         {
           key: "vergino",
-          label: "Vergi Numarası",
+          label: "Vergİ Numarası",
           sortable: true,
           filter: true,
         },
         {
           key: "vergiad",
-          label: "Vergi Dairesi",
+          label: "Vergİ Daİresİ",
           sortable: true,
           filter: true,
         },
@@ -496,7 +496,7 @@ export default {
         },
         {
           key: "firma_yetkilisi",
-          label: "Firma Yetkilisi",
+          label: "Fİrma Yetkİlİsİ",
           sortable: true,
         },
 

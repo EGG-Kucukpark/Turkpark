@@ -338,7 +338,7 @@ export default {
         content: "",
       },
       fields: [
-        { key: "name", label: "Çalışan ismi", sortable: true, filter: true },
+        { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
         {
           key: "tc",
           label: "TC.Kimlik Numarası",
