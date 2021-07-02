@@ -192,41 +192,8 @@
               <!-- Emulate built in modal footer ok and cancel button actions -->
             </b-card>
           </b-modal>
-        </span>
 
-        <b-col cols="12" class="table-responsive">
-          <b-table
-            striped
-            hover
-            responsive
-            :per-page="perPage"
-            :current-page="currentPage"
-            :items="items"
-            :fields="fields"
-            :sort-by.sync="sortBy"
-            :sort-desc.sync="sortDesc"
-            :sort-direction="sortDirection"
-            :filter="filter"
-            :filter-included-fields="filterOn"
-            @row-clicked="tikla"
-            show-empty
-            empty-text="Veri Bulunamadı."
-            empty-filtered-text="Veri Bulunamadı."
-            @filtered="onFiltered"
-          >
-            <template #cell(actions)="data">
-              <span>
-                <b-button
-                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                  variant="warning"
-                  @click="Modal2(data.item)"
-                  class="btn-icon"
-                  v-b-tooltip.hover.v-warning
-                  title="Düzenle"
-                >
-                  <feather-icon icon="EditIcon" />
-                </b-button>
-                <b-modal
+          <b-modal
                   hide-header-close
                   :hide-footer="true"
                   size="lg"
@@ -352,6 +319,41 @@
                     <!-- Emulate built in modal footer ok and cancel button actions -->
                   </b-card>
                 </b-modal>
+        </span>
+
+        <b-col cols="12" class="table-responsive">
+          <b-table
+            striped
+            hover
+            responsive
+            :per-page="perPage"
+            :current-page="currentPage"
+            :items="items"
+            :fields="fields"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            :filter="filter"
+            :filter-included-fields="filterOn"
+            @row-clicked="tikla"
+            show-empty
+            empty-text="Veri Bulunamadı."
+            empty-filtered-text="Veri Bulunamadı."
+            @filtered="onFiltered"
+          >
+            <template #cell(actions)="data">
+              <span>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="warning"
+                  @click="Modal2(data.item)"
+                  class="btn-icon"
+                  v-b-tooltip.hover.v-warning
+                  title="Düzenle"
+                >
+                  <feather-icon icon="EditIcon" />
+                </b-button>
+
 
                 <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
