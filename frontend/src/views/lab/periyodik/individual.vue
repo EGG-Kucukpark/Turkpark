@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Raporlar">
+  <b-card title="Sonuçlar">
     <b-form-group
       style="font-size: 18px"
       label="Kişi Seçiniz: "

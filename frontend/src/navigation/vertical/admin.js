@@ -24,15 +24,28 @@ export default [
     },
 
     {
-        title: 'Hizmetler',
+        title: 'Hizmetler & Sonuçlar',
         icon: 'FileTextIcon',
         children: [{
-                title: 'Sonuçlar',
-                route: 'results',
-                icon: 'HeartIcon',
-
+                title: 'Laboratuvar',
+                route: 'flaboratuvar'
 
             }, {
+                title: 'Asansör',
+                route: 'fasansor'
+
+            }, {
+                title: 'Ortam Ölçümleri',
+                route: 'fölcümler'
+
+            }, {
+                title: 'Periyodik Kontroller',
+                route: 'fperiyodik'
+            },
+
+
+
+            {
                 title: 'İlkyardım',
 
                 route: 'apps-invoice-list',
@@ -65,26 +78,6 @@ export default [
                         title: "NEBOSH  "
                     }
                 ]
-
-            }, {
-
-                title: "Yangın Güvenlik Sistemleri",
-
-            },
-            {
-                title: 'Ortam Ölçümleri',
-
-            },
-
-            {
-                title: 'Periyodik Kontroller',
-
-
-            },
-
-
-            {
-                title: "Asansör Muayene",
 
             },
 

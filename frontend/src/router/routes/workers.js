@@ -42,7 +42,7 @@ export default [{
     },
 
     {
-        path: '/laboratuvar',
+        path: '/Laboratuvar',
         name: 'laboratuvar',
         component: () => import('@/views/workers/laboratuvar.vue'),
         meta: {
