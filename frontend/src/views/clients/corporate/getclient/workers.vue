@@ -37,65 +37,76 @@
           centered
           title="Çalışan Ekle"
         >
-          <b-form @submit.prevent="ekle">
-            <b-form-group
-              label="İsim:"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="name"
-                placeholder="İsim Giriniz"
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="TC. Kimlik Numarası:"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="tc"
-                placeholder="TC. Kimlik Numarası Giriniz"
-              ></b-form-input>
-            </b-form-group>
+          <validation-observer ref="registerForm" #default="{ invalid }">
+            <b-form @submit.prevent="ekle">
+              <b-form-group
+                label="İsim:"
+                label-for="isim"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="İsim"
+                  rules="required|"
+                >
+                  <b-form-input
+                    id="isim"
+                    v-model="name"
+                    placeholder="İsim Giriniz"
+                  ></b-form-input>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+              <b-form-group
+                label="TC. Kimlik Numarası:"
+                label-for="isim"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="isim"
+                  v-model="tc"
+                  placeholder="TC. Kimlik Numarası Giriniz"
+                ></b-form-input>
+              </b-form-group>
 
-            <b-form-group
-              label="E-Posta Adresi"
-              label-for="email"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="email"
-                v-model="email"
-                placeholder="E-posta Adresini Giriniz"
-              ></b-form-input>
-            </b-form-group>
+              <b-form-group
+                label="E-Posta Adresi"
+                label-for="email"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="email"
+                  v-model="email"
+                  placeholder="E-posta Adresini Giriniz"
+                ></b-form-input>
+              </b-form-group>
 
-            <b-form-group
-              label="Telefon No:"
-              label-for="telefon"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="telefon"
-                v-model="telefon"
-                placeholder="Kullanıcı Telefon Numarası"
-              ></b-form-input>
-            </b-form-group>
+              <b-form-group
+                label="Telefon No:"
+                label-for="telefon"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="telefon"
+                  v-model="telefon"
+                  placeholder="Kullanıcı Telefon Numarası"
+                ></b-form-input>
+              </b-form-group>
 
-            <div style="float: right">
-              <b-button variant="success" type="submit"> Tamam </b-button>
-            </div>
-            <div style="float: right; padding-right: 10px">
-              <b-button variant="danger" @click="form()"> İptal</b-button>
-            </div>
-          </b-form>
+              <div style="float: right">
+                <b-button variant="success" type="submit" :disabled="invalid">
+                  Tamam
+                </b-button>
+              </div>
+              <div style="float: right; padding-right: 10px">
+                <b-button variant="danger" @click="form()"> İptal</b-button>
+              </div>
+            </b-form>
+          </validation-observer>
 
           <!-- Emulate built in modal footer ok and cancel button actions -->
         </b-modal>
@@ -264,6 +275,9 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
+import { required } from "@validations";
+
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { heightTransition } from "@core/mixins/ui/transition";
 
 import {
@@ -302,12 +316,15 @@ export default {
     BFormSelect,
     BPagination,
     BInputGroup,
+    ValidationProvider,
+    ValidationObserver,
     BFormInput,
     BProgress,
     VBTooltip,
     BInputGroupAppend,
     BButton,
     BCard,
+    required,
     BModal,
     ToastificationContent,
     BForm,
@@ -366,6 +383,7 @@ export default {
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
+      errors:[],
       name: null,
       tc: null,
       email: null,
@@ -442,7 +460,7 @@ export default {
         (this.telefon = row.telefon);
     },
 
-     tikla(params) {
+    tikla(params) {
       this.$router.push({
         name: "calisan-goster",
         params: { id: params.id },
@@ -458,7 +476,9 @@ export default {
           email: this.email,
           tc: this.tc,
         })
-        .then((res) => {this.basarili(), this.veri(), this.form()})
+        .then((res) => {
+          this.basarili(), this.veri(), this.form();
+        })
         .catch((error) => this.basarisiz);
     },
 
