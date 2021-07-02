@@ -26,7 +26,7 @@
           style="margin-right: 50px"
           variant="success"
           v-on:click="$refs['modal'].show()"
-          >Yeni Çalışan</b-button
+          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
         >
         <b-modal
           hide-header-close

@@ -26,7 +26,7 @@
           style="margin-right: 50px"
           variant="success"
           @click="Modal1"
-          >Yeni Kişi</b-button
+          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
         >
 
         <b-modal

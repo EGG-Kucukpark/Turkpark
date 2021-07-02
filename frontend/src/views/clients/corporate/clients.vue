@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <b-card title="Kurumsal Müşteriler">
       <b-row>
         <b-col>
@@ -28,8 +27,9 @@
             style="margin-right: 50px"
             variant="success"
             @click="Modal1"
-            >Yeni Firma</b-button
           >
+            <feather-icon size="20px;" icon="PlusIcon"
+          /></b-button>
 
           <b-modal
             hide-header-close

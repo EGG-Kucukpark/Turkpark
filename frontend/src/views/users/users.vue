@@ -51,7 +51,7 @@
         style="margin: auto"
         variant="success"
         @click="Modal1"
-        >Yeni Kullanıcı</b-button
+        >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
       >
       <span>
         <b-modal

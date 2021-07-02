@@ -45,7 +45,7 @@
           style="margin-right: 50px"
           variant="success"
           @click="modal"
-          >Yeni Rapor</b-button
+          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
         >
 
         <b-modal
