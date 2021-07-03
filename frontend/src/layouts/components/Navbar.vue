@@ -8,15 +8,39 @@
         </b-link>
       </li>
     </ul>
-
-    <!-- Left Col -->
     <div
       class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex"
     >
-      <dark-Toggler class="d-none d-lg-block" />
+      <router-link to="/apps/calendar">
+        <feather-icon
+          size="22"
+          style="color: #d0d2d6; margin: 10px"
+          icon="CalendarIcon"
+      /></router-link>
+
+
+
+       <router-link to="/todo">
+        <feather-icon
+          size="22"
+          style="color: #d0d2d6; margin: 10px"
+          icon="CheckSquareIcon"
+      /></router-link>
+      <router-link to="/profil">
+        <feather-icon
+          size="22"
+          style="color: #d0d2d6; margin: 10px"
+          icon="SettingsIcon"
+      /></router-link>
     </div>
+    <!-- Left Col -->
 
     <b-navbar-nav class="nav align-items-center ml-auto">
+      <div
+        class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex"
+      >
+        <dark-Toggler class="d-none d-lg-block" />
+      </div>
       <b-nav-item-dropdown
         right
         toggle-class="d-flex align-items-center dropdown-user-link"
@@ -39,11 +63,12 @@
           />
         </template>
 
-        <b-dropdown-item   :to="{ path: '/profil'}" link-class="d-flex align-items-center">
-
-            <feather-icon size="16" icon="UserIcon" class="mr-50" />
-            <span>Profilim</span>
-
+        <b-dropdown-item
+          :to="{ path: '/profil' }"
+          link-class="d-flex align-items-center"
+        >
+          <feather-icon size="16" icon="UserIcon" class="mr-50" />
+          <span>Profilim</span>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
@@ -51,11 +76,13 @@
           <span>Inbox</span>
         </b-dropdown-item>
 
-          <b-dropdown-item :to="{ path: '/todo'}"  link-class="d-flex align-items-center">
-            <feather-icon size="16" icon="CheckSquareIcon" class="mr-50" />
-            <span>Görevlerim</span>
-          </b-dropdown-item>
-
+        <b-dropdown-item
+          :to="{ path: '/todo' }"
+          link-class="d-flex align-items-center"
+        >
+          <feather-icon size="16" icon="CheckSquareIcon" class="mr-50" />
+          <span>Görevlerim</span>
+        </b-dropdown-item>
 
         <b-dropdown-divider />
 
@@ -82,6 +109,7 @@ import {
 } from "bootstrap-vue";
 import DarkToggler from "@core/layouts/components/app-navbar/components/DarkToggler.vue";
 import axios from "@axios";
+import FeatherIcon from "../../@core/components/feather-icon/FeatherIcon.vue";
 
 export default {
   components: {
@@ -94,6 +122,7 @@ export default {
 
     // Navbar Components
     DarkToggler,
+    FeatherIcon,
   },
 
   data() {
