@@ -123,9 +123,9 @@ Route::post('updatetask/{id}', [TodoController::class, 'updatetask']);
 //                      Takvim İşlemleri
 
 route::post("takvim", [TakvimController::class, 'takvimler']);
-route::get("takvimekle", [TakvimController::class, 'takvimekle']);
+route::post("takvimekle", [TakvimController::class, 'takvimekle']);
 route::post("takvimduzenle/{id}", [TakvimController::class, 'takvimduzenle']);
-route::get("takvimsil", [TakvimController::class, 'takvimsil']);
+route::post("takvimsil", [TakvimController::class, 'takvimsil']);
 
 
 

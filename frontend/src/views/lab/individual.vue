@@ -16,6 +16,7 @@
         </option>
       </b-form-select>
     </b-form-group>
+    <bireysel v-if="show" @id="gelen($event)" />
 
     <b-row>
       <b-col>
@@ -44,8 +45,9 @@
           style="margin-right: 50px"
           variant="success"
           @click="modal"
-          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
         >
+          <feather-icon size="20px;" icon="PlusIcon"
+        /></b-button>
 
         <b-modal
           hide-header-close
@@ -202,7 +204,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-warning
                 title="Göster"
               >
@@ -213,7 +216,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
               >
@@ -224,7 +228,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-success
                 title="İndir"
               >
@@ -266,6 +271,7 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
+import bireysel from "./firma/bireysel/individual.vue";
 
 import {
   BTable,
@@ -298,6 +304,8 @@ export default {
     BRow,
     BCol,
     BFormGroup,
+    bireysel,
+
     BFormSelect,
     BPagination,
     BInputGroup,
@@ -446,11 +454,10 @@ export default {
     submit() {
       var form = this.form;
       var time = 1000;
-      console.log(form)
+      console.log(form);
 
       form.forEach(function (form) {
         const formData = new FormData();
-
 
         if (form.Selected2 === null) {
           document.getElementById("basarisiz2").value = "Kişi Seçilmedi.";
@@ -491,11 +498,23 @@ export default {
         this.formcikis();
       }, 6000);
     },
+    gelen(data) {
+
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = data;
+      }
+
+      axios
+        .post("/api/calisanlar", { firma_id: data })
+        .then((res) => (this.calisan = res.data));
+      axios
+        .post("/api/getfile", { firma_id: data })
+        .then((res) => (this.items = res.data));
+    },
     select() {
       var id = this.Selected.firma.id;
 
-
-       for (var i = 0; i < this.form.length; i++) {
+      for (var i = 0; i < this.form.length; i++) {
         this.form[i].Selected2 = this.Selected.firma;
       }
 

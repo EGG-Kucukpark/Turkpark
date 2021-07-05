@@ -1,22 +1,33 @@
 <template>
   <b-card title="Sonuçlar">
-    <b-form-group
+      <b-form-group
       v-if="show"
       style="font-size: 18px"
       label="Firma Seçiniz: "
       label-cols-sm="1"
     >
-      <b-form-select @change="select" v-model="Selected">
-        <option disabled value="">Lütfen Seçim Yapınız</option>
-        <option
-          v-bind:value="{ firma_id: firma.id }"
-          v-for="firma in firma"
-          :key="firma.id"
-        >
-          {{ firma.name }}
-        </option>
-      </b-form-select>
+      <v-select
+
+        :options="firma"
+        label="Firmalar"
+        v-model="Selected"
+        @search="firmasearch"
+        @input="select"
+
+         placeholder="Firma Seçiniz"
+        :filterable="false"
+        class="select-size-sm"
+      >
+        <template slot="no-options"> Sonuç yok. </template>
+        <template #option="options">
+          <p>{{ options.name }}</p>
+        </template>
+        <template #selected-option="options">
+          <p>{{ options.name }}</p>
+        </template>
+      </v-select>
     </b-form-group>
+    <firmalar   v-if="show" @id="gelen($event)" />
 
     <b-row>
       <b-col>
@@ -173,7 +184,7 @@
               </div>
             </b-form>
 
-            <pre> {{$data.form | json}} </pre>
+
           </b-card>
         </b-modal>
       </span>
@@ -311,6 +322,8 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
+import firmalar from "../firma/bireysel/clients.vue";
+
 
 import {
   BTable,
@@ -334,14 +347,14 @@ import {
   BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
-
+import vSelect from "vue-select";
 export default {
   components: {
     BTable,
     BAvatar,
     BBadge,
     BRow,
-    VBTooltip,
+    VBTooltip,firmalar,
     BProgress,
     BCol,
     BFormGroup,
@@ -358,7 +371,7 @@ export default {
     BFormFile,
     ripple,
     heightTransition,
-    BAlert,
+    BAlert, vSelect,
   },
   directives: {
     "b-tooltip": VBTooltip,
@@ -390,7 +403,7 @@ export default {
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
         { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
-        { key: "rapor", label: "RAPOR TİPİ", sortable: true, filter: true },
+        { key: "rapor", label: "RAPOR TÜRÜ", sortable: true, filter: true },
         {
           key: "created_at",
           label: "Rapor Oluşturulma",
@@ -572,6 +585,22 @@ export default {
       setTimeout(() => {
         this.formcikis();
       }, 6000);
+    },    firmasearch(search) {
+      axios
+        .post("/api/firmalar", { q: search })
+        .then((res) => (this.firma = res.data));
+    },gelen(data) {
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = data;
+      }
+      axios
+    .post("/api/getfile", { firma_id: data, status: 1 })
+
+        .then((res) => (this.files = res.data));
+
+      axios
+        .post("/api/calisanlar", { firma_id: data })
+        .then((res) => (this.calisan = res.data));
     },
 
     select() {

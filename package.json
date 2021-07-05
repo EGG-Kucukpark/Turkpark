@@ -35,6 +35,7 @@
         "vue-json-excel": "^0.3.0",
         "vue-search-select": "^2.9.3",
         "vue-select": "^3.11.2",
+        "vue-sweetalert2": "^5.0.2",
         "weekstart": "^1.1.0"
     }
 }

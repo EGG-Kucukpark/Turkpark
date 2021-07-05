@@ -106,7 +106,9 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
-                @click.prevent="sil(data.item)"
+
+
+                @click="confirmButtonColor(data.item)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-danger
                 title="Sil"
@@ -388,6 +390,7 @@ export default {
     arsivckr(data) {
       axios.post("api/arsivckr", { id: data.id }).then(this.refreshStop());
     },
+
     refreshStop() {
       setTimeout(() => {
         axios
@@ -409,9 +412,7 @@ export default {
           );
       }, 1000);
     },
-    sil(data) {
-      axios.post("api/usersil", { id: data.id }).then(this.refreshStop());
-    },
+
     submit() {
       axios
         .post("api/userekle", {
@@ -450,6 +451,45 @@ export default {
         (this.role = row.role),
         (this.status = row.status);
     },
+
+    confirmButtonColor(data) {
+
+      this.$swal({
+        title: 'Emin misin?',
+        text: "Bu işlemi geri alamayacaksın!",
+        icon: 'warning',
+        showCancelButton: true,
+         cancelButtonText:"İptal",
+        confirmButtonText: 'Evet, sil!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          this.$swal({
+            icon: 'success',
+            title: 'Silindi!',
+            text: 'Veri Silindi.',
+            customClass: {
+              confirmButton: 'btn btn-success',
+            },
+          }),
+           axios.post("api/usersil", { id: data.id }).then(this.refreshStop());
+        } else if (result.dismiss === 'cancel') {
+          this.$swal({
+            title: 'İptal',
+            text: 'Veri silinmedi',
+            icon: 'error',
+            customClass: {
+              confirmButton: 'btn btn-success',
+            },
+          })
+        }
+      })
+    },
+
 
     update() {
       axios

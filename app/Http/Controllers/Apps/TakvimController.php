@@ -16,17 +16,40 @@ class TakvimController extends Controller
     }
     function takvimekle(Request $request)
     {
-        return $request;
-        return  DB::table('takvim')->insert([]);
+        $event = $request->event;
+
+
+        return  DB::table('takvim')->insert([
+            'title' => $event["title"],
+            'start' => $event["start"],
+            'end' => $event["end"],
+            'user_id' => $request->user_id
+
+
+        ]);
     }
+
+
+
     function takvimduzenle(Request $request)
     {
+        $event = $request->event;
+
+        DB::table('takvim')->where('id', $event['id'])->update([
+
+            'title' => $event['title'],
+            'start' => $event['start'],
+            'end' => $event['end']
+
+
+        ]);
+
         return $request;
-        return  DB::table('takvim')->update([]);
     }
     function takvimsil(Request $request)
     {
+
+        return  DB::table('takvim')->where('id', $request->id)->delete();
         return $request;
-        return  DB::table('takvim')->where('id', $request->id)->get();
     }
 }

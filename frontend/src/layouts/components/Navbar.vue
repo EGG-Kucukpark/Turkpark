@@ -14,7 +14,7 @@
       <router-link to="/apps/calendar">
         <feather-icon
           size="22"
-          style="color: #d0d2d6; margin: 10px"
+          style="color: #a1a3a6; margin: 10px"
           icon="CalendarIcon"
       /></router-link>
 
@@ -23,13 +23,13 @@
        <router-link to="/todo">
         <feather-icon
           size="22"
-          style="color: #d0d2d6; margin: 10px"
+          style="color: #a1a3a6; margin: 10px"
           icon="CheckSquareIcon"
       /></router-link>
       <router-link to="/profil">
         <feather-icon
           size="22"
-          style="color: #d0d2d6; margin: 10px"
+          style="color: #a1a3a6; margin: 10px"
           icon="SettingsIcon"
       /></router-link>
     </div>
@@ -40,6 +40,7 @@
         class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex"
       >
         <dark-Toggler class="d-none d-lg-block" />
+        <search />
       </div>
       <b-nav-item-dropdown
         right
@@ -110,6 +111,7 @@ import {
 import DarkToggler from "@core/layouts/components/app-navbar/components/DarkToggler.vue";
 import axios from "@axios";
 import FeatherIcon from "../../@core/components/feather-icon/FeatherIcon.vue";
+import search from './search.vue'
 
 export default {
   components: {
@@ -122,6 +124,7 @@ export default {
 
     // Navbar Components
     DarkToggler,
+    search,
     FeatherIcon,
   },
 

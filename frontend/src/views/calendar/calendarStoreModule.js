@@ -1,6 +1,7 @@
 import axios from '@axios'
-
+var user = (JSON.parse(localStorage.getItem('user')));
 export default {
+
     namespaced: true,
     state: {},
     getters: {},
@@ -11,7 +12,7 @@ export default {
 
             return new Promise((resolve, reject) => {
 
-                var user = (JSON.parse(localStorage.getItem('user')));
+
 
                 axios
                     .post('/api/takvim', {
@@ -26,8 +27,9 @@ export default {
         }) {
             return new Promise((resolve, reject) => {
                 axios
-                    .post('/apps/calendar/events', {
-                        event
+                    .post('/api/takvimekle', {
+                        event,
+                        user_id: user.id
                     })
                     .then(response => resolve(response))
                     .catch(error => reject(error))
@@ -50,7 +52,7 @@ export default {
         }) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(`/api/takvimsil/${id}`)
+                    .post(`/api/takvimsil`, {id: id})
                     .then(response => resolve(response))
                     .catch(error => reject(error))
             })

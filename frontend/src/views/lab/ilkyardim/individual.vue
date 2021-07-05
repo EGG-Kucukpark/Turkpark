@@ -1,6 +1,6 @@
 <template>
   <b-card title="Sonuçlar">
-    <b-form-group
+     <b-form-group
       style="font-size: 18px"
       label="Kişi Seçiniz: "
       label-cols-sm="1"
@@ -16,6 +16,7 @@
         </option>
       </b-form-select>
     </b-form-group>
+    <bireysel v-if="show" @id="gelen($event)" />
 
     <b-row>
       <b-col>
@@ -290,8 +291,7 @@ import {
   BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
-
-export default {
+import bireysel from "../firma/bireysel/individual.vue";export default {
   components: {
     BTable,
     BAvatar,
@@ -306,7 +306,7 @@ export default {
     BAlert,
     BProgress,
     BInputGroupAppend,
-    BButton,
+    BButton,bireysel,
     BCard,
     BModal,
     ToastificationContent,
@@ -490,6 +490,18 @@ export default {
       setTimeout(() => {
         this.formcikis();
       }, 6000);
+    },  gelen(data) {
+
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = data;
+      }
+
+      axios
+        .post("/api/calisanlar", { firma_id: data })
+        .then((res) => (this.calisan = res.data));
+      axios
+        .post("/api/getfile", { firma_id: data })
+        .then((res) => (this.items = res.data));
     },
     select() {
       var id = this.Selected.firma.id;

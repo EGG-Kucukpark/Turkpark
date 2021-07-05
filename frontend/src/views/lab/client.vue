@@ -1,22 +1,33 @@
 <template>
-  <b-card title="Sonuçlar">
+  <b-card>
     <b-form-group
       v-if="show"
       style="font-size: 18px"
       label="Firma Seçiniz: "
-      label-cols-sm="1"
+      label-cols-sm="1  "
     >
-      <b-form-select @change="select" v-model="Selected">
-        <option disabled value="">Lütfen Seçim Yapınız</option>
-        <option
-          v-bind:value="{ firma_id: firma.id }"
-          v-for="firma in firma"
-          :key="firma.id"
-        >
-          {{ firma.name }}
-        </option>
-      </b-form-select>
+      <v-select
+
+        :options="firma"
+        label="Firmalar"
+        v-model="Selected"
+        @search="firmasearch"
+        @input="select"
+
+         placeholder="Firma Seçiniz"
+        :filterable="false"
+        class="select-size-sm"
+      >
+        <template slot="no-options"> Sonuç yok. </template>
+        <template #option="options">
+          <p>{{ options.name }}</p>
+        </template>
+        <template #selected-option="options">
+          <p>{{ options.name }}</p>
+        </template>
+      </v-select>
     </b-form-group>
+    <firmalar v-if="show" @id="gelen($event)" />
 
     <b-row>
       <b-col>
@@ -45,8 +56,9 @@
           style="margin-right: 50px"
           variant="success"
           @click="modal"
-          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
         >
+          <feather-icon size="20px;" icon="PlusIcon"
+        /></b-button>
 
         <b-modal
           hide-header-close
@@ -238,7 +250,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-warning
                 title="Göster"
               >
@@ -248,7 +261,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
               >
@@ -259,7 +273,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-success
                 title="İndir"
               >
@@ -299,6 +314,8 @@
   </b-card>
 </template>
 
+
+
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
@@ -327,7 +344,8 @@ import {
   BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
-
+import firmalar from "./firma/bireysel/clients.vue";
+import vSelect from "vue-select";
 export default {
   components: {
     BTable,
@@ -336,6 +354,8 @@ export default {
     BSpinner,
     BRow,
     BCol,
+    vSelect,
+    firmalar,
     BFormGroup,
     BFormSelect,
     BPagination,
@@ -384,7 +404,7 @@ export default {
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
         { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
-        { key: "rapor", label: "RAPOR TİPİ", sortable: true, filter: true },
+        { key: "rapor", label: "RAPOR TÜRÜ", sortable: true, filter: true },
         {
           key: "created_at",
           label: "Rapor Oluşturulma",
@@ -479,6 +499,19 @@ export default {
         this.refreshStop();
       }
     },
+    gelen(data) {
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = data;
+      }
+      axios
+        .post("/api/getfile", { firma_id: data })
+
+        .then((res) => (this.files = res.data));
+
+      axios
+        .post("/api/calisanlar", { firma_id: data })
+        .then((res) => (this.calisan = res.data));
+    },
 
     basarisiz() {
       var data = document.getElementById("basarisiz").value;
@@ -497,11 +530,10 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-
-        var id = this.Selected.firma_id;
+        var id = this.Selected.id;
         console.log(id);
         this.Selected = {
-          firma_id: this.Selected.firma_id,
+          firma_id: this.Selected.id,
         };
 
         axios
@@ -521,8 +553,11 @@ export default {
           );
       }, 1000);
     },
-
-    arttir() {},
+    firmasearch(search) {
+      axios
+        .post("/api/firmalar", { q: search })
+        .then((res) => (this.firma = res.data));
+    },
 
     addField() {
       if (this.form.length === 4) {
@@ -532,7 +567,7 @@ export default {
           calisanselected: "",
           rapor: "",
           file: "",
-          Selected2: this.Selected.firma_id,
+          Selected2: this.Selected.id,
           variant: "success",
           dgr: 0,
         });
@@ -598,10 +633,11 @@ export default {
     },
 
     select() {
-      var id = this.Selected.firma_id;
+      console.log(this.Selected);
+      var id = this.Selected.id;
 
-       for (var i = 0; i < this.form.length; i++) {
-        this.form[i].Selected2 = this.Selected.firma_id;
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = this.Selected.id;
       }
 
       axios

@@ -12,20 +12,6 @@ export default [
         route: 'calisanlar',
         icon: 'UserIcon',
     },
-
-
-    {
-        title: 'Takvim',
-        route: 'apps-calendar',
-        icon: 'CalendarIcon',
-    },
-    {
-        title: 'Yapılacaklar',
-        route: 'apps-todo',
-        icon: 'CheckSquareIcon',
-    },
-
-
     {
         title: 'Sonuçlar & Belgeler',
         icon: 'HeartIcon',
@@ -61,6 +47,21 @@ export default [
 
 
     },
+
+
+    {
+        title: 'Takvim',
+        route: 'apps-calendar',
+        icon: 'CalendarIcon',
+    },
+    {
+        title: 'Yapılacaklar',
+        route: 'apps-todo',
+        icon: 'CheckSquareIcon',
+    },
+
+
+
 
 
 

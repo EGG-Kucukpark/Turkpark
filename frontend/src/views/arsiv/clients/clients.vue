@@ -179,7 +179,7 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
-                @click.prevent="sil(data.item)"
+                @click="confirmButtonColor(data.item)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-danger
                 title="Sil"
@@ -345,6 +345,42 @@ export default {
       this.items = response.data;
     });
   },
+  confirmButtonColor(data) {
+    this.$swal({
+      title: "Emin misin?",
+      text: "Bu işlemi geri alamayacaksın!",
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "İptal",
+      confirmButtonText: "Evet, sil!",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ml-1",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.value) {
+        this.$swal({
+          icon: "success",
+          title: "Silindi!",
+          text: "Veri Silindi.",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        }),
+          axios.post("api/usersil", { id: data.id }).then(this.refreshStop());
+      } else if (result.dismiss === "cancel") {
+        this.$swal({
+          title: "İptal",
+          text: "Veri silinmedi",
+          icon: "error",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
+  },
 
   methods: {
     refreshStop() {
@@ -406,7 +442,7 @@ export default {
     Modal1() {
       this.$refs["modal1"].show();
     },
-     arsivckr(data) {
+    arsivckr(data) {
       axios.post("api/firmaarsvckr", { id: data.id }).then(this.refreshStop());
     },
 
@@ -449,10 +485,45 @@ export default {
         })
         .then(this.form());
     },
-    sil(data) {
-      axios.post("api/firmasil", { id: data.id }).then(this.refreshStop());
-    },
 
+    confirmButtonColor(data) {
+      this.$swal({
+        title: "Emin misin?",
+        text: "Bu işlemi geri alamayacaksın!",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonText: "İptal",
+        confirmButtonText: "Evet, sil!",
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-outline-danger ml-1",
+        },
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.value) {
+          this.$swal({
+            icon: "success",
+            title: "Silindi!",
+            text: "Veri Silindi.",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          }),
+            axios
+              .post("api/firmasil", { id: data.id })
+              .then(this.refreshStop());
+        } else if (result.dismiss === "cancel") {
+          this.$swal({
+            title: "İptal",
+            text: "Veri silinmedi",
+            icon: "error",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        }
+      });
+    },
     form() {
       this.$refs["modal1"].hide(),
         this.$refs["modal2"].hide(),

@@ -8,7 +8,7 @@
             <sonuclar/>
         </app-collapse-item>
 
-        <app-collapse-item ref="ahmet" title="Risk Raporları">
+        <app-collapse-item title="Risk Raporları">
 
         </app-collapse-item>
 

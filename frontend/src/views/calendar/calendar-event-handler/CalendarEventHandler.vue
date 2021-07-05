@@ -49,7 +49,7 @@
             <!-- Title -->
             <validation-provider
               #default="validationContext"
-              name="Title"
+              name="Etkinlik İsmi"
               rules="required"
             >
               <b-form-group
@@ -82,7 +82,7 @@
             >
 
               <b-form-group
-                label="Start Date"
+                label="Başlangıç Zamanı "
                 label-for="start-date"
                 :state="getValidationState(validationContext)"
               >
@@ -105,7 +105,7 @@
             >
 
               <b-form-group
-                label="End Date"
+                label="Bitiş Zamanı"
                 label-for="end-date"
                 :state="getValidationState(validationContext)"
               >
@@ -133,15 +133,9 @@
                 class="mr-2"
                 type="submit"
               >
-                {{ eventLocal.id ? 'Update' : 'Add ' }}
+                {{ eventLocal.id ? 'Güncelle' : 'Ekle ' }}
               </b-button>
-              <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
-              >
-                Reset
-              </b-button>
+
             </div>
           </b-form>
         </validation-observer>

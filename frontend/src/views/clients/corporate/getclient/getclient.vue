@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <!-- Alert: No item found -->
     <b-alert variant="danger" :show="userData === undefined">
       <h4 class="alert-heading">Veri Çekilemedi</h4>
@@ -53,6 +51,14 @@
           </template>
           <files class="mt-2 pt-75" :user-data="userData" />
         </b-tab>
+
+        <b-tab>
+          <template #title>
+            <feather-icon icon="MapIcon" size="16" class="mr-0 mr-sm-50" />
+            <span class="d-none d-sm-inline">Konum</span>
+          </template>
+          <harita class="mt-2 pt-75" :user-data="userData" />
+        </b-tab>
       </b-tabs>
     </template>
   </div>
@@ -80,6 +86,7 @@ import workers from "./workers.vue";
 import notes from "./notes.vue";
 import info from "./info.vue";
 import files from "./files.vue";
+import harita from "./map.vue";
 
 export default {
   components: {
@@ -98,6 +105,7 @@ export default {
     clientinfo,
     workers,
     notes,
+    harita,
     info,
     files,
   },

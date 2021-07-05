@@ -6,7 +6,9 @@
         <feather-icon icon="BriefcaseIcon" size="16" class="mr-0 mr-sm-50" />
         <span class="d-none d-sm-inline"> Firma Sonuçları </span>
       </template>
+
       <client :user-data="userData" class="mt-2 pt-75" />
+
     </b-tab>
 
     <!-- Tab: Information -->
@@ -23,7 +25,7 @@
 </template>
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-
+import firmalar from "../clients/corporate/clients.vue";
 import axios from "@axios";
 
 import { ref } from "@vue/composition-api";
@@ -41,7 +43,6 @@ import {
   BFormInput,
   BTab,
   BButton,
-
   BFormSelect,
   BInputGroup,
   BInputGroupAppend,
@@ -53,13 +54,14 @@ import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import individual from "./individual";
 import client from "./client";
-import Individual from './individual.vue';
+import Individual from "./individual.vue";
 
 export default {
   components: {
     BRow,
     BCol,
     BCard,
+    firmalar,
     BAlert,
     BModal,
     BLink,
@@ -85,7 +87,6 @@ export default {
     individual,
 
     client,
-
 
     Individual,
   },

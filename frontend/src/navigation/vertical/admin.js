@@ -23,6 +23,7 @@ export default [
         ]
     },
 
+
     {
         title: 'Hizmetler & Sonuçlar',
         icon: 'FileTextIcon',
@@ -46,7 +47,7 @@ export default [
 
 
             {
-                title: 'İlkyardım',
+                title: 'İlk Yardım',
 
                 route: 'apps-invoice-list',
                 children: [{
@@ -56,7 +57,7 @@ export default [
 
                     },
                     {
-                        title: 'Eğitimler',
+                        title: 'Eğitim Planlama',
                         route: 'egitim'
 
                     },
@@ -120,12 +121,17 @@ export default [
             {
                 title: "Tanımlamalar",
                 children: [{
-                        title: 'Rapor Tipleri',
+                        title: 'Rapor Türleri',
                         route: 'raporlar',
                         icon: 'FileTextIcon',
                     },
                     {
-                        title: 'Dosya Tipleri',
+                        title: 'Dosya Türleri',
+                        route: 'dosyalar',
+                        icon: 'FileTextIcon',
+                    },
+                    {
+                        title: 'Eğitim Türleri',
                         route: 'dosyalar',
                         icon: 'FileTextIcon',
                     },

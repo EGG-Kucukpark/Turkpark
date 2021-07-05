@@ -29,13 +29,15 @@
 
     <b-card-body>
       <b-card-title>Rapor Tipleri</b-card-title>
-      <b-button
-        style="margin-bottom: 10px; float: right"
-        variant="relief-success"
-        v-on:click="$refs['modal'].show()"
-      >
-        Rapor Ekle
-      </b-button>
+
+         <b-button
+
+          class="mb-1"
+           style="margin-bottom: 10px;"
+          variant="success"
+           v-on:click="$refs['modal'].show()"
+          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
+        >
 
       <b-list-group style="float: left; width: 100%">
         <b-list-group-item v-for="rapor in rapor" :key="rapor.id">

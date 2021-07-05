@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Kişi Bilgileri">
+  <b-card >
     <b-row>
       <!-- User Info: Left col -->
       <b-col

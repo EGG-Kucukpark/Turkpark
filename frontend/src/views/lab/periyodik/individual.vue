@@ -1,6 +1,6 @@
 <template>
   <b-card title="Sonuçlar">
-    <b-form-group
+     <b-form-group
       style="font-size: 18px"
       label="Kişi Seçiniz: "
       label-cols-sm="1"
@@ -16,6 +16,7 @@
         </option>
       </b-form-select>
     </b-form-group>
+    <bireysel v-if="show" @id="gelen($event)" />
 
     <b-row>
       <b-col>
@@ -267,7 +268,7 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
-
+import bireysel from "../firma/bireysel/individual.vue";
 import {
   BTable,
   BAvatar,
@@ -297,7 +298,7 @@ export default {
     BAvatar,
     BBadge,
     BRow,
-    BCol,
+    BCol,bireysel,
     BFormGroup,
     BFormSelect,
     BPagination,
@@ -490,6 +491,18 @@ export default {
       setTimeout(() => {
         this.formcikis();
       }, 6000);
+    },  gelen(data) {
+
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = data;
+      }
+
+      axios
+        .post("/api/calisanlar", { firma_id: data })
+        .then((res) => (this.calisan = res.data));
+      axios
+        .post("/api/getfile", { firma_id: data })
+        .then((res) => (this.items = res.data));
     },
     select() {
       var id = this.Selected.firma.id;
