@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Email\EmailController;
 
 use App\Http\Controllers\Users_all\ClientController;
+use App\Http\Controllers\Users_all\BireyController;
+use App\Http\Controllers\File\BireyFile;
 
 use App\Http\Controllers\Apps\TodoController;
 use App\Http\Controllers\Apps\EduController;
@@ -73,11 +75,11 @@ route::post('firmasil', [ClientController::class, 'delete']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Bireysel İşlemler
-Route::get('bireyselgoster/{id}', [clientController::class, 'individual']);
-route::post('bireyselekle', [clientController::class, 'addindividual']);
-route::post('bireyselduzenle', [clientController::class, 'editindividual']);
-route::post('indarsiv', [clientController::class, 'indarsiv']);
-route::post('bireyseller', [clientController::class, 'getindividual']);
+Route::get('bireyselgoster/{id}', [BireyController::class, 'individual']);
+route::post('bireyselekle', [BireyController::class, 'addindividual']);
+route::post('bireyselduzenle', [BireyController::class, 'editindividual']);
+route::post('indarsiv', [BireyController::class, 'indarsiv']);
+route::post('bireyseller', [BireyController::class, 'getindividual']);
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -106,12 +108,12 @@ route::post('raporsil', [FileController::class, 'raporsil']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Dosya İşlemleri -- Bireysel
-Route::post('bireybelgeyukle', [Birey::class, 'upload']);
-Route::post('bireygetfile', [Birey::class, 'getfile']);
-Route::post('bireygetfile2', [Birey::class, 'getfile2']);
-Route::post('bireyindir', [Birey::class, 'download']);
-route::post('bireydosyasil', [Birey::class, 'deletefile']);
-route::post('bireydosyaarsiv', [Birey::class, 'arsiv']);
+Route::post('bireybelgeyukle', [BireyFile::class, 'upload']);
+Route::post('bireygetfile', [BireyFile::class, 'getfile']);
+Route::post('bireygetfile2', [BireyFile::class, 'getfile2']);
+Route::post('bireyindir', [BireyFile::class, 'download']);
+route::post('bireydosyasil', [BireyFile::class, 'deletefile']);
+route::post('bireydosyaarsiv', [BireyFile::class, 'arsiv']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Todo İşlemleri

@@ -53,6 +53,9 @@
         </b-col>
       </b-row>
     </b-form>
+     <portal to="navbar">
+      <div v-if="data"></div>
+    </portal>
   </b-card>
 </template>
 
@@ -102,7 +105,8 @@ export default {
       telefon: null,
       adres: null,
       email: null,
-      id: this.options.id,
+      id: this.options.user_id,
+      data:false,
     };
   },
   created() {
@@ -111,11 +115,14 @@ export default {
 
   methods: {
     reset() {
-      (this.name = this.options.name),
-        (this.tc = this.options.tc),
-        (this.telefon = this.options.telefon),
-        (this.adres = this.options.adres),
-        (this.email = this.options.email);
+      axios("/api/bireyselgoster/" + this.id).then((res) => {
+        var firma = res.data;
+        (this.name = firma.name),
+          (this.tc = firma.tc),
+          (this.telefon = firma.telefon),
+          (this.adres = firma.adres),
+          (this.email = firma.email);
+      });
     },
     update() {
       axios
@@ -125,7 +132,7 @@ export default {
           email: this.email,
           adres: this.adres,
           tc: this.tc,
-          telefon:this.telefon
+          telefon: this.telefon,
         })
         .then((res) => {
           this.$toast({
@@ -151,6 +158,12 @@ export default {
             },
           });
         });
+
+      var user = JSON.parse(localStorage.getItem("user"));
+      user.name = this.name;
+      user.email = this.email;
+      localStorage.setItem("user", JSON.stringify(user));
+      this.data = true;
     },
   },
 };

@@ -38,14 +38,12 @@ class BireyController extends Controller
     {
         try {
 
-            DB::table('users')->where('id', $request->id)->update([
+            DB::table('users')->where('user_id', $request->id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'role' => 'Firma',
                 'telefon' => $request->telefon,
-                'email_verified_at' => now(),
-                'created_at' => now(),
-                'status' => '1',
+
+
             ]);
 
             $a = DB::table('individual')->where('id', $request->id)->update([
@@ -96,6 +94,4 @@ class BireyController extends Controller
 
         return response()->json($a);
     }
-
-
 }

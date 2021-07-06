@@ -81,6 +81,10 @@
         </b-col>
       </b-row>
     </b-form>
+
+    <portal to="navbar">
+      <div v-if="data"></div>
+    </portal>
   </b-card>
 </template>
 
@@ -126,6 +130,7 @@ export default {
     return {
       name: null,
       email: null,
+      data:false,
       vergino: null,
       vergiad: null,
       telefon: null,
@@ -153,13 +158,14 @@ export default {
           (this.telefon = firma.telefon),
           (this.sg = firma.sgk),
           (this.yetkili = firma.firma_yetkilisi),
-          this.adres = firma.adres
+          (this.adres = firma.adres);
         this.muhasebe = firma.muhasebe;
       });
     },
     update() {
+        this.data = true;
       axios
-        .post("/api/firmaduzenle", {
+        .post("/api/bireyselduzenle", {
           id: this.id,
           name: this.name,
           vergino: this.vergino,
@@ -169,7 +175,7 @@ export default {
           firma_yetkilisi: this.yetkili,
           adres: this.adres,
           muhasebe: this.muhasebe,
-          email:this.email
+          email: this.email,
         })
         .then((res) => {
           this.$toast({
@@ -197,6 +203,12 @@ export default {
             },
           });
         });
+
+        var user = JSON.parse(localStorage.getItem('user'));
+        user.name = this.name;
+        localStorage.setItem('user', JSON.stringify(user));
+
+
     },
   },
 };

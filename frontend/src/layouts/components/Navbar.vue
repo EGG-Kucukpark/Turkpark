@@ -1,4 +1,4 @@
-<template>
+<template @deneme="deneme($method)">
   <div class="navbar-container d-flex content align-items-center">
     <!-- Nav Menu Toggler -->
     <ul class="nav navbar-nav d-xl-none">
@@ -18,9 +18,11 @@
           icon="CalendarIcon"
       /></router-link>
 
+      <portal-target  @change="degisiklik" name="navbar">
 
+      </portal-target>
 
-       <router-link to="/todo">
+      <router-link to="/todo">
         <feather-icon
           size="22"
           style="color: #a1a3a6; margin: 10px"
@@ -111,7 +113,7 @@ import {
 import DarkToggler from "@core/layouts/components/app-navbar/components/DarkToggler.vue";
 import axios from "@axios";
 import FeatherIcon from "../../@core/components/feather-icon/FeatherIcon.vue";
-import search from './search.vue'
+import search from "./search.vue";
 
 export default {
   components: {
@@ -140,6 +142,11 @@ export default {
       localStorage.removeItem("token");
 
       this.$router.push("login");
+    },
+
+    degisiklik() {
+
+      this.user=JSON.parse(localStorage.getItem("user"))
     },
   },
   props: {

@@ -79,8 +79,8 @@
       />
 
       <vertical-nav-menu-items
-        v-if="uzman == true"
-        v-bind:items="expert"
+        v-if="syetkili == true"
+        v-bind:items="yetkili"
         class="navigation navigation-main"
       />
       <vertical-nav-menu-items
@@ -89,8 +89,8 @@
         class="navigation navigation-main"
       />
       <vertical-nav-menu-items
-        v-if="hekim == true"
-        v-bind:items="doctor"
+        v-if="sbireysel == true"
+        v-bind:items="bireysel"
         class="navigation navigation-main"
       />
     </vue-perfect-scrollbar>
@@ -100,8 +100,8 @@
 
 <script>
 import m from "@/navigation/vertical/client.js";
-import expert from "@/navigation/vertical/expert.js";
-import doctor from "@/navigation/vertical/doctor.js";
+import yetkili from "@/navigation/vertical/yetkili.js";
+import bireysel from "@/navigation/vertical/bireysel.js";
 import admin from "@/navigation/vertical/admin.js";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import { BLink, BImg } from "bootstrap-vue";
@@ -135,12 +135,12 @@ export default {
 
     if (den.role == "Admin") {
       this.sadmin = true;
-    } else if (den.role == "Hekim") {
-      this.hekim = true;
+    } else if (den.role == "Bireysel") {
+      this.sbireysel = true;
     } else if (den.role == "Firma") {
       this.musteri = true;
-    } else if (den.role == "Uzman") {
-      this.uzman = true;
+    } else if (den.role == "Yetkili") {
+      this.syetkili = true;
     }
   },
   setup(props) {
@@ -173,12 +173,12 @@ export default {
 
     return {
       sadmin: false,
-      uzman: false,
-      hekim: false,
+      syetkili: false,
+      sbireysel: false,
       musteri: false,
       admin,
-      expert,
-      doctor,
+      yetkili,
+      bireysel,
       m,
       perfectScrollbarSettings,
       isVerticalMenuCollapsed,

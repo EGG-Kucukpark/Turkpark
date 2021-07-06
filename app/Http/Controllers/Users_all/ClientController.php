@@ -65,7 +65,6 @@ class ClientController extends Controller
     {
         try {
 
-
             DB::table('clients')->insert([
 
                 'name' => $request->name,

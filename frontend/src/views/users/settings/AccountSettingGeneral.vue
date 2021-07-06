@@ -4,7 +4,12 @@
       <b-row>
         <b-col v-if="options.role === 'Firma'" sm="6">
           <b-form-group label="Firma Adı" label-for="account-company">
-            <b-form-input v-model="name" id="firma" placeholder="Firma Adı" disabled />
+            <b-form-input
+              v-model="name"
+              id="firma"
+              placeholder="Firma Adı"
+              disabled
+            />
           </b-form-group>
         </b-col>
 
@@ -35,6 +40,7 @@
         </b-col>
       </b-row>
     </b-form>
+    <portal-target @change="veri" name="navbar"> </portal-target>
   </b-card>
 </template>
 
@@ -96,12 +102,18 @@ export default {
   },
 
   created() {
-    axios.post("/api/getuser", { id: this.options.id }).then((res) => {
-      this.data = res.data;
-      (this.name = this.data[0].name),
-        (this.email = this.data[0].email),
-        (this.role = this.data[0].role);
-    });
+    this.veri();
+  },
+
+  methods: {
+    veri() {
+      axios.post("/api/getuser", { id: this.options.id }).then((res) => {
+        this.data = res.data;
+        (this.name = this.data[0].name),
+          (this.email = this.data[0].email),
+          (this.role = this.data[0].role);
+      });
+    },
   },
 };
 </script>

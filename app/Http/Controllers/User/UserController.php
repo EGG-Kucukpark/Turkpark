@@ -23,6 +23,11 @@ class UserController extends Controller
             'status' => "1"
         ]);
     }
+
+
+
+
+
     public function getuser(Request $request)
     {
         if ($request->status === 7) {
@@ -31,10 +36,19 @@ class UserController extends Controller
         }
         return   DB::table('users')->where('isArch', '0')->get();
     }
+
+
+
+
     function delete(Request $request)
     {
         DB::table('users')->where('id', $request->id)->delete();
     }
+
+
+
+
+
     public function arsiv(Request $request)
 
     {

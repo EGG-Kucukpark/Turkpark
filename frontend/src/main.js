@@ -24,6 +24,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 
+import PortalVue from 'portal-vue'
 
 // 3rd party plugins
 import '@/libs/portal-vue'
@@ -37,6 +38,7 @@ Vue.component('v-select', vSelect)
 Vue.component("downloadExcel", JsonExcel);
 Vue.use(VCalendar)
 Vue.use(VueSweetalert2);
+Vue.use(PortalVue);
 
 
 // Composition API

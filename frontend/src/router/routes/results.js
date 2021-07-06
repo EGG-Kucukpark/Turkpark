@@ -4,7 +4,7 @@ export default [
     {
         path: '/laboratuvar-sonuclar',
         name: 'flaboratuvar',
-        component: () => import('@/views/lab/laboratuvar/firmalar.vue'),
+        component: () => import('@/views/lab/laboratuvar/liste.vue'),
         meta: {
             requiresAuth: true,
             pageTitle: 'Laboratuvar',
@@ -19,8 +19,8 @@ export default [
 
     {
         path: '/laboratuvar-sonuclar/:id',
-        name: 'flaboratuvar-goster',
-        component: () => import('@/views/lab/laboratuvar/lab.vue'),
+        name: 'flaboratuvar-firma',
+        component: () => import('@/views/lab/laboratuvar/sonuclar/client.vue'),
         meta: {
             requiresAuth: true,
             pageTitle: 'Laboratuvar',
@@ -32,7 +32,21 @@ export default [
             }, ]
         }
     },
+    {
+        path: '/laboratuvar-sonuclar/bireysel/:id',
+        name: 'flaboratuvar-bireysel',
+        component: () => import('@/views/lab/laboratuvar/sonuclar/individual.vue'),
+        meta: {
+            requiresAuth: true,
+            pageTitle: 'Laboratuvar',
+            breadcrumb: [{
+                text: 'Laboratuvar',
+                active: true,
 
+
+            }, ]
+        }
+    },
 
 
 
@@ -90,7 +104,7 @@ export default [
     {
         path: '/olcumler-sonuclar',
         name: 'fölcümler',
-        component: () => import('@/views/lab/measure/olcum.vue'),
+        component: () => import('@/views/lab/olcum/liste.vue'),
         meta: {
             requiresAuth: true,
             pageTitle: 'Ölçümler',
@@ -103,9 +117,46 @@ export default [
         }
     },
     {
+        path: '/olcumler-sonuclar/:id',
+        name: 'fölcümler-firma',
+        component: () => import('@/views/lab/olcum/sonuclar/client.vue'),
+        meta: {
+            requiresAuth: true,
+            pageTitle: 'Ölçümler',
+            breadcrumb: [{
+                text: 'Ölçümler',
+                active: true,
+
+
+            }, ]
+        }
+    },
+    {
+        path: '/olcumler-sonuclar/bireysel/:id',
+        name: 'fölcümler-bireysel',
+        component: () => import('@/views/lab/olcum/sonuclar/individual.vue'),
+        meta: {
+            requiresAuth: true,
+            pageTitle: 'Ölçümler',
+            breadcrumb: [{
+                text: 'Ölçümler',
+                active: true,
+
+
+            }, ]
+        }
+    },
+
+
+
+
+
+
+
+    {
         path: '/ilkyardim-sonuclar',
         name: 'filkyardim',
-        component: () => import('@/views/lab/ilkyardim/ilkyardim.vue'),
+        component: () => import('@/views/lab/ilkyardim/liste.vue'),
         meta: {
             requiresAuth: true,
             pageTitle: 'İlk Yardım',
@@ -118,9 +169,44 @@ export default [
         }
     },
     {
+        path: '/ilkyardim-sonuclar/:id',
+        name: 'filkyardim-firma',
+        component: () => import('@/views/lab/ilkyardim/sonuclar/client.vue'),
+        meta: {
+            requiresAuth: true,
+            pageTitle: 'İlk Yardım',
+            breadcrumb: [{
+                text: 'İlk Yardım',
+                active: true,
+
+
+            }, ]
+        }
+    },
+    {
+        path: '/ilkyardim-sonuclar/bireysel/:id',
+        name: 'filkyardim-bireysel',
+        component: () => import('@/views/lab/ilkyardim/sonuclar/individual.vue'),
+        meta: {
+            requiresAuth: true,
+            pageTitle: 'İlk Yardım',
+            breadcrumb: [{
+                text: 'İlk Yardım',
+                active: true,
+
+
+            }, ]
+        }
+    },
+
+
+
+
+
+    {
         path: '/asansor-sonuclar',
         name: 'fasansor',
-        component: () => import('@/views/lab/asansor/asansor.vue'),
+        component: () => import('@/views/lab/asansor/liste.vue'),
         meta: {
             requiresAuth: true,
             pageTitle: 'Asansör',
@@ -132,6 +218,38 @@ export default [
             }, ]
         }
     },
+    {
+        path: '/asansor-sonuclar/:id',
+        name: 'fasansor-firma',
+        component: () => import('@/views/lab/asansor/sonuclar/client.vue'),
+        meta: {
+            requiresAuth: true,
+            pageTitle: 'Asansör',
+            breadcrumb: [{
+                text: 'Asansör',
+                active: true,
+
+
+            }, ]
+        }
+    },
+
+    {
+        path: '/asansor-sonuclar/bireysel/:id',
+        name: 'fasansor-bireysel',
+        component: () => import('@/views/lab/asansor/sonuclar/individual.vue'),
+        meta: {
+            requiresAuth: true,
+            pageTitle: 'Asansör',
+            breadcrumb: [{
+                text: 'Asansör',
+                active: true,
+
+
+            }, ]
+        }
+    },
+
 
 
 
