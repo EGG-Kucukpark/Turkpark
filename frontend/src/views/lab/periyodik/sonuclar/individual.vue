@@ -361,7 +361,7 @@ export default {
 
 
     axios
-      .post("/api/getfile", { firma_id: id, status: 3 })
+      .post("/api/bireygetfile", { user_id: id, status: 3 })
       .then((res) => (this.items = res.data));
   },
 
@@ -394,7 +394,7 @@ export default {
         var id = this.Selected;
 
         axios
-          .post("/api/getfile", { firma_id: id, status: 3 })
+          .post("/api/bireygetfile", { user_id: id, status: 3 })
           .then((res) => (this.items = res.data))
           .then(
             this.$toast({
@@ -415,7 +415,7 @@ export default {
       this.file = event.target.files[0];
     },
     arsivle(data) {
-      axios.post("/api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
+      axios.post("/api/bireydosyaarsiv", { id: data.id }).then(this.refreshStop());
     },
 
     submit() {
@@ -431,7 +431,7 @@ export default {
         } else {
           formData.set("file", form.file);
           formData.append("id", form.Selected2);
-          formData.append("firma_id", form.Selected2);
+          formData.append("user_id", form.Selected2);
           formData.append("rapor", form.rapor);
           formData.append("status", "3");
           form.variant = "success";
@@ -439,7 +439,7 @@ export default {
 
           setTimeout(() => {
             axios
-              .post("/api/belgeyukle", formData)
+              .post("/api/bireybelgeyukle", formData)
               .then(
                 (res) => document.getElementById("basarili2").click(),
                 (form.dgr = 100)
@@ -465,7 +465,7 @@ export default {
       }, 6000);
     },
     göster(dosya) {
-      window.open("/Dosyalar/Firma/" + dosya, "_blank");
+      window.open("/Dosyalar/Birey/" + dosya, "_blank");
     },
 
     formcikis() {
@@ -477,7 +477,7 @@ export default {
     indir(dosya) {
       axios
         .post(
-          "/api/indir",
+          "/api/bireyindir",
           { id: this.id, dosya: dosya },
           { responseType: "blob" }
         )

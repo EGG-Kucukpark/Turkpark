@@ -76,12 +76,10 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
-                    <option disabled value="" v-if="form.Selected2 != null">
+                    <option disabled value="" >
                       Lütfen Çalışan Seçiniz
                     </option>
-                    <option disabled value="" v-if="form.Selected2 === null">
-                      Lütfen Firma Seçiniz
-                    </option>
+
                     <option
                       v-bind:value="{ name: calisan.name, id: calisan.id }"
                       v-for="calisan in calisan"
@@ -295,6 +293,7 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
+import router from '@/router'
 
 import {
   BTable,
@@ -349,12 +348,7 @@ export default {
     "b-tooltip": VBTooltip,
     ripple,
   },
-  props: {
-    userData: {
-      type: Object,
-      required: true,
-    },
-  },
+
   data() {
     return {
       perPage: 10,
@@ -425,20 +419,20 @@ export default {
     },
   },
   created() {
-    axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
-    var user = JSON.parse(localStorage.getItem("user"));
+    axios.post("/api/raporlar").then((res) => (this.raporlar = res.data));
+    this.Selected = router.currentRoute.params.id;
 
-    if (user.role === "Firma") {
-      this.show = false;
-      var id = user.id;
-      axios
-        .post("/api/getfile", { firma_id: id, status: 1 })
-        .then((res) => (this.files = res.data));
-    } else {
-      axios.post("/api/firmalar").then((response) => {
-        this.firma = response.data;
-      });
-    }
+    var id = this.Selected;
+    this.form[0].Selected2 = id;
+
+    axios
+      .post("/api/getfile", { firma_id: id,  })
+
+      .then((res) => (this.files = res.data));
+
+    axios
+      .post("/api/calisanlar", { firma_id: id })
+      .then((res) => (this.calisan = res.data));
   },
   mounted() {
     setTimeout(() => {
@@ -466,13 +460,13 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-        var id = this.Selected.firma_id;
+        var id = this.Selected;
         this.Selected = {
-          firma_id: this.Selected.firma_id,
+          firma_id: this.Selected,
         };
 
         axios
-          .post("/api/getfile", { firma_id: id, status: 1 })
+          .post("/api/getfile", { firma_id: id,  })
           .then((res) => (this.files = res.data))
           .then(
             this.$toast({
@@ -493,11 +487,14 @@ export default {
       if (this.form.length === 4) {
         this.warn = true;
       } else {
+        for (var i = 0; i < this.form.length; i++) {
+          this.form[i].Selected2 = this.Selected;
+        }
         this.form.push({
           calisanselected: "",
           rapor: "",
           file: "",
-          Selected2: this.Selected.firma_id,
+          Selected2: this.Selected,
           dgr: 0,
           variant: "success",
         });
@@ -515,7 +512,7 @@ export default {
       form.forEach(function (form) {
         if (form.calisanselected === "") {
           document.getElementById("basarisiz").value =
-            "Çalışan veya Firma Girilmedi.";
+            "Çalışan Girilmedi."
 
           document.getElementById("basarisiz").click();
         } else {
@@ -527,13 +524,13 @@ export default {
           formData.append("name", form.calisanselected.name);
           formData.append("firma_id", form.Selected2);
           formData.append("rapor", form.rapor);
-          formData.append("status", "1");
+
           form.variant = "success";
           form.dgr = 50;
 
           setTimeout(() => {
             axios
-              .post("api/belgeyukle", formData)
+              .post("/api/belgeyukle", formData)
               .then(
                 (res) => document.getElementById("basarili").click(),
                 (form.dgr = 100)
@@ -558,46 +555,12 @@ export default {
         this.formcikis();
       }, 6000);
     },
-    firmasearch(search) {
-      axios
-        .post("/api/firmalar", { q: search })
-        .then((res) => (this.firma = res.data));
-    },
-    gelen(data) {
-      for (var i = 0; i < this.form.length; i++) {
-        this.form[i].Selected2 = data;
-      }
-      axios
-        .post("/api/getfile", { firma_id: data, status: 1 })
 
-        .then((res) => (this.files = res.data));
-
-      axios
-        .post("/api/calisanlar", { firma_id: data })
-        .then((res) => (this.calisan = res.data));
-    },
-
-    select() {
-      var id = this.Selected.firma_id;
-
-      for (var i = 0; i < this.form.length; i++) {
-        this.form[i].Selected2 = this.Selected.firma_id;
-      }
-
-      axios
-        .post("/api/getfile", { firma_id: id, status: 1 })
-
-        .then((res) => (this.files = res.data));
-
-      axios
-        .post("/api/calisanlar", { firma_id: id })
-        .then((res) => (this.calisan = res.data));
-    },
     göster(dosya) {
       window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
     arsivle(data) {
-      axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
+      axios.post("/api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
     },
 
     formcikis() {

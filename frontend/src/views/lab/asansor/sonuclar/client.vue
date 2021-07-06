@@ -1,5 +1,5 @@
 <template>
-  <b-card>
+  <b-card title="Sonuçlar">
     <b-row>
       <b-col>
         <b-form-group
@@ -62,12 +62,23 @@
                 <hr />
 
                 <b-col style="display: none" sm="1">
-                  <b-form-select v-model="form.Selected2"> </b-form-select>
+                  <b-form-select v-model="form.Selected2">
+                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option
+                      v-bind:value="{ firma_id: firma.id }"
+                      v-for="firma in firma"
+                      :key="firma.id"
+                    >
+                      {{ firma.name }}
+                    </option>
+                  </b-form-select>
                 </b-col>
 
                 <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
-                    <option disabled value="">Lütfen Çalışan Seçiniz</option>
+                    <option disabled value="" >
+                      Lütfen Çalışan Seçiniz
+                    </option>
 
                     <option
                       v-bind:value="{ name: calisan.name, id: calisan.id }"
@@ -120,7 +131,6 @@
                     </div>
                   </b-alert>
                 </span>
-
                 <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="info"
@@ -130,7 +140,6 @@
                   <feather-icon size="20px;" icon="PlusIcon" />
                 </b-button>
               </div>
-
               <div style="float: right">
                 <b-button variant="success" type="submit">
                   Rapor Ekle
@@ -280,29 +289,27 @@
   </b-card>
 </template>
 
-
-
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
+import router from '@/router'
 
 import {
   BTable,
   BAvatar,
   BBadge,
-  BSpinner,
   BRow,
   BCol,
+  VBTooltip,
   BFormGroup,
   BFormSelect,
   BPagination,
-  BProgress,
   BInputGroup,
+  BProgress,
   BFormInput,
   BInputGroupAppend,
   BButton,
-  VBTooltip,
   BCard,
   BModal,
   BForm,
@@ -310,25 +317,21 @@ import {
   BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
-
 import vSelect from "vue-select";
 export default {
   components: {
     BTable,
     BAvatar,
     BBadge,
-    BSpinner,
     BRow,
+    VBTooltip,
+    BProgress,
     BCol,
-    vSelect,
-
     BFormGroup,
     BFormSelect,
     BPagination,
     BInputGroup,
     BFormInput,
-    BProgress,
-    VBTooltip,
     BInputGroupAppend,
     BButton,
     BCard,
@@ -339,17 +342,13 @@ export default {
     ripple,
     heightTransition,
     BAlert,
+    vSelect,
   },
   directives: {
     "b-tooltip": VBTooltip,
     ripple,
   },
-  props: {
-    userData: {
-      type: String,
-      required: true,
-    },
-  },
+
   data() {
     return {
       perPage: 10,
@@ -391,15 +390,13 @@ export default {
 
       show: true,
       searchTerm: "",
-
       Selected: "",
       firma: [],
       warn: false,
       firmaselected: "",
-
       calisan: "",
       raporlar: "",
-      prog: null,
+
       form: [
         {
           calisanselected: "",
@@ -407,7 +404,7 @@ export default {
           file: "",
           Selected2: null,
           dgr: 0,
-          variant: "null",
+          variant: "success",
         },
       ],
     };
@@ -423,29 +420,19 @@ export default {
   },
   created() {
     axios.post("/api/raporlar").then((res) => (this.raporlar = res.data));
-    var user = JSON.parse(localStorage.getItem("user"));
+    this.Selected = router.currentRoute.params.id;
 
-    if (user.role === "Firma") {
-      this.show = false;
-      var id = user.id;
-      axios
-        .post("/api/getfile", { firma_id: id })
-        .then((res) => (this.files = res.data));
-    } else {
-      this.Selected = this.userData;
+    var id = this.Selected;
+    this.form[0].Selected2 = id;
 
-      var id = this.Selected;
-      this.form[0].Selected2 = id;
+    axios
+      .post("/api/getfile", { firma_id: id, status: 5})
 
-      axios
-        .post("/api/getfile", { firma_id: id })
+      .then((res) => (this.files = res.data));
 
-        .then((res) => (this.files = res.data));
-
-      axios
-        .post("/api/calisanlar", { firma_id: id })
-        .then((res) => (this.calisan = res.data));
-    }
+    axios
+      .post("/api/calisanlar", { firma_id: id })
+      .then((res) => (this.calisan = res.data));
   },
   mounted() {
     setTimeout(() => {
@@ -454,26 +441,7 @@ export default {
   },
   methods: {
     basarili() {
-      var a = document.getElementById("basarili").value;
-
-      if (a === "firma") {
-        this.$toast({
-          component: ToastificationContent,
-          position: "top-right",
-          props: {
-            title: `Firma İşlemleri `,
-            icon: "BriefCaseIcon",
-            variant: "success",
-            text: ` İşlem Başarılı.`,
-          },
-        });
-
-        axios.post("/api/firmalar").then((response) => {
-          this.firma = response.data;
-        });
-      } else {
-        this.refreshStop();
-      }
+      this.refreshStop();
     },
 
     basarisiz() {
@@ -486,7 +454,6 @@ export default {
           title: `Rapor İşlemleri `,
           icon: "FileTextIcon",
           variant: "danger",
-
           text: data + ` Dosya İşlemi Başarsız`,
         },
       });
@@ -494,13 +461,12 @@ export default {
     refreshStop() {
       setTimeout(() => {
         var id = this.Selected;
-        console.log(id);
         this.Selected = {
           firma_id: this.Selected,
         };
 
         axios
-          .post("/api/getfile", { firma_id: id })
+          .post("/api/getfile", { firma_id: id, status: 5})
           .then((res) => (this.files = res.data))
           .then(
             this.$toast({
@@ -514,7 +480,7 @@ export default {
               },
             })
           );
-      }, 1000);
+      }, 2000);
     },
 
     addField() {
@@ -524,17 +490,14 @@ export default {
         for (var i = 0; i < this.form.length; i++) {
           this.form[i].Selected2 = this.Selected;
         }
-
         this.form.push({
           calisanselected: "",
           rapor: "",
           file: "",
           Selected2: this.Selected,
-          variant: "success",
           dgr: 0,
+          variant: "success",
         });
-
-        this.prog.push();
       }
     },
 
@@ -549,7 +512,7 @@ export default {
       form.forEach(function (form) {
         if (form.calisanselected === "") {
           document.getElementById("basarisiz").value =
-            "Çalışan veya Firma Girilmedi.";
+            "Çalışan Girilmedi."
 
           document.getElementById("basarisiz").click();
         } else {
@@ -561,7 +524,7 @@ export default {
           formData.append("name", form.calisanselected.name);
           formData.append("firma_id", form.Selected2);
           formData.append("rapor", form.rapor);
-          formData.append("status", "0");
+          formData.append("status", "5");
           form.variant = "success";
           form.dgr = 50;
 
@@ -575,7 +538,6 @@ export default {
               .catch((error) => {
                 form.dgr = 100;
                 form.variant = "danger";
-
                 if (error.response.data.error === undefined) {
                   document.getElementById("basarisiz").value = "";
                   document.getElementById("basarisiz").click();
@@ -602,7 +564,6 @@ export default {
     },
 
     formcikis() {
-      this.dgr = 0;
       this.$refs["modal"].hide();
       this.file == null;
       this.firmaselected == null;

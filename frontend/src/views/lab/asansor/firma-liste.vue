@@ -564,7 +564,7 @@ export default {
     },
     tikla(params) {
       this.$router.push({
-        name: "flaboratuvar-goster",
+        name: "fasansor-firma",
         params: { id: params.id },
       });
     },

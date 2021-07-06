@@ -1,23 +1,5 @@
 <template>
-  <b-card title="Raporlar">
-    <b-form-group
-      style="font-size: 18px"
-      label="Kişi Seçiniz: "
-      label-cols-sm="1"
-    >
-      <b-form-select @change="select" v-model="Selected">
-        <option disabled value="">Lütfen Seçim Yapınız</option>
-        <option
-          v-bind:value="{ firma: firma }"
-          v-for="firma in firma"
-          :key="firma.id"
-        >
-          {{ firma.name }}
-        </option>
-      </b-form-select>
-    </b-form-group>
-
-
+  <b-card title="Bireysel">
     <b-row>
       <b-col>
         <b-form-group
@@ -44,7 +26,7 @@
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
-          @click="modal"
+          @click="bireymodal"
         >
           <feather-icon size="20px;" icon="PlusIcon"
         /></b-button>
@@ -53,7 +35,7 @@
           hide-header-close
           :hide-footer="true"
           size="lg"
-          ref="modal"
+          ref="modal-bireysel"
           centered
           title="Rapor Ekle"
         >
@@ -85,12 +67,7 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
-                    <option disabled v-if="form.Selected2 != null" value="">
-                      Lütfen Rapor Tipini Seçiniz
-                    </option>
-                    <option disabled v-if="form.Selected2 === null" value="">
-                      Lütfen Kişi Seçiniz
-                    </option>
+                    <option disabled value="">Rapor Türünü Seçiniz</option>
 
                     <option v-for="raporlar in raporlar" :key="raporlar.id">
                       {{ raporlar.name }}
@@ -271,8 +248,7 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
-
-
+import router from "@/router";
 import {
   BTable,
   BAvatar,
@@ -304,8 +280,6 @@ export default {
     BRow,
     BCol,
     BFormGroup,
-
-
     BFormSelect,
     BPagination,
     BInputGroup,
@@ -325,12 +299,7 @@ export default {
     "b-tooltip": VBTooltip,
     ripple,
   },
-  props: {
-    userData: {
-      type: Object,
-      required: true,
-    },
-  },
+
   data() {
     return {
       perPage: 10,
@@ -350,7 +319,7 @@ export default {
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
-        { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
+        { key: "name", label: "KİŞİ İSMİ", sortable: true, filter: true },
         { key: "rapor", label: "Dosya Adı", sortable: true, filter: true },
         { key: "created_at", label: "Tarih", sortable: true, filter: true },
 
@@ -365,7 +334,7 @@ export default {
       firma: [],
       warn: false,
       firmaselected: "",
-      calisan: "",
+
       raporlar: "",
 
       form: [
@@ -383,21 +352,18 @@ export default {
     },
   },
   created() {
-    axios.post("api/raporlar").then((res) => (this.raporlar = res.data));
-    var user = JSON.parse(localStorage.getItem("user"));
+    axios.post("/api/raporlar").then((res) => (this.raporlar = res.data));
 
-    if (user.role === "Client") {
-      this.show = false;
-      var id = user.id;
-      axios
-        .post("/api/getfile", { firma_id: id })
-        .then((res) => (this.rows = res.data));
-    } else {
-      axios.post("/api/bireyseller").then((response) => {
-        this.firma = response.data;
-      });
-    }
+    this.Selected = router.currentRoute.params.id;
+
+    var id = this.Selected;
+    this.form[0].Selected2 = id;
+
+    axios
+      .post("/api/bireygetfile", { user_id: id })
+      .then((res) => (this.items = res.data));
   },
+
   mounted() {
     setTimeout(() => {
       this.totalRows = this.items.length;
@@ -424,10 +390,10 @@ export default {
     },
     refreshStop() {
       setTimeout(() => {
-        var id = this.Selected.firma.id;
+        var id = this.Selected;
 
         axios
-          .post("/api/getfile", { firma_id: id })
+          .post("/api/bireygetfile", { user_id: id })
           .then((res) => (this.items = res.data))
           .then(
             this.$toast({
@@ -448,13 +414,14 @@ export default {
       this.file = event.target.files[0];
     },
     arsivle(data) {
-      axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
+      axios
+        .post("/api/bireydosyaarsiv", { id: data.id })
+        .then(this.refreshStop());
     },
 
     submit() {
       var form = this.form;
       var time = 1000;
-      console.log(form);
 
       form.forEach(function (form) {
         const formData = new FormData();
@@ -464,16 +431,16 @@ export default {
           document.getElementById("basarisiz2").click();
         } else {
           formData.set("file", form.file);
-          formData.append("id", form.Selected2.id);
-          formData.append("name", form.Selected2.name);
-          formData.append("firma_id", form.Selected2.id);
+          formData.append("id", form.Selected2);
+          formData.append("user_id", form.Selected2);
           formData.append("rapor", form.rapor);
+
           form.variant = "success";
           form.dgr = 50;
 
           setTimeout(() => {
             axios
-              .post("api/belgeyukle", formData)
+              .post("/api/bireybelgeyukle", formData)
               .then(
                 (res) => document.getElementById("basarili2").click(),
                 (form.dgr = 100)
@@ -498,39 +465,12 @@ export default {
         this.formcikis();
       }, 6000);
     },
-    gelen(data) {
-
-      for (var i = 0; i < this.form.length; i++) {
-        this.form[i].Selected2 = data;
-      }
-
-      axios
-        .post("/api/calisanlar", { firma_id: data })
-        .then((res) => (this.calisan = res.data));
-      axios
-        .post("/api/getfile", { firma_id: data })
-        .then((res) => (this.items = res.data));
-    },
-    select() {
-      var id = this.Selected.firma.id;
-
-      for (var i = 0; i < this.form.length; i++) {
-        this.form[i].Selected2 = this.Selected.firma;
-      }
-
-      axios
-        .post("/api/calisanlar", { firma_id: id })
-        .then((res) => (this.calisan = res.data));
-      axios
-        .post("/api/getfile", { firma_id: id })
-        .then((res) => (this.items = res.data));
-    },
     göster(dosya) {
-      window.open("/Dosyalar/Firma/" + dosya, "_blank");
+      window.open("/Dosyalar/Birey/" + dosya, "_blank");
     },
 
     formcikis() {
-      this.$refs["modal"].hide();
+      this.$refs["modal-bireysel"].hide();
       this.file == null;
       this.form.Selected2 = null;
     },
@@ -538,7 +478,7 @@ export default {
     indir(dosya) {
       axios
         .post(
-          "/api/indir",
+          "/api/bireyindir",
           { id: this.id, dosya: dosya },
           { responseType: "blob" }
         )
@@ -559,6 +499,9 @@ export default {
       if (this.form.length === 4) {
         this.warn = true;
       } else {
+        for (var i = 0; i < this.form.length; i++) {
+          this.form[i].Selected2 = this.Selected;
+        }
         this.form.push({
           rapor: "",
           file: "",
@@ -569,8 +512,8 @@ export default {
       }
     },
 
-    modal() {
-      this.$refs["modal"].show();
+    bireymodal() {
+      this.$refs["modal-bireysel"].show();
     },
 
     info(item, index, button) {
