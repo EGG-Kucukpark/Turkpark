@@ -4,18 +4,15 @@
       <b-row>
         <b-col v-if="options.role === 'Firma'" sm="6">
           <b-form-group label="Firma Adı" label-for="account-company">
-            <b-form-input
-              v-model="options.name"
-              id="firma"
-              placeholder="Firma Adı"
-            />
+            <b-form-input v-model="name" id="firma" placeholder="Firma Adı" disabled />
           </b-form-group>
         </b-col>
 
         <b-col v-if="options.role != 'Firma'" sm="6">
           <b-form-group label="İsminiz" label-for="account-username">
             <b-form-input
-              v-model="options.name"
+              v-model="name"
+              disabled
               placeholder="Adınızı Giriniz"
               id="isim"
             />
@@ -23,41 +20,18 @@
         </b-col>
         <b-col sm="6">
           <b-form-group label="Rol" label-for="account-name">
-            <b-form-input
-              v-model="options.role"
-              id="rol"
-              placeholder="Rol"
-              disabled
-            />
+            <b-form-input v-model="role" id="rol" placeholder="Rol" disabled />
           </b-form-group>
         </b-col>
         <b-col sm="6">
           <b-form-group label="E-Posta Adresiniz" label-for="account-e-mail">
             <b-form-input
-              v-model="options.email"
+              v-model="email"
               id="email"
+              disabled
               placeholder="E-Posta Adresinizi Giriniz"
             />
           </b-form-group>
-        </b-col>
-
-        <b-col cols="12">
-          <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-            variant="primary"
-            class="mt-2 mr-1"
-          >
-            Değişiklikleri Kaydet
-          </b-button>
-          <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            variant="outline-secondary"
-            type="reset"
-            class="mt-2"
-            @click.prevent="resetForm"
-          >
-            Sıfırla
-          </b-button>
         </b-col>
       </b-row>
     </b-form>
@@ -83,6 +57,7 @@ import {
   BImg,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
+import axios from "@axios";
 
 export default {
   components: {
@@ -110,17 +85,23 @@ export default {
       type: Object,
     },
   },
-  methods: {
-    resetForm() {
-      if (this.options.role === "Firma") {
-        document.getElementById("firma").value = "";
 
-        document.getElementById("email").value = "";
-      }
-      document.getElementById("isim").value = "";
+  data() {
+    return {
+      name: null,
+      email: null,
+      role: null,
+      data: null,
+    };
+  },
 
-      document.getElementById("email").value = "";
-    },
+  created() {
+    axios.post("/api/getuser", { id: this.options.id }).then((res) => {
+      this.data = res.data;
+      (this.name = this.data[0].name),
+        (this.email = this.data[0].email),
+        (this.role = this.data[0].role);
+    });
   },
 };
 </script>

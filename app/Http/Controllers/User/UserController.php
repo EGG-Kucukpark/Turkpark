@@ -93,15 +93,28 @@ class UserController extends Controller
 
     public function updateuser(Request $request)
     {
-        if ($request->status = 1) {
+
+        if ($request->role === "Firma") {
+
             try {
-                return DB::table('users')->where('id', $request->userid)->update([
+
+                $a = DB::table('users')->where('id', $request->userid)->first();
+
+                DB::table('users')->where('id', $request->userid)->update([
                     'name' => $request->name,
                     'email' => $request->email,
-
                     'telefon' => $request->telefon,
 
                 ]);
+
+                DB::table('clients')->where('id', $a->user_id)->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'telefon' => $request->telefon,
+
+                ]);
+
+
             } catch (Exception $exception) {
                 return response()->json(['error' => 'Başarısız'], 404);
             }

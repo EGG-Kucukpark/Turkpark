@@ -49,19 +49,13 @@
                       >Lütfen Bir Seçim Yapınız</b-form-select-option
                     >
 
-                    <b-form-select-option selected value="Admin"
+                    <b-form-select-option selected value="Bireysel"
                       >Bireysel Kullanıcı</b-form-select-option
                     > <b-form-select-option selected value="Firma"
                       >Kurumsal Kullanıcı</b-form-select-option
                     >
 
-                    <b-form-select-option selected value="Uzman"
-                      >Uzman</b-form-select-option
-                    >
 
-                    <b-form-select-option selected value="Hekim"
-                      >Hekim</b-form-select-option
-                    >
 
                   </b-form-select>
 

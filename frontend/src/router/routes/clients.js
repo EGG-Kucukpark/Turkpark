@@ -21,12 +21,12 @@ export default [
     },
     {
         path: '/clients',
-        name: 'clients',
-        component: () => import('@/views/clients/corporate/clients.vue'),
+        name: 'musteriler',
+        component: () => import('@/views/clients/liste.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true,
-            pageTitle: 'Kurumsal Müşteriler',
+            admin: true,
+            pageTitle: 'Müşteriler',
             breadcrumb: [{
                 text: 'Home',
                 active: true,
@@ -65,20 +65,6 @@ export default [
         meta: {
             requiresAuth: true,
             uzman: true
-        }
-    },
-    {
-        path: '/individual',
-        name: 'individual',
-        component: () => import('@/views/clients/individual/individual.vue'),
-        meta: {
-            requiresAuth: true,
-            uzman: true,
-            pageTitle: 'Bireysel Müşteriler',
-            breadcrumb: [{
-                text: 'Home',
-                active: true,
-            }, ],
         }
     },
 
@@ -122,7 +108,7 @@ export default [
     {
         path: '/results',
         name: 'results',
-        component: () => import('@/views/lab/lab.vue'),
+        component: () => import('@/views/lab/laboratuvar/lab.vue'),
         meta: {
             requiresAuth: true,
             pageTitle: 'Laboratuvar',

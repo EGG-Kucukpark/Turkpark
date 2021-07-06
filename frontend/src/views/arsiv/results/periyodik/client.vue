@@ -592,7 +592,7 @@ export default {
         .then((res) => (this.calisan = res.data));
     },
     göster(dosya) {
-      window.open("/Dosyalar/" + dosya, "_blank");
+      window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
     arsivle(data) {
       axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());

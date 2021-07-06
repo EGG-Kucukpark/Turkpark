@@ -8,7 +8,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Email\EmailController;
 
-use App\Http\Controllers\Client\ClientController;
+use App\Http\Controllers\Users_all\ClientController;
 
 use App\Http\Controllers\Apps\TodoController;
 use App\Http\Controllers\Apps\EduController;
@@ -17,6 +17,8 @@ use App\Http\Controllers\Apps\TakvimController;
 use App\Http\Controllers\Worker\WorkerController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\File\FileController;
+use App\Http\Controllers\File\Birey;
+
 
 
 
@@ -43,7 +45,6 @@ route::post('userekle', [UserController::class, 'adduser']);
 route::post('status', [UserController::class, 'status']);
 route::post('excelimport', [UserController::class, 'import']);
 route::post('sifreguncelle', [UserController::class, 'sifirla']);
-
 route::post('arsivuser', [UserController::class, 'arsiv']);
 Route::post('arsivckr', [UserController::class, 'arsivckr']);
 route::post('usersil', [UserController::class, 'delete']);
@@ -52,15 +53,12 @@ route::post('getuser', [UserController::class, 'getuserinfo']);
 
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Firma İşlemleri
 
 Route::get('firmagoster/{id}', [clientController::class, 'client']);
-Route::post('nace', [clientController::class, 'getnace']);
 route::post('firmaekle', [clientController::class, 'addclient']);
 route::post('firmaduzenle', [clientController::class, 'firmaduzenle']);
-
 route::post('firmalar', [clientController::class, 'getclients']);
 route::post('firmanotekle', [clientController::class, 'notekle']);
 route::post('firmanotsil', [clientController::class, 'notsil']);
@@ -79,7 +77,6 @@ Route::get('bireyselgoster/{id}', [clientController::class, 'individual']);
 route::post('bireyselekle', [clientController::class, 'addindividual']);
 route::post('bireyselduzenle', [clientController::class, 'editindividual']);
 route::post('indarsiv', [clientController::class, 'indarsiv']);
-
 route::post('bireyseller', [clientController::class, 'getindividual']);
 
 
@@ -93,7 +90,7 @@ route::post('calisanduzenle', [WorkerController::class, 'calisanduzenle']);
 Route::post('workersil', [WorkerController::class, 'workersil']);
 
 ////////////////////////////////////////////////////////////////////////////////////
-//                      Dosya İşlemleri
+//                      Dosya İşlemleri -- Firma
 Route::post('belgeyukle', [FileController::class, 'upload']);
 Route::post('getfile', [FileController::class, 'getfile']);
 Route::post('getfile2', [FileController::class, 'getfile2']);
@@ -107,9 +104,14 @@ route::post('raporlar', [FileController::class, 'raporlar']);
 route::post('raporekle', [FileController::class, 'raporekle']);
 route::post('raporsil', [FileController::class, 'raporsil']);
 
-
-
-
+////////////////////////////////////////////////////////////////////////////////////
+//                      Dosya İşlemleri -- Bireysel
+Route::post('bireybelgeyukle', [Birey::class, 'upload']);
+Route::post('bireygetfile', [Birey::class, 'getfile']);
+Route::post('bireygetfile2', [Birey::class, 'getfile2']);
+Route::post('bireyindir', [Birey::class, 'download']);
+route::post('bireydosyasil', [Birey::class, 'deletefile']);
+route::post('bireydosyaarsiv', [Birey::class, 'arsiv']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Todo İşlemleri
@@ -126,15 +128,6 @@ route::post("takvim", [TakvimController::class, 'takvimler']);
 route::post("takvimekle", [TakvimController::class, 'takvimekle']);
 route::post("takvimduzenle/{id}", [TakvimController::class, 'takvimduzenle']);
 route::post("takvimsil", [TakvimController::class, 'takvimsil']);
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,32 +1,5 @@
 <template>
   <b-card title="Sonuçlar">
-    <b-form-group
-      v-if="show"
-      style="font-size: 18px"
-      label="Firma Seçiniz: "
-      label-cols-sm="1"
-    >
-      <v-select
-        :options="firma"
-        label="Firmalar"
-        v-model="Selected"
-        @search="firmasearch"
-        @input="select"
-        placeholder="Firma Seçiniz"
-        :filterable="false"
-        class="select-size-sm"
-      >
-        <template slot="no-options"> Sonuç yok. </template>
-        <template #option="options">
-          <p>{{ options.name }}</p>
-        </template>
-        <template #selected-option="options">
-          <p>{{ options.name }}</p>
-        </template>
-      </v-select>
-    </b-form-group>
-    <firmalar v-if="show" @id="gelen($event)" />
-
     <b-row>
       <b-col>
         <b-form-group
@@ -324,7 +297,7 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
-import firmalar from "../firma/bireysel/clients.vue";
+
 import {
   BTable,
   BAvatar,
@@ -353,7 +326,7 @@ export default {
     BTable,
     BAvatar,
     BBadge,
-    firmalar,
+
     BRow,
     VBTooltip,
     BProgress,
@@ -624,7 +597,7 @@ export default {
         .then((res) => (this.calisan = res.data));
     },
     göster(dosya) {
-      window.open("/Dosyalar/" + dosya, "_blank");
+      window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
     arsivle(data) {
       axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());

@@ -9,18 +9,8 @@ export default [
     {
         title: 'Müşteriler ',
         icon: 'BriefcaseIcon',
-        children: [{
-                title: 'Kurumsal Müşteri',
-                route: 'clients',
-                icon: 'ChevronsRightIcon',
-            },
-            {
-                title: 'Bireysel Müşteri',
-                route: 'individual',
-                icon: 'ChevronsRightIcon',
-            },
+        route:'musteriler',
 
-        ]
     },
 
 

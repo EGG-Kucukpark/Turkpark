@@ -214,7 +214,7 @@ export default {
   },
   methods: {
     göster(dosya) {
-      window.open("/Dosyalar/" + dosya, "_blank");
+      window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
 
     indir(dosya) {

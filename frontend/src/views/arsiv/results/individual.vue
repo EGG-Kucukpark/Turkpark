@@ -507,7 +507,7 @@ export default {
         .then((res) => (this.items = res.data));
     },
     göster(dosya) {
-      window.open("/Dosyalar/" + dosya, "_blank");
+      window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
 
     formcikis() {

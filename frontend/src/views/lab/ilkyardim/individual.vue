@@ -16,7 +16,7 @@
         </option>
       </b-form-select>
     </b-form-group>
-    <bireysel v-if="show" @id="gelen($event)" />
+
 
     <b-row>
       <b-col>
@@ -291,7 +291,7 @@ import {
   BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
-import bireysel from "../firma/bireysel/individual.vue";export default {
+export default {
   components: {
     BTable,
     BAvatar,
@@ -306,7 +306,7 @@ import bireysel from "../firma/bireysel/individual.vue";export default {
     BAlert,
     BProgress,
     BInputGroupAppend,
-    BButton,bireysel,
+    BButton,
     BCard,
     BModal,
     ToastificationContent,
@@ -518,7 +518,7 @@ import bireysel from "../firma/bireysel/individual.vue";export default {
         .then((res) => (this.items = res.data));
     },
     göster(dosya) {
-      window.open("/Dosyalar/" + dosya, "_blank");
+      window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
 
     formcikis() {

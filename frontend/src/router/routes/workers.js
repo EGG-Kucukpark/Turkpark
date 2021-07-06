@@ -68,7 +68,7 @@ export default [{
 
     },
     {
-        path: '/Eğitimler',
+        path: '/Egitimler',
         name: 'egitimler',
         component: () => import('@/views/workers/egitimler.vue'),
         meta: {
@@ -93,7 +93,7 @@ export default [{
 
 
     }, {
-        path: '/Periyodik-Ölcümler',
+        path: '/Periyodik-Olcumler',
         name: 'periyodik',
         component: () => import('@/views/workers/periyodik.vue'),
         meta: {
@@ -111,7 +111,7 @@ export default [{
 
     },
     {
-        path: '/Ortam-Ölcümler',
+        path: '/Ortam-Olcumler',
         name: 'ortam',
         component: () => import('@/views/workers/ortam.vue'),
         meta: {

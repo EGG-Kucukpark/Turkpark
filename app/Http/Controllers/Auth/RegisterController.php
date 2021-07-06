@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
@@ -49,10 +50,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
             'email' => 'required|email:filter|max:255|unique:users',
-            'Şifre' => 'required|min:6',
-
         ]);
     }
 
@@ -67,16 +65,56 @@ class RegisterController extends Controller
         date_default_timezone_set('Europe/Istanbul');
         $date =  date("d.m.Y, H:i");
 
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['Şifre']),
-            'role' => $data['role'],
-            'status' => '2',
-            'telefon' => $data['telefon'],
-            'created_at' => $date
+        if ($data['role'] === "Bireysel") {
+            DB::table('individual')->insert([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'isArch' => '0',
+                'telefon' => $data['telefon'],
+
+            ]);
+            $kullanici = DB::table('individual')->where('email', $data['email'])->first();
+            sleep(2);
+
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['Şifre']),
+                'role' => $data['role'],
+                'status' => '2',
+                'telefon' => $data['telefon'],
+                'created_at' => $date,
+                'user_id' => $kullanici->id
 
 
-        ]);
+            ]);
+        } else {
+
+            DB::table('clients')->insert([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'isArch' => '0',
+                'telefon' => $data['telefon'],
+
+            ]);
+
+            $kullanici = DB::table('clients')->where('email', $data['email'])->first();
+
+
+
+
+
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['Şifre']),
+                'role' => $data['role'],
+                'status' => '2',
+                'telefon' => $data['telefon'],
+                'created_at' => $date,
+                'user_id' => $kullanici->id
+
+            ]);
+        }
     }
 }

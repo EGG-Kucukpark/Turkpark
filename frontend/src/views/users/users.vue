@@ -128,9 +128,9 @@
                   >
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option>Admin</option>
-                    <option>Uzman</option>
-                    <option>Hekim</option>
-                    <option>Firma</option>
+                    <option>Yetkili</option>
+                    <option value="Firma">Kurumsal Kullanıcı</option>
+                    <option value="Bireysel">Biresel Kullanıcı</option>
                   </b-form-select>
                 </b-form-group>
                 <b-form-group
@@ -230,9 +230,9 @@
                   >
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option>Admin</option>
-                    <option>Uzman</option>
-                    <option>Hekim</option>
-                    <option>Firma</option>
+                    <option>Yetkili</option>
+                    <option value="Firma">Kurumsal Kullanıcı</option>
+                    <option value="Bireysel">Biresel Kullanıcı</option>
                   </b-form-select>
                 </b-form-group>
 
@@ -317,7 +317,7 @@
                   variant="warning"
                   @click="Modal2(data.item)"
                   class="btn-icon"
-                  style="margin:5px;"
+                  style="margin: 5px"
                   v-b-tooltip.hover.v-warning
                   title="Düzenle"
                 >
@@ -328,7 +328,7 @@
                   variant="danger"
                   @click.prevent="arsiv(data.item)"
                   class="btn-icon"
-                   style="margin:5px;"
+                  style="margin: 5px"
                   v-b-tooltip.hover.v-danger
                   title="Arşivle"
                 >

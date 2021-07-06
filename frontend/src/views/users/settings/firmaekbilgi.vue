@@ -169,6 +169,7 @@ export default {
           firma_yetkilisi: this.yetkili,
           adres: this.adres,
           muhasebe: this.muhasebe,
+          email:this.email
         })
         .then((res) => {
           this.$toast({

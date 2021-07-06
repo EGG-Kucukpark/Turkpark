@@ -1,34 +1,5 @@
 <template>
   <b-card title="Sonuçlar">
-      <b-form-group
-      v-if="show"
-      style="font-size: 18px"
-      label="Firma Seçiniz: "
-      label-cols-sm="1"
-    >
-      <v-select
-
-        :options="firma"
-        label="Firmalar"
-        v-model="Selected"
-        @search="firmasearch"
-        @input="select"
-
-         placeholder="Firma Seçiniz"
-        :filterable="false"
-        class="select-size-sm"
-      >
-        <template slot="no-options"> Sonuç yok. </template>
-        <template #option="options">
-          <p>{{ options.name }}</p>
-        </template>
-        <template #selected-option="options">
-          <p>{{ options.name }}</p>
-        </template>
-      </v-select>
-    </b-form-group>
-    <firmalar   v-if="show" @id="gelen($event)" />
-
     <b-row>
       <b-col>
         <b-form-group
@@ -56,8 +27,9 @@
           style="margin-right: 50px"
           variant="success"
           @click="modal"
-          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
         >
+          <feather-icon size="20px;" icon="PlusIcon"
+        /></b-button>
 
         <b-modal
           hide-header-close
@@ -183,8 +155,6 @@
                 </div>
               </div>
             </b-form>
-
-
           </b-card>
         </b-modal>
       </span>
@@ -257,7 +227,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-warning
                 title="Göster"
               >
@@ -267,7 +238,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
               >
@@ -278,7 +250,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
-                class="btn-icon" style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-success
                 title="İndir"
               >
@@ -322,7 +295,6 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
-import firmalar from "../firma/bireysel/clients.vue";
 
 import {
   BTable,
@@ -356,12 +328,13 @@ export default {
     VBTooltip,
     BProgress,
     BCol,
-    BFormGroup,firmalar,
+    BFormGroup,
     BFormSelect,
     BPagination,
     BInputGroup,
     BFormInput,
-    BInputGroupAppend, vSelect,
+    BInputGroupAppend,
+    vSelect,
     BButton,
     BCard,
     BModal,
@@ -459,7 +432,7 @@ export default {
       this.show = false;
       var id = user.id;
       axios
-        .post("/api/getfile", { firma_id: id, status: 2})
+        .post("/api/getfile", { firma_id: id, status: 2 })
         .then((res) => (this.files = res.data));
     } else {
       axios.post("/api/firmalar").then((response) => {
@@ -584,16 +557,18 @@ export default {
       setTimeout(() => {
         this.formcikis();
       }, 6000);
-    },  firmasearch(search) {
+    },
+    firmasearch(search) {
       axios
         .post("/api/firmalar", { q: search })
         .then((res) => (this.firma = res.data));
-    },  gelen(data) {
+    },
+    gelen(data) {
       for (var i = 0; i < this.form.length; i++) {
         this.form[i].Selected2 = data;
       }
       axios
-       .post("/api/getfile", { firma_id: data, status: 2 })
+        .post("/api/getfile", { firma_id: data, status: 2 })
 
         .then((res) => (this.files = res.data));
 
@@ -604,7 +579,6 @@ export default {
 
     select() {
       var id = this.Selected.firma_id;
-
 
       for (var i = 0; i < this.form.length; i++) {
         this.form[i].Selected2 = this.Selected.firma_id;
@@ -620,7 +594,7 @@ export default {
         .then((res) => (this.calisan = res.data));
     },
     göster(dosya) {
-      window.open("/Dosyalar/" + dosya, "_blank");
+      window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
     arsivle(data) {
       axios.post("api/dosyaarsiv", { id: data.id }).then(this.refreshStop());

@@ -41,13 +41,14 @@
         >
           <template #cell(actions)="data">
             <span>
-              <b-button
+               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-warning
                 title="Göster"
+                style="margin:5px"
               >
                 <feather-icon icon="ImageIcon" />
               </b-button>
@@ -59,6 +60,7 @@
                 class="btn-icon"
                 v-b-tooltip.hover.v-success
                 title="İndir"
+                style="margin:5px"
               >
                 <feather-icon icon="DownloadIcon" />
               </b-button>
@@ -168,7 +170,7 @@ export default {
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
         { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
-        { key: "rapor", label: "Dosya Adı", sortable: true, filter: true },
+        { key: "rapor", label: "Rapor TÜRÜ", sortable: true, filter: true },
         { key: "created_at", label: "Tarih", sortable: true, filter: true },
 
         { key: "actions", label: "Eylemler" },
@@ -188,7 +190,7 @@ export default {
   created() {
     var user = JSON.parse(localStorage.getItem("user"));
 
-    var id = user.email;
+    var id = user.user_id;
     axios
       .post("/api/getfile", { firma_id: id, status: 3 })
       .then((res) => (this.items = res.data));
@@ -201,7 +203,7 @@ export default {
   },
   methods: {
     göster(dosya) {
-      window.open("/Dosyalar/" + dosya, "_blank");
+      window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
 
     indir(dosya) {
