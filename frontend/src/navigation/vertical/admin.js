@@ -9,7 +9,7 @@ export default [
     {
         title: 'Müşteriler ',
         icon: 'BriefcaseIcon',
-        route:'musteriler',
+        route: 'musteriler',
 
     },
 
@@ -45,12 +45,11 @@ export default [
 
             {
                 title: 'Testler',
-                children:[
-                    {
+                children: [{
                         title: 'Periyodik Kontroller',
                         route: 'fperiyodik'
                     },
-                  , {
+                    {
                         title: 'Ortam Ölçümler',
                         route: 'fölcümler'
 
@@ -103,8 +102,7 @@ export default [
             },
             {
                 title: "Danışmanlık",
-                children:[
-                    {
+                children: [{
                         title: "Tehlikeli Madde Güvenlik"
                     },
                     {
