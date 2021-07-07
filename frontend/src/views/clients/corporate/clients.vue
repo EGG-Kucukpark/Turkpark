@@ -320,7 +320,7 @@
         <b-col cols="12" class="table-responsive">
           <b-table
             striped
-            hover
+            small
             responsive
             :per-page="perPage"
             :current-page="currentPage"
@@ -472,25 +472,14 @@ export default {
       fields: [
         { key: "name", label: "İsim", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
-        { key: "sgk", label: "SGK Numarası", sortable: true, filter: true },
-        {
-          key: "vergino",
-          label: "Vergİ Numarası",
-          sortable: true,
-          filter: true,
-        },
-        {
-          key: "vergiad",
-          label: "Vergİ Daİresİ",
-          sortable: true,
-          filter: true,
-        },
         {
           key: "telefon",
           label: "Telefon Numarası",
           sortable: true,
           filter: true,
         },
+        { key: "sgk", label: "SGK Numarası", sortable: true, filter: true },
+
         {
           key: "firma_yetkilisi",
           label: "Fİrma Yetkİlİsİ",

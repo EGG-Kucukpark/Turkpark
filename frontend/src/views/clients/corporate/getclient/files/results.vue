@@ -1,6 +1,222 @@
 <template>
   <b-card>
     <b-row>
+      <b-col>
+        <b-form-group
+          label-cols-sm="7"
+          label-align-sm="left"
+          label-size="sm"
+          label-for="filterInput"
+          class="mb-1"
+        >
+          <b-input-group>
+            <b-form-input
+              id="filterInput"
+              v-model="filter"
+              type="search"
+              placeholder="........"
+            />
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+
+      <span>
+        <b-button
+          v-if="show"
+          class="mb-1"
+          style="margin-right: 50px"
+          variant="success"
+          @click="bireymodal"
+        >
+          <feather-icon size="20px;" icon="PlusIcon"
+        /></b-button>
+
+        <b-modal
+          hide-header-close
+          :hide-footer="true"
+          size="lg"
+          ref="modal-bireysel"
+          centered
+          title="Rapor Ekle"
+        >
+          <b-card>
+            <b-form @submit.prevent="submit">
+              <b-progress
+                max="100"
+                style="margin: 10px"
+                v-for="form in form"
+                name="progress"
+                :key="form.id"
+                :value="form.dgr"
+                striped
+                animated
+                :variant="form.variant"
+                class="progress-bar-success"
+              />
+
+              <b-row v-for="(form, index) in form" :key="form.id">
+                <b-form-select style="display: none" v-model="form.Selected2">
+                  <option
+                    v-bind:value="{ firma: firma }"
+                    v-for="firma in firma"
+                    :key="firma.id"
+                  >
+                    {{ firma.name }}
+                  </option>
+                </b-form-select>
+
+                <b-col md="4">
+                  <b-form-select v-model="form.rapor">
+                    <option disabled value="">Rapor Türünü Seçiniz</option>
+
+                    <option v-for="raporlar in raporlar" :key="raporlar.id">
+                      {{ raporlar.name }}
+                    </option>
+                  </b-form-select>
+                </b-col>
+
+                <!-- Cost -->
+                <b-col md="5">
+                  <b-form-file
+                    @change.prevent="change"
+                    v-model="form.file"
+                    name="file"
+                    placeholder=" Bir dosya seçin veya buraya sürükleyin..."
+                    drop-placeholder="Drop file here..."
+                    accept=".jpg, .png, .pdf, "
+                  />
+                </b-col>
+
+                <b-form-select style="display: none" v-model="form.Selected2">
+                  <option
+                    v-bind:value="{ firma: firma }"
+                    v-for="firma in firma"
+                    :key="firma.id"
+                  >
+                    {{ firma.name }}
+                  </option>
+                </b-form-select>
+
+                <b-col>
+                  <b-button
+                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                    variant="danger"
+                    @click.prevent="delField(index)"
+                    class="btn-icon"
+                    v-b-tooltip.hover.v-danger
+                    title="Satırı Kaldır"
+                  >
+                    <feather-icon icon="DeleteIcon" />
+                  </b-button>
+                </b-col>
+                <b-col cols="12">
+                  <hr />
+                </b-col>
+              </b-row>
+
+              <div style="float: left">
+                <span v-if="warn === true">
+                  <b-alert variant="danger" show>
+                    <div class="alert-body">
+                      <span
+                        ><strong
+                          >En fazla 4 toplu yükleme yapabilirsiniz!</strong
+                        >
+                      </span>
+                    </div>
+                  </b-alert>
+                </span>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="info"
+                  @click="addField"
+                  v-b-tooltip.hover.v-info
+                  title="Satır Ekle"
+                  class="btn-icon"
+                >
+                  <feather-icon size="20px;" icon="PlusIcon" />
+                </b-button>
+              </div>
+
+              <div style="float: right">
+                <b-button variant="success" type="submit">
+                  Rapor Ekle
+                </b-button>
+              </div>
+
+              <div style="float: right; padding-right: 10px">
+                <b-button variant="danger" @click="formcikis()">
+                  iptal</b-button
+                >
+              </div>
+            </b-form>
+
+            <!-- Emulate built in modal footer ok and cancel button actions -->
+          </b-card>
+        </b-modal>
+      </span>
+
+      <b-col cols="12" class="table-responsive">
+        <b-table
+          striped
+          small
+          responsive
+          :per-page="perPage"
+          :current-page="currentPage"
+          :items="items"
+          :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          :sort-direction="sortDirection"
+          :filter="filter"
+          :filter-included-fields="filterOn"
+          @filtered="onFiltered"
+          show-empty
+          empty-text="Veri Bulunamadı."
+          empty-filtered-text="Veri Bulunamadı."
+        >
+          <template #cell(actions)="data">
+            <span>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="warning"
+                @click.prevent="göster(data.item.dosya_ad)"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-warning
+                title="Göster"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
+
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="danger"
+                @click.prevent="arsivle(data.item)"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-danger
+                title="Arşivle"
+              >
+                <feather-icon icon="ArchiveIcon" />
+              </b-button>
+
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                @click.prevent="indir(data.item.dosya_ad)"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-success
+                title="İndir"
+              >
+                <feather-icon icon="DownloadIcon" />
+              </b-button>
+            </span>
+          </template>
+        </b-table>
+      </b-col>
+
       <b-col md="2" sm="4" class="my-1">
         <b-form-group class="mb-0">
           <b-form-select
@@ -13,54 +229,7 @@
         </b-form-group>
       </b-col>
 
-      <b-col class="my-8">
-        <b-form-group
-          label="Arama:"
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          label-for="filterInput"
-          class="mb-0"
-        >
-          <b-input-group size="sm">
-            <b-form-input
-              id="filterInput"
-              v-model="filter"
-              type="search"
-              placeholder="........"
-            />
-            <b-input-group-append>
-              <b-button :disabled="!filter" @click="filter = ''">
-                Temizle
-              </b-button>
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
-      </b-col>
-
-     <b-col cols="12" class="table-responsive">
-        <b-table
-          striped
-          hover
-          responsive
-          :per-page="perPage"
-          :current-page="currentPage"
-          :items="items"
-          :fields="fields"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
-          :sort-direction="sortDirection"
-          :filter="filter"
-          :filter-included-fields="filterOn"
-          @filtered="onFiltered"
-        >
-          <template  #cell(actions)>
-              <span     > <b-button variant="gradient-warning"> Düzenle </b-button>
-            <b-button variant="gradient-danger"> Sil </b-button></span>
-
-          </template>
-        </b-table>
-      </b-col>
+      <portal-target @change="refreshStop" name="gelsin"  :data="Selected" />
 
       <b-col cols="12">
         <b-pagination
@@ -72,11 +241,16 @@
           class="my-0"
         />
       </b-col>
+      <button style="display: none" @click="basarili" id="basarili2"></button>
+      <button style="display: none" @click="basarisiz" id="basarisiz2"></button>
     </b-row>
   </b-card>
 </template>
 
 <script>
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
+import ripple from "vue-ripple-directive";
+import router from "@/router";
 import {
   BTable,
   BAvatar,
@@ -91,6 +265,12 @@ import {
   BInputGroupAppend,
   BButton,
   BCard,
+  BAlert,
+  BProgress,
+  BModal,
+  BForm,
+  VBTooltip,
+  BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
 
@@ -106,10 +286,31 @@ export default {
     BPagination,
     BInputGroup,
     BFormInput,
+    BAlert,
+    BProgress,
     BInputGroupAppend,
     BButton,
     BCard,
+    BModal,
+    ToastificationContent,
+    BForm,
+    VBTooltip,
+    BFormFile,
   },
+  directives: {
+    "b-tooltip": VBTooltip,
+    ripple,
+  },
+  props: {
+    userData: {
+      type: Object,
+      required: true,
+    },
+    giden: {
+      type: String,
+    },
+  },
+
   data() {
     return {
       perPage: 10,
@@ -127,17 +328,30 @@ export default {
         content: "",
       },
       fields: [
-        {
-          key: "id",
-          label: "Id",
-        },
+        { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
-        { key: "not", label: "Notlar", sortable: true },
+        { key: "name", label: "KİŞİ İSMİ", sortable: true, filter: true },
+        { key: "rapor", label: "Dosya Adı", sortable: true, filter: true },
+        { key: "created_at", label: "Tarih", sortable: true, filter: true },
+
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
+      id: null,
+      show: true,
+      searchTerm: "",
+      Selected: "",
+      firma: [],
+      warn: false,
+      firmaselected: "",
+      raporlar: "",
+      form: [
+        { rapor: "", file: "", Selected2: null, dgr: 0, variant: "success" },
+      ],
+      gelen:null,
     };
   },
+
   computed: {
     sortOptions() {
       // Create an options list from our fields
@@ -147,15 +361,156 @@ export default {
     },
   },
   created() {
-    axios
-      .post("/api/firmanot", { id: "24" })
-      .then((response) => (this.items = response.data));
+    axios.post("/api/raporlar").then((res) => (this.raporlar = res.data));
+
+    this.Selected = router.currentRoute.params.id;
+
+    var id = this.Selected;
+    this.form[0].Selected2 = id;
   },
+
   mounted() {
-    // Set the initial number of items
-    this.totalRows = this.items.length;
+    setTimeout(() => {
+      this.totalRows = this.items.length;
+    }, 500);
   },
   methods: {
+    basarili() {
+      this.refreshStop();
+    },
+
+    basarisiz() {
+      var data = document.getElementById("basarisiz2").value;
+
+      this.$toast({
+        component: ToastificationContent,
+        position: "top-right",
+        props: {
+          title: `Rapor İşlemleri `,
+          icon: "FileTextIcon",
+          variant: "danger",
+          text: data + ` Dosya İşlemi Başarsız`,
+        },
+      });
+    },
+    refreshStop() {
+
+      var id = this.Selected;
+
+      axios
+        .post("/api/dbgetir", { name: this.giden, id: this.userData.id })
+        .then((res) => (this.items = res.data));
+    },
+
+    change(event) {
+      this.file = event.target.files[0];
+    },
+
+    arsivle(data) {
+      axios
+        .post("/api/bireydosyaarsiv", { id: data.id })
+        .then(this.refreshStop());
+    },
+
+    submit() {
+      var form = this.form;
+      var time = 1000;
+
+      form.forEach(function (form) {
+        const formData = new FormData();
+
+        if (form.Selected2 === null) {
+          document.getElementById("basarisiz2").value = "Kişi Seçilmedi.";
+          document.getElementById("basarisiz2").click();
+        } else {
+          formData.set("file", form.file);
+          formData.append("id", form.Selected2);
+          formData.append("user_id", form.Selected2);
+          formData.append("rapor", form.rapor);
+
+          form.variant = "success";
+          form.dgr = 50;
+
+          setTimeout(() => {
+            axios
+              .post("/api/bireybelgeyukle", formData)
+              .then(
+                (res) => document.getElementById("basarili2").click(),
+                (form.dgr = 100)
+              )
+              .catch((error) => {
+                form.dgr = 100;
+                form.variant = "danger";
+                if (error.response.data.error === undefined) {
+                  document.getElementById("basarisiz2").value = "";
+                  document.getElementById("basarisiz").click();
+                } else {
+                  document.getElementById("basarisiz2").value ===
+                    error.response.data.error,
+                    document.getElementById("basarisiz2").click();
+                }
+              });
+          }, (time += 1000));
+        }
+      });
+
+      setTimeout(() => {
+        this.formcikis();
+      }, 6000);
+    },
+
+    göster(dosya) {
+      window.open("/Dosyalar/Birey/" + dosya, "_blank");
+    },
+
+    formcikis() {
+      this.$refs["modal-bireysel"].hide();
+      this.file == null;
+      this.form.Selected2 = null;
+    },
+
+    indir(dosya) {
+      axios
+        .post(
+          "/api/bireyindir",
+          { id: this.id, dosya: dosya },
+          { responseType: "blob" }
+        )
+        .then((response) => {
+          var data = response.data;
+          const url = window.URL.createObjectURL(new Blob([data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", dosya);
+          document.body.appendChild(link);
+          link.click();
+        });
+    },
+
+    delField(index) {
+      this.form.splice(index, 1);
+    },
+    addField() {
+      if (this.form.length === 4) {
+        this.warn = true;
+      } else {
+        for (var i = 0; i < this.form.length; i++) {
+          this.form[i].Selected2 = this.Selected;
+        }
+        this.form.push({
+          rapor: "",
+          file: "",
+          Selected2: this.form[0].Selected2,
+          dgr: 0,
+          variant: "success",
+        });
+      }
+    },
+
+    bireymodal() {
+      this.$refs["modal-bireysel"].show();
+    },
+
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`;
       this.infoModal.content = JSON.stringify(item, null, 2);

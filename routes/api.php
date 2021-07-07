@@ -190,6 +190,4 @@ route::post('egitimsil', [FileController::class, 'egtm_sil']);
 route::post('dosyatur', [FileController::class, 'dsya']);
 route::post('dosyaturekle', [FileController::class, 'dsya_rpr']);
 route::post('dosyatursil', [FileController::class, 'dsya_sil']);
-
-
-
+route::post('dbgetir', [FileController::class, 'getir']);

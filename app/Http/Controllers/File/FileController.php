@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Laravel\Ui\Presets\React;
 
 class FileController extends Controller
 {
@@ -398,5 +399,17 @@ class FileController extends Controller
 
         Schema::dropIfExists($request->data['name']);
         DB::table('dosya_tur')->where('id', $request->data['id'])->delete();
+    }
+
+
+    function getir(Request $request)
+    {
+
+        try {
+            Schema::hasTable($request->name);
+            return DB::table($request->name)->where('firma_id', $request->id)->get();
+        } catch (Exception $ex) {
+            return $ex;
+        }
     }
 }
