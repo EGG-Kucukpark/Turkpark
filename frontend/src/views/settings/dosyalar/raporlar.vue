@@ -109,7 +109,7 @@ export default {
 
     Sil(data) {
       this.$refs["modal"].hide();
-      axios.post("api/dosyatursil", { id: data.id }).then(this.veri());
+      axios.post("api/dosyatursil", { data: data }).then(this.veri());
     },
   },
 };

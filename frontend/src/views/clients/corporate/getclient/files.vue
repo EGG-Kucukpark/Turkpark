@@ -3,7 +3,10 @@
     <div>
       <!-- types -->
       <app-collapse accordion :type="collapseType">
-        <app-collapse-item v-for="tur in tur" :key="tur.id" :title="tur.name">
+        <app-collapse-item v-on:click='data' v-for="tur in tur" :key="tur.id" :title="tur.name">
+
+
+
         </app-collapse-item>
       </app-collapse>
     </div>
@@ -35,6 +38,11 @@ export default {
     axios.post("/api/dosyatur").then((res) => (this.tur = res.data));
   },
 
-  methods: {},
+  methods: {
+
+      data(){
+          alert('za')
+      }
+  },
 };
 </script>

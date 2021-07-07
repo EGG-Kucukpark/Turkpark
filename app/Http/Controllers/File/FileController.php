@@ -4,9 +4,11 @@ namespace App\Http\Controllers\File;
 
 use App\Http\Controllers\Controller;
 use Exception;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class FileController extends Controller
 {
@@ -379,10 +381,22 @@ class FileController extends Controller
         DB::table('dosya_tur')->insert([
             'name' => $request->name
         ]);
+
+
+        Schema::create($request->name, function ($table) {
+
+
+            $table->bigIncrements('id');
+            $table->integer('firma_id');
+            $table->string('name');
+            $table->timestamp('created');
+        });
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function dsya_sil(Request $request)
     {
-        DB::table('dosya_tur')->where('id', $request->id)->delete();
+
+        Schema::dropIfExists($request->data['name']);
+        DB::table('dosya_tur')->where('id', $request->data['id'])->delete();
     }
 }

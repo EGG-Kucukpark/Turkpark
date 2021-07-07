@@ -21,21 +21,7 @@ export default [
                 title: 'Laboratuvar',
                 route: 'flaboratuvar'
 
-            }, {
-                title: 'Asansör',
-                route: 'fasansor'
-
-            }, {
-                title: 'Ortam Ölçümleri',
-                route: 'fölcümler'
-
-            }, {
-                title: 'Periyodik Kontroller',
-                route: 'fperiyodik'
             },
-
-
-
             {
                 title: 'İlk Yardım',
 
@@ -56,15 +42,55 @@ export default [
 
                 ]
             },
+
+            {
+                title: 'Testler',
+                children:[
+                    {
+                        title: 'Periyodik Kontroller',
+                        route: 'fperiyodik'
+                    },
+                  , {
+                        title: 'Ortam Ölçümler',
+                        route: 'fölcümler'
+
+                    },
+                    {
+                        title: 'Asansör Periyodik Kontrol',
+                        route: 'fasansor'
+
+                    }
+
+                ]
+
+            },
+
+
+            {
+
+                title: "İBYS",
+
+
+            },
+
+
             {
 
                 title: "Eğitimler",
                 children: [{
+                        title: "Uzaktan"
+                    },
+                    {
                         title: "Yüksekte Çalışma"
                     },
                     {
                         title: "Sapancı"
                     },
+                    {
+                        title: "IOSH"
+                    },
+
+
                     {
                         title: "NEBOSH  "
                     }
@@ -72,6 +98,27 @@ export default [
 
             },
 
+            {
+                title: "Mesleki Yeterlilik"
+            },
+            {
+                title: "Danışmanlık",
+                children:[
+                    {
+                        title: "Tehlikeli Madde Güvenlik"
+                    },
+                    {
+                        title: "Asbest Söküm"
+                    },
+                    {
+                        title: "Patlamadan Korunma Dokümanı"
+                    },
+                    {
+                        title: "Yangın Güvenlik Sistemleri"
+                    }
+
+                ]
+            },
 
 
 
