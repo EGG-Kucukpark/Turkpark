@@ -26,8 +26,7 @@
           style="margin-right: 50px"
           variant="success"
           v-on:click="$refs['modal'].show()"
-          >Yeni Çalışan</b-button
-        >
+          ><feather-icon size="20" icon="PlusIcon" /></b-button>
         <b-modal
           hide-header-close
           ok-title="Kaydet"
@@ -289,6 +288,7 @@ import {
   BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
+import FeatherIcon from '../../@core/components/feather-icon/FeatherIcon.vue';
 
 export default {
   components: {
@@ -315,6 +315,7 @@ export default {
     ripple,
     heightTransition,
     BAlert,
+    FeatherIcon,
   },
   directives: {
     "b-tooltip": VBTooltip,
