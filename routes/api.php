@@ -99,13 +99,13 @@ Route::post('getfile', [FileController::class, 'getfile']);
 Route::post('getfile2', [FileController::class, 'getfile2']);
 Route::post('showfile', [FileController::class, 'showfile']);
 Route::post('indir', [FileController::class, 'download']);
+route::post('dosyaarsiv', [FileController::class, 'arsiv']);
 route::post('dosyasil', [FileController::class, 'deletefile']);
 route::post('excelsertifika', [FileController::class, 'importsertf']);
-Route::post('rapor', [FileController::class, 'getrapor']);
-route::post('dosyaarsiv', [FileController::class, 'arsiv']);
-route::post('raporlar', [FileController::class, 'raporlar']);
-route::post('raporekle', [FileController::class, 'raporekle']);
-route::post('raporsil', [FileController::class, 'raporsil']);
+
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Dosya İşlemleri -- Bireysel
@@ -155,9 +155,9 @@ Route::group(['middleware' => 'guest:api'], function () {
 
 route::post('sertifikagetir', [CerfController::class, 'get']);
 route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);
-
 ////////////////////////////////////////////////////////////////////////////////////
-//                      Eğitim İşlemleri
+//                       Eğitim İşlemleri
+
 
 route::post('egitimgetir', [EduController::class, 'get']);
 route::post('kategorigetir', [EduController::class, 'getcategory']);
@@ -175,3 +175,21 @@ route::post('katilimcigetir', [EduController::class, 'getusers']);
 route::post('katilimciekle', [EduController::class, 'addusers']);
 route::post('katilimcisil', [EduController::class, 'deleteusers']);
 route::post('katilimciduzenle', [EduController::class, 'updateuser']);
+////////////////////////////////////////////////////////////////////////////////////
+//                   Tanımlamalar
+
+route::post('raporlar', [FileController::class, 'raporlar']);
+route::post('raporekle', [FileController::class, 'raporekle']);
+route::post('raporsil', [FileController::class, 'raporsil']);
+
+
+route::post('egitimtur', [FileController::class, 'egtm']);
+route::post('egitimekle', [FileController::class, 'egtm_rpr']);
+route::post('egitimsil', [FileController::class, 'egtm_sil']);
+
+route::post('dosyatur', [FileController::class, 'dsya']);
+route::post('dosyaturekle', [FileController::class, 'dsya_rpr']);
+route::post('dosyatursil', [FileController::class, 'dsya_sil']);
+
+
+

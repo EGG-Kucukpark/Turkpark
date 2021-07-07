@@ -105,22 +105,6 @@ export default [
 
 
 
-    {
-        path: '/results',
-        name: 'results',
-        component: () => import('@/views/lab/laboratuvar/lab.vue'),
-        meta: {
-            requiresAuth: true,
-            pageTitle: 'Laboratuvar',
-            breadcrumb: [{
-                text: 'Ana Sayfa',
-                active: true,
-            }, ],
-
-        }
-
-
-    },
 
 
 

@@ -15,7 +15,7 @@
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1">
           <h5 class="mb-0">
-            {{ eventLocal.id ? 'Update': 'Add' }} Event
+           Etkinlik {{ eventLocal.id ? 'Güncelle': 'Ekle' }}
           </h5>
           <div>
             <feather-icon
@@ -53,7 +53,7 @@
               rules="required"
             >
               <b-form-group
-                label="Title"
+                label="Etkinlik Adı"
                 label-for="event-title"
               >
                 <b-form-input
@@ -62,7 +62,7 @@
                   autofocus
                   :state="getValidationState(validationContext)"
                   trim
-                  placeholder="Event Title"
+                  placeholder="Etkinlik Adı"
                 />
 
                 <b-form-invalid-feedback>

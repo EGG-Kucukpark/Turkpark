@@ -40,14 +40,14 @@
         >
 
       <b-list-group style="float: left; width: 100%">
-        <b-list-group-item v-for="Eğitim in Eğitim" :key="Eğitim.id">
-          {{ Eğitim.name }}
+        <b-list-group-item v-for="egitim in egitim" :key="egitim.id">
+          {{ egitim.name }}
 
           <b-button
             style="float: right"
             v-ripple.400="'rgba(234, 84, 85, 0.15)'"
             variant="outline-danger"
-            @click.prevent="Sil(Eğitim)"
+            @click.prevent="Sil(egitim)"
           >
             Sil
           </b-button>
@@ -89,27 +89,27 @@ export default {
   },
   data() {
     return {
-      Eğitim: null,
+      egitim: null,
       name: null,
     };
   },
 
   created() {
-    axios.post("api/Eğitimlar").then((res) => (this.Eğitim = res.data));
+   this.veri()
   },
   methods: {
-    data() {
-      axios.post("api/Eğitimlar").then((res) => (this.Eğitim = res.data));
+    veri() {
+      axios.post("api/egitimtur").then((res) => (this.egitim = res.data));
     },
 
     Ekle() {
-      axios.post("api/Eğitimekle", { name: this.name }).then(this.data());
+      axios.post("api/egitimekle", { name: this.name }).then(this.veri());
       this.name = null;
     },
 
     Sil(data) {
       this.$refs["modal"].hide();
-      axios.post("api/Eğitimsil", { id: data.id }).then(this.data());
+      axios.post("api/egitimsil", { id: data.id }).then(this.veri());
     },
   },
 };

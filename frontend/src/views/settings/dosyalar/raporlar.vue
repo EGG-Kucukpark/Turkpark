@@ -1,9 +1,9 @@
 <template>
   <b-card img-alt="Card image cap" img-top no-body>
-    <b-modal :hide-footer="true" ref="modal" title="Rapor Ekle" centered>
+    <b-modal :hide-footer="true" ref="modal" title="Dosya Türü Ekle" centered>
       <b-form @submit.prevent="Ekle">
         <b-form-group
-          label="Rapor Tipi Ekle:"
+          label="Dosya Türü:"
           label-for="Kontenjan"
           label-cols-sm="3"
           label-align-sm="right"
@@ -28,26 +28,26 @@
     </b-modal>
 
     <b-card-body>
-      <b-card-title>Rapor Tipleri</b-card-title>
+      <b-card-title>Dosya Türleri</b-card-title>
 
-         <b-button
-
-          class="mb-1"
-           style="margin-bottom: 10px;"
-          variant="success"
-           v-on:click="$refs['modal'].show()"
-          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
-        >
+      <b-button
+        class="mb-1"
+        style="margin-bottom: 10px"
+        variant="success"
+        v-on:click="$refs['modal'].show()"
+      >
+        <feather-icon size="20px;" icon="PlusIcon"
+      /></b-button>
 
       <b-list-group style="float: left; width: 100%">
-        <b-list-group-item v-for="rapor in rapor" :key="rapor.id">
-          {{ rapor.name }}
+        <b-list-group-item v-for="dosya in dosya" :key="dosya.id">
+          {{ dosya.name }}
 
           <b-button
             style="float: right"
             v-ripple.400="'rgba(234, 84, 85, 0.15)'"
             variant="outline-danger"
-            @click.prevent="Sil(rapor)"
+            @click.prevent="Sil(dosya)"
           >
             Sil
           </b-button>
@@ -89,27 +89,27 @@ export default {
   },
   data() {
     return {
-      rapor: null,
+      dosya: null,
       name: null,
     };
   },
 
   created() {
-    axios.post("api/raporlar").then((res) => (this.rapor = res.data));
+    this.veri();
   },
   methods: {
-    data() {
-      axios.post("api/raporlar").then((res) => (this.rapor = res.data));
+    veri() {
+      axios.post("api/dosyatur").then((res) => (this.dosya = res.data));
     },
 
     Ekle() {
-      axios.post("api/raporekle", { name: this.name }).then(this.data());
+      axios.post("api/dosyaturekle", { name: this.name }).then(this.veri());
       this.name = null;
     },
 
     Sil(data) {
       this.$refs["modal"].hide();
-      axios.post("api/raporsil", { id: data.id }).then(this.data());
+      axios.post("api/dosyatursil", { id: data.id }).then(this.veri());
     },
   },
 };
