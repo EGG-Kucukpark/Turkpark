@@ -53,7 +53,22 @@ class UserController extends Controller
 
     {
 
-        DB::table('users')->where('id', $request->id)->update([
+
+        if ($request->role === "Bireysel") {
+
+            DB::table('individual')->where('id', $request->user_id)->update([
+                'isArch' => '1'
+            ]);
+        } else if ($request->role === "Firma") {
+
+
+            DB::table('clients')->where('id',  $request->user_id)->update([
+
+                'isArch' => '1'
+            ]);
+        }
+
+        DB::table('users')->where('id',  $request->id)->update([
             'isArch' => '1',
             'status' => '2'
 
@@ -62,13 +77,34 @@ class UserController extends Controller
     public function arsivckr(Request $request)
 
     {
+        DB::table('users')->where('id', $request->data['id'])->update([
+            'isArch' => '0',
+            'status' => '1'
 
-        DB::table('users')->where('id', $request->id)->update([
+        ]);
+        $data = $request->data['role'];
+
+
+
+        if ($data === "Bireysel") {
+
+            DB::table('individual')->where('id', $request->data['user_id'])->update([
+                'isArch' => '0'
+            ]);
+        } else if ($data  === "Firma") {
+
+            DB::table('clients')->where('id',  $request->data['user_id'])->update([
+
+                'isArch' => '0'
+            ]);
+        }
+        DB::table('users')->where('id', $request->data['id'])->update([
             'isArch' => '0',
             'status' => '1'
 
         ]);
     }
+
 
 
     public function getuserinfo(Request $request)
@@ -127,8 +163,6 @@ class UserController extends Controller
                     'telefon' => $request->telefon,
 
                 ]);
-
-
             } catch (Exception $exception) {
                 return response()->json(['error' => 'Başarısız'], 404);
             }

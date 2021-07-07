@@ -8,16 +8,7 @@ export default [{
 
         }
     },
-    {
-        path: '/profil',
-        name: 'profil',
-        component: () => import('@/views/users/settings/Account.vue'),
-        meta: {
-            requiresAuth: true,
 
-
-        }
-    },
 
 
 ]

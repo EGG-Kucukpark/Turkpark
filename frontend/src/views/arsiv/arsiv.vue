@@ -27,9 +27,22 @@
               size="16"
               class="mr-0 mr-sm-50"
             />
-            <span class="d-none d-sm-inline">Firmalar</span>
+            <span class="d-none d-sm-inline">Kurumsal Müşteriler</span>
           </template>
           <clients />
+        </b-tab>
+
+
+        <b-tab>
+          <template #title>
+            <feather-icon
+              icon="BriefcaseIcon"
+              size="16"
+              class="mr-0 mr-sm-50"
+            />
+            <span class="d-none d-sm-inline">Bireysel Müşteriler</span>
+          </template>
+          <individual />
         </b-tab>
       </b-tabs>
     </template>
@@ -44,6 +57,7 @@ import { BBreadcrumb, BBreadcrumbItem, BRow, BCol, BAlert, BLink, BTabs, BTab, B
 import users from "./users/users.vue";
 import clients from "./clients/clients";
 import results from "./results/lab.vue";
+import individual from './individual/individual.vue'
 
 export default {
   components: {
@@ -58,7 +72,7 @@ export default {
     clients,
     BBreadcrumb,
     BBreadcrumbItem,
-    results,
+    results,individual,
 
     // Local Components
   },

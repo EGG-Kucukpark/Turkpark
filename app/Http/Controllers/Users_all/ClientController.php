@@ -32,6 +32,13 @@ class ClientController extends Controller
         DB::table('clients')->where('id', $request->id)->update([
 
             'isArch' => '1'
+
+        ]);
+
+        DB::table('users')->where('user_id', $request->id)->update([
+
+            'isArch' => '1',
+            'status' => '2'
         ]);
     } ////////////////////////////////////////////////////////////////////////////////////
     public function arsivckr(Request $request)
@@ -39,6 +46,10 @@ class ClientController extends Controller
 
         DB::table('clients')->where('id', $request->id)->update([
 
+            'isArch' => '0'
+        ]);
+        DB::table('users')->where('user_id', $request->id)->update([
+            'status' => '1',
             'isArch' => '0'
         ]);
     } ////////////////////////////////////////////////////////////////////////////////////

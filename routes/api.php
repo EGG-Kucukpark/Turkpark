@@ -79,6 +79,7 @@ Route::get('bireyselgoster/{id}', [BireyController::class, 'individual']);
 route::post('bireyselekle', [BireyController::class, 'addindividual']);
 route::post('bireyselduzenle', [BireyController::class, 'editindividual']);
 route::post('indarsiv', [BireyController::class, 'indarsiv']);
+route::post('bireyarsvckr', [BireyController::class, 'arsivckr']);
 route::post('bireyseller', [BireyController::class, 'getindividual']);
 
 

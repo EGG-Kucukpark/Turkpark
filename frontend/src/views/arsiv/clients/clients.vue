@@ -443,7 +443,7 @@ export default {
       this.$refs["modal1"].show();
     },
     arsivckr(data) {
-      axios.post("api/firmaarsvckr", { id: data.id }).then(this.refreshStop());
+      axios.post("api/firmaarsvckr", { id: data }).then(this.refreshStop());
     },
 
     Modal2(row) {

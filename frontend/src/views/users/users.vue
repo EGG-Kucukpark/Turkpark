@@ -537,7 +537,7 @@ export default {
       }, 1000);
     },
     arsiv(data) {
-      axios.post("api/arsivuser", { id: data.id }).then(this.refreshStop());
+      axios.post("api/arsivuser", data ).then(this.refreshStop());
     },
     submit() {
       axios

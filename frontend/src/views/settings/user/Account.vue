@@ -55,10 +55,10 @@
 
 <script>
 import { BTabs, BTab } from "bootstrap-vue";
-import AccountSettingGeneral from "./AccountSettingGeneral.vue";
-import AccountSettingPassword from "./AccountSettingPassword.vue";
-import firmaekbilgi from './firmaekbilgi.vue'
-import bireyekbilgi from './bireyekbilgi.vue'
+import AccountSettingGeneral from "../user/AccountSettingGeneral.vue";
+import AccountSettingPassword from "../user/AccountSettingPassword.vue";
+import firmaekbilgi from '../user/firmaekbilgi.vue'
+import bireyekbilgi from '../user/bireyekbilgi.vue'
 export default {
   components: {
     BTabs,

@@ -12,6 +12,7 @@ import calendar from './routes/calendar'
 import axios from '@axios'
 import archive from './routes/archive'
 import results from './routes/results'
+import settings from './routes/settings'
 
 
 Vue.use(VueRouter)
@@ -36,6 +37,7 @@ const router = new VueRouter({
         ...calendar,
         ...archive,
         ...results,
+        ...settings,
         {
             path: '*',
             redirect: 'error-404',

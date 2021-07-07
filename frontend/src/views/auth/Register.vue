@@ -45,7 +45,7 @@
                   name="Kullanıcı Türü"
                 >
                   <b-form-select v-model="role" @input="label">
-                    <b-form-select-option disabled value=" "
+                    <b-form-select-option disabled value=" " hidden="true"
                       >Lütfen Bir Seçim Yapınız</b-form-select-option
                     >
 

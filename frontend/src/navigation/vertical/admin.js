@@ -112,17 +112,17 @@ export default [
                 title: "Tanımlamalar",
                 children: [{
                         title: 'Rapor Türleri',
-                        route: 'raporlar',
+                        route: 'rapor-turu',
                         icon: 'FileTextIcon',
                     },
                     {
                         title: 'Dosya Türleri',
-                        route: 'dosyalar',
+                        route: 'dosya-turu',
                         icon: 'FileTextIcon',
                     },
                     {
                         title: 'Eğitim Türleri',
-                        route: 'dosyalar',
+                        route: 'egitim-turu',
                         icon: 'FileTextIcon',
                     },
                 ]

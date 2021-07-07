@@ -90,6 +90,7 @@
                 class="btn-icon"
                 v-b-tooltip.hover.v-success
                 title="Arşivden Çıkar"
+                style="margin: 5px"
               >
                 <feather-icon icon="ExternalLinkIcon" />
               </b-button>
@@ -97,6 +98,7 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click="Modal2(data.item)"
+                style="margin: 5px"
                 class="btn-icon"
                 v-b-tooltip.hover.v-warning
                 title="Düzenle"
@@ -106,8 +108,7 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
-
-
+                style="margin: 5px"
                 @click="confirmButtonColor(data.item)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-danger
@@ -268,7 +269,7 @@ import {
   BFormFile,
 } from "bootstrap-vue";
 import axios from "@axios";
-import Ripple from 'vue-ripple-directive'
+import Ripple from "vue-ripple-directive";
 export default {
   components: {
     BTable,
@@ -388,7 +389,7 @@ export default {
 
   methods: {
     arsivckr(data) {
-      axios.post("api/arsivckr", { id: data.id }).then(this.refreshStop());
+      axios.post("api/arsivckr", { data:data }).then(this.refreshStop());
     },
 
     refreshStop() {
@@ -453,43 +454,41 @@ export default {
     },
 
     confirmButtonColor(data) {
-
       this.$swal({
-        title: 'Emin misin?',
+        title: "Emin misin?",
         text: "Bu işlemi geri alamayacaksın!",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-         cancelButtonText:"İptal",
-        confirmButtonText: 'Evet, sil!',
+        cancelButtonText: "İptal",
+        confirmButtonText: "Evet, sil!",
         customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-outline-danger ml-1',
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-outline-danger ml-1",
         },
         buttonsStyling: false,
-      }).then(result => {
+      }).then((result) => {
         if (result.value) {
           this.$swal({
-            icon: 'success',
-            title: 'Silindi!',
-            text: 'Veri Silindi.',
+            icon: "success",
+            title: "Silindi!",
+            text: "Veri Silindi.",
             customClass: {
-              confirmButton: 'btn btn-success',
+              confirmButton: "btn btn-success",
             },
           }),
-           axios.post("api/usersil", { id: data.id }).then(this.refreshStop());
-        } else if (result.dismiss === 'cancel') {
+            axios.post("api/usersil", { id: data.id }).then(this.refreshStop());
+        } else if (result.dismiss === "cancel") {
           this.$swal({
-            title: 'İptal',
-            text: 'Veri silinmedi',
-            icon: 'error',
+            title: "İptal",
+            text: "Veri silinmedi",
+            icon: "error",
             customClass: {
-              confirmButton: 'btn btn-success',
+              confirmButton: "btn btn-success",
             },
-          })
+          });
         }
-      })
+      });
     },
-
 
     update() {
       axios
