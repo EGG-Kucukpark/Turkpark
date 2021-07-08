@@ -1,12 +1,26 @@
 <template>
   <b-card>
-    <b-form-select @change="gelsin" v-model="Selected">
-      <option v-for="tur in tur" :key="tur.id">{{ tur.name }}</option>
-    </b-form-select>
-    <dosyalar :userData="userData" :giden="Selected"  />
+    <b-tabs pills>
+      <!-- Tab: Account -->
+      <b-tab
+        @click="gelsin(tur)"
+
+        v-for="tur in tur"
+        :key="tur.id"
+        id="tab"
+
+      >
+        <template #title>
+          <feather-icon icon="BriefcaseIcon" size="16" class="mr-0 mr-sm-50" />
+          <span class="d-none d-sm-inline"> {{ tur.name }} </span>
+        </template>
+
+        <dosyalar :userData="userData" :giden="Selected" />
+      </b-tab>
+    </b-tabs>
 
     <portal to="gelsin">
-    <p v-if="send"     :data="Selected"  > </p>
+      <p v-if="send" :data="Selected"></p>
     </portal>
   </b-card>
 </template>
@@ -20,6 +34,8 @@ import {
   BFormRadioGroup,
   BFormRadio,
   BFormGroup,
+  BTabs,
+  BTab,
   BFormSelect,
   BTable,
 } from "bootstrap-vue";
@@ -33,6 +49,8 @@ export default {
     BFormRadioGroup,
     BFormRadio,
     dosyalar,
+    BTabs,
+    BTab,
     BFormGroup,
     BFormSelect,
 
@@ -54,15 +72,15 @@ export default {
   },
   created() {
     axios.post("/api/dosyatur").then((res) => (this.tur = res.data));
+    console.log(document.getElementById('tab'))
+
   },
 
   methods: {
-    gelsin() {
+    gelsin(data) {
+
       this.send = true;
-      this.giden = this.Selected;
-      axios
-        .post("/api/dbgetir", { name: this.Selected, id: this.userData.id })
-        .then((res) => (this.items = res.data));
+      this.Selected = data.name;
     },
   },
 };

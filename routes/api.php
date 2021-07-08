@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+//AUTH
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
@@ -8,20 +10,26 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Email\EmailController;
 
+//MÜŞTERİ
 use App\Http\Controllers\Users_all\ClientController;
 use App\Http\Controllers\Users_all\BireyController;
-use App\Http\Controllers\File\BireyFile;
-
-use App\Http\Controllers\Apps\TodoController;
-use App\Http\Controllers\Apps\EduController;
-use App\Http\Controllers\Apps\CerfController;
-use App\Http\Controllers\Apps\TakvimController;
 use App\Http\Controllers\Worker\WorkerController;
 use App\Http\Controllers\User\UserController;
+
+// UYGULAMALAR
+use App\Http\Controllers\Apps\TodoController;
+use App\Http\Controllers\Apps\TakvimController;
+
+
+use App\Http\Controllers\Apps\EduController;
+use App\Http\Controllers\Apps\CerfController;
+
+
+
+// DOSYALAR
+use App\Http\Controllers\File\BireyFile;
 use App\Http\Controllers\File\FileController;
-use App\Http\Controllers\File\Birey;
-
-
+use App\Http\Controllers\File\ClientFile;
 
 
 
@@ -94,13 +102,13 @@ Route::post('workersil', [WorkerController::class, 'workersil']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Dosya İşlemleri -- Firma
-Route::post('belgeyukle', [FileController::class, 'upload']);
-Route::post('getfile', [FileController::class, 'getfile']);
-Route::post('getfile2', [FileController::class, 'getfile2']);
-Route::post('showfile', [FileController::class, 'showfile']);
-Route::post('indir', [FileController::class, 'download']);
-route::post('dosyaarsiv', [FileController::class, 'arsiv']);
-route::post('dosyasil', [FileController::class, 'deletefile']);
+Route::post('belgeyukle', [ClientFile::class, 'upload']);
+Route::post('getfile', [ClientFile::class, 'getfile']);
+Route::post('getfile2', [ClientFile::class, 'getfile2']);
+Route::post('showfile', [ClientFile::class, 'showfile']);
+Route::post('indir', [ClientFile::class, 'download']);
+route::post('dosyaarsiv', [ClientFile::class, 'arsiv']);
+route::post('dosyasil', [ClientFile::class, 'deletefile']);
 route::post('excelsertifika', [FileController::class, 'importsertf']);
 
 

@@ -22,7 +22,6 @@
 
       <span>
         <b-button
-          v-if="show"
           class="mb-1"
           style="margin-right: 50px"
           variant="success"
@@ -55,28 +54,8 @@
               />
 
               <b-row v-for="(form, index) in form" :key="form.id">
-                <b-form-select style="display: none" v-model="form.Selected2">
-                  <option
-                    v-bind:value="{ firma: firma }"
-                    v-for="firma in firma"
-                    :key="firma.id"
-                  >
-                    {{ firma.name }}
-                  </option>
-                </b-form-select>
-
-                <b-col md="4">
-                  <b-form-select v-model="form.rapor">
-                    <option disabled value="">Rapor Türünü Seçiniz</option>
-
-                    <option v-for="raporlar in raporlar" :key="raporlar.id">
-                      {{ raporlar.name }}
-                    </option>
-                  </b-form-select>
-                </b-col>
-
                 <!-- Cost -->
-                <b-col md="5">
+                <b-col md="10">
                   <b-form-file
                     @change.prevent="change"
                     v-model="form.file"
@@ -180,7 +159,7 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
-                @click.prevent="göster(data.item.dosya_ad)"
+                @click.prevent="göster(data.item.dosya_ad, data.item.name)"
                 class="btn-icon"
                 style="margin: 5px"
                 v-b-tooltip.hover.v-warning
@@ -204,7 +183,7 @@
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
-                @click.prevent="indir(data.item.dosya_ad)"
+                @click.prevent="indir(data.item.dosya_ad, data.item.name)"
                 class="btn-icon"
                 style="margin: 5px"
                 v-b-tooltip.hover.v-success
@@ -229,7 +208,7 @@
         </b-form-group>
       </b-col>
 
-      <portal-target @change="refreshStop" name="gelsin"  :data="Selected" />
+      <portal-target @change="refreshStop" name="gelsin" :data="Selected" />
 
       <b-col cols="12">
         <b-pagination
@@ -322,33 +301,27 @@ export default {
       sortDirection: "asc",
       filter: null,
       filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
-
-        { key: "name", label: "KİŞİ İSMİ", sortable: true, filter: true },
-        { key: "rapor", label: "Dosya Adı", sortable: true, filter: true },
+        { key: "name", label: "Rapor TÜRÜ", sortable: true, filter: true },
         { key: "created_at", label: "Tarih", sortable: true, filter: true },
-
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
-      id: null,
-      show: true,
       searchTerm: "",
       Selected: "",
       firma: [],
       warn: false,
-      firmaselected: "",
-      raporlar: "",
       form: [
-        { rapor: "", file: "", Selected2: null, dgr: 0, variant: "success" },
+        {
+          file: "",
+          id: this.userData.id,
+          db: this.giden,
+          dgr: 0,
+          variant: "success",
+        },
       ],
-      gelen:null,
     };
   },
 
@@ -360,13 +333,9 @@ export default {
         .map((f) => ({ text: f.label, value: f.key }));
     },
   },
+
   created() {
-    axios.post("/api/raporlar").then((res) => (this.raporlar = res.data));
-
-    this.Selected = router.currentRoute.params.id;
-
-    var id = this.Selected;
-    this.form[0].Selected2 = id;
+    this.refreshStop();
   },
 
   mounted() {
@@ -374,7 +343,114 @@ export default {
       this.totalRows = this.items.length;
     }, 500);
   },
+
   methods: {
+    refreshStop() {
+      if (this.giden != null) {
+        this.form[0].db = this.giden;
+        axios
+          .post("/api/dbgetir", { name: this.giden, id: this.userData.id })
+          .then((res) => (this.items = res.data));
+      }
+    },
+    arsivle(data) {
+      axios
+        .post("/api/bireydosyaarsiv", { id: data.id })
+        .then(this.refreshStop());
+    },
+
+    submit() {
+      var form = this.form;
+      var time = 1000;
+      form.forEach(function (form) {
+        const formData = new FormData();
+
+        formData.set("file", form.file);
+        formData.append("firma_id", form.id);
+        formData.append("db", form.db);
+        formData.append("status", "6");
+
+        form.variant = "success";
+        form.dgr = 50;
+
+        setTimeout(() => {
+          axios
+            .post("/api/belgeyukle", formData)
+            .then(
+              (res) => document.getElementById("basarili2").click(),
+              (form.dgr = 100)
+            )
+            .catch((error) => {
+              form.dgr = 100;
+              form.variant = "danger";
+              if (error.response.data.error === undefined) {
+                document.getElementById("basarisiz2").value = "";
+                document.getElementById("basarisiz").click();
+              } else {
+                document.getElementById("basarisiz2").value ===
+                  error.response.data.error,
+                  document.getElementById("basarisiz2").click();
+              }
+            });
+        }, (time += 1000));
+      });
+
+      setTimeout(() => {
+        this.formcikis();
+      }, 6000);
+    },
+
+    göster(dosya, db) {
+      window.open("/Dosyalar/Firma/" + db + "/" + dosya, "_blank");
+    },
+
+    indir(dosya, db) {
+      axios
+        .post("/api/indir", { db: db, dosya: dosya }, { responseType: "blob" })
+        .then((response) => {
+          var data = response.data;
+          const url = window.URL.createObjectURL(new Blob([data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", dosya);
+          document.body.appendChild(link);
+          link.click();
+        });
+    },
+
+    formcikis() {
+      this.$refs["modal-bireysel"].hide();
+      this.file === null;
+    },
+
+    change(event) {
+      this.file = event.target.files[0];
+    },
+
+    delField(index) {
+      this.form.splice(index, 1);
+    },
+    addField() {
+      if (this.form.length === 4) {
+        this.warn = true;
+      } else {
+        for (var i = 0; i < this.form.length; i++) {
+          this.form[i].Selected2 = this.Selected;
+        }
+        this.form.push({
+          id: this.form[0].id,
+          file: "",
+          db: this.form[0].db,
+          dgr: 0,
+          variant: "success",
+        });
+      }
+    },
+
+    bireymodal() {
+      this.$refs["modal-bireysel"].show();
+    },
+
     basarili() {
       this.refreshStop();
     },
@@ -392,123 +468,6 @@ export default {
           text: data + ` Dosya İşlemi Başarsız`,
         },
       });
-    },
-    refreshStop() {
-
-      var id = this.Selected;
-
-      axios
-        .post("/api/dbgetir", { name: this.giden, id: this.userData.id })
-        .then((res) => (this.items = res.data));
-    },
-
-    change(event) {
-      this.file = event.target.files[0];
-    },
-
-    arsivle(data) {
-      axios
-        .post("/api/bireydosyaarsiv", { id: data.id })
-        .then(this.refreshStop());
-    },
-
-    submit() {
-      var form = this.form;
-      var time = 1000;
-
-      form.forEach(function (form) {
-        const formData = new FormData();
-
-        if (form.Selected2 === null) {
-          document.getElementById("basarisiz2").value = "Kişi Seçilmedi.";
-          document.getElementById("basarisiz2").click();
-        } else {
-          formData.set("file", form.file);
-          formData.append("id", form.Selected2);
-          formData.append("user_id", form.Selected2);
-          formData.append("rapor", form.rapor);
-
-          form.variant = "success";
-          form.dgr = 50;
-
-          setTimeout(() => {
-            axios
-              .post("/api/bireybelgeyukle", formData)
-              .then(
-                (res) => document.getElementById("basarili2").click(),
-                (form.dgr = 100)
-              )
-              .catch((error) => {
-                form.dgr = 100;
-                form.variant = "danger";
-                if (error.response.data.error === undefined) {
-                  document.getElementById("basarisiz2").value = "";
-                  document.getElementById("basarisiz").click();
-                } else {
-                  document.getElementById("basarisiz2").value ===
-                    error.response.data.error,
-                    document.getElementById("basarisiz2").click();
-                }
-              });
-          }, (time += 1000));
-        }
-      });
-
-      setTimeout(() => {
-        this.formcikis();
-      }, 6000);
-    },
-
-    göster(dosya) {
-      window.open("/Dosyalar/Birey/" + dosya, "_blank");
-    },
-
-    formcikis() {
-      this.$refs["modal-bireysel"].hide();
-      this.file == null;
-      this.form.Selected2 = null;
-    },
-
-    indir(dosya) {
-      axios
-        .post(
-          "/api/bireyindir",
-          { id: this.id, dosya: dosya },
-          { responseType: "blob" }
-        )
-        .then((response) => {
-          var data = response.data;
-          const url = window.URL.createObjectURL(new Blob([data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", dosya);
-          document.body.appendChild(link);
-          link.click();
-        });
-    },
-
-    delField(index) {
-      this.form.splice(index, 1);
-    },
-    addField() {
-      if (this.form.length === 4) {
-        this.warn = true;
-      } else {
-        for (var i = 0; i < this.form.length; i++) {
-          this.form[i].Selected2 = this.Selected;
-        }
-        this.form.push({
-          rapor: "",
-          file: "",
-          Selected2: this.form[0].Selected2,
-          dgr: 0,
-          variant: "success",
-        });
-      }
-    },
-
-    bireymodal() {
-      this.$refs["modal-bireysel"].show();
     },
 
     info(item, index, button) {
