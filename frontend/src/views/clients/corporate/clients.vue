@@ -684,7 +684,7 @@ export default {
   width: 100px;
 
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 </style>
