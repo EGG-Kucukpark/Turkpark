@@ -67,6 +67,11 @@
               <span> Onaylanmamış</span>
             </b-badge>
           </template>
+             <template #cell(name)="data">
+              <p class="hover" v-b-tooltip.hover.top variant="outline-primary" :title="data.item.name">
+                {{ data.item.name }}
+              </p>
+            </template>
 
           <template #cell(status)="data">
             <b-badge :variant="statusVariant(data.item.status)">
@@ -315,6 +320,7 @@ export default {
       fields: [
         { key: "name", label: "İsim", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
+         { key: "id", label: "Kullanıcı Kodu", sortable: true, filter: true },
         { key: "role", label: "Rol", sortable: true, filter: true },
         { key: "telefon", label: "Telefon", sortable: true, filter: true },
         { key: "status", label: "Durum", sortable: true, filter: true },
@@ -550,3 +556,12 @@ export default {
   },
 };
 </script>
+<style>
+.hover {
+  overflow: hidden;
+  width: 100px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+</style>

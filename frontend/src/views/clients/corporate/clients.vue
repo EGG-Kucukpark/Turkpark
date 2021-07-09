@@ -477,7 +477,10 @@ export default {
       },
       fields: [
         { key: "name", label: "İsim", sortable: true, filter: true },
+          { key: "id", label: "Firma Kodu", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
+
+
         {
           key: "telefon",
           label: "Telefon Numarası",
@@ -536,12 +539,7 @@ export default {
   },
 
   methods: {
-    mousehover() {
-      document.querySelector("#p").classList.remove("hover");
-    },
-    nothover() {
-      document.getElementById("p").classList.add("hover");
-    },
+
 
     refreshStop() {
       setTimeout(() => {

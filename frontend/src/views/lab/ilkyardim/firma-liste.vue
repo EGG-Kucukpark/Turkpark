@@ -351,7 +351,7 @@
                   <feather-icon icon="EditIcon" />
                 </b-button>
 
-                <b-button
+               <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="danger"
                   @click.prevent="arsiv(data.item)"
@@ -362,6 +362,12 @@
                 >
                   <feather-icon icon="ArchiveIcon" /> </b-button
               ></span>
+            </template>
+
+            <template #cell(name)="data">
+              <p class="hover" v-b-tooltip.hover.top variant="outline-primary" :title="data.item.name">
+                {{ data.item.name }}
+              </p>
             </template>
           </b-table>
         </b-col>
@@ -470,8 +476,9 @@ export default {
         content: "",
       },
       fields: [
-        { key: "name", label: "İsim", sortable: true, filter: true },
+        { key: "name", label: "İsim", sortable: true, filter: true },    { key: "id", label: "Firma Kodu", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
+
         { key: "sgk", label: "SGK Numarası", sortable: true, filter: true },
         {
           key: "vergino",
@@ -675,4 +682,13 @@ export default {
     },
   },
 };
-</script>
+</script><style>
+.hover {
+  overflow: hidden;
+  width: 100px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+</style>
+
