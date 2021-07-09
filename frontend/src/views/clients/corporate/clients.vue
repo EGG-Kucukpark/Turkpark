@@ -682,7 +682,6 @@ export default {
 .hover {
   overflow: hidden;
   width: 100px;
-
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;

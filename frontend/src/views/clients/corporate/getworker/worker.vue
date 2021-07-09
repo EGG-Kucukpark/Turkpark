@@ -7,7 +7,7 @@
       <b-breadcrumb class="breadcrumb-chevron mb-0">
         <b-breadcrumb-item to="/"> <feather-icon size="15" icon="HomeIcon"/> </b-breadcrumb-item>
 
-        <b-breadcrumb-item :to="path" style="font-size:15px;"> {{userData.name}} </b-breadcrumb-item>
+        <b-breadcrumb-item :to="path" style="font-size:15px;"> {{firma.name}} </b-breadcrumb-item>
       </b-breadcrumb>
     </div>
     <b-alert variant="danger" :show="userData === undefined">
@@ -42,6 +42,7 @@
 <script>
 import store from "@/store";
 import router from "@/router";
+import axios from '@axios'
 import { ref, onUnmounted } from "@vue/composition-api";
 import {
   BRow,
@@ -58,7 +59,7 @@ import files from "./workerfiles.vue";
 
 export default {
   data() {
-    return { path: null };
+    return { path: null, firma:null };
   },
 
   components: {
@@ -77,6 +78,8 @@ export default {
 
   created() {
     const path = localStorage.getItem("path");
+    const id = path.slice(8);
+    axios('/api/firmagoster/' + id).then((res) => this.firma = res.data);
     this.path = path;
   },
 
