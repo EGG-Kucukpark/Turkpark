@@ -1,5 +1,8 @@
 import Vue from 'vue'
-import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
+import {
+    ToastPlugin,
+    ModalPlugin
+} from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
@@ -23,7 +26,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 
-
 import PortalVue from 'portal-vue'
 
 // 3rd party plugins
@@ -41,6 +43,7 @@ Vue.use(VueSweetalert2);
 Vue.use(PortalVue);
 
 
+
 // Composition API
 Vue.use(VueCompositionAPI)
 
@@ -53,7 +56,7 @@ require('@/assets/scss/style.scss')
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  render: h => h(App),
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app')

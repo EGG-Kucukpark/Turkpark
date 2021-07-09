@@ -98,11 +98,11 @@ export default {
     },
   },
   created() {
-      document.getElementsByClassName("router-link-active")[3].href === ""
+     /*  document.getElementsByClassName("router-link-active")[3].href === ""
     document
       .getElementsByClassName("router-link-active")[3]
       .addEventListener("click", this.click);
-
+ */
   },
   methods: {
     click() {

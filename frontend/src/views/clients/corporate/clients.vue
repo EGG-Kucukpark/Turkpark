@@ -363,6 +363,12 @@
                   <feather-icon icon="ArchiveIcon" /> </b-button
               ></span>
             </template>
+
+            <template #cell(name)="data">
+              <p class="hover" v-b-tooltip.hover.top variant="outline-primary" :title="data.item.name">
+                {{ data.item.name }}
+              </p>
+            </template>
           </b-table>
         </b-col>
 
@@ -530,6 +536,13 @@ export default {
   },
 
   methods: {
+    mousehover() {
+      document.querySelector("#p").classList.remove("hover");
+    },
+    nothover() {
+      document.getElementById("p").classList.add("hover");
+    },
+
     refreshStop() {
       setTimeout(() => {
         axios
@@ -665,3 +678,13 @@ export default {
   },
 };
 </script>
+<style>
+.hover {
+  overflow: hidden;
+  width: 100px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+</style>

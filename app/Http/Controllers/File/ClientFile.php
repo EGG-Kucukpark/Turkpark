@@ -8,7 +8,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ClientFile extends Controller
+
 {
+
+    public function yukle($request, $rapor, $id, $isim, $firma_id, $tür)
+    {
+
+        $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
+
+        DB::table('files')->insert(['rapor' => $rapor, 'calisan_id' => $id, 'dosya_ad' => $name, $tür => "1", 'name' => $isim, 'firma_id' => $firma_id]);
+
+        $request->file('file')->storeas('Dosyalar/Firma', $name, ['disk' => 'dosyalar']);
+    }
+
+
+
+
+    public function dosyacek2($firma_id, $calisan_id, $tür)
+    {
+
+        return  DB::table('files')->where([['firma_id', $firma_id], [$tür, '1'], ['isArch', '1']])->orwhere('calisan_id', $calisan_id)->get();
+    }
+
+
+    public function dosyacek($firma_id, $calisan_id, $tür)
+    {
+
+        return  DB::table('files')->where([['firma_id', $firma_id], [$tür, '1'], ['isArch', '0']])->orwhere('calisan_id', $calisan_id)->get();
+    }
+
+
+
+
+
     public function upload(Request $request)
     {
 
@@ -17,13 +49,7 @@ class ClientFile extends Controller
 
             try {
 
-                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
-
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isMeasure' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
-
-                $request->file('file')->storeas('Dosyalar/Firma', $name, ['disk' => 'dosyalar']);
-
-                return $request;
+                $this->yukle($request->file, $request->rapor, $request->id, $request->name, $request->firma_id, 'isMeasure');
             } catch (Exception $ex) {
                 return response()->json(['error' => 'Başarısız'], 404);
             }
@@ -34,13 +60,7 @@ class ClientFile extends Controller
         else if ($request->status === "2") {
             try {
 
-                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
-
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isYardim' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
-
-                $request->file('file')->storeas('Dosyalar/Firma', $name, ['disk' => 'dosyalar']);
-
-                return $request;
+                $this->yukle($request, $request->rapor, $request->id, $request->name, $request->firma_id, 'isYardim');
             } catch (Exception $ex) {
                 return response()->json(['error' => 'Başarısız'], 404);
             }
@@ -48,14 +68,7 @@ class ClientFile extends Controller
         /////////////////////////////////////////////////////////////////   PERİYODİK DOSYA YÜKLEME     /////////////////////////////////////////////////////////////////
         else if ($request->status === '3') {
             try {
-
-                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
-
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isPeriyodik' => '1', 'name' => $request->name, 'firma_id' => $request->firma_id]);
-
-                $request->file('file')->storeas('Dosyalar/Firma', $name, ['disk' => 'dosyalar']);
-
-                return $request;
+                $this->yukle($request, $request->rapor, $request->id, $request->name, $request->firma_id, 'isPeriyodik');
             } catch (Exception $exception) {
                 return response()->json(['error' => 'Başarısız'], 404);
             }
@@ -64,13 +77,7 @@ class ClientFile extends Controller
         else if ($request->status === "4") {
             try {
 
-                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
-
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isEgitim' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
-
-                $request->file('file')->storeas('Dosyalar/Firma', $name, ['disk' => 'dosyalar']);
-
-                return $request;
+                $this->yukle($request, $request->rapor, $request->id, $request->name, $request->firma_id, 'isEgitim');
             } catch (Exception $ex) {
                 return response()->json(['error' => 'Başarısız'], 404);
             }
@@ -79,13 +86,7 @@ class ClientFile extends Controller
         else if ($request->status === "5") {
             try {
 
-                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
-
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isAsansor' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
-
-                $request->file('file')->storeas('Dosyalar/Firma', $name, ['disk' => 'dosyalar']);
-
-                return $request;
+                $this->yukle($request, $request->rapor, $request->id, $request->name, $request->firma_id, 'isAsansor');
             } catch (Exception $ex) {
                 return response()->json(['error' => 'Başarısız'], 404);
             }
@@ -105,22 +106,15 @@ class ClientFile extends Controller
 
                 return $request;
             } catch (Exception $ex) {
-                return $ex;
+                return response()->json(['error' => 'Başarısız'], 404);
             }
         } else {
             /////////////////////////////////////////////////////////////////   LABORATUVAR DOSYA YÜKLEME     /////////////////////////////////////////////////////////////////
 
             try {
-
-                $name =  rand(0, 1000) . "." . $request->file('file')->getClientOriginalName();
-
-                DB::table('files')->insert(['rapor' => $request->rapor, 'calisan_id' => $request->id, 'dosya_ad' => $name, 'isLab' => "1", 'name' => $request->name, 'firma_id' => $request->firma_id]);
-
-                $request->file('file')->storeas('Dosyalar/Firma', $name, ['disk' => 'dosyalar']);
-
-                return $request;
+                $this->yukle($request, $request->rapor, $request->id, $request->name, $request->firma_id, 'isLab');
             } catch (Exception $exception) {
-                return response()->json(['error' => $request->file('file')->getClientOriginalName()], 404);
+                return response()->json(['error' => 'Başarısız'], 404);
             }
         }
     }
@@ -128,41 +122,38 @@ class ClientFile extends Controller
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
     public function getfile(Request $request)
     {
         /////////////////////////////////////////////////////////////////   ÖLÇÜM DOSYA GETİRME     /////////////////////////////////////////////////////////////////
         if ($request->status === 1) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isMeasure', '1'], ['isArch', '0']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return $this->dosyacek($request->firma_id, $request->calisan_id, 'isMeasure');
         }
         /////////////////////////////////////////////////////////////////   İLK YARDIM DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
         else if ($request->status === 2) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isYardim', '1'], ['isArch', '0']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return $this->dosyacek($request->firma_id, $request->calisan_id, 'isYardim');
         }
         /////////////////////////////////////////////////////////////////   PERİYODİK DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
         else if ($request->status === 3) {
-
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isPeriyodik', '1'], ['isArch', '0']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return $this->dosyacek($request->firma_id, $request->calisan_id, 'isPeriyodik');
         }
         /////////////////////////////////////////////////////////////////   EĞİTİM DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
         else if ($request->status === 4) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isEgitim', '1'], ['isArch', '0']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return $this->dosyacek($request->firma_id, $request->calisan_id, 'isEgitim');
         }
         /////////////////////////////////////////////////////////////////  ASANSOR DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
         else if ($request->status === 5) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isAsansor', '1'], ['isArch', '0']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return $this->dosyacek($request->firma_id, $request->calisan_id, 'isAsansor');
         }
 
         /////////////////////////////////////////////////////////////////   ARŞİVLENMİŞ DOSYA GETİRME     /////////////////////////////////////////////////////////////////
@@ -184,13 +175,16 @@ class ClientFile extends Controller
             /////////////////////////////////////////////////////////////////   LABORATUVAR DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
             try {
-                return  DB::table('files')->where([['firma_id', $request->firma_id], ['isLab', '1'], ['isArch', '0']])
-                    ->orwhere('calisan_id', $request->calisan_id)->get();
+
+
+
+                return $this->dosyacek($request->firma_id, $request->calisan_id, 'isLab');
             } catch (Exception $ex) {
                 return $ex;
             }
         }
     }
+
 
     public function getfile2(Request $request)
     {
@@ -199,37 +193,32 @@ class ClientFile extends Controller
 
         if ($request->status === 1) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isMeasure', '1'], ['isArch', '1']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return  $this->dosyacek2($request->firma_id, $request->calisan_id, 'isMeasure');
         }
 
         /////////////////////////////////////////////////////////////////   ARŞİVLENMİŞ İL YARDIM DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
         else if ($request->status === 2) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isYardim', '1'], ['isArch', '1']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return $this->dosyacek2($request->firma_id, $request->calisan_id, 'isYardim');
         }
         /////////////////////////////////////////////////////////////////   ARŞİVLENMİŞ PERİYODİK DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
         else if ($request->status === 3) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isPeriyodik', '1'], ['isArch', '1']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            $this->dosyacek2($request->firma_id, $request->calisan_id, 'isPeriyodik');
         }
         /////////////////////////////////////////////////////////////////   ARŞİVLENMİŞ EĞİTİM DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
         else if ($request->status === 4) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isEgitim', '1'], ['isArch', '1']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return  $this->dosyacek2($request->firma_id, $request->calisan_id, 'isEgitim');
         }
         /////////////////////////////////////////////////////////////////   ARŞİVLENMİŞ ASANSOR DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
         else if ($request->status === 5) {
 
-            return  DB::table('files')->where([['firma_id', $request->firma_id], ['isAsansor', '1'], ['isArch', '1']])
-                ->orwhere('calisan_id', $request->calisan_id)->get();
+            return  $this->dosyacek2($request->firma_id, $request->calisan_id, 'isAsansor');
         }
         /////////////////////////////////////////////////////////////////   ARŞİVLENMİŞ  DOSYA GETİRME     /////////////////////////////////////////////////////////////////
 
@@ -242,8 +231,7 @@ class ClientFile extends Controller
         else {
 
             try {
-                return  DB::table('files')->where([['firma_id', $request->firma_id], ['isLab', '1'], ['isArch', '1']])
-                    ->orwhere('calisan_id', $request->calisan_id)->get();
+                $this->dosyacek2($request->firma_id, $request->calisan_id, 'isLab');
             } catch (Exception $ex) {
                 return $ex;
             }

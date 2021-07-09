@@ -1,6 +1,6 @@
 
 <template>
-  <b-card title="Firma Notu">
+  <b-card title="Özel Not">
     <b-button
       v-b-toggle.notekle
       v-ripple.400="'rgba(113, 102, 240, 0.15)'"

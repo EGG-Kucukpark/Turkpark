@@ -280,9 +280,11 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 import { required } from "@validations";
+import router from "@/router";
 
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { heightTransition } from "@core/mixins/ui/transition";
+
 
 import {
   BTable,
@@ -413,6 +415,8 @@ export default {
       this.totalRows = this.files.length;
     }, 500);
   },
+
+
   methods: {
     basarili() {
       this.$toast({
@@ -465,6 +469,7 @@ export default {
     },
 
     tikla(params) {
+      localStorage.setItem("path", router.history.current.path)
       this.$router.push({
         name: "calisan-goster",
         params: { id: params.id },

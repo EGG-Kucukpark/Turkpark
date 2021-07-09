@@ -9,7 +9,7 @@ export default [
         component: () => import('@/views/clients/corporate/getclient/getclient.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true,
+            admin: true,
             pageTitle: 'Bilgiler',
             breadcrumb: [{
                 text: 'Firmalar',
@@ -27,10 +27,7 @@ export default [
             requiresAuth: true,
             admin: true,
             pageTitle: 'Müşteriler',
-            breadcrumb: [{
-                text: 'Home',
-                active: true,
-            }, ],
+
         }
     },
 
@@ -40,7 +37,7 @@ export default [
         component: () => import('@/views/clients/corporate/getclient/getclient.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            admin: true
         }
     },
     {
@@ -49,7 +46,7 @@ export default [
         component: () => import('@/views/clients/corporate/getclient/getclient.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            admin: true
         }
     },
 
@@ -64,7 +61,14 @@ export default [
         component: () => import('@/views//clients/individual/getclient/getindividual.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            admin: true,
+            pageTitle: 'Müşteri',
+            breadcrumb: [{
+                text: 'Bireysel Müşteriler',
+                to: '/clients',
+
+
+            }, ]
         }
     },
 
@@ -74,7 +78,7 @@ export default [
         component: () => import('@/views/clients/individual/getclient/getindividual.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            admin: true
         }
     },
     {
@@ -83,7 +87,7 @@ export default [
         component: () => import('@/views/clients/individual/getclient/getindividual.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            admin: true
         }
     },
 
@@ -109,8 +113,8 @@ export default [
 
 
     {
-        path: '/sertifika',
-        name: 'sertifika',
+        path: '/kursiyerler',
+        name: 'kursiyerler',
         component: () => import('@/views/belge/certficate/certifa.vue'),
         meta: {
             requiresAuth: true,

@@ -2,13 +2,13 @@ export default [
 
     {
 
-        title: 'Ana Sayfa',
+        title: 'Panel',
         route: 'firma',
         icon: 'HomeIcon',
     },
 
     {
-        title: 'Sonuçlar & Belgeler',
+        title: 'Hizmetler & Sonuçlar',
         icon: 'HeartIcon',
         children: [
 
@@ -17,24 +17,96 @@ export default [
                 route: 'laboratuvar'
 
             }, {
-                title: 'Asansör',
-                route: 'asansor'
-
-            }, {
-                title: 'Ortam Ölçümleri',
-                route: 'ortam'
-
-            }, {
-                title: 'Periyodik Kontroller',
-                route: 'periyodik'
-            }, {
                 title: 'İlk Yardım',
-                route: 'ilkyardim'
 
-            }, {
-                title: 'Eğitimler',
-                route: 'egitimler'
+                route: 'apps-invoice-list',
+                children: [{
 
+                        title: 'Kursiyerler',
+                        route: 'kursiyerler'
+
+                    },
+                    {
+                        title: 'Eğitim Planlama',
+                        route: 'egitim'
+
+                    },
+
+
+
+                ]
+            },
+            {
+                title: 'Testler',
+                children: [{
+                        title: 'Periyodik Kontroller',
+                        route: 'periyodik'
+                    },
+                    {
+                        title: 'Ortam Ölçümler',
+                        route: 'ölcümler'
+
+                    },
+                    {
+                        title: 'Asansör Periyodik Kontrol',
+                        route: 'asansor'
+
+                    }
+
+                ]
+
+            },
+            {
+
+                title: "İBYS",
+
+
+            },
+
+
+            {
+
+                title: "Eğitimler",
+                children: [{
+                        title: "Uzaktan"
+                    },
+                    {
+                        title: "Yüksekte Çalışma"
+                    },
+                    {
+                        title: "Sapancı"
+                    },
+                    {
+                        title: "IOSH"
+                    },
+
+
+                    {
+                        title: "NEBOSH  "
+                    }
+                ]
+
+            },
+
+            {
+                title: "Mesleki Yeterlilik"
+            },
+            {
+                title: "Danışmanlık",
+                children: [{
+                        title: "Tehlikeli Madde Güvenlik"
+                    },
+                    {
+                        title: "Asbest Söküm"
+                    },
+                    {
+                        title: "Patlamadan Korunma Dokümanı"
+                    },
+                    {
+                        title: "Yangın Güvenlik Sistemleri"
+                    }
+
+                ]
             },
 
 

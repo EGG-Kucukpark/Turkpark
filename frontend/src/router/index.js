@@ -54,6 +54,11 @@ const router = new VueRouter({
 //Giriş Ve Rol Kontrol
 
 router.beforeEach((to, from, next) => {
+
+
+
+
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('token') == null) {
             next('/login')
@@ -109,7 +114,6 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
-
 
 
 

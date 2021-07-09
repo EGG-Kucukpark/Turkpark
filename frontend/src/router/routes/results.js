@@ -10,7 +10,7 @@ export default [
             pageTitle: 'Laboratuvar',
             breadcrumb: [{
                 text: 'Laboratuvar',
-                active: true,
+                to: "/laboratuvar-sonuclar",
 
 
             }, ]
@@ -26,7 +26,7 @@ export default [
             pageTitle: 'Laboratuvar',
             breadcrumb: [{
                 text: 'Laboratuvar',
-                active: true,
+                to: "/laboratuvar-sonuclar",
 
 
             }, ]
@@ -41,7 +41,7 @@ export default [
             pageTitle: 'Laboratuvar',
             breadcrumb: [{
                 text: 'Laboratuvar',
-                active: true,
+                to: "/laboratuvar-sonuclar",
 
 
             }, ]
@@ -57,10 +57,11 @@ export default [
         component: () => import('@/views/lab/periyodik/liste.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Periyodik',
             breadcrumb: [{
                 text: 'Periyodik',
-                active: true,
+                to: "/periyodik-sonuclar",
 
 
             }, ]
@@ -74,10 +75,11 @@ export default [
         component: () => import('@/views/lab/periyodik/sonuclar/client.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Periyodik',
             breadcrumb: [{
                 text: 'Periyodik',
-                active: true,
+                to: "/periyodik-sonuclar",
 
 
             }, ]
@@ -90,10 +92,11 @@ export default [
         component: () => import('@/views/lab/periyodik/sonuclar/individual.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Periyodik',
             breadcrumb: [{
                 text: 'Periyodik',
-                active: true,
+                to: "/periyodik-sonuclar",
 
 
             }, ]
@@ -107,10 +110,11 @@ export default [
         component: () => import('@/views/lab/olcum/liste.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Ölçümler',
             breadcrumb: [{
                 text: 'Ölçümler',
-                active: true,
+                to: "/olcumler-sonucla",
 
 
             }, ]
@@ -122,10 +126,11 @@ export default [
         component: () => import('@/views/lab/olcum/sonuclar/client.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Ölçümler',
             breadcrumb: [{
                 text: 'Ölçümler',
-                active: true,
+                to: "/olcumler-sonucla",
 
 
             }, ]
@@ -137,10 +142,11 @@ export default [
         component: () => import('@/views/lab/olcum/sonuclar/individual.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Ölçümler',
             breadcrumb: [{
                 text: 'Ölçümler',
-                active: true,
+                to: "/olcumler-sonucla",
 
 
             }, ]
@@ -159,10 +165,11 @@ export default [
         component: () => import('@/views/lab/ilkyardim/liste.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'İlk Yardım',
             breadcrumb: [{
                 text: 'İlk Yardım',
-                active: true,
+                to: "/ilkyardim-sonuclar",
 
 
             }, ]
@@ -174,10 +181,11 @@ export default [
         component: () => import('@/views/lab/ilkyardim/sonuclar/client.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'İlk Yardım',
             breadcrumb: [{
                 text: 'İlk Yardım',
-                active: true,
+                to: "/ilkyardim-sonuclar",
 
 
             }, ]
@@ -189,10 +197,11 @@ export default [
         component: () => import('@/views/lab/ilkyardim/sonuclar/individual.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'İlk Yardım',
             breadcrumb: [{
                 text: 'İlk Yardım',
-                active: true,
+                to: "/ilkyardim-sonuclar",
 
 
             }, ]
@@ -209,10 +218,11 @@ export default [
         component: () => import('@/views/lab/asansor/liste.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Asansör',
             breadcrumb: [{
                 text: 'Asansör',
-                active: true,
+                to: "/asansor-sonuclar",
 
 
             }, ]
@@ -224,10 +234,11 @@ export default [
         component: () => import('@/views/lab/asansor/sonuclar/client.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Asansör',
             breadcrumb: [{
                 text: 'Asansör',
-                active: true,
+                to: "/asansor-sonuclar",
 
 
             }, ]
@@ -240,10 +251,11 @@ export default [
         component: () => import('@/views/lab/asansor/sonuclar/individual.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Asansör',
             breadcrumb: [{
                 text: 'Asansör',
-                active: true,
+                to: "/asansor-sonuclar",
 
 
             }, ]

@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Sertifikalar">
+  <b-card title="Kursiyerler">
 
 
     <b-row>

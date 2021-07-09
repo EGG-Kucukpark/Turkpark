@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- Alert: No item found -->
+
     <b-alert variant="danger" :show="userData === undefined">
       <h4 class="alert-heading">Veri Çekilemedi</h4>
       <div class="alert-body">
@@ -55,7 +56,17 @@
 import store from "@/store";
 import router from "@/router";
 import { ref, onUnmounted } from "@vue/composition-api";
-import { BRow, BCol, BAlert, BLink, BTabs, BTab, BButton } from "bootstrap-vue";
+import {
+  BRow,
+  BCol,
+  BAlert,
+  BLink,
+  BTabs,
+  BTab,
+  BButton,
+  BBreadcrumb,
+  BBreadcrumbItem,
+} from "bootstrap-vue";
 
 import userStoreModule from "../userStoreModule";
 import clientinfo from "./clientinfo.vue";
@@ -74,6 +85,8 @@ export default {
     BTabs,
     BTab,
     BButton,
+    BBreadcrumb,
+    BBreadcrumbItem,
 
     // Local Components
 
@@ -83,6 +96,7 @@ export default {
     info,
     files,
   },
+
   setup() {
     const userData = ref(null);
 

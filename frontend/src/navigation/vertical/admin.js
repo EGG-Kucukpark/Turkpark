@@ -2,7 +2,7 @@ export default [
 
     {
 
-        title: 'Ana Sayfa',
+        title: 'Panel',
         route: 'Home',
         icon: 'HomeIcon',
     },
@@ -28,8 +28,8 @@ export default [
                 route: 'apps-invoice-list',
                 children: [{
 
-                        title: 'Sertifikalar',
-                        route: 'sertifika'
+                        title: 'Kursiyerler',
+                        route: 'kursiyerler'
 
                     },
                     {
