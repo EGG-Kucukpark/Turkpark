@@ -76,9 +76,7 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
-                    <option disabled value="" >
-                      Lütfen Çalışan Seçiniz
-                    </option>
+                    <option disabled value="">Lütfen Çalışan Seçiniz</option>
 
                     <option
                       v-bind:value="{ name: calisan.name, id: calisan.id }"
@@ -293,7 +291,7 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
-import router from '@/router'
+import router from "@/router";
 
 import {
   BTable,
@@ -511,8 +509,7 @@ export default {
 
       form.forEach(function (form) {
         if (form.calisanselected === "") {
-          document.getElementById("basarisiz").value =
-            "Çalışan Girilmedi."
+          document.getElementById("basarisiz").value = "Çalışan Girilmedi.";
 
           document.getElementById("basarisiz").click();
         } else {
@@ -565,9 +562,12 @@ export default {
 
     formcikis() {
       this.$refs["modal"].hide();
-      this.file == null;
-      this.firmaselected == null;
-      this.calisanselected == null;
+
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = null;
+        this.form[i].dgr = 0;
+        (this.form[i].file = null), (this.form[i].rapor = "");
+      }
     },
 
     indir(dosya) {

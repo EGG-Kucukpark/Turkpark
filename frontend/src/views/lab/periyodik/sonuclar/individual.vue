@@ -67,7 +67,9 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
-                    <option disabled value="">Rapor Türünü Seçiniz</option>
+                    <option disabled value="" hidden="true">
+                      Rapor Türünü Seçiniz
+                    </option>
 
                     <option v-for="raporlar in raporlar" :key="raporlar.id">
                       {{ raporlar.name }}
@@ -359,7 +361,6 @@ export default {
     var id = this.Selected;
     this.form[0].Selected2 = id;
 
-
     axios
       .post("/api/bireygetfile", { user_id: id, status: 3 })
       .then((res) => (this.items = res.data));
@@ -415,7 +416,9 @@ export default {
       this.file = event.target.files[0];
     },
     arsivle(data) {
-      axios.post("/api/bireydosyaarsiv", { id: data.id }).then(this.refreshStop());
+      axios
+        .post("/api/bireydosyaarsiv", { id: data.id })
+        .then(this.refreshStop());
     },
 
     submit() {
@@ -470,8 +473,12 @@ export default {
 
     formcikis() {
       this.$refs["modal-bireysel"].hide();
-      this.file == null;
-      this.form.Selected2 = null;
+
+      for (var i = 0; i < this.form.length; i++) {
+        this.form[i].Selected2 = null;
+        this.form[i].dgr = 0;
+        (this.form[i].file = null), (this.form[i].rapor = "");
+      }
     },
 
     indir(dosya) {

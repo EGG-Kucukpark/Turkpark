@@ -11,7 +11,7 @@
           <b-form-input
             id="Kontenjan"
             v-model="name"
-            placeholder="Rapor Adını Giriniz"
+
           >
           </b-form-input>
         </b-form-group>
