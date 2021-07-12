@@ -66,7 +66,7 @@ class EduController extends Controller
 
             ]);
         } catch (Exception $exception) {
-            return $exception;
+           return response()->json(['error' => 'Başarısız'], 404);
         }
     }
     //////////////////////
@@ -174,7 +174,7 @@ class EduController extends Controller
 
             ]);
         } catch (Exception $exception) {
-            return $exception;
+           return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
@@ -185,7 +185,7 @@ class EduController extends Controller
 
             DB::table('activity_place')->where('id', $req->id)->delete();
         } catch (Exception $ex) {
-            return $ex;
+           return response()->json(['error' => 'Başarısız'], 404);;
         }
     }
 }

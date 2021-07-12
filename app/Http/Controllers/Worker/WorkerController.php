@@ -44,7 +44,7 @@ class WorkerController extends Controller
 
             ]);
         } catch (Exception $exception) {
-            return $exception;
+           return response()->json(['error' => 'Başarısız'], 404);
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ class WorkerController extends Controller
 
             ]);
         } catch (Exception $exception) {
-            return $exception;
+           return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
@@ -116,7 +116,7 @@ class WorkerController extends Controller
         try {
             DB::table('workers')->where('id', $request->id)->delete();
         } catch (Exception $exception) {
-            return $exception;
+           return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
@@ -139,7 +139,7 @@ class WorkerController extends Controller
 
             return unlink($file);
         } catch (Exception $ex) {
-            return $ex;
+           return response()->json(['error' => 'Başarısız'], 404);;
         }
     }
 }

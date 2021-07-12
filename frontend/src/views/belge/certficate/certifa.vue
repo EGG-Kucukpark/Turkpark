@@ -1,22 +1,27 @@
 <template>
   <b-card title="Kursiyerler">
-
-
     <b-row>
-
       <button hidden id="hata" @click.prevent="hata"></button>
       <button hidden id="basarili" @click.prevent="basarili"></button>
-      <h4 style="margin: 10px">Excel İşlemleri:</h4>
+
       <download-excel :fetch="fetchData">
-        <b-button variant="success" class="btn-icon" style="height: 40px">
-          <feather-icon size="24" icon="ArrowDownCircleIcon" />
+        <b-button
+          v-ripple.400="'rgba(40, 199, 111, 0.15)'"
+          variant="flat-success"
+          style="height: 50px; margin-left: 20px"
+        >
+          <img
+            width="30px; margin-bottom:10px; "
+            src="images/export.png"
+            alt=""
+          />
         </b-button>
       </download-excel>
 
       <b-button
-        variant="success"
-        class="btn-icon"
-        style="margin-left: 5px; height: 40px"
+        v-ripple.400="'rgba(40, 199, 111, 0.15)'"
+        variant="flat-success"
+        style="height: 50px; margin-left: 20px"
         @click="$refs.refInputEl.click()"
       >
         <input
@@ -26,7 +31,7 @@
           @input="excelfile"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
         />
-        <feather-icon size="24" icon="ArrowUpCircleIcon" />
+        <img src="images/import.png" alt="" />
       </b-button>
 
       <b-col>
@@ -60,59 +65,151 @@
           ok-title="Kaydet"
           :hide-footer="true"
           size="lg"
-          ref="modal1"
+          ref="add"
           centered
           title="Sertifika Ekle"
         >
           <b-card>
-            <b-form>
+            <b-form @submit.prevent="add">
               <b-form-group
-                label="Firma Seçiniz: "
+                label="Ad Soyad: "
                 label-for="nested-city"
                 label-cols-sm="3"
                 label-align-sm="right"
               >
-                <v-select
-                  :options="options"
-                  label="Firmalar"
-                  v-model="selected_firma"
-                  @search="firmasearch"
-                  @input="firma"
-                  :filterable="false"
-                  class="select-size-sm"
-                >
-                  <template slot="no-options"> Sonuç yok. </template>
-                  <template #option="options">
-                    <p>{{ options.name }}</p>
-                  </template>
-                  <template #selected-option="options">
-                    <p>{{ options.name }}</p>
-                  </template>
-                </v-select>
+                <b-form-input v-model="name" />
               </b-form-group>
 
               <b-form-group
-                label="Çalışan Seçiniz: "
+                label="Tc. Kimlik Numarası: "
                 label-for="nested-city"
                 label-cols-sm="3"
                 label-align-sm="right"
               >
-                <v-select
-                  :options="calisan"
-                  label="Firmalar"
-                  v-model="selected_calisan"
-                  @search="calisansearch"
-                  :filterable="false"
-                  class="select-size-sm"
-                >
-                  <template slot="no-options"> Sonuç yok. </template>
-                  <template #option="calisan">
-                    <p>{{ calisan.name }}</p>
-                  </template>
-                  <template #selected-option="calisan">
-                    <p>{{ calisan.name }}</p>
-                  </template>
-                </v-select>
+                <b-form-input v-model="tc" />
+              </b-form-group>
+              <b-form-group
+                label="Eğitim Türü: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input v-model="egitim" />
+              </b-form-group>
+              <b-form-group
+                label="Geçerlilik Tarihi: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-datepicker
+                  id="example-datepicker"
+                  v-model="tarih"
+                  class="mb-1"
+                  placeholder="Tarih Seçiniz"
+                />
+              </b-form-group>
+              <b-form-group
+                label="Sonuç: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-select v-model="sonuc">
+                  <option value="1">Başarılı</option>
+                  <option value="0">Başarısız</option>
+                </b-form-select>
+              </b-form-group>
+
+              <b-form-group
+                label="Sertifika Url: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input v-model="qr" />
+              </b-form-group>
+
+              <div style="float: right">
+                <b-button variant="success" type="submit"> Tamam </b-button>
+              </div>
+              <div style="float: right; padding-right: 10px">
+                <b-button variant="danger" @click="form()"> İptal</b-button>
+              </div>
+            </b-form>
+
+            <!-- Emulate built in modal footer ok and cancel button actions -->
+          </b-card>
+        </b-modal>
+
+        <b-modal
+          hide-header-close
+          ok-title="Kaydet"
+          :hide-footer="true"
+          size="lg"
+          ref="updatemodal"
+          centered
+          title="Kursiyer Düzenle"
+        >
+          <b-card>
+            <b-form @submit.prevent="update">
+              <b-form-group
+                label="Ad Soyad: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input v-model="name" />
+              </b-form-group>
+
+              <b-form-group
+                label="Tc. Kimlik Numarası: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input v-model="tc" />
+              </b-form-group>
+              <b-form-group
+                label="Eğitim Türü: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input v-model="egitim" />
+              </b-form-group>
+              <b-form-group
+                label="Geçerlilik Tarihi: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-datepicker
+                  id="example-datepicker"
+                  v-model="tarih"
+                  class="mb-1"
+                  placeholder="Tarih Seçiniz"
+                />
+              </b-form-group>
+              <b-form-group
+                label="Sonuç: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-select v-model="sonuc">
+                  <option value="1">Başarılı</option>
+                  <option value="0">Başarısız</option>
+                </b-form-select>
+              </b-form-group>
+
+              <b-form-group
+                label="Sertifika Url: "
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input v-model="qr" />
               </b-form-group>
 
               <div style="float: right">
@@ -151,30 +248,45 @@
             <b> Kullanıcı Bulunamadı.</b>
           </p>
 
-          <template #cell(actions)="data">
-            <span>
-              <b-button variant="gradient-warning" @click="Modal2(data.item)">
-                Düzenle
-              </b-button>
-                  <b-button variant="gradient-success" @click="sertifika(data.item)">
-                Sertifika Görüntüle
-              </b-button>
+          <template #cell(sonuc)="data">
+            <b-badge :variant="sonucVariant(data.item.sonuc)">
+              <span v-if="data.item.sonuc == 1"> Başarılı</span>
+              <span v-if="data.item.sonuc == 0"> Başarısız</span>
+            </b-badge>
+          </template>
 
-              <b-modal
-                hide-header-close
-                ok-title="Kaydet"
-                :hide-footer="true"
-                size="lg"
-                centered
-                title="Kullanıcı Düzenle"
-                ref="modal2"
-              >
-                <b-card> </b-card>
-              </b-modal>
-              <b-button variant="gradient-danger" disabled>
-                Sil
-              </b-button></span
+          <template #cell(actions)="data">
+            <b-button
+              variant="success"
+              class="btn-icon"
+              style="margin: 5px"
+              v-b-tooltip.hover.v-success
+              title="Yazdır"
             >
+              <feather-icon icon="PrinterIcon" />
+            </b-button>
+            <b-button
+              variant="warning"
+              class="btn-icon"
+              @click="updatemodal(data.item)"
+              style="margin: 5px"
+              v-b-tooltip.hover.v-warning
+              title="Düzenle"
+            >
+              <feather-icon icon="EditIcon" />
+            </b-button>
+            <b-button
+              variant="danger"
+              class="btn-icon"
+              style="margin: 5px"
+              v-b-tooltip.hover.v-danger
+              title="Arşivle"
+            >
+              <feather-icon icon="ArchiveIcon" />
+            </b-button>
+          </template>
+          <template #cell(qr)="data">
+            <vue-qrcode :value="data.item.qr" />
           </template>
         </b-table>
       </b-col>
@@ -208,6 +320,7 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import downloadexcel from "vue-json-excel";
 
+import VueQrcode from "vue-qrcode";
 import {
   BTable,
   BAvatar,
@@ -218,8 +331,10 @@ import {
   BFormSelect,
   BPagination,
   BInputGroup,
+  VBTooltip,
   BFormInput,
   BInputGroupAppend,
+  BFormDatepicker,
   BButton,
   BCard,
   BModal,
@@ -236,7 +351,9 @@ export default {
     BBadge,
     BRow,
     BCol,
+    VueQrcode,
     BFormGroup,
+    VBTooltip,
     BFormSelect,
     BPagination,
     BInputGroup,
@@ -244,12 +361,16 @@ export default {
     BInputGroupAppend,
     BButton,
     BCard,
+    BFormDatepicker,
     BModal,
     ToastificationContent,
     BForm,
     downloadexcel,
     BFormFile,
     vSelect,
+  },
+  directives: {
+    "b-tooltip": VBTooltip,
   },
   data() {
     return {
@@ -267,23 +388,46 @@ export default {
         title: "",
         content: "",
       },
+
       fields: [
-        { key: "name", label: "İsim", sortable: true, filter: true },
-        { key: "email", label: "E-Posta", sortable: true, filter: true },
-        { key: "telefon", label: "Telefon", sortable: true, filter: true },
-        { key: "kategori", label: "Kategori", sortable: true, filter: true },
+        { key: "name", label: "Ad - Soyad", sortable: true, filter: true },
         {
-          key: "created_at",
-          label: "Oluşturulma Tarihi",
+          key: "egitim_tur",
+          label: "EĞİTİM TÜRÜ",
           sortable: true,
           filter: true,
         },
+        {
+          key: "tc",
+          label: "Tc.KİMLİK NUMARASI",
+          sortable: true,
+          filter: true,
+        },
+        {
+          key: "gecerli_trh",
+          label: "GEÇERLİLİK TARİHİ",
+          sortable: true,
+          filter: true,
+        },
+        {
+          key: "sonuc",
+          label: "SINAV SONUCU",
+          sortable: true,
+          filter: true,
+        },
+        { key: "qr", label: "QR", sortable: true, filter: true },
+
         { key: "actions", label: "Eylemler" },
       ],
       items: null,
-      calisan: [],
+      name: null,
+      tarih: null,
+      tc: null,
+      egitim: null,
+      sonuc: null,
+      id: null,
+      qr: null,
       options: [],
-      selected_firma: null,
     };
   },
 
@@ -294,16 +438,28 @@ export default {
         .filter((f) => f.sortable)
         .map((f) => ({ text: f.label, value: f.key }));
     },
+
+    sonucVariant() {
+      const sonucColor = {
+        /* eslint-disable key-spacing */
+
+        1: "light-success",
+        0: "light-danger",
+
+        /* eslint-enable key-spacing */
+      };
+
+      return (sonuc) => sonucColor[sonuc];
+    },
   },
   created() {
-
     let ckeditor = document.createElement("script");
     ckeditor.setAttribute(
       "src",
       "//cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"
     );
     document.head.appendChild(ckeditor);
-    axios.post('/api/sertifikagetir').then((res) => this.items = res.data)
+    axios.post("/api/sertifikagetir").then((res) => (this.items = res.data));
     axios.post("/api/firmalar").then((res) => (this.options = res.data));
   },
   mounted() {
@@ -312,30 +468,71 @@ export default {
     }, 500);
   },
   methods: {
-    failed() {
+    hata() {
       this.$toast({
         component: ToastificationContent,
         position: "top-right",
         props: {
-          title: `Kullanıcı İşlemleri `,
+          title: `Kursiyer İşlemleri `,
           icon: "UserIcon",
           variant: "danger",
           text: ` İşlem Başarısız.`,
         },
       });
     },
-      sertifika(params) {
-
-
+    sertifika(params) {
       this.$router.push({
         name: "sertifika-goster",
         params: { id: params.id },
       });
     },
+
+    updatemodal(data) {
+      this.$refs.updatemodal.show();
+      (this.id = data.id),
+        (this.name = data.name),
+        (this.tc = data.tc),
+        (this.tarih = data.gecerli_trh),
+        (this.sonuc = data.sonuc),
+        (this.qr = data.qr);
+      this.egitim = data.egitim_tur;
+      //axios.post("/api/sertifikaduzenle");
+    },
+    add() {
+      axios
+        .post("/api/sertifikaekle", {
+          egitim: this.egitim,
+          tarih: this.tarih,
+          name: this.name,
+          qr: this.qr,
+          tc: this.tc,
+          sonuc: this.sonuc,
+        })
+        .then((res) => this.refreshStop())
+        .catch((error) => this.hata());
+
+      this.form();
+    },
+    update() {
+      axios
+        .post("/api/sertifikaduzenle", {
+          egitim: this.egitim,
+          tarih: this.tarih.slice(0, 9),
+          name: this.name,
+          sonuc: this.sonuc,
+          qr: this.qr,
+          tc: this.tc,
+          id: this.id,
+        })
+        .then((res) => {
+          this.refreshStop(), this.form();
+        })
+        .catch(this.hata(), this.form());
+    },
     refreshStop() {
       setTimeout(() => {
         axios
-          .post("/api/users")
+          .post("/api/sertifikagetir")
           .then((response) => {
             this.items = response.data;
           })
@@ -344,84 +541,33 @@ export default {
               component: ToastificationContent,
               position: "top-right",
               props: {
-                title: `Kullanıcı İşlemleri `,
+                title: `Kursiyer İşlemleri `,
                 icon: "UserIcon",
                 variant: "success",
-                text: `Kullanıcı İşlemi Başarılı.`,
+                text: ` İşlem Başarılı.`,
               },
             })
           );
       }, 1000);
     },
 
-    firma() {
-      axios
-        .post("/api/calisanlar", { firma_email: this.selected_firma.email })
-        .then((res) => (this.calisan = res.data, this.items = res.data));
-    },
-
-    calisansearch(search) {
-      axios
-        .post("/api/calisanlar", {
-          firma_email: this.selected_firma.email,
-          q: search,
-        })
-        .then((res) => (this.calisan = res.data));
-    },
-
-    firmasearch(search, loading) {
-
-      axios
-        .post("/api/firmalar", { q: search })
-        .then((res) => (this.options = res.data))
-    },
-
-
-
     Modal1() {
-      this.$refs["modal1"].show();
+      this.$refs.add.show();
     },
-    Modal2(row) {
-      this.$refs["modal2"].show();
-    },
-
-
-
-
-
-
-
-
-
-    async fetchData() {
-      const response = await axios.post("/api/users");
-
-      return response.data;
-    },
-
-
-
 
     basarili() {
       this.refreshStop();
     },
-    hata() {
-      this.$toast({
-        component: ToastificationContent,
-        position: "top-right",
-        props: {
-          title: `Kullanıcı İşlemleri `,
-          icon: "UserIcon",
-          variant: "danger",
-          text: ` İşlem Başarısız.`,
-        },
-      });
-    },
+    async fetchData() {
+      const response = await axios.post("/api/sertifikagetir");
 
+      return response.data;
+    },
     excelfile(event) {
       var file = event.target.files[0];
       const reader = new FileReader();
-      reader.onload = function () {
+
+      reader.onload = function (hata, basarili) {
         let data = reader.result;
 
         try {
@@ -432,29 +578,34 @@ export default {
 
         workbook.SheetNames.forEach((sheet) => {
           let rowObject = XLSX.utils.sheet_to_row_object_array(
-            workbook.Sheets[sheet], {raw:false}
+            workbook.Sheets[sheet],
+            { raw: false }
           );
 
           this.excel = rowObject;
         });
 
-        setTimeout(() => {
-          axios
-            .post("/api/excelsertifika", { data: this.excel })
-        }, 500);
+        axios
+          .post("/api/excelimport", { data: this.excel })
+          .then((res) => {
+            document.getElementById("basarili").click();
+          })
+          .catch((error) => {
+            document.getElementById("hata").click();
+          });
       };
 
       reader.readAsBinaryString(file);
     },
 
     form() {
-      this.$refs["modal1"].hide(),
-        this.$refs["modal2"].hide(),
+      this.$refs.add.hide(),
+        this.$refs.updatemodal.hide(),
         (this.name = ""),
-        (this.email = ""),
-        (this.role = ""),
-        (this.telefon = ""),
-        (this.password = "");
+        (this.tc = ""),
+        (this.qr = ""),
+        (this.tarih = ""),
+        (this.egitim = "");
     },
 
     info(item, index, button) {

@@ -14,38 +14,6 @@ use Laravel\Ui\Presets\React;
 class FileController extends Controller
 {
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public function importsertf(Request $request)
-    {
-
-
-
-        try {
-            $data = $request->data;
-
-            for ($i = 0; $i < count($data); $i++) {
-
-                DB::table('certificate')->insert([
-                    'kategori' => $data[$i]['Eğitim Türü'],
-                    'bitis' => $data[$i]['Eğitim Bitiş'],
-                    'baslama' =>  $data[$i]['Eğitim Başlama'],
-                    'gecerlilik' => $data[$i]['İlkyardım Belge Geçerlilik Tarihi'],
-                    'url' => $data[$i]['Doğrulama Kodu'],
-                    'name' => $data[$i]['Katılımcı Adı Soyadı'],
-                    'qr' => $data[$i]['Eğitim Bitiş'],
-                    'tc' => $data[$i]['Katılımcı T.C. No'],
-                    'belge_tarih' => $data[$i]['İlkyardım Belge Tarihi'],
-                    'belge_no' => $data[$i]['İlkyardım Belge No'],
-
-
-
-                ]);
-            }
-        } catch (Exception $exception) {
-            return  $exception;
-        }
-    }
 
 
 
@@ -126,7 +94,7 @@ class FileController extends Controller
             Schema::hasTable($request->name);
             return DB::table($request->name)->where('firma_id', $request->id)->get();
         } catch (Exception $ex) {
-            return $ex;
+           return response()->json(['error' => 'Başarısız'], 404);;
         }
     }
 

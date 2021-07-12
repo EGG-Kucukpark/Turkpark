@@ -180,7 +180,7 @@ class ClientFile extends Controller
 
                 return $this->dosyacek($request->firma_id, $request->calisan_id, 'isLab');
             } catch (Exception $ex) {
-                return $ex;
+               return response()->json(['error' => 'Başarısız'], 404);;
             }
         }
     }
@@ -233,7 +233,7 @@ class ClientFile extends Controller
             try {
                 $this->dosyacek2($request->firma_id, $request->calisan_id, 'isLab');
             } catch (Exception $ex) {
-                return $ex;
+               return response()->json(['error' => 'Başarısız'], 404);;
             }
         }
     }
@@ -253,7 +253,7 @@ class ClientFile extends Controller
 
             return unlink($file);
         } catch (Exception $ex) {
-            return $ex;
+           return response()->json(['error' => 'Başarısız'], 404);;
         }
     }
 

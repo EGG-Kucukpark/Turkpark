@@ -30,12 +30,7 @@ use App\Http\Controllers\Apps\CerfController;
 use App\Http\Controllers\File\BireyFile;
 use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\File\ClientFile;
-
-
-
-
-
-
+use App\Http\Controllers\File\ExcelController;
 
 Route::group([
 
@@ -52,10 +47,9 @@ Route::group([
 Route::post('users', [UserController::class, 'getuser']);
 Route::post('userupdate', [UserController::class, 'updateuser']);
 route::post('userekle', [UserController::class, 'adduser']);
-route::post('status', [UserController::class, 'status']);
-route::post('excelimport', [UserController::class, 'import']);
 route::post('sifreguncelle', [UserController::class, 'sifirla']);
 route::post('arsivuser', [UserController::class, 'arsiv']);
+route::post('status', [UserController::class, 'status']);
 Route::post('arsivckr', [UserController::class, 'arsivckr']);
 route::post('usersil', [UserController::class, 'delete']);
 route::post('getuser', [UserController::class, 'getuserinfo']);
@@ -199,3 +193,20 @@ route::post('dosyatur', [FileController::class, 'dsya']);
 route::post('dosyaturekle', [FileController::class, 'dsya_rpr']);
 route::post('dosyatursil', [FileController::class, 'dsya_sil']);
 route::post('dbgetir', [FileController::class, 'getir']);
+
+
+////////////////////////////////////////////////////////////////////////////////////
+//                      Excel İşlemleri
+
+
+route::post('excelimport', [ExcelController::class, 'import']);
+route::post('exceldownload', [ExcelController::class, 'export']);
+
+
+////////////////////////////////////////////////////////////////////////////////////
+//                      Sertifika İşlemleri
+
+route::post('sertifikagetir', [CerfController::class, 'get']);
+route::post('sertifikaekle', [CerfController::class, 'add']);
+route::post('sertifikaduzenle', [CerfController::class, 'update']);
+route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);

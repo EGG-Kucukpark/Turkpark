@@ -194,7 +194,7 @@ class BireyFile extends Controller
                 return  DB::table('birey_files')->where([['user_id', $request->user_id], ['isLab', '1'], ['isArch', '0']])
                     ->get();
             } catch (Exception $ex) {
-                return $ex;
+               return response()->json(['error' => 'Başarısız'], 404);;
             }
         }
     }
@@ -252,7 +252,7 @@ class BireyFile extends Controller
                 return  DB::table('birey_files')->where([['user_id', $request->user_id], ['isLab', '1'], ['isArch', '1']])
                     ->get();
             } catch (Exception $ex) {
-                return $ex;
+               return response()->json(['error' => 'Başarısız'], 404);;
             }
         }
     }
@@ -272,7 +272,7 @@ class BireyFile extends Controller
 
             return unlink($file);
         } catch (Exception $ex) {
-            return $ex;
+           return response()->json(['error' => 'Başarısız'], 404);;
         }
     }
 

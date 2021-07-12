@@ -135,7 +135,7 @@ class UserController extends Controller
             ]);
             return $add;
         } catch (Exception $exception) {
-            return $exception;
+           return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
