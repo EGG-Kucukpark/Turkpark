@@ -57,7 +57,7 @@
         style="margin: auto; margin-right: 20px"
         variant="success"
         @click="Modal1"
-        >Yeni Sertifika</b-button
+        ><feather-icon  size="24" icon="PlusIcon" /></b-button
       >
       <span>
         <b-modal
@@ -343,6 +343,7 @@ import {
 } from "bootstrap-vue";
 import axios from "@axios";
 import vSelect from "vue-select";
+import FeatherIcon from '../../../@core/components/feather-icon/FeatherIcon.vue';
 
 export default {
   components: {
@@ -368,6 +369,7 @@ export default {
     downloadexcel,
     BFormFile,
     vSelect,
+    FeatherIcon,
   },
   directives: {
     "b-tooltip": VBTooltip,
