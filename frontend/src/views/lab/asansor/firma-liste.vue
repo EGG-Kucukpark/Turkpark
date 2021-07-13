@@ -495,8 +495,9 @@ export default {
         content: "",
       },
       fields: [
-        { key: "name", label: "İsim", sortable: true, filter: true },
-        { key: "id", label: "Firma Kodu", sortable: true, filter: true },
+        { key: "name", label: "FİRMA ADI", sortable: true, filter: true },
+       { key: "id", label: "Firma Kodu", sortable: true, filter: true },
+        { key: "id", label: "ÇALIŞAN SAYISI", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
 
         {
@@ -505,7 +506,7 @@ export default {
           sortable: true,
           filter: true,
         },
-        { key: "sgk", label: "SGK Numarası", sortable: true, filter: true },
+
 
         {
           key: "firma_yetkilisi",

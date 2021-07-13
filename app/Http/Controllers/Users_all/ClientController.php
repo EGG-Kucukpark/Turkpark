@@ -168,5 +168,12 @@ class ClientController extends Controller
 
         ]);
     }
+    function worker_sayi(){
+
+       $a = DB::select("SELECT firma_id, COUNT(*) AS sayi FROM `workers` GROUP BY firma_id;");
+        return $a;
+    }
 }
+
+
 ////////////////////////////////////////////////////////////////////////////////////

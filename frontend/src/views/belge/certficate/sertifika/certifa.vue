@@ -313,11 +313,12 @@
         />
       </b-col>
     </b-row>
+
   </b-card>
 </template>
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-
+import router from '@/router'
 import VueQrcode from "vue-qrcode";
 import {
   BTable,
@@ -366,6 +367,7 @@ export default {
 
     BFormFile,
     vSelect,
+
   },
   directives: {
     "b-tooltip": VBTooltip,
@@ -425,7 +427,9 @@ export default {
       sonuc: null,
       id: null,
       qr: null,
+      sayi:null,
       options: [],
+      firma_id: router.currentRoute.params.id,
     };
   },
 
@@ -451,8 +455,10 @@ export default {
     },
   },
   created() {
-    axios.post("/api/sertifikagetir").then((res) => (this.items = res.data));
-    axios.post("/api/firmalar").then((res) => (this.options = res.data));
+    axios
+      .post("/api/sertifikagetir", { id: this.firma_id })
+      .then((res) => (this.items = res.data));
+
   },
   mounted() {
     setTimeout(() => {
@@ -555,9 +561,11 @@ export default {
       let url = "sertifikagetir";
       this.$store.dispatch("excel_down", { url });
 
-     if(this.$store.state.excel.file === null) {setTimeout(() => {
-        document.getElementById("btnclick").click();
-      }, 1000);}
+      if (this.$store.state.excel.file === null) {
+        setTimeout(() => {
+          document.getElementById("btnclick").click();
+        }, 1000);
+      }
 
       return this.$store.state.excel.file;
     },

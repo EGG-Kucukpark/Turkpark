@@ -10,7 +10,7 @@ class CerfController extends Controller
 {
     public function get(Request $request)
     {
-        return  DB::table('certificate')->get();
+        return  DB::table('certificate')->where('firma_id',$request->id)->get();
     }
 
 

@@ -6,6 +6,7 @@ import app from './app'
 import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
 import excel from './excel'
+import kursiyer from './kursiyer'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     appConfig,
     verticalMenu,
     excel,
+    kursiyer
   },
   strict: process.env.DEV,
 })

@@ -377,6 +377,9 @@
                   <feather-icon icon="ArchiveIcon" /> </b-button
               ></span>
             </template>
+                <template #cell(ks)>
+              <span  v-b-tooltip.hover.v-dark  title="Firma Kodu" >F.K</span>
+            </template>
 
             <template #cell(name)="data">
               <p class="hover" v-b-tooltip.hover.top variant="outline-primary" :title="data.item.name">
@@ -490,8 +493,9 @@ export default {
         content: "",
       },
        fields: [
-        { key: "name", label: "İsim", sortable: true, filter: true },
-          { key: "id", label: "Firma Kodu", sortable: true, filter: true },
+        { key: "name", label: "FİRMA ADI", sortable: true, filter: true },
+         { key: "id", label: "Firma Kodu", sortable: true, filter: true },
+        { key: "id", label: "ÇALIŞAN SAYISI", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
 
 
@@ -501,7 +505,7 @@ export default {
           sortable: true,
           filter: true,
         },
-        { key: "sgk", label: "SGK Numarası", sortable: true, filter: true },
+
 
         {
           key: "firma_yetkilisi",
