@@ -338,7 +338,11 @@
             empty-filtered-text="Veri Bulunamadı."
             @filtered="onFiltered"
           >
+          <template #head(id)>
+              <span  v-b-tooltip.hover.v-dark  title="Firma Kodu" >F.K</span>
+            </template>
             <template #cell(actions)="data">
+
               <span>
                  <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -691,7 +695,7 @@ export default {
   overflow: hidden;
   width: 100px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
 </style>

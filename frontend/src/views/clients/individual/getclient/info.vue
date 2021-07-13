@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Kişi Ek Bilgiler">
+  <b-card title="Kişi Tüm Bilgiler">
     <b-form @submit.prevent="update">
       <b-row>
         <b-col md="6">

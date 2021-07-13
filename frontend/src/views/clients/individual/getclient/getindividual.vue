@@ -27,7 +27,7 @@
         <b-tab>
           <template #title>
             <feather-icon icon="InfoIcon" size="16" class="mr-0 mr-sm-50" />
-            <span class="d-none d-sm-inline">Ek Bilgiler</span>
+            <span class="d-none d-sm-inline">Tüm Bilgiler</span>
           </template>
           <info :user-data="userData" class="mt-2 pt-75" />
         </b-tab>

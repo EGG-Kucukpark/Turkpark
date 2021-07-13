@@ -337,19 +337,22 @@
             empty-filtered-text="Veri Bulunamadı."
             @filtered="onFiltered"
           >
+            <template #head(id)>
+              <span  v-b-tooltip.hover.v-dark  title="Firma Kodu" >F.K</span>
+            </template>
             <template #cell(actions)="data">
               <span>
-                 <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="success"
-                @click.prevent="tikla"
-                class="btn-icon"
-                v-b-tooltip.hover.v-success
-                style="margin: 5px"
-                title="Göster"
-              >
-                <feather-icon icon="ImageIcon" />
-              </b-button>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="success"
+                  @click.prevent="tikla"
+                  class="btn-icon"
+                  v-b-tooltip.hover.v-success
+                  style="margin: 5px"
+                  title="Göster"
+                >
+                  <feather-icon icon="ImageIcon" />
+                </b-button>
                 <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="warning"
@@ -376,7 +379,12 @@
             </template>
 
             <template #cell(name)="data">
-              <p class="hover" v-b-tooltip.hover.top variant="outline-primary" :title="data.item.name">
+              <p
+                class="hover"
+                v-b-tooltip.hover.top
+                variant="outline-primary"
+                :title="data.item.name"
+              >
                 {{ data.item.name }}
               </p>
             </template>
@@ -488,9 +496,8 @@ export default {
       },
       fields: [
         { key: "name", label: "İsim", sortable: true, filter: true },
-          { key: "id", label: "Firma Kodu", sortable: true, filter: true },
+        { key: "id", label: "Firma Kodu", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
-
 
         {
           key: "telefon",
@@ -550,8 +557,6 @@ export default {
   },
 
   methods: {
-
-
     refreshStop() {
       setTimeout(() => {
         axios
@@ -692,7 +697,7 @@ export default {
   overflow: hidden;
   width: 100px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
 </style>

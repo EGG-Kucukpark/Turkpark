@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Firma Ek Bilgiler">
+  <b-card title="Firma Tüm Bilgiler">
     <validation-observer ref="registerForm">
       <b-form @submit.prevent>
         <b-row>

@@ -4,17 +4,23 @@
       <b-row>
         <button hidden id="hata" @click.prevent="hata"></button>
         <button hidden id="basarili" @click.prevent="basarili"></button>
-        <h4 style="margin: 10px">Excel İşlemleri:</h4>
         <download-excel :fetch="fetchData">
-          <b-button variant="success" class="btn-icon" style="height: 40px">
-            <feather-icon size="24" icon="ArrowDownCircleIcon" />
+          <b-button
+            variant="flat-success"
+            style="height: 50px; margin-left: 20px"
+            id="btnclick"
+          >
+            <img
+              width="30px; margin-bottom:10px; "
+              src="/images/export.png"
+              alt=""
+            />
           </b-button>
         </download-excel>
 
         <b-button
-          variant="success"
-          class="btn-icon"
-          style="margin-left: 5px; height: 40px"
+          variant="flat-success"
+          style="height: 50px; margin-left: 20px"
           @click="$refs.refInputEl.click()"
         >
           <input
@@ -24,7 +30,7 @@
             @input="excelfile"
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           />
-          <feather-icon size="24" icon="ArrowUpCircleIcon" />
+          <img src="/images/import.png" alt="" />
         </b-button>
 
         <b-col>
@@ -390,7 +396,6 @@
 </template>
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import downloadexcel from "vue-json-excel";
 
 import {
   BTable,
@@ -436,7 +441,7 @@ export default {
     BBreadcrumbItem,
     ToastificationContent,
     BForm,
-    downloadexcel,
+
     BFormFile,
   },
   directives: {
@@ -629,11 +634,6 @@ export default {
         });
     },
 
-    async fetchData() {
-      const response = await axios.post("/api/users");
-
-      return response.data;
-    },
     basarili() {
       this.refreshStop();
     },
@@ -650,35 +650,22 @@ export default {
       });
     },
 
-    excelfile(event) {
-      var file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = function () {
-        let data = reader.result;
+    fetchData() {
+      let url = "sertifikagetir";
+      this.$store.dispatch("excel_down", { url });
 
-        try {
-          var workbook = XLSX.read(data, { type: "binary" });
-        } catch (err) {
-          document.getElementById("hata").click();
-        }
-
-        workbook.SheetNames.forEach((sheet) => {
-          let rowObject = XLSX.utils.sheet_to_row_object_array(
-            workbook.Sheets[sheet]
-          );
-
-          this.excel = rowObject;
-        });
-
+      if (this.$store.state.excel.file === null) {
         setTimeout(() => {
-          axios
-            .post("/api/excelimport", { data: this.excel })
-            .then((res) => document.getElementById("basarili").click())
-            .catch((error) => document.getElementById("hata").click());
-        }, 500);
-      };
+          document.getElementById("btnclick").click();
+        }, 1000);
+      }
 
-      reader.readAsBinaryString(file);
+      return this.$store.state.excel.file;
+    },
+
+    excelfile(event) {
+      let url = "excelimport";
+      this.$store.dispatch("excel", { event, url });
     },
     form() {
       this.$refs["modal1"].hide(),
@@ -712,7 +699,7 @@ export default {
   overflow: hidden;
   width: 100px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
 </style>

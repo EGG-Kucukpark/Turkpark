@@ -1,7 +1,37 @@
 <template>
   <b-card title="Sonuçlar">
     <b-row>
+        <download-excel :fetch="fetchData">
+          <b-button
+            variant="flat-success"
+            style="height: 50px; margin-left: 20px"
+            id="btnclick"
+          >
+            <img
+              width="30px; margin-bottom:10px; "
+              src="/images/export.png"
+              alt=""
+            />
+          </b-button>
+        </download-excel>
+
+        <b-button
+          variant="flat-success"
+          style="height: 50px; margin-left: 20px"
+          @click="$refs.refInputEl.click()"
+        >
+          <input
+            ref="refInputEl"
+            type="file"
+            class="d-none"
+            @input="excelfile"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          />
+          <img src="/images/import.png" alt="" />
+        </b-button>
       <b-col>
+
+
         <b-form-group
           label-cols-sm="7"
           label-align-sm="left"
@@ -570,6 +600,21 @@ export default {
         this.form[i].dgr = 0;
         (this.form[i].file = null), (this.form[i].rapor = "");
       }
+    },
+    fetchData() {
+      let url = "sertifikagetir";
+      this.$store.dispatch("excel_down", { url });
+
+     if(this.$store.state.excel.file === null) {setTimeout(() => {
+        document.getElementById("btnclick").click();
+      }, 1000);}
+
+      return this.$store.state.excel.file;
+    },
+
+    excelfile(event) {
+      let url = "excelimport";
+      this.$store.dispatch("excel", { event, url });
     },
 
     indir(dosya) {

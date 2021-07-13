@@ -22,7 +22,7 @@
       <!-- title -->
       <template  #title>
         <feather-icon icon="InfoIcon" size="18" class="mr-50" />
-        <span class="font-weight-bold">Ek Bilgiler</span>
+        <span class="font-weight-bold">Tüm Bilgiler</span>
       </template>
 
       <bireyekbilgi  :options="options" />
@@ -31,7 +31,7 @@
       <!-- title -->
       <template #title>
         <feather-icon icon="InfoIcon" size="18" class="mr-50" />
-        <span class="font-weight-bold">Ek Bilgiler</span>
+        <span class="font-weight-bold">Tüm Bilgiler</span>
       </template>
 
       <firmaekbilgi :options="options" />

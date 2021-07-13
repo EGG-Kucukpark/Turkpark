@@ -695,7 +695,7 @@ export default {
   overflow: hidden;
   width: 100px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 }
 </style>
