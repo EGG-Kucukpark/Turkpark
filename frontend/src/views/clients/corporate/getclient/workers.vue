@@ -454,7 +454,7 @@ export default {
           tc: this.tc,
         })
         .then((res) => this.basarili(), this.veri(), this.form())
-        .catch((error) => this.basarisiz);
+        .catch((error) => this.basarisiz());
     },
     Duzenlemodal(row) {
       this.$refs["modal2"].show();
@@ -485,7 +485,7 @@ export default {
         .then((res) => {
           this.basarili(), this.veri(), this.form();
         })
-        .catch((error) => this.basarisiz);
+        .catch((error) => this.basarisiz());
     },
 
     sil(data) {

@@ -622,9 +622,9 @@ export default {
 
     formcikis() {
       this.dgr = 0;
-      this.$refs["modal"].hide();
+     this.$refs["modal"].hide();
        for (var i = 0; i < this.form.length; i++) {
-        this.form[i].Selected2 = null;
+
         this.form[i].dgr = 0;
         (this.form[i].file = null), (this.form[i].rapor = "");
       }
