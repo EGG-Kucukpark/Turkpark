@@ -314,6 +314,17 @@
               <span>
                 <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="success"
+                  @click.prevent="tikla"
+                  class="btn-icon"
+                  v-b-tooltip.hover.v-success
+                  style="margin: 5px"
+                  title="Göster"
+                >
+                  <feather-icon icon="ImageIcon" />
+                </b-button>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="warning"
                   @click="Modal2(data.item)"
                   class="btn-icon"
@@ -338,7 +349,12 @@
             </template>
 
             <template #cell(name)="data">
-              <p class="hover" v-b-tooltip.hover.top variant="outline-primary" :title="data.item.name">
+              <p
+                class="hover"
+                v-b-tooltip.hover.top
+                variant="outline-primary"
+                :title="data.item.name"
+              >
                 {{ data.item.name }}
               </p>
             </template>
@@ -543,7 +559,7 @@ export default {
       }, 1000);
     },
     arsiv(data) {
-      axios.post("api/arsivuser", data ).then(this.refreshStop());
+      axios.post("api/arsivuser", data).then(this.refreshStop());
     },
     submit() {
       axios

@@ -175,6 +175,18 @@
         >
           <template #cell(actions)="data">
             <span>
+
+               <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                @click.prevent="tikla"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                style="margin: 5px"
+                title="Göster"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
@@ -197,8 +209,9 @@
                 title="Arşivle"
                 class="btn-icon"
               >
-                <feather-icon icon="ArchiveIcon" /> </b-button
-            ></span>
+                <feather-icon icon="ArchiveIcon" />
+              </b-button>
+            </span>
           </template>
         </b-table>
       </b-col>

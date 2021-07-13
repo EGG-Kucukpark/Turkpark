@@ -321,6 +321,7 @@
           <b-table
             striped
             hover
+            small
             responsive
             :per-page="perPage"
             :current-page="currentPage"
@@ -339,6 +340,17 @@
           >
             <template #cell(actions)="data">
               <span>
+                 <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                @click.prevent="tikla"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                style="margin: 5px"
+                title="Göster"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
                 <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="warning"
@@ -351,7 +363,7 @@
                   <feather-icon icon="EditIcon" />
                 </b-button>
 
-               <b-button
+                <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="danger"
                   @click.prevent="arsiv(data.item)"
@@ -365,7 +377,12 @@
             </template>
 
             <template #cell(name)="data">
-              <p class="hover" v-b-tooltip.hover.top variant="outline-primary" :title="data.item.name">
+              <p
+                class="hover"
+                v-b-tooltip.hover.top
+                variant="outline-primary"
+                :title="data.item.name"
+              >
                 {{ data.item.name }}
               </p>
             </template>
@@ -479,25 +496,15 @@ export default {
         { key: "name", label: "İsim", sortable: true, filter: true },
         { key: "id", label: "Firma Kodu", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
-        { key: "sgk", label: "SGK Numarası", sortable: true, filter: true },
-        {
-          key: "vergino",
-          label: "Vergİ Numarası",
-          sortable: true,
-          filter: true,
-        },
-        {
-          key: "vergiad",
-          label: "Vergİ Daİresİ",
-          sortable: true,
-          filter: true,
-        },
+
         {
           key: "telefon",
           label: "Telefon Numarası",
           sortable: true,
           filter: true,
         },
+        { key: "sgk", label: "SGK Numarası", sortable: true, filter: true },
+
         {
           key: "firma_yetkilisi",
           label: "Fİrma Yetkİlİsİ",

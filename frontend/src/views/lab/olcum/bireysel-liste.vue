@@ -26,8 +26,9 @@
           style="margin-right: 50px"
           variant="success"
           @click="Modal1"
-          >  <feather-icon size="20px;" icon="PlusIcon" /></b-button
         >
+          <feather-icon size="20px;" icon="PlusIcon"
+        /></b-button>
 
         <b-modal
           hide-header-close
@@ -92,68 +93,64 @@
         </b-modal>
 
         <b-modal
-                hide-header-close
-                ok-title="Kaydet"
-                :hide-footer="true"
-                size="lg"
-                centered
-                title="Birey Düzenle"
-                ref="modal2"
+          hide-header-close
+          ok-title="Kaydet"
+          :hide-footer="true"
+          size="lg"
+          centered
+          title="Birey Düzenle"
+          ref="modal2"
+        >
+          <b-card>
+            <b-form @submit.prevent="update">
+              <b-form-group
+                label="İsim:"
+                label-for="İsim"
+                label-cols-sm="3"
+                label-align-sm="right"
               >
-                <b-card>
-                  <b-form @submit.prevent="update">
-                    <b-form-group
-                      label="İsim:"
-                      label-for="İsim"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="İsim"
-                        v-model="name"
-                        placeholder=" İsim Giriniz"
-                      ></b-form-input>
-                    </b-form-group>
+                <b-form-input
+                  id="İsim"
+                  v-model="name"
+                  placeholder=" İsim Giriniz"
+                ></b-form-input>
+              </b-form-group>
 
-                    <b-form-group
-                      label="E-posta:"
-                      label-for="nested-city"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="nested-city"
-                        v-model="email"
-                        placeholder="E-posta Adresini Giriniz"
-                      ></b-form-input>
-                    </b-form-group>
+              <b-form-group
+                label="E-posta:"
+                label-for="nested-city"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="nested-city"
+                  v-model="email"
+                  placeholder="E-posta Adresini Giriniz"
+                ></b-form-input>
+              </b-form-group>
 
-                    <b-form-group
-                      label="Telefon No:"
-                      label-for="nested-state"
-                      label-cols-sm="3"
-                      label-align-sm="right"
-                    >
-                      <b-form-input
-                        id="nested-state"
-                        v-model="telefon"
-                        placeholder="İletişim Numarası"
-                      ></b-form-input>
-                    </b-form-group>
+              <b-form-group
+                label="Telefon No:"
+                label-for="nested-state"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input
+                  id="nested-state"
+                  v-model="telefon"
+                  placeholder="İletişim Numarası"
+                ></b-form-input>
+              </b-form-group>
 
-                    <div style="float: right">
-                      <b-button variant="success" type="submit">
-                        Tamam
-                      </b-button>
-                    </div>
-                    <div style="float: right; padding-right: 10px">
-                      <b-button variant="danger" @click="form()">
-                        İptal</b-button
-                      >
-                    </div>
-                  </b-form>
-                </b-card>
-              </b-modal>
+              <div style="float: right">
+                <b-button variant="success" type="submit"> Tamam </b-button>
+              </div>
+              <div style="float: right; padding-right: 10px">
+                <b-button variant="danger" @click="form()"> İptal</b-button>
+              </div>
+            </b-form>
+          </b-card>
+        </b-modal>
       </span>
 
       <b-col cols="12">
@@ -178,8 +175,17 @@
         >
           <template #cell(actions)="data">
             <span>
-
-
+               <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                @click.prevent="tikla"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                style="margin: 5px"
+                title="Göster"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
@@ -187,17 +193,16 @@
                 v-on:click="$refs['modal2'].show()"
                 class="btn-icon"
                 v-b-tooltip.hover.v-warning
-                         style="margin:5px;"
+                style="margin: 5px"
                 title="Düzenle"
               >
                 <feather-icon icon="EditIcon" />
               </b-button>
 
-
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="danger"
-                         style="margin:5px;"
+                style="margin: 5px"
                 @click="arsiv(data.item)"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
@@ -205,11 +210,6 @@
               >
                 <feather-icon icon="ArchiveIcon" /> </b-button
             ></span>
-
-
-
-
-
           </template>
         </b-table>
       </b-col>
@@ -309,6 +309,8 @@ export default {
         { key: "email", label: "E-Posta", sortable: true },
         { key: "adres", label: "Adres", sortable: true },
 
+        { key: "telefon", label: "Telefon", sortable: true },
+
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
@@ -369,7 +371,6 @@ export default {
         })
         .catch((error) => {
           this.hata();
-
         });
     },
 
