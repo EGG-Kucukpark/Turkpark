@@ -12,7 +12,7 @@
         >
           <img
             width="30px; margin-bottom:10px; "
-            src="images/export.png"
+            src="/images/export.png"
             alt=""
           />
         </b-button>
@@ -31,7 +31,7 @@
           @input="excelfile"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
         />
-        <img src="images/import.png" alt="" />
+        <img src="/images/import.png" alt="" />
       </b-button>
 
       <b-col>
@@ -57,8 +57,8 @@
         style="margin: auto; margin-right: 20px"
         variant="success"
         @click="Modal1"
-        ><feather-icon  size="24" icon="PlusIcon" /></b-button
-      >
+        ><feather-icon size="24" icon="PlusIcon"
+      /></b-button>
       <span>
         <b-modal
           hide-header-close
@@ -343,7 +343,6 @@ import {
 } from "bootstrap-vue";
 import axios from "@axios";
 import vSelect from "vue-select";
-import FeatherIcon from '../../../@core/components/feather-icon/FeatherIcon.vue';
 
 export default {
   components: {
@@ -369,7 +368,6 @@ export default {
     downloadexcel,
     BFormFile,
     vSelect,
-    FeatherIcon,
   },
   directives: {
     "b-tooltip": VBTooltip,
