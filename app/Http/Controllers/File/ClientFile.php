@@ -179,6 +179,9 @@ class ClientFile extends Controller
 
 
                 return $this->dosyacek($request->firma_id, $request->calisan_id, 'isLab');
+
+
+
             } catch (Exception $ex) {
                return response()->json(['error' => 'Başarısız'], 404);;
             }

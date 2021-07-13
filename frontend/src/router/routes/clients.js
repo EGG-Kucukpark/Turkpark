@@ -115,7 +115,25 @@ export default [
     {
         path: '/kursiyerler',
         name: 'kursiyerler',
-        component: () => import('@/views/belge/certficate/certifa.vue'),
+        component: () => import('@/views/belge/certficate/liste.vue'),
+        meta: {
+            requiresAuth: true,
+
+        }
+    },
+    {
+        path: '/kursiyerler/:id',
+        name: 'kursiyer-firma',
+        component: () => import('@/views/belge/certficate/sertifika/certifa.vue'),
+        meta: {
+            requiresAuth: true,
+
+        }
+    },
+    {
+        path: '/kursiyerler/bireysel/:id',
+        name: 'kursiyer-bireysel',
+        component: () => import('@/views/belge/certficate/sertifika/certifa.vue'),
         meta: {
             requiresAuth: true,
 
@@ -143,7 +161,7 @@ export default [
     {
         path: '/sertifika/:id',
         name: 'sertifika-goster',
-        component: () => import('@/views/belge/certficate/sertifika.vue'),
+        component: () => import('@/views/belge/certficate/sertifika/sertifika.vue'),
         meta: {
             requiresAuth: true,
 

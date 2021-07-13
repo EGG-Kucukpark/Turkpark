@@ -1,8 +1,6 @@
 <template>
   <div id="app" class="h-100" :class="[skinClasses]">
     <component :is="layout">
-
-
       <router-view />
     </component>
   </div>
@@ -16,9 +14,13 @@ import { watch } from "@vue/composition-api";
 import useAppConfig from "@core/app-config/useAppConfig";
 
 import { useWindowSize, useCssVar } from "@vueuse/core";
-import { BModal, BButton, BCard,BBreadcrumb,
-    BBreadcrumbItem, } from "bootstrap-vue";
-
+import {
+  BModal,
+  BButton,
+  BCard,
+  BBreadcrumb,
+  BBreadcrumbItem,
+} from "bootstrap-vue";
 
 import store from "@/store";
 
@@ -47,7 +49,8 @@ export default {
     LayoutVertical,
     LayoutFull,
     BModal,
-    BButton,BBreadcrumb,
+    BButton,
+    BBreadcrumb,
     BBreadcrumbItem,
     BCard,
   },
@@ -99,6 +102,12 @@ export default {
     // Set RTL
     const { isRTL } = $themeConfig.layout;
     document.documentElement.setAttribute("dir", isRTL ? "rtl" : "ltr");
+    let ckeditor = document.createElement("script");
+    ckeditor.setAttribute(
+      "src",
+      "//cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"
+    );
+
   },
   setup() {
     const { skin, skinClasses } = useAppConfig();
@@ -130,8 +139,6 @@ export default {
     };
   },
 
-  methods: {
-
-  },
+  methods: {},
 };
 </script>

@@ -6,9 +6,9 @@
 
       <download-excel :fetch="fetchData">
         <b-button
-          v-ripple.400="'rgba(40, 199, 111, 0.15)'"
           variant="flat-success"
           style="height: 50px; margin-left: 20px"
+          id="btnclick"
         >
           <img
             width="30px; margin-bottom:10px; "
@@ -19,7 +19,6 @@
       </download-excel>
 
       <b-button
-        v-ripple.400="'rgba(40, 199, 111, 0.15)'"
         variant="flat-success"
         style="height: 50px; margin-left: 20px"
         @click="$refs.refInputEl.click()"
@@ -318,7 +317,6 @@
 </template>
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import downloadexcel from "vue-json-excel";
 
 import VueQrcode from "vue-qrcode";
 import {
@@ -365,7 +363,7 @@ export default {
     BModal,
     ToastificationContent,
     BForm,
-    downloadexcel,
+
     BFormFile,
     vSelect,
   },
@@ -453,12 +451,6 @@ export default {
     },
   },
   created() {
-    let ckeditor = document.createElement("script");
-    ckeditor.setAttribute(
-      "src",
-      "//cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"
-    );
-    document.head.appendChild(ckeditor);
     axios.post("/api/sertifikagetir").then((res) => (this.items = res.data));
     axios.post("/api/firmalar").then((res) => (this.options = res.data));
   },
@@ -558,44 +550,21 @@ export default {
     basarili() {
       this.refreshStop();
     },
-    async fetchData() {
-      const response = await axios.post("/api/sertifikagetir");
 
-      return response.data;
+    fetchData() {
+      let url = "sertifikagetir";
+      this.$store.dispatch("excel_down", { url });
+
+     if(this.$store.state.excel.file === null) {setTimeout(() => {
+        document.getElementById("btnclick").click();
+      }, 1000);}
+
+      return this.$store.state.excel.file;
     },
+
     excelfile(event) {
-      var file = event.target.files[0];
-      const reader = new FileReader();
-
-      reader.onload = function (hata, basarili) {
-        let data = reader.result;
-
-        try {
-          var workbook = XLSX.read(data, { type: "binary" });
-        } catch (err) {
-          document.getElementById("hata").click();
-        }
-
-        workbook.SheetNames.forEach((sheet) => {
-          let rowObject = XLSX.utils.sheet_to_row_object_array(
-            workbook.Sheets[sheet],
-            { raw: false }
-          );
-
-          this.excel = rowObject;
-        });
-
-        axios
-          .post("/api/excelimport", { data: this.excel })
-          .then((res) => {
-            document.getElementById("basarili").click();
-          })
-          .catch((error) => {
-            document.getElementById("hata").click();
-          });
-      };
-
-      reader.readAsBinaryString(file);
+      let url = "excelimport";
+      this.$store.dispatch("excel", { event, url });
     },
 
     form() {

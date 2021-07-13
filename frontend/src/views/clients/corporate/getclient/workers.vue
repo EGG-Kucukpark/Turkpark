@@ -213,6 +213,17 @@
             <span>
               <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="success"
+                :to="{ name: 'calisan-goster', params: { id: data.item.id } }"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                style="margin: 5px"
+                title="Göster"
+              >
+                <feather-icon icon="ImageIcon" />
+              </b-button>
+              <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click="Duzenlemodal(data.item)"
                 class="btn-icon"
@@ -232,18 +243,6 @@
                 title="Sil"
               >
                 <feather-icon icon="TrashIcon" />
-              </b-button>
-
-              <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="success"
-                :to="{ name: 'calisan-goster', params: { id: data.item.id } }"
-                class="btn-icon"
-                v-b-tooltip.hover.v-success
-                style="margin: 5px"
-                title="Göster"
-              >
-                <feather-icon icon="ImageIcon" />
               </b-button>
             </span>
           </template>
@@ -284,7 +283,6 @@ import router from "@/router";
 
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { heightTransition } from "@core/mixins/ui/transition";
-
 
 import {
   BTable,
@@ -416,7 +414,6 @@ export default {
     }, 500);
   },
 
-
   methods: {
     basarili() {
       this.$toast({
@@ -469,7 +466,7 @@ export default {
     },
 
     tikla(params) {
-      localStorage.setItem("path", router.history.current.path)
+      localStorage.setItem("path", router.history.current.path);
       this.$router.push({
         name: "calisan-goster",
         params: { id: params.id },

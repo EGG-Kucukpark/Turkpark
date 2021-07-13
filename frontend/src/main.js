@@ -6,6 +6,10 @@ import {
 import VueCompositionAPI from '@vue/composition-api'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css';
+
+
+
+
 import 'vue-search-select/dist/VueSearchSelect.css'
 
 
@@ -19,10 +23,13 @@ import App from './App.vue'
 import './global-components'
 import VueGoodTablePlugin from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
-import JsonExcel from "vue-json-excel";
 import VCalendar from 'v-calendar';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+
+import JsonExcel from "vue-json-excel";
+
+
 
 
 
@@ -41,6 +48,7 @@ Vue.component("downloadExcel", JsonExcel);
 Vue.use(VCalendar)
 Vue.use(VueSweetalert2);
 Vue.use(PortalVue);
+
 
 
 
