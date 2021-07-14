@@ -1,8 +1,18 @@
 <template>
   <div>
-    <kunye :userData="userData" />
-
-
+    <b-card>
+      <kunye :userData="userData" />
+      <b-button
+        variant="warning"
+        class="btn-icon"
+        @click="updatemodal(data.item)"
+        style="float: right"
+        v-b-tooltip.hover.v-warning
+        title="Düzenle"
+      >
+        Düzenle
+      </b-button>
+    </b-card>
 
     <b-card title="Kursiyerler">
       <b-row>
