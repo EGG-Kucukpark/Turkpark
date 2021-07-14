@@ -32,7 +32,7 @@
             />
           </b-button>
         </download-excel>
-        <p>{{ firma_cek }}</p>
+
 
         <b-button
           variant="flat-success"

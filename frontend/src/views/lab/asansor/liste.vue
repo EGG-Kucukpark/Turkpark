@@ -6,7 +6,7 @@
         <feather-icon icon="BriefcaseIcon" size="16" class="mr-0 mr-sm-50" />
         <span class="d-none d-sm-inline"> Firma Listesi </span>
       </template>
-
+      <portal to="url2"> <p>s</p> </portal>
       <client :user-data="userData" class="mt-2 pt-75" />
     </b-tab>
 
@@ -53,7 +53,6 @@ import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import individual from "./bireysel-liste";
 import client from "./firma-liste";
-
 
 import router from "@/router";
 

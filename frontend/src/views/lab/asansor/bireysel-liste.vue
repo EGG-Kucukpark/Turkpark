@@ -20,6 +20,9 @@
         </b-form-group>
       </b-col>
 
+
+
+
       <span>
         <b-button
           class="mb-1"
@@ -319,6 +322,7 @@ export default {
       email: "",
       telefon: "",
       id: "",
+      url: null,
 
       show: false,
     };
