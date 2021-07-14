@@ -396,8 +396,7 @@
             <template #cell(ks)="data">
               <div v-for="sayi in sayi" :key="sayi.id">
                 <span v-if="data.item.id === sayi.firma_id">
-                  <span v-if="sayi.sayi === 0"> 0</span>
-                  <span v-if="sayi.sayi != 0"> {{sayi.sayi}}</span>
+                  <span> {{ sayi.sayi }} </span>
                 </span>
               </div>
             </template>
@@ -570,7 +569,7 @@ export default {
       this.items = response.data;
     });
 
-    axios("/api/workersayi").then((res) => {
+    axios("/api/kursiyersayi").then((res) => {
       this.sayi = res.data;
     });
   },

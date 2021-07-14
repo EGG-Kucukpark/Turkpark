@@ -24,8 +24,10 @@
               <feather-icon icon="UserIcon" size="18" />
             </b-avatar>
             <div class="ml-1">
-              <h5 class="mb-0">
-                {{ calisan.length }}
+              <h5 v-for="sayi in sayi" :key="sayi.id" class="mb-0">
+                <span v-if="userData.id === sayi.firma_id">
+                  <span> {{ sayi.sayi }} </span>
+                </span>
               </h5>
               <small>Çalışan Sayısı</small>
             </div>
@@ -108,14 +110,13 @@ export default {
   data() {
     return {
       calisan: "",
+      sayi: null,
     };
   },
   created() {
-    axios
-      .post("/api/calisanlar", { firma_id: this.userData.id })
-      .then((response) => {
-        this.calisan = response.data;
-      });
+    axios("/api/workersayi").then((res) => {
+      this.sayi = res.data;
+    });
   },
   setup() {
     return {};

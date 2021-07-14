@@ -1,325 +1,334 @@
 <template>
-  <b-card title="Kursiyerler">
-    <b-row>
-      <button hidden id="hata" @click.prevent="hata"></button>
-      <button hidden id="basarili" @click.prevent="basarili"></button>
+  <div>
+    <kunye :userData="userData" />
 
-      <download-excel :fetch="fetchData">
+
+
+    <b-card title="Kursiyerler">
+      <b-row>
+        <button hidden id="hata" @click.prevent="hata"></button>
+        <button hidden id="basarili" @click.prevent="basarili"></button>
+
+        <download-excel :fetch="fetchData">
+          <b-button
+            variant="flat-success"
+            style="height: 50px; margin-left: 20px"
+            id="btnclick"
+          >
+            <img
+              width="30px; margin-bottom:10px; "
+              src="/images/export.png"
+              alt=""
+            />
+          </b-button>
+        </download-excel>
+        <p>{{ firma_cek }}</p>
+
         <b-button
           variant="flat-success"
           style="height: 50px; margin-left: 20px"
-          id="btnclick"
+          @click="$refs.refInputEl.click()"
         >
-          <img
-            width="30px; margin-bottom:10px; "
-            src="/images/export.png"
-            alt=""
+          <input
+            ref="refInputEl"
+            type="file"
+            class="d-none"
+            @input="excelfile"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           />
+          <img src="/images/import.png" alt="" />
         </b-button>
-      </download-excel>
 
-      <b-button
-        variant="flat-success"
-        style="height: 50px; margin-left: 20px"
-        @click="$refs.refInputEl.click()"
-      >
-        <input
-          ref="refInputEl"
-          type="file"
-          class="d-none"
-          @input="excelfile"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-        />
-        <img src="/images/import.png" alt="" />
-      </b-button>
-
-      <b-col>
-        <b-form-group
-          label-cols-sm="7"
-          label-align-sm="left"
-          label-size="sm"
-          label-for="filterInput"
+        <b-col>
+          <b-form-group
+            label-cols-sm="7"
+            label-align-sm="left"
+            label-size="sm"
+            label-for="filterInput"
+            class="mb-1"
+          >
+            <b-input-group>
+              <b-form-input
+                id="filterInput"
+                v-model="filter"
+                type="search"
+                placeholder="........"
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <b-button
           class="mb-1"
-        >
-          <b-input-group>
-            <b-form-input
-              id="filterInput"
-              v-model="filter"
-              type="search"
-              placeholder="........"
+          style="margin: auto; margin-right: 20px"
+          variant="success"
+          @click="Modal1"
+          ><feather-icon size="24" icon="PlusIcon"
+        /></b-button>
+        <span>
+          <b-modal
+            hide-header-close
+            ok-title="Kaydet"
+            :hide-footer="true"
+            size="lg"
+            ref="add"
+            centered
+            title="Sertifika Ekle"
+          >
+            <b-card>
+              <b-form @submit.prevent="add">
+                <b-form-group
+                  label="Ad Soyad: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input v-model="name" />
+                </b-form-group>
+
+                <b-form-group
+                  label="Tc. Kimlik Numarası: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input v-model="tc" />
+                </b-form-group>
+                <b-form-group
+                  label="Eğitim Türü: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input v-model="egitim" />
+                </b-form-group>
+                <b-form-group
+                  label="Geçerlilik Tarihi: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-datepicker
+                    id="example-datepicker"
+                    v-model="tarih"
+                    class="mb-1"
+                    placeholder="Tarih Seçiniz"
+                  />
+                </b-form-group>
+                <b-form-group
+                  label="Sonuç: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-select v-model="sonuc">
+                    <option value="1">Başarılı</option>
+                    <option value="0">Başarısız</option>
+                  </b-form-select>
+                </b-form-group>
+
+                <b-form-group
+                  label="Sertifika Url: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input v-model="qr" />
+                </b-form-group>
+
+                <div style="float: right">
+                  <b-button variant="success" type="submit"> Tamam </b-button>
+                </div>
+                <div style="float: right; padding-right: 10px">
+                  <b-button variant="danger" @click="form()"> İptal</b-button>
+                </div>
+              </b-form>
+
+              <!-- Emulate built in modal footer ok and cancel button actions -->
+            </b-card>
+          </b-modal>
+
+          <b-modal
+            hide-header-close
+            ok-title="Kaydet"
+            :hide-footer="true"
+            size="lg"
+            ref="updatemodal"
+            centered
+            title="Kursiyer Düzenle"
+          >
+            <b-card>
+              <b-form @submit.prevent="update">
+                <b-form-group
+                  label="Ad Soyad: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input v-model="name" />
+                </b-form-group>
+
+                <b-form-group
+                  label="Tc. Kimlik Numarası: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input v-model="tc" />
+                </b-form-group>
+                <b-form-group
+                  label="Eğitim Türü: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input v-model="egitim" />
+                </b-form-group>
+                <b-form-group
+                  label="Geçerlilik Tarihi: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-datepicker
+                    id="example-datepicker"
+                    v-model="tarih"
+                    class="mb-1"
+                    placeholder="Tarih Seçiniz"
+                  />
+                </b-form-group>
+                <b-form-group
+                  label="Sonuç: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-select v-model="sonuc">
+                    <option value="1">Başarılı</option>
+                    <option value="0">Başarısız</option>
+                  </b-form-select>
+                </b-form-group>
+
+                <b-form-group
+                  label="Sertifika Url: "
+                  label-for="nested-city"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                >
+                  <b-form-input v-model="qr" />
+                </b-form-group>
+
+                <div style="float: right">
+                  <b-button variant="success" type="submit"> Tamam </b-button>
+                </div>
+                <div style="float: right; padding-right: 10px">
+                  <b-button variant="danger" @click="form()"> İptal</b-button>
+                </div>
+              </b-form>
+
+              <!-- Emulate built in modal footer ok and cancel button actions -->
+            </b-card>
+          </b-modal>
+        </span>
+
+        <b-col cols="12" class="table-responsive">
+          <b-table
+            striped
+            hover
+            responsive
+            :per-page="perPage"
+            :current-page="currentPage"
+            :items="items"
+            :fields="fields"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            :filter="filter"
+            :filter-included-fields="filterOn"
+            show-empty
+            empty-text="Veri Bulunamadı."
+            empty-filtered-text="Veri Bulunamadı."
+          >
+            <p style="text-align: center; width: 100%" show-empty>
+              >
+              <b> Kullanıcı Bulunamadı.</b>
+            </p>
+
+            <template #cell(sonuc)="data">
+              <b-badge :variant="sonucVariant(data.item.sonuc)">
+                <span v-if="data.item.sonuc == 1"> Başarılı</span>
+                <span v-if="data.item.sonuc == 0"> Başarısız</span>
+              </b-badge>
+            </template>
+
+            <template #cell(actions)="data">
+              <b-button
+                variant="success"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-success
+                title="Yazdır"
+              >
+                <feather-icon icon="PrinterIcon" />
+              </b-button>
+              <b-button
+                variant="warning"
+                class="btn-icon"
+                @click="updatemodal(data.item)"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
+              >
+                <feather-icon icon="EditIcon" />
+              </b-button>
+              <b-button
+                variant="danger"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-danger
+                title="Arşivle"
+              >
+                <feather-icon icon="ArchiveIcon" />
+              </b-button>
+            </template>
+            <template #cell(qr)="data">
+              <vue-qrcode :value="data.item.qr" />
+            </template>
+          </b-table>
+        </b-col>
+
+        <b-col md="2" sm="4" class="my-1">
+          <b-form-group class="mb-0">
+            <b-form-select
+              id="perPageSelect"
+              v-model="perPage"
+              size="sm"
+              :options="pageOptions"
+              class="w-50"
             />
-          </b-input-group>
-        </b-form-group>
-      </b-col>
-      <b-button
-        class="mb-1"
-        style="margin: auto; margin-right: 20px"
-        variant="success"
-        @click="Modal1"
-        ><feather-icon size="24" icon="PlusIcon"
-      /></b-button>
-      <span>
-        <b-modal
-          hide-header-close
-          ok-title="Kaydet"
-          :hide-footer="true"
-          size="lg"
-          ref="add"
-          centered
-          title="Sertifika Ekle"
-        >
-          <b-card>
-            <b-form @submit.prevent="add">
-              <b-form-group
-                label="Ad Soyad: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="name" />
-              </b-form-group>
+          </b-form-group>
+        </b-col>
 
-              <b-form-group
-                label="Tc. Kimlik Numarası: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="tc" />
-              </b-form-group>
-              <b-form-group
-                label="Eğitim Türü: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="egitim" />
-              </b-form-group>
-              <b-form-group
-                label="Geçerlilik Tarihi: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-datepicker
-                  id="example-datepicker"
-                  v-model="tarih"
-                  class="mb-1"
-                  placeholder="Tarih Seçiniz"
-                />
-              </b-form-group>
-              <b-form-group
-                label="Sonuç: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select v-model="sonuc">
-                  <option value="1">Başarılı</option>
-                  <option value="0">Başarısız</option>
-                </b-form-select>
-              </b-form-group>
-
-              <b-form-group
-                label="Sertifika Url: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="qr" />
-              </b-form-group>
-
-              <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
-
-            <!-- Emulate built in modal footer ok and cancel button actions -->
-          </b-card>
-        </b-modal>
-
-        <b-modal
-          hide-header-close
-          ok-title="Kaydet"
-          :hide-footer="true"
-          size="lg"
-          ref="updatemodal"
-          centered
-          title="Kursiyer Düzenle"
-        >
-          <b-card>
-            <b-form @submit.prevent="update">
-              <b-form-group
-                label="Ad Soyad: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="name" />
-              </b-form-group>
-
-              <b-form-group
-                label="Tc. Kimlik Numarası: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="tc" />
-              </b-form-group>
-              <b-form-group
-                label="Eğitim Türü: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="egitim" />
-              </b-form-group>
-              <b-form-group
-                label="Geçerlilik Tarihi: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-datepicker
-                  id="example-datepicker"
-                  v-model="tarih"
-                  class="mb-1"
-                  placeholder="Tarih Seçiniz"
-                />
-              </b-form-group>
-              <b-form-group
-                label="Sonuç: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select v-model="sonuc">
-                  <option value="1">Başarılı</option>
-                  <option value="0">Başarısız</option>
-                </b-form-select>
-              </b-form-group>
-
-              <b-form-group
-                label="Sertifika Url: "
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input v-model="qr" />
-              </b-form-group>
-
-              <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
-
-            <!-- Emulate built in modal footer ok and cancel button actions -->
-          </b-card>
-        </b-modal>
-      </span>
-
-      <b-col cols="12" class="table-responsive">
-        <b-table
-          striped
-          hover
-          responsive
-          :per-page="perPage"
-          :current-page="currentPage"
-          :items="items"
-          :fields="fields"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
-          :sort-direction="sortDirection"
-          :filter="filter"
-          :filter-included-fields="filterOn"
-          show-empty
-          empty-text="Veri Bulunamadı."
-          empty-filtered-text="Veri Bulunamadı."
-        >
-          <p style="text-align: center; width: 100%" show-empty>
-            >
-            <b> Kullanıcı Bulunamadı.</b>
-          </p>
-
-          <template #cell(sonuc)="data">
-            <b-badge :variant="sonucVariant(data.item.sonuc)">
-              <span v-if="data.item.sonuc == 1"> Başarılı</span>
-              <span v-if="data.item.sonuc == 0"> Başarısız</span>
-            </b-badge>
-          </template>
-
-          <template #cell(actions)="data">
-            <b-button
-              variant="success"
-              class="btn-icon"
-              style="margin: 5px"
-              v-b-tooltip.hover.v-success
-              title="Yazdır"
-            >
-              <feather-icon icon="PrinterIcon" />
-            </b-button>
-            <b-button
-              variant="warning"
-              class="btn-icon"
-              @click="updatemodal(data.item)"
-              style="margin: 5px"
-              v-b-tooltip.hover.v-warning
-              title="Düzenle"
-            >
-              <feather-icon icon="EditIcon" />
-            </b-button>
-            <b-button
-              variant="danger"
-              class="btn-icon"
-              style="margin: 5px"
-              v-b-tooltip.hover.v-danger
-              title="Arşivle"
-            >
-              <feather-icon icon="ArchiveIcon" />
-            </b-button>
-          </template>
-          <template #cell(qr)="data">
-            <vue-qrcode :value="data.item.qr" />
-          </template>
-        </b-table>
-      </b-col>
-
-      <b-col md="2" sm="4" class="my-1">
-        <b-form-group class="mb-0">
-          <b-form-select
-            id="perPageSelect"
-            v-model="perPage"
+        <b-col cols="12">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            align="center"
             size="sm"
-            :options="pageOptions"
-            class="w-50"
+            class="my-0"
           />
-        </b-form-group>
-      </b-col>
-
-      <b-col cols="12">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          align="center"
-          size="sm"
-          class="my-0"
-        />
-      </b-col>
-    </b-row>
-
-  </b-card>
+        </b-col>
+      </b-row>
+    </b-card>
+  </div>
 </template>
+
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import router from '@/router'
+import router from "@/router";
 import VueQrcode from "vue-qrcode";
+import { mapState } from "vuex";
+import kunye from "../../../clients/corporate/getclient/clientinfo.vue";
 import {
   BTable,
   BAvatar,
@@ -352,6 +361,7 @@ export default {
     BCol,
     VueQrcode,
     BFormGroup,
+    kunye,
     VBTooltip,
     BFormSelect,
     BPagination,
@@ -367,7 +377,6 @@ export default {
 
     BFormFile,
     vSelect,
-
   },
   directives: {
     "b-tooltip": VBTooltip,
@@ -427,10 +436,26 @@ export default {
       sonuc: null,
       id: null,
       qr: null,
-      sayi:null,
+      sayi: null,
       options: [],
+      userData: null,
       firma_id: router.currentRoute.params.id,
     };
+  },
+
+  created() {
+    axios
+      .post("/api/sertifikagetir", { id: this.firma_id })
+      .then((res) => (this.items = res.data));
+
+    axios("/api/firmagoster/" + this.firma_id).then((res) => {
+      this.userData = res.data;
+    });
+  },
+  mounted() {
+    setTimeout(() => {
+      this.totalRows = this.items.length;
+    }, 500);
   },
 
   computed: {
@@ -453,17 +478,6 @@ export default {
 
       return (sonuc) => sonucColor[sonuc];
     },
-  },
-  created() {
-    axios
-      .post("/api/sertifikagetir", { id: this.firma_id })
-      .then((res) => (this.items = res.data));
-
-  },
-  mounted() {
-    setTimeout(() => {
-      this.totalRows = this.items.length;
-    }, 500);
   },
   methods: {
     hata() {
@@ -505,6 +519,7 @@ export default {
           qr: this.qr,
           tc: this.tc,
           sonuc: this.sonuc,
+          id: this.firma_id,
         })
         .then((res) => this.refreshStop())
         .catch((error) => this.hata());
@@ -525,12 +540,14 @@ export default {
         .then((res) => {
           this.refreshStop(), this.form();
         })
-        .catch(this.hata(), this.form());
+        .catch((error) => {
+          this.hata(), this.form();
+        });
     },
     refreshStop() {
       setTimeout(() => {
         axios
-          .post("/api/sertifikagetir")
+          .post("/api/sertifikagetir", { id: this.firma_id })
           .then((response) => {
             this.items = response.data;
           })

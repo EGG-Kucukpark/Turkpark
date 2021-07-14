@@ -337,8 +337,18 @@
             empty-filtered-text="Veri Bulunamadı."
             @filtered="onFiltered"
           >
+            <template #cell(ks)="data">
+              <span v-for="sayi in sayi" :key="sayi.id">
+                <span v-if="data.item.id === sayi.firma_id">
+                  <span> {{ sayi.sayi }} </span>
+                </span>
+              </span>
+            </template>
             <template #head(id)>
-              <span  v-b-tooltip.hover.v-dark  title="Firma Kodu" >F.K</span>
+              <span v-b-tooltip.hover.v-dark title="Firma Kodu">F.K</span>
+            </template>
+            <template #head(ks)>
+              <span v-b-tooltip.hover.v-dark title="Çalışan Sayısı">Ç.Ş</span>
             </template>
             <template #cell(actions)="data">
               <span>
@@ -415,7 +425,9 @@
         </b-col>
       </b-row>
     </b-card>
+
   </div>
+
 </template>
 
 <script>
@@ -497,6 +509,7 @@ export default {
       fields: [
         { key: "name", label: "FİRMA ADI", sortable: true, filter: true },
         { key: "id", label: "Firma Kodu", sortable: true, filter: true },
+        { key: "ks", label: "çalışan", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
 
         {
@@ -529,7 +542,7 @@ export default {
       id: "",
       searchTerm: "",
       options: "",
-
+      sayi: null,
       show: false,
     };
   },
@@ -553,6 +566,10 @@ export default {
   created() {
     axios.post("/api/firmalar").then((response) => {
       this.items = response.data;
+    });
+
+    axios("/api/workersayi").then((res) => {
+      this.sayi = res.data;
     });
   },
 
