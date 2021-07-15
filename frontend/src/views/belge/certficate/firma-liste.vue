@@ -603,14 +603,9 @@ export default {
       });
     },
     arsiv(data) {
-      console.log(data.id);
-
       axios.post("api/arsivfirma", { id: data.id }).then(this.refreshStop());
     },
 
-    kurs_sayi(data) {
-      this.$store.dispatch("kursiyer_sayi", { data });
-    },
     submit() {
       axios
         .post("/api/firmaekle", {
