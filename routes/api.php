@@ -71,7 +71,7 @@ route::post('firmanotduzenle', [clientController::class, 'notdüzenle']);
 route::post('arsivfirma', [ClientController::class, 'arsiv']);
 route::post('firmaarsvckr', [ClientController::class, 'arsivckr']);
 route::post('firmasil', [ClientController::class, 'delete']);
-route::get('workersayi', [ClientController::class, 'worker_sayi']);
+
 
 
 
