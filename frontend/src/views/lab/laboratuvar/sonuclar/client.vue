@@ -1,18 +1,20 @@
 <template>
   <div>
-    <b-card>
+     <b-card>
       <kunye :userData="userData" />
       <b-button
         variant="warning"
         class="btn-icon"
-        @click="updatemodal(data.item)"
-        style="float: right"
+        v-on:click="edit = !edit"
+        style="margin: 5px; float: right; margin-right: 200px"
         v-b-tooltip.hover.v-warning
-        title="Düzenle"
       >
-        Düzenle
+        {{ edit ? "Tamam" : "Güncelle" }}
       </b-button>
     </b-card>
+    <portal to="duzenle">
+      <div v-if="edit === true"><p></p></div>
+    </portal>
     <b-card title="Sonuçlar">
       <b-row>
         <b-col>
@@ -372,6 +374,7 @@ export default {
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
+      edit:false,
       filterOn: [],
       infoModal: {
         id: "info-modal",
