@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <template>
       <b-tabs pills>
         <!-- Tab: Account -->
@@ -32,7 +31,6 @@
           <clients />
         </b-tab>
 
-
         <b-tab>
           <template #title>
             <feather-icon
@@ -44,6 +42,18 @@
           </template>
           <individual />
         </b-tab>
+
+        <b-tab>
+          <template #title>
+            <feather-icon
+              icon="ClipboardIcon"
+              size="16"
+              class="mr-0 mr-sm-50"
+            />
+            <span class="d-none d-sm-inline">Kursiyerler</span>
+          </template>
+          <kursiyer />
+        </b-tab>
       </b-tabs>
     </template>
   </div>
@@ -52,12 +62,23 @@
 <script>
 import router from "@/router";
 
-import { BBreadcrumb, BBreadcrumbItem, BRow, BCol, BAlert, BLink, BTabs, BTab, BButton } from "bootstrap-vue";
+import {
+  BBreadcrumb,
+  BBreadcrumbItem,
+  BRow,
+  BCol,
+  BAlert,
+  BLink,
+  BTabs,
+  BTab,
+  BButton,
+} from "bootstrap-vue";
 
 import users from "./users/users.vue";
 import clients from "./clients/clients";
 import results from "./results/lab.vue";
-import individual from './individual/individual.vue'
+import individual from "./individual/individual.vue";
+import kursiyer from "./kursiyer/liste.vue";
 
 export default {
   components: {
@@ -72,7 +93,9 @@ export default {
     clients,
     BBreadcrumb,
     BBreadcrumbItem,
-    results,individual,
+    results,
+    individual,
+    kursiyer,
 
     // Local Components
   },

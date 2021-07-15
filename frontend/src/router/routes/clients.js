@@ -127,6 +127,11 @@ export default [
         component: () => import('@/views/belge/certficate/sertifika/certifa.vue'),
         meta: {
             requiresAuth: true,
+            pageTitle: 'Kursiyerler ',
+            breadcrumb: [{
+                text: 'Kursiyerler',
+                to: '/kursiyerler',
+            }, ],
 
         }
     },
@@ -136,6 +141,11 @@ export default [
         component: () => import('@/views/belge/certficate/sertifika/certifa.vue'),
         meta: {
             requiresAuth: true,
+            pageTitle: 'Kursiyerler ',
+            breadcrumb: [{
+                text: 'Kursiyerler',
+                to: '/kursiyerler',
+            }, ],
 
         }
     },

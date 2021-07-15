@@ -5,16 +5,14 @@
       <b-button
         variant="warning"
         class="btn-icon"
-        v-on:click="edit = !edit"
-        style="margin: 5px; float: right; margin-right: 200px"
+        @click="updatemodal(data.item)"
+        style="float: right"
         v-b-tooltip.hover.v-warning
+        title="Düzenle"
       >
-        {{ edit ? "Tamam" : "Güncelle" }}
+        Düzenle
       </b-button>
     </b-card>
-    <portal to="duzenle">
-      <div v-if="edit === true"><p></p></div>
-    </portal>
 
     <b-card title="Kursiyerler">
       <b-row>
@@ -292,12 +290,12 @@
                 <feather-icon icon="EditIcon" />
               </b-button>
               <b-button
-                variant="danger"
+                variant="primary"
                 class="btn-icon"
-                @click="arsiv(data.item)"
+                @click="arsivckr(data.item)"
                 style="margin: 5px"
-                v-b-tooltip.hover.v-danger
-                title="Arşivle"
+                v-b-tooltip.hover.v-primary
+                title="Arşivden Çıkar"
               >
                 <feather-icon icon="ArchiveIcon" />
               </b-button>
@@ -451,28 +449,18 @@ export default {
       sayi: null,
       options: [],
       userData: null,
-      edit: false,
-      ok: false,
-      firma_id:router.currentRoute.params.id
+      firma_id: router.currentRoute.params.id,
     };
-  },
-  beforeCreate: function () {
-
-      var id =  router.currentRoute.params.id;
-   axios("/api/firmagoster/" + id).then((res) => {
-        this.userData = res.data;
-      });
   },
 
   created() {
     axios
-      .post("/api/sertifikagetir", { id: this.firma_id })
+      .post("/api/sertifikagetir", { id: this.firma_id, status:"cikar" })
       .then((res) => (this.items = res.data));
-    const id = firma_id;
 
-    setTimeout(() => {
-
-    }, 1000);
+    axios("/api/firmagoster/" + this.firma_id).then((res) => {
+      this.userData = res.data;
+    });
   },
   mounted() {
     setTimeout(() => {
@@ -532,9 +520,9 @@ export default {
       this.egitim = data.egitim_tur;
       //axios.post("/api/sertifikaduzenle");
     },
-    arsiv(data) {
+    arsivckr(data) {
       axios
-        .post("/api/kursarsiv", { id: data.id })
+        .post("/api/kursarsivckr", { id: data.id })
         .then((res) => {
           this.basarili();
         })
@@ -559,9 +547,6 @@ export default {
 
       this.form();
     },
-    show() {
-      this.ok = false;
-    },
     update() {
       axios
         .post("/api/sertifikaduzenle", {
@@ -583,7 +568,7 @@ export default {
     refreshStop() {
       setTimeout(() => {
         axios
-          .post("/api/sertifikagetir", { id: this.firma_id })
+          .post("/api/sertifikagetir", { id: this.firma_id, status:"cikar" })
           .then((response) => {
             this.items = response.data;
           })

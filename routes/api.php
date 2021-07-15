@@ -212,3 +212,5 @@ route::post('sertifikaekle', [CerfController::class, 'add']);
 route::post('sertifikaduzenle', [CerfController::class, 'update']);
 route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);
 route::get('kursiyersayi', [CerfController::class, 'kursiyer_sayi']);
+route::post('kursarsiv', [CerfController::class, 'archive']);
+route::post('kursarsivckr', [CerfController::class, 'archiveout']);

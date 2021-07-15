@@ -16,7 +16,11 @@ class CerfController extends Controller
     }
     public function get(Request $request)
     {
-        return  DB::table('certificate')->where('firma_id', $request->id)->get();
+        if ($request->status) {
+            return  DB::table('certificate')->where([['firma_id', $request->id], ['isArch', '1']])->get();
+        } else {
+            return  DB::table('certificate')->where([['firma_id', $request->id], ['isArch', '0']])->get();
+        }
     }
 
 
@@ -43,6 +47,25 @@ class CerfController extends Controller
             'sonuc' => $request->sonuc,
             'name' => $request->name,
             'tc' => $request->tc
+
+        ]);
+    }
+
+
+    public function archive(Request $request)
+    {
+        return  DB::table('certificate')->where('id', $request->id)->update([
+
+            'isArch' => "1"
+
+        ]);
+    }
+
+    public function archiveout(Request $request)
+    {
+        return  DB::table('certificate')->where('id', $request->id)->update([
+
+            'isArch' => "0"
 
         ]);
     }

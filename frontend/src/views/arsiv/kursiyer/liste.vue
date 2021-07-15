@@ -54,6 +54,7 @@ import { ValidationProvider, ValidationObserver } from "vee-validate";
 import individual from "./bireysel-liste";
 import client from "./firma-liste";
 
+
 import router from "@/router";
 
 export default {
