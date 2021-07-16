@@ -569,7 +569,7 @@ export default {
       this.items = response.data;
     });
 
-    axios("/api/kursiyersayi").then((res) => {
+    axios.post("/api/kursiyersayi").then((res) => {
       this.sayi = res.data;
     });
   },

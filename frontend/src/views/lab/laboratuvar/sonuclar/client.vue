@@ -1,9 +1,9 @@
 <template>
   <div>
-     <b-card>
+    <b-card>
       <kunye :userData="userData" />
       <b-button
-        variant="warning"
+        :variant="edit ? 'success' : 'warning'"
         class="btn-icon"
         v-on:click="edit = !edit"
         style="margin: 5px; float: right; margin-right: 200px"
@@ -347,7 +347,8 @@ export default {
     BPagination,
     BInputGroup,
     BFormInput,
-    BInputGroupAppend,kunye,
+    BInputGroupAppend,
+    kunye,
     BButton,
     BCard,
     BModal,
@@ -374,7 +375,7 @@ export default {
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
-      edit:false,
+      edit: false,
       filterOn: [],
       infoModal: {
         id: "info-modal",
@@ -412,7 +413,7 @@ export default {
       firmaselected: "",
       calisan: "",
       raporlar: "",
-      userData:null,
+      userData: null,
 
       form: [
         {
@@ -441,7 +442,6 @@ export default {
 
     var id = this.Selected;
     this.form[0].Selected2 = id;
-
 
     axios("/api/firmagoster/" + this.Selected).then((res) => {
       this.userData = res.data;

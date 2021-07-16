@@ -3,7 +3,7 @@
     <b-card>
       <kunye :userData="userData" />
       <b-button
-        variant="warning"
+         :variant="edit ? 'success' : 'warning'"
         class="btn-icon"
         v-on:click="edit = !edit"
         style="margin: 5px; float: right; margin-right: 200px"
