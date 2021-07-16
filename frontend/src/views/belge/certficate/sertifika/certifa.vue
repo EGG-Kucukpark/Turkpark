@@ -3,7 +3,7 @@
     <b-card>
       <kunye :userData="userData" />
       <b-button
-         :variant="edit ? 'success' : 'warning'"
+        :variant="edit ? 'success' : 'warning'"
         class="btn-icon"
         v-on:click="edit = !edit"
         style="margin: 5px; float: right; margin-right: 200px"
@@ -453,26 +453,20 @@ export default {
       userData: null,
       edit: false,
       ok: false,
-      firma_id:router.currentRoute.params.id
+      firma_id: router.currentRoute.params.id,
     };
   },
   beforeCreate: function () {
-
-      var id =  router.currentRoute.params.id;
-   axios("/api/firmagoster/" + id).then((res) => {
-        this.userData = res.data;
-      });
+    var id = router.currentRoute.params.id;
+    axios("/api/firmagoster/" + id).then((res) => {
+      this.userData = res.data;
+    });
   },
 
   created() {
     axios
       .post("/api/sertifikagetir", { id: this.firma_id })
       .then((res) => (this.items = res.data));
-    const id = firma_id;
-
-    setTimeout(() => {
-
-    }, 1000);
   },
   mounted() {
     setTimeout(() => {

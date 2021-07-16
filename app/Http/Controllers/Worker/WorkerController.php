@@ -40,11 +40,11 @@ class WorkerController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
-                'tc'=> $request->tc
+                'tc' => $request->tc
 
             ]);
         } catch (Exception $exception) {
-           return response()->json(['error' => 'Başarısız'], 404);
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////
@@ -108,15 +108,16 @@ class WorkerController extends Controller
 
             ]);
         } catch (Exception $exception) {
-           return response()->json(['error' => 'Başarısız'], 404);
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
-    function workersil(Request $request){
+    function workersil(Request $request)
+    {
         try {
             DB::table('workers')->where('id', $request->id)->delete();
         } catch (Exception $exception) {
-           return response()->json(['error' => 'Başarısız'], 404);
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
@@ -139,7 +140,15 @@ class WorkerController extends Controller
 
             return unlink($file);
         } catch (Exception $ex) {
-           return response()->json(['error' => 'Başarısız'], 404);;
+            return response()->json(['error' => 'Başarısız'], 404);;
         }
+    }
+
+
+
+    function worker_file_sayi(Request $request)
+    {
+        $a = DB::select("SELECT firma_id, COUNT(*) AS sayi FROM `files` Where  $request->db = 1 GROUP BY firma_id;  " );
+        return $a;
     }
 }

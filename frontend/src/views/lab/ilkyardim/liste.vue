@@ -7,7 +7,7 @@
         <span class="d-none d-sm-inline"> Firma Listesi </span>
       </template>
 
-      <client :user-data="userData" class="mt-2 pt-75" />
+      <client :bilgi="bilgi" :user-data="userData" class="mt-2 pt-75" />
     </b-tab>
 
     <!-- Tab: Information -->
@@ -51,9 +51,8 @@ import {
 import { required } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import individual from "./bireysel-liste";
-import client from "./firma-liste";
-
+import individual from "../laboratuvar/bireysel-liste";
+import client from "../laboratuvar/firma-liste.vue";
 
 import router from "@/router";
 
@@ -104,7 +103,10 @@ export default {
     var userData = ref(null);
     userData.value = user;
 
+    var bilgi = {url: "filkyardim-firma" , db: "isYardim" };
+
     return {
+      bilgi,
       userData,
       show: true,
     };

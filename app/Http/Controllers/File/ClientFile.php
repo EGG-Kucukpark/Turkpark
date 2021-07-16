@@ -49,7 +49,8 @@ class ClientFile extends Controller
 
             try {
 
-                $this->yukle($request->file, $request->rapor, $request->id, $request->name, $request->firma_id, 'isMeasure');
+                $this->yukle($request, $request->rapor, $request->id, $request->name, $request->firma_id, 'isMeasure');
+
             } catch (Exception $ex) {
                 return response()->json(['error' => 'Başarısız'], 404);
             }

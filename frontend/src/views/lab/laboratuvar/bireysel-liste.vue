@@ -283,6 +283,11 @@ export default {
     ToastificationContent,
     BForm,
   },
+  props: {
+    bilgi: {
+      type: Object,
+    },
+  },
   directives: {
     "b-tooltip": VBTooltip,
     Ripple,
@@ -389,7 +394,7 @@ export default {
 
     tikla(params) {
       this.$router.push({
-        name: "flaboratuvar-bireysel",
+        name: this.bilgi.url,
         params: { id: params.id },
       });
     },

@@ -569,9 +569,9 @@ export default {
       this.items = response.data;
     });
 
-    axios.post("/api/kursiyersayi").then((res) => {
-      this.sayi = res.data;
-    });
+     axios
+      .post("/api/kursiyersayi", { id: this.firma_id })
+      .then((res) => (this.sayi = res.data));
   },
 
   methods: {

@@ -337,22 +337,34 @@
             empty-text="Veri Bulunamadı."
             empty-filtered-text="Veri Bulunamadı."
             @filtered="onFiltered"
-          ><template #head(id)>
-              <span  v-b-tooltip.hover.v-dark  title="Firma Kodu" >F.K</span>
+            ><template #head(id)>
+              <span v-b-tooltip.hover.v-dark title="Firma Kodu">F.K</span>
+            </template>
+
+            <template #cell(ds)="data">
+              <span v-for="sayi in sayi" :key="sayi.id">
+                <span v-if="data.item.id === sayi.firma_id">
+                  <span> {{ sayi.sayi }} </span>
+                </span>
+              </span>
+            </template>
+
+            <template #head(ds)>
+              <span v-b-tooltip.hover.v-dark title="Dosya Sayısı">D.S</span>
             </template>
             <template #cell(actions)="data">
               <span>
-                 <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="success"
-                @click.prevent="tikla"
-                class="btn-icon"
-                v-b-tooltip.hover.v-success
-                style="margin: 5px"
-                title="Göster"
-              >
-                <feather-icon icon="ImageIcon" />
-              </b-button>
+                <b-button
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="success"
+                  @click.prevent="tikla"
+                  class="btn-icon"
+                  v-b-tooltip.hover.v-success
+                  style="margin: 5px"
+                  title="Göster"
+                >
+                  <feather-icon icon="ImageIcon" />
+                </b-button>
                 <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="warning"
@@ -365,7 +377,7 @@
                   <feather-icon icon="EditIcon" />
                 </b-button>
 
-               <b-button
+                <b-button
                   v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                   variant="danger"
                   @click.prevent="arsiv(data.item)"
@@ -377,12 +389,17 @@
                   <feather-icon icon="ArchiveIcon" /> </b-button
               ></span>
             </template>
-                <template #cell(ks)>
-              <span  v-b-tooltip.hover.v-dark  title="Firma Kodu" >F.K</span>
+            <template #cell(ks)>
+              <span v-b-tooltip.hover.v-dark title="Firma Kodu">F.K</span>
             </template>
 
             <template #cell(name)="data">
-              <p class="hover" v-b-tooltip.hover.top variant="outline-primary" :title="data.item.name">
+              <p
+                class="hover"
+                v-b-tooltip.hover.top
+                variant="outline-primary"
+                :title="data.item.name"
+              >
                 {{ data.item.name }}
               </p>
             </template>
@@ -475,6 +492,11 @@ export default {
     "b-tooltip": VBTooltip,
     Ripple,
   },
+  props: {
+    bilgi: {
+      type: Object,
+    },
+  },
   data() {
     return {
       errors: [],
@@ -492,12 +514,11 @@ export default {
         title: "",
         content: "",
       },
-       fields: [
+      fields: [
         { key: "name", label: "FİRMA ADI", sortable: true, filter: true },
-         { key: "id", label: "Firma Kodu", sortable: true, filter: true },
-        { key: "id", label: "ÇALIŞAN SAYISI", sortable: true, filter: true },
+        { key: "id", label: "Firma Kodu", sortable: true, filter: true },
+        { key: "ds", label: "DOSYA SAYISI", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
-
 
         {
           key: "telefon",
@@ -505,7 +526,6 @@ export default {
           sortable: true,
           filter: true,
         },
-
 
         {
           key: "firma_yetkilisi",
@@ -526,6 +546,7 @@ export default {
       role: "",
       telefon: "",
       password: "",
+      sayi: null,
       id: "",
       searchTerm: "",
       options: "",
@@ -554,6 +575,10 @@ export default {
     axios.post("/api/firmalar").then((response) => {
       this.items = response.data;
     });
+
+    axios.post("/api/calisandosyasayi", { db: this.bilgi.db }).then((res) => {
+      this.sayi = res.data;
+    });
   },
 
   methods: {
@@ -580,7 +605,7 @@ export default {
     },
     tikla(params) {
       this.$router.push({
-        name: "flaboratuvar-firma",
+        name: this.bilgi.url,
         params: { id: params.id },
       });
     },

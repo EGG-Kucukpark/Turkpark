@@ -94,6 +94,7 @@ Route::post('calisanlar', [WorkerController::class, 'workers']);
 route::post('calisanekle', [WorkerController::class, 'addworker']);
 route::post('calisanduzenle', [WorkerController::class, 'calisanduzenle']);
 Route::post('workersil', [WorkerController::class, 'workersil']);
+route::post('calisandosyasayi', [WorkerController::class, 'worker_file_sayi']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Dosya İşlemleri -- Firma
@@ -105,6 +106,7 @@ Route::post('indir', [ClientFile::class, 'download']);
 route::post('dosyaarsiv', [ClientFile::class, 'arsiv']);
 route::post('dosyasil', [ClientFile::class, 'deletefile']);
 route::post('excelsertifika', [FileController::class, 'importsertf']);
+
 
 
 
