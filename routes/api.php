@@ -167,6 +167,7 @@ route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);
 
 
 route::post('egitimgetir', [EduController::class, 'get']);
+route::post('egitimkontenjan', [EduController::class, 'egitimkontenjan']);
 route::post('kategorigetir', [EduController::class, 'getcategory']);
 route::post('kategoriekle', [EduController::class, 'addcategory']);
 route::post('kategorisil', [EduController::class, 'delcategory']);
@@ -176,12 +177,19 @@ route::post('yerekle', [EduController::class, 'addplace']);
 route::post('yersil', [EduController::class, 'delplace']);
 
 route::get('egitimgoster/{id}', [EduController::class, 'view']);
-route::post('egitimekle', [EduController::class, 'add']);
+route::post('egitimlerekle', [EduController::class, 'add']);
 route::post('egitimduzenle', [EduController::class, 'update']);
 route::post('katilimcigetir', [EduController::class, 'getusers']);
 route::post('katilimciekle', [EduController::class, 'addusers']);
 route::post('katilimcisil', [EduController::class, 'deleteusers']);
 route::post('katilimciduzenle', [EduController::class, 'updateuser']);
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 //                   Tanımlamalar
 

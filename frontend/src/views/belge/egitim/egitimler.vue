@@ -62,8 +62,9 @@
         style="margin: auto; margin-right: 40px"
         variant="success"
         @click="Modal1"
-        >Yeni Etkinlik</b-button
       >
+        <feather-icon size="24" icon="PlusIcon" />
+      </b-button>
       <span>
         <!-- Update -->
         <b-modal
@@ -130,6 +131,20 @@
                   </option>
                 </b-form-select>
               </b-form-group>
+
+              <b-form-group
+                label="Etkinlik Durumu:"
+                label-for="yer"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-select v-model="open">
+                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option value="0">Açık</option>
+                  <option value="1">Kapalı</option>
+                </b-form-select>
+              </b-form-group>
+
               <b-form-group
                 label="Kontenjan:"
                 label-for="Kontenjan"
@@ -205,6 +220,18 @@
                   </option>
                 </b-form-select>
               </b-form-group>
+              <b-form-group
+                label="Etkinlik Durumu:"
+                label-for="yer"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-select v-model="open">
+                  <option disabled value="">Lütfen Seçim Yapınız</option>
+                  <option value="0">Açık</option>
+                  <option value="1">Kapalı</option>
+                </b-form-select>
+              </b-form-group>
 
               <b-form-group
                 label="Etkinlik Yeri:"
@@ -250,6 +277,7 @@
         <b-table
           striped
           hover
+          small
           responsive
           :per-page="perPage"
           :current-page="currentPage"
@@ -260,6 +288,7 @@
           :sort-direction="sortDirection"
           :filter="filter"
           :filter-included-fields="filterOn"
+          @row-clicked="egitim"
           show-empty
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
@@ -269,20 +298,58 @@
             <b> Kullanıcı Bulunamadı.</b>
           </p>
 
+          <template #head(ks)>
+            <span v-b-tooltip.hover.v-dark title="Kontenjan Doluluğu">K.D</span>
+          </template>
+          <template #cell(ks)="data">
+            <span v-for="sayi in sayi" :key="sayi.id">
+              <span v-if="data.item.id === sayi.etkinlik_id">
+                <span> {{ sayi.sayi }} </span>
+              </span>
+            </span>
+          </template>
+
+          <template #cell(isOpen)="data">
+            <b-badge
+              pill
+              :variant="data.item.isOpen === '1' ? 'danger' : 'success'"
+              >{{ data.item.isOpen === "1" ? "Kapalı" : "Açık" }}</b-badge
+            >
+          </template>
+
           <template #cell(actions)="data">
             <span>
-              <b-button variant="gradient-warning" @click="Modal2(data.item)">
-                Düzenle
+              <b-button
+                variant="success"
+                @click.prevent="egitim(data.item)"
+                class="btn-icon"
+                v-b-tooltip.hover.v-success
+                style="margin: 5px"
+                title="Göster"
+              >
+                <feather-icon icon="ImageIcon" />
               </b-button>
-
-              <b-button variant="gradient-success" @click="egitim(data.item)">
-                Eğitimi Görüntüle
+              <b-button
+                variant="warning"
+                @click="Modal2(data.item)"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
+              >
+                <feather-icon icon="EditIcon" />
               </b-button>
-
-              <b-button variant="gradient-danger" disabled>
-                Sil
-              </b-button></span
-            >
+              <b-button
+                variant="danger"
+                @click.prevent="arsiv(data.item)"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-danger
+                title="Arşivle"
+              >
+                <feather-icon icon="ArchiveIcon" />
+              </b-button>
+            </span>
           </template>
         </b-table>
       </b-col>
@@ -328,6 +395,7 @@ import {
   BPagination,
   BInputGroup,
   BFormInput,
+  VBTooltip,
   BInputGroupAppend,
   BButton,
   BCard,
@@ -345,6 +413,7 @@ export default {
     BAvatar,
     BBadge,
     BRow,
+    VBTooltip,
     BCol,
     BFormGroup,
     BFormSelect,
@@ -363,6 +432,10 @@ export default {
     BCardBody,
     BFormTimepicker,
   },
+  directives: {
+    "b-tooltip": VBTooltip,
+  },
+
   data() {
     return {
       perPage: 10,
@@ -381,9 +454,11 @@ export default {
       },
       fields: [
         { key: "kota", label: "Kontenjan", sortable: true, filter: true },
+        { key: "ks", label: "", sortable: true, filter: true },
         { key: "title", label: "Kategori", sortable: true, filter: true },
         { key: "date", label: "Tarih", sortable: true, filter: true },
         { key: "location", label: "Eğitim Yeri", sortable: true, filter: true },
+        { key: "isOpen", label: " Durum", sortable: true, filter: true },
 
         { key: "actions", label: "Eylemler" },
       ],
@@ -402,6 +477,8 @@ export default {
       selected_kategori: null,
       selected_yer: null,
       yerler: null,
+      sayi: null,
+      open: null,
     };
   },
 
@@ -415,7 +492,12 @@ export default {
     axios
       .post("/api/egitimgetir")
       .then((response) => (this.items = response.data));
+
+    axios
+      .post("/api/egitimkontenjan")
+      .then((response) => (this.sayi = response.data));
   },
+
   mounted() {
     setTimeout(() => {
       this.totalRows = this.items.length;
@@ -464,11 +546,12 @@ export default {
       let etktime = tarih.concat(zaman);
       console.log(etktime);
       axios
-        .post("api/egitimekle", {
+        .post("api/egitimlerekle", {
           date: etktime,
           title: this.kategori,
           kontenjan: this.kontenjan,
           etkinlik: this.etkinlik,
+          open: this.open,
         })
         .then((res) => this.ok())
         .catch((error) => {
@@ -496,12 +579,11 @@ export default {
 
     update() {
       let tarih = this.date;
-      var tarih2 = tarih.slice(0,10 );
+      var tarih2 = tarih.slice(0, 10);
 
       let zaman = " " + this.time;
 
       let etktime = tarih2.concat(zaman);
-
 
       axios
         .post("/api/egitimduzenle", {
@@ -510,6 +592,7 @@ export default {
           title: this.kategori,
           kontenjan: this.kontenjan,
           etkinlik: this.etkinlik,
+          open: this.open,
         })
 
         .then((res) => this.ok())
@@ -535,7 +618,8 @@ export default {
         (this.time = clock2),
         (this.kategori = row.title),
         (this.kontenjan = row.kota),
-        (this.etkinlik = row.location);
+        (this.etkinlik = row.location),
+        (this.open = row.isOpen);
     },
 
     form() {
@@ -545,7 +629,8 @@ export default {
         (this.email = ""),
         (this.role = ""),
         (this.telefon = ""),
-        (this.password = "");
+        (this.password = ""),
+        (this.open = "");
     },
 
     info(item, index, button) {

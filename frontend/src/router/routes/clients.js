@@ -155,6 +155,12 @@ export default [
         component: () => import('@/views/belge/egitim/egitim.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
+            pageTitle: 'Eğitim Planlama ',
+            breadcrumb: [{
+                text: 'Eğitim Planlama',
+                active: true
+            }, ],
 
         }
     },

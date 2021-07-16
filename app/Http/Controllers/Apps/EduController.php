@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\DB;
 
 class EduController extends Controller
 {
+    function egitimkontenjan(){
+
+        $a = DB::select("SELECT etkinlik_id, COUNT(*) AS sayi FROM `activity_users` GROUP BY etkinlik_id;  " );
+        return $a;
+
+
+    }
     public function get(Request $req)
 
     {
@@ -43,7 +50,8 @@ class EduController extends Controller
                 'date' => $request->date,
                 'kota' => $request->kontenjan,
                 'title' => $request->title,
-                'location' => $request->etkinlik
+                'location' => $request->etkinlik,
+                'isOpen' => $request->open
 
 
             ]);
@@ -61,7 +69,8 @@ class EduController extends Controller
                 'date' => $request->date,
                 'kota' => $request->kontenjan,
                 'title' => $request->title,
-                'location' => $request->etkinlik
+                'location' => $request->etkinlik,
+                'isOpen' => $request->open
 
 
             ]);

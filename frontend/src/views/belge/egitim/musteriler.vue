@@ -25,7 +25,7 @@
         style="margin: auto; margin-right: 40px"
         variant="success"
         @click="Modal1"
-        >Yeni Katılımcı</b-button
+        > <feather-icon size="24" icon="PlusIcon" /> </b-button
       >
       <span>
         <!-- Update -->
@@ -222,14 +222,27 @@
 
           <template #cell(actions)="data">
             <span>
-              <b-button variant="gradient-warning" @click="Modal2(data.item)">
-                Düzenle
+              <b-button
+                variant="warning"
+                @click="Modal2(data.item)"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-warning
+                title="Düzenle"
+              >
+                <feather-icon icon="EditIcon" />
               </b-button>
-
-              <b-button variant="gradient-danger" disabled>
-                Sil
-              </b-button></span
-            >
+              <b-button
+                variant="danger"
+                @click.prevent="arsiv(data.item)"
+                class="btn-icon"
+                style="margin: 5px"
+                v-b-tooltip.hover.v-danger
+                title="Arşivle"
+              >
+                <feather-icon icon="ArchiveIcon" />
+              </b-button>
+            </span>
           </template>
         </b-table>
       </b-col>
@@ -275,6 +288,7 @@ import {
   BPagination,
   BInputGroup,
   BFormInput,
+  VBTooltip,
   BInputGroupAppend,
   BButton,
   BCard,
@@ -294,6 +308,7 @@ export default {
     BRow,
     BCol,
     BFormGroup,
+    VBTooltip,
     BFormSelect,
     BPagination,
     BInputGroup,
@@ -309,6 +324,10 @@ export default {
     BCardHeader,
     BCardBody,
     BFormTimepicker,
+  },
+
+  directives: {
+    "b-tooltip": VBTooltip,
   },
   data() {
     return {
