@@ -568,9 +568,7 @@ export default {
       this.items = response.data;
     });
 
-    axios("/api/workersayi").then((res) => {
-      this.sayi = res.data;
-    });
+
   },
 
   methods: {

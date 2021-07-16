@@ -202,9 +202,7 @@ export default {
     };
   },
   created() {
-    axios("/api/workersayi").then((res) => {
-      this.sayi = res.data;
-    });
+
     setTimeout(() => {
       (this.name = this.userData.name),
         (this.email = this.userData.email),
