@@ -71,6 +71,7 @@ route::post('firmanotduzenle', [clientController::class, 'notdüzenle']);
 route::post('arsivfirma', [ClientController::class, 'arsiv']);
 route::post('firmaarsvckr', [ClientController::class, 'arsivckr']);
 route::post('firmasil', [ClientController::class, 'delete']);
+route::get('workersayi', [ClientController::class, 'worker_sayi']);
 
 
 
@@ -95,6 +96,7 @@ route::post('calisanekle', [WorkerController::class, 'addworker']);
 route::post('calisanduzenle', [WorkerController::class, 'calisanduzenle']);
 Route::post('workersil', [WorkerController::class, 'workersil']);
 route::post('calisandosyasayi', [WorkerController::class, 'worker_file_sayi']);
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 //                      Dosya İşlemleri -- Firma

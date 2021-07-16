@@ -567,6 +567,9 @@ export default {
     axios.post("/api/firmalar").then((response) => {
       this.items = response.data;
     });
+    axios
+      ("/api/workersayi")
+      .then((res) => (this.sayi = res.data));
 
 
   },
