@@ -25,7 +25,7 @@
         </b-button>
       </b-form>
     </b-modal>
-     <b-modal :hide-footer="true" ref="modal2" title="Kategori Ekle" centered>
+    <b-modal :hide-footer="true" ref="modal2" title="Kategori Ekle" centered>
       <b-form @submit.prevent="add2">
         <b-form-group
           label="Kategori Ekle:"
@@ -121,6 +121,9 @@ import {
   BListGroupItem,
   BCard,
   BCardHeader,
+  BCol,
+  BRow,
+  BCardGroup,
   BCardBody,
   BCardTitle,
   BButton,
@@ -137,6 +140,9 @@ export default {
     BListGroupItem,
     BCard,
     BButton,
+    BCol,
+    BRow,
+    BCardGroup,
     BModal,
     BForm,
     BFormInput,
@@ -156,9 +162,8 @@ export default {
     return {
       egitim: null,
       name: null,
-      yerler:null,
-      yer:null,
-
+      yerler: null,
+      yer: null,
     };
   },
 

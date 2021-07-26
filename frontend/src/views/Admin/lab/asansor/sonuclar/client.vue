@@ -92,6 +92,7 @@
                 <hr />
 
                 <b-col style="display: none" sm="1">
+
                   <b-form-select v-model="form.Selected2">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option
@@ -102,6 +103,9 @@
                       {{ firma.name }}
                     </option>
                   </b-form-select>
+
+
+
                 </b-col>
 
                 <b-col md="4">

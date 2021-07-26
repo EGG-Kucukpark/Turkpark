@@ -333,6 +333,7 @@
                 variant="warning"
                 @click="Modal2(data.item)"
                 class="btn-icon"
+                v-show="show"
                 style="margin: 5px"
                 v-b-tooltip.hover.v-warning
                 title="Düzenle"
@@ -343,6 +344,7 @@
                 variant="danger"
                 @click.prevent="arsiv(data.item)"
                 class="btn-icon"
+                 v-show="show"
                 style="margin: 5px"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
@@ -435,6 +437,11 @@ export default {
   directives: {
     "b-tooltip": VBTooltip,
   },
+  props: {
+    user: {
+      type: Boolean,
+    },
+  },
 
   data() {
     return {
@@ -463,9 +470,8 @@ export default {
         { key: "actions", label: "Eylemler" },
       ],
       items: null,
-
+      show: true,
       excel: null,
-
       date: null,
       time: null,
       kategori: null,
@@ -483,15 +489,22 @@ export default {
   },
 
   created() {
+    if (this.user) {
+      this.show = false;
+      axios
+        .post("/api/egitimgetir", { user: true })
+        .then((response) => (this.items = response.data));
+    } else {
+      axios
+        .post("/api/egitimgetir")
+        .then((response) => (this.items = response.data));
+    }
     axios
       .post("/api/kategorigetir")
       .then((response) => (this.kategoriler = response.data));
     axios
       .post("/api/yergetir")
       .then((response) => (this.yerler = response.data));
-    axios
-      .post("/api/egitimgetir")
-      .then((response) => (this.items = response.data));
 
     axios
       .post("/api/egitimkontenjan")

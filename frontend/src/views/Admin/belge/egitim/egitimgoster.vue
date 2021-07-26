@@ -2,7 +2,8 @@
   <div>
     <template>
       <egitiminfo class="mt-2 pt-75" />
-      <musteriler @submit-event="submit" class="mt-2 pt-75" />
+      <musteriler v-if="user === false" class="mt-2 pt-75" />
+      <useregitimler v-if="user != false" class="mt-2 pt-75" />
     </template>
   </div>
 </template>
@@ -12,6 +13,7 @@ import { BRow, BCol, BAlert, BLink, BTabs, BTab, BButton } from "bootstrap-vue";
 
 import egitiminfo from "./egitiminfo.vue";
 import musteriler from "./musteriler.vue";
+import useregitimler from "@/views/User/kursiyer/egitimler.vue";
 
 export default {
   components: {
@@ -27,12 +29,18 @@ export default {
 
     egitiminfo,
     musteriler,
+    useregitimler,
   },
-
-  methods: {
-    submit() {
-      alert("Deniz");
-    },
+  data() {
+    return {
+      user: false,
+    };
+  },
+  created() {
+    var user = JSON.parse(localStorage.getItem("user"));
+    if (user.role === "Firma") {
+      this.user = true;
+    }
   },
 };
 </script>

@@ -26,7 +26,8 @@
           style="margin-right: 50px"
           variant="success"
           v-on:click="$refs['modal'].show()"
-          ><feather-icon size="20" icon="PlusIcon" /></b-button>
+          ><feather-icon size="20" icon="PlusIcon"
+        /></b-button>
         <b-modal
           hide-header-close
           ok-title="Kaydet"
@@ -314,7 +315,6 @@ export default {
     ripple,
     heightTransition,
     BAlert,
-
   },
   directives: {
     "b-tooltip": VBTooltip,
@@ -379,8 +379,8 @@ export default {
     },
   },
   created() {
-    var user  = JSON.parse(localStorage.getItem('user'));
-    this.id = user.user_id
+    var user = JSON.parse(localStorage.getItem("user"));
+    this.id = user.user_id;
     this.veri();
   },
   mounted() {
@@ -439,7 +439,7 @@ export default {
         (this.telefon = row.telefon);
     },
 
-     tikla(params) {
+    tikla(params) {
       this.$router.push({
         name: "calisan-goster",
         params: { id: params.id },
@@ -455,7 +455,9 @@ export default {
           email: this.email,
           tc: this.tc,
         })
-        .then((res) => {this.basarili(), this.veri(), this.form()})
+        .then((res) => {
+          this.basarili(), this.veri(), this.form();
+        })
         .catch((error) => this.basarisiz);
     },
 

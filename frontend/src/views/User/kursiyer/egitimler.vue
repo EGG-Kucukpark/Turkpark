@@ -41,57 +41,24 @@
           <b-card>
             <b-form @submit.prevent="update">
               <b-form-group
-                label="Katılımcı Adı:"
+                label="Çalışan:"
                 label-for="ad"
                 label-cols-sm="3"
                 label-align-sm="right"
               >
-                <b-form-input
-                  id="ad"
-                  v-model="name"
-                  placeholder="Katılımcı Adını Giriniz"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="E-posta Adresi:"
-                label-for="email"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Telefon:"
-                label-for="Telefon"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="Telefon"
-                  v-model="telefon"
-                  placeholder="Telefon Numarasını Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Ödeme:"
-                label-for="ödeme"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select
-                  aria-placeholder="Sürücü Seçiniz"
-                  v-model="payed"
+                <v-select
+                  v-model="calisan"
+                  placeholder="Seçim Yapınız"
+                  :options="option"
                 >
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option value="1">Ödeme Yapıldı</option>
-                  <option value="0">Ödeme Yapılmadı</option>
-                </b-form-select>
+                  <template #option="option">
+                    <span>{{ option.name }}</span>
+                  </template>
+
+                  <template slot="selected-option" slot-scope="option">
+                    <span>{{ option.name }}</span>
+                  </template>
+                </v-select>
               </b-form-group>
 
               <div style="float: right">
@@ -122,61 +89,34 @@
           <b-card>
             <b-form @submit.prevent="submit">
               <b-form-group
-                label="Katılımcı Adı:"
+                label="Çalışan:"
                 label-for="ad"
                 label-cols-sm="3"
                 label-align-sm="right"
               >
-                <b-form-input
-                  id="ad"
-                  v-model="name"
-                  placeholder="Katılımcı Adını Giriniz"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="E-posta Adresi:"
-                label-for="email"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Telefon:"
-                label-for="Telefon"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="Telefon"
-                  v-model="telefon"
-                  placeholder="Telefon Numarasını Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Ödeme:"
-                label-for="ödeme"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-select
-                  aria-placeholder="Sürücü Seçiniz"
-                  v-model="payed"
+                <v-select
+                  v-model="calisan"
+                  placeholder="Seçim Yapınız"
+                  :options="option"
                 >
-                  <option disabled value="">Lütfen Seçim Yapınız</option>
-                  <option value="1">Ödeme Yapıldı</option>
-                  <option value="0">Ödeme Yapılmadı</option>
-                </b-form-select>
+                  <template #option="option">
+                    <span>{{ option.name }}</span>
+                  </template>
+
+                  <template slot="selected-option" slot-scope="option">
+                    <span>{{ option.name }}</span>
+                  </template>
+                </v-select>
               </b-form-group>
 
               <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
+                <b-button
+                  variant="success"
+                  @click="$emit('submit')"
+                  type="submit"
+                >
+                  Tamam
+                </b-button>
               </div>
               <div style="float: right; padding-right: 10px">
                 <b-button variant="danger" @click="form()"> İptal</b-button>
@@ -211,8 +151,6 @@
             <b> Kullanıcı Bulunamadı.</b>
           </p>
 
-
-
           <template #cell(actions)="data">
             <span>
               <b-button
@@ -220,20 +158,11 @@
                 @click="Modal2(data.item)"
                 class="btn-icon"
                 style="margin: 5px"
+                v-show="data.item.firma_id === user.user_id"
                 v-b-tooltip.hover.v-warning
                 title="Düzenle"
               >
                 <feather-icon icon="EditIcon" />
-              </b-button>
-              <b-button
-                variant="danger"
-                @click.prevent="arsiv(data.item)"
-                class="btn-icon"
-                style="margin: 5px"
-                v-b-tooltip.hover.v-danger
-                title="Arşivle"
-              >
-                <feather-icon icon="ArchiveIcon" />
               </b-button>
             </span>
           </template>
@@ -348,17 +277,15 @@ export default {
           filter: true,
         },
 
-
         { key: "actions", label: "Eylemler" },
       ],
       items: null,
-
-      excel: null,
+      show: true,
+      option: null,
       id: router.currentRoute.params.id,
-      name: null,
-      email: null,
-      telefon: null,
-      payed: null,
+      calisan: null,
+
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
 
@@ -366,6 +293,12 @@ export default {
     axios
       .post(`/api/katilimcigetir`, { id: this.id })
       .then((res) => (this.items = res.data));
+
+    axios
+      .post("/api/calisanlar", { firma_id: this.user.user_id })
+      .then((res) => {
+        this.option = res.data;
+      });
   },
   mounted() {
     setTimeout(() => {
@@ -408,11 +341,12 @@ export default {
       }, 1000);
     },
     submit() {
+      let calisan = this.calisan;
       axios
         .post("/api/katilimciekle", {
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
+          name: calisan.name,
+          email: calisan.email,
+          telefon: calisan.telefon,
           payed: this.payed,
           id: this.id,
         })
@@ -424,11 +358,12 @@ export default {
     },
 
     update() {
+      let calisan = this.calisan;
       axios
         .post("/api/katilimciduzenle", {
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
+          name: calisan.name,
+          email: calisan.email,
+          telefon: calisan.telefon,
           payed: this.payed,
           id: this.id,
         })
@@ -446,12 +381,8 @@ export default {
 
     Modal2(row) {
       this.$refs["modal2"].show();
-
-      (this.id = row.id),
-        (this.name = row.Name),
-        (this.email = row.email),
-        (this.telefon = row.telefon),
-        (this.payed = row.payed);
+      this.calisan = row;
+      this.id = row.id;
     },
 
     form() {
