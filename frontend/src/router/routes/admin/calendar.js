@@ -4,7 +4,7 @@ export default [
     {
         path: '/apps/calendar',
         name: 'apps-calendar',
-        component: () => import('@/views/calendar/Calendar.vue'),
+        component: () => import('@/views/Admin/calendar/Calendar.vue'),
         meta:{
             requiresAuth:true
 

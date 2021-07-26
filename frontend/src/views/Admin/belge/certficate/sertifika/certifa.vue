@@ -524,7 +524,7 @@ export default {
         (this.sonuc = data.sonuc),
         (this.qr = data.qr);
       this.egitim = data.egitim_tur;
-      //axios.post("/api/sertifikaduzenle");
+
     },
     arsiv(data) {
       axios

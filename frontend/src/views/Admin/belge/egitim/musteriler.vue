@@ -25,8 +25,9 @@
         style="margin: auto; margin-right: 40px"
         variant="success"
         @click="Modal1"
-        > <feather-icon size="24" icon="PlusIcon" /> </b-button
       >
+        <feather-icon size="24" icon="PlusIcon" />
+      </b-button>
       <span>
         <!-- Update -->
         <b-modal
@@ -396,7 +397,7 @@ export default {
     ok() {
       setTimeout(() => {
         axios
-          .post("/api/katilimcigetir", { id: this.id })
+          .post("/api/katilimcigetir", { id: router.currentRoute.params.id })
           .then((response) => {
             this.items = response.data;
           })

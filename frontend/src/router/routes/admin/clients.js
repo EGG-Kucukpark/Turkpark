@@ -6,7 +6,7 @@ export default [
     {
         path: '/client/:id',
         name: 'firmalar-goster',
-        component: () => import('@/views/clients/corporate/getclient/getclient.vue'),
+        component: () => import('@/views/Admin/clients/corporate/getclient/getclient.vue'),
         meta: {
             requiresAuth: true,
             admin: true,
@@ -22,7 +22,7 @@ export default [
     {
         path: '/clients',
         name: 'musteriler',
-        component: () => import('@/views/clients/liste.vue'),
+        component: () => import('@/views/Admin/clients/liste.vue'),
         meta: {
             requiresAuth: true,
             admin: true,
@@ -34,7 +34,7 @@ export default [
     {
         path: '/clientview',
         name: 'clients',
-        component: () => import('@/views/clients/corporate/getclient/getclient.vue'),
+        component: () => import('@/views/Admin/clients/corporate/getclient/getclient.vue'),
         meta: {
             requiresAuth: true,
             admin: true
@@ -43,7 +43,7 @@ export default [
     {
         path: '/clients',
         name: 'clients',
-        component: () => import('@/views/clients/corporate/getclient/getclient.vue'),
+        component: () => import('@/views/Admin/clients/corporate/getclient/getclient.vue'),
         meta: {
             requiresAuth: true,
             admin: true
@@ -58,7 +58,7 @@ export default [
     {
         path: '/individual/:id',
         name: 'bireysel-goster',
-        component: () => import('@/views//clients/individual/getclient/getindividual.vue'),
+        component: () => import('@/views/Admin//clients/individual/getclient/getindividual.vue'),
         meta: {
             requiresAuth: true,
             admin: true,
@@ -75,7 +75,7 @@ export default [
     {
         path: '/individualview',
         name: 'individual',
-        component: () => import('@/views/clients/individual/getclient/getindividual.vue'),
+        component: () => import('@/views/Admin/clients/individual/getclient/getindividual.vue'),
         meta: {
             requiresAuth: true,
             admin: true
@@ -84,7 +84,7 @@ export default [
     {
         path: '/individual',
         name: 'individual',
-        component: () => import('@/views/clients/individual/getclient/getindividual.vue'),
+        component: () => import('@/views/Admin/clients/individual/getclient/getindividual.vue'),
         meta: {
             requiresAuth: true,
             admin: true
@@ -115,7 +115,7 @@ export default [
     {
         path: '/kursiyerler',
         name: 'kursiyerler',
-        component: () => import('@/views/belge/certficate/liste.vue'),
+        component: () => import('@/views/Admin/belge/certficate/liste.vue'),
         meta: {
             requiresAuth: true,
 
@@ -124,9 +124,10 @@ export default [
     {
         path: '/kursiyerler/:id',
         name: 'kursiyer-firma',
-        component: () => import('@/views/belge/certficate/sertifika/certifa.vue'),
+        component: () => import('@/views/Admin/belge/certficate/sertifika/certifa.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Kursiyerler ',
             breadcrumb: [{
                 text: 'Kursiyerler',
@@ -138,9 +139,10 @@ export default [
     {
         path: '/kursiyerler/bireysel/:id',
         name: 'kursiyer-bireysel',
-        component: () => import('@/views/belge/certficate/sertifika/certifa.vue'),
+        component: () => import('@/views/Admin/belge/certficate/sertifika/certifa.vue'),
         meta: {
             requiresAuth: true,
+            admin: true,
             pageTitle: 'Kursiyerler ',
             breadcrumb: [{
                 text: 'Kursiyerler',
@@ -152,7 +154,7 @@ export default [
     {
         path: '/egitimler',
         name: 'egitim',
-        component: () => import('@/views/belge/egitim/egitim.vue'),
+        component: () => import('@/views/Admin/belge/egitim/egitim.vue'),
         meta: {
             requiresAuth: true,
             admin: true,
@@ -168,7 +170,7 @@ export default [
     {
         path: '/egitimler/:id',
         name: 'egitim-goster',
-        component: () => import('@/views/belge/egitim/egitimgoster.vue'),
+        component: () => import('@/views/Admin/belge/egitim/egitimgoster.vue'),
         meta: {
             requiresAuth: true,
 
@@ -177,7 +179,7 @@ export default [
     {
         path: '/sertifika/:id',
         name: 'sertifika-goster',
-        component: () => import('@/views/belge/certficate/sertifika/sertifika.vue'),
+        component: () => import('@/views/Admin/belge/certficate/sertifika/sertifika.vue'),
         meta: {
             requiresAuth: true,
 

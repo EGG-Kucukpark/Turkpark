@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Eğitim Bilgileri">
+  <b-card >
     <b-row>
       <!-- User Info: Left col -->
       <b-col
@@ -53,7 +53,7 @@
               <span class="font-weight-bold">Tarih ve Saat Bilgisi</span>
             </th>
             <td class="pb-50">
-              {{ egitim.time }}
+              {{ egitim.date }}
             </td>
           </tr>
           <tr>

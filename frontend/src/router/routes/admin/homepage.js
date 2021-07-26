@@ -2,7 +2,7 @@ export default [
     {
         path: '/',
         name: 'Home',
-        component: () => import('@/views/homepage/Analytics.vue'),
+        component: () => import('@/views/Admin/homepage/Analytics.vue'),
         meta:{
             requiresAuth: true,
 

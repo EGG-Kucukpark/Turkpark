@@ -1,7 +1,10 @@
 <template>
   <div>
     <b-card>
-      <kunye :userData="userData" />
+      <b-overlay :show="userData === null" rounded="sm">
+        <kunye v-if="userData != null" :userData="userData" />
+      </b-overlay>
+
       <b-button
         :variant="edit ? 'success' : 'warning'"
         class="btn-icon"
@@ -329,6 +332,7 @@ import {
   BModal,
   BForm,
   BFormFile,
+  BOverlay,
   BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
@@ -346,6 +350,7 @@ export default {
     BFormSelect,
     BPagination,
     BInputGroup,
+    BOverlay,
     BFormInput,
     BInputGroupAppend,
     kunye,

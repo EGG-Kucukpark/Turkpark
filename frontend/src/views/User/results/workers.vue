@@ -288,7 +288,6 @@ import {
   BAlert,
 } from "bootstrap-vue";
 import axios from "@axios";
-import FeatherIcon from '../../@core/components/feather-icon/FeatherIcon.vue';
 
 export default {
   components: {
@@ -315,7 +314,7 @@ export default {
     ripple,
     heightTransition,
     BAlert,
-    FeatherIcon,
+
   },
   directives: {
     "b-tooltip": VBTooltip,

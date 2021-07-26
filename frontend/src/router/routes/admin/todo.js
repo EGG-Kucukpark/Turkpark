@@ -5,7 +5,7 @@ export default [
     {
         path: '/todo',
         name: 'apps-todo',
-        component: () => import('@/views/todo/Todo.vue'),
+        component: () => import('@/views/Admin/todo/Todo.vue'),
         meta: {
             contentRenderer: 'sidebar-left',
             contentClass: 'todo-application',
@@ -19,7 +19,7 @@ export default [
     {
         path: '/todo/:filter',
         name: 'apps-todo-filter',
-        component: () => import('@/views/todo/Todo.vue'),
+        component: () => import('@/views/Admin/todo/Todo.vue'),
         meta: {
             contentRenderer: 'sidebar-left',
             contentClass: 'todo-application',
@@ -42,7 +42,7 @@ export default [
     {
         path: '/todo/tag/:tag',
         name: 'apps-todo-tag',
-        component: () => import('@/views/todo/Todo.vue'),
+        component: () => import('@/views/Admin/todo/Todo.vue'),
         meta: {
             contentRenderer: 'sidebar-left',
             contentClass: 'todo-application',

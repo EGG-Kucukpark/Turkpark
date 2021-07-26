@@ -5,7 +5,7 @@ export default [
 
         path: '/profil',
         name: 'profil',
-        component: () => import('@/views/settings/user/Account.vue'),
+        component: () => import('@/views/Admin/settings/user/Account.vue'),
         meta: {
             requiresAuth: true,
 
@@ -15,7 +15,7 @@ export default [
     {
         path: '/raporlar',
         name: 'rapor-turu',
-        component: () => import('@/views/settings/raporlar/raporlar.vue'),
+        component: () => import('@/views/Admin/settings/raporlar/raporlar.vue'),
         meta: {
             requiresAuth: true,
             admin: true
@@ -26,7 +26,7 @@ export default [
     {
         path: '/dosya-turu',
         name: 'dosya-turu',
-        component: () => import('@/views/settings/dosyalar/raporlar.vue'),
+        component: () => import('@/views/Admin/settings/dosyalar/raporlar.vue'),
         meta: {
             requiresAuth: true,
             admin: true
@@ -36,7 +36,7 @@ export default [
     {
         path: '/egitim-turu',
         name: 'egitim-turu',
-        component: () => import('@/views/settings/egitimler/raporlar.vue'),
+        component: () => import('@/views/Admin/settings/egitimler/raporlar.vue'),
         meta: {
             requiresAuth: true,
             admin: true

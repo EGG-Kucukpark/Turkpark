@@ -1,29 +1,9 @@
-
 export default [
-
-
-
-    {
-
-
-        path: '/calisanlar/:id',
-        name: 'calisan-goster',
-        component: () => import('@/views/clients/corporate/getworker/worker.vue'),
-
-
-        meta: {
-            requiresAuth: true,
-
-
-
-        }
-    },
-
 
     {
         path: '/calisanlar',
         name: 'calisanlar',
-        component: () => import('@/views/workers/workers.vue'),
+        component: () => import('@/views/User/results/workers.vue'),
         meta: {
             requiresAuth: true
         }
@@ -37,7 +17,7 @@ export default [
     {
         path: '/Laboratuvar',
         name: 'laboratuvar',
-        component: () => import('@/views/workers/laboratuvar.vue'),
+        component: () => import('@/views/User/results/laboratuvar.vue'),
         meta: {
             requiresAuth: true
         }
@@ -50,7 +30,7 @@ export default [
     {
         path: '/Asansor',
         name: 'asansor',
-        component: () => import('@/views/workers/asansor.vue'),
+        component: () => import('@/views/User/results/asansor.vue'),
         meta: {
             requiresAuth: true
         }
@@ -63,7 +43,7 @@ export default [
     {
         path: '/Egitimler',
         name: 'egitimler',
-        component: () => import('@/views/workers/egitimler.vue'),
+        component: () => import('@/views/User/results/egitimler.vue'),
         meta: {
             requiresAuth: true
         }
@@ -76,7 +56,7 @@ export default [
     {
         path: '/Ilkyardim',
         name: 'ilkyardim',
-        component: () => import('@/views/workers/ilkyardim.vue'),
+        component: () => import('@/views/User/results/ilkyardim.vue'),
         meta: {
             requiresAuth: true
         }
@@ -88,7 +68,7 @@ export default [
     }, {
         path: '/Periyodik-Olcumler',
         name: 'periyodik',
-        component: () => import('@/views/workers/periyodik.vue'),
+        component: () => import('@/views/User/results/periyodik.vue'),
         meta: {
             requiresAuth: true,
             pageTitle: 'Periyodik Ölçümler',
@@ -106,7 +86,7 @@ export default [
     {
         path: '/Ortam-Olcumler',
         name: 'ortam',
-        component: () => import('@/views/workers/ortam.vue'),
+        component: () => import('@/views/User/results/ortam.vue'),
         meta: {
             requiresAuth: true
         }
@@ -116,15 +96,4 @@ export default [
 
 
     },
-
-
-
-
-
-
-
-
-
-
-
 ]

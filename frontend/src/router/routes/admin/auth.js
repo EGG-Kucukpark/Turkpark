@@ -3,7 +3,7 @@ export default [
     {
         path: '/login',
         name: 'login',
-        component: () => import('@/views/auth/Login.vue'),
+        component: () => import('@/views/Admin/auth/Login.vue'),
         meta: {
             guest:true,
             layout: 'full',
@@ -16,7 +16,7 @@ export default [
     {
         path: '/register',
         name: 'register',
-        component: () => import('@/views/auth/Register.vue'),
+        component: () => import('@/views/Admin/auth/Register.vue'),
         meta: {
             guest:true,
             layout: 'full',
@@ -28,7 +28,7 @@ export default [
     {
         path: '/email/verify/:id',
         name: 'verification.verify',
-        component: () => import('@/views/auth/verify.vue'),
+        component: () => import('@/views/Admin/auth/verify.vue'),
         meta: {
             guest:true,
             layout: 'full',
@@ -38,7 +38,7 @@ export default [
     {
         path: '/admin/verify/:id',
         name: 'verification.verify',
-        component: () => import('@/views/auth/adminverify.vue'),
+        component: () => import('@/views/Admin/auth/adminverify.vue'),
         meta: {
             guest:true,
             layout: 'full',
@@ -49,7 +49,7 @@ export default [
     {
         path: '/password/reset',
         name: 'password.request',
-        component: () => import('@/views/auth/forgot.vue'),
+        component: () => import('@/views/Admin/auth/forgot.vue'),
         meta: {
             guest:true,
             layout: 'full',
@@ -58,7 +58,7 @@ export default [
     {
         path: '/email/resend',
         name: 'email.request',
-        component: () => import('@/views/auth/emailforgot.vue'),
+        component: () => import('@/views/Admin/auth/emailforgot.vue'),
         meta: {
             guest:true,
             layout: 'full',
@@ -68,7 +68,7 @@ export default [
     {
         path: '/password/reset/:token',
         name: 'password.reset',
-        component: () => import('@/views/auth/newpass.vue'),
+        component: () => import('@/views/Admin/auth/newpass.vue'),
         meta: {
             guest:true,
             layout: 'full',

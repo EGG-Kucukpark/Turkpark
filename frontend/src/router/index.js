@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import homepage from './routes/homepage'
+import homepage from './routes/admin/homepage'
 
-import additional from './routes/additional'
-import auth from './routes/auth'
-import clients from './routes/clients'
-import workers from './routes/workers'
-import users from './routes/users'
-import todo from './routes/todo'
-import calendar from './routes/calendar'
+import additional from './routes/admin/additional'
+import auth from './routes/admin/auth'
+import clients from './routes/admin/clients'
+import workers from './routes/admin/workers'
+import users from './routes/admin/users'
+import todo from './routes/admin/todo'
+import calendar from './routes/admin/calendar'
 import axios from '@axios'
-import archive from './routes/archive'
-import results from './routes/results'
-import settings from './routes/settings'
-
+import archive from './routes/admin/archive'
+import results from './routes/admin/results'
+import settings from './routes/admin/settings'
+import user_result from './routes/user/results'
 
 Vue.use(VueRouter)
 
@@ -38,6 +38,7 @@ const router = new VueRouter({
         ...archive,
         ...results,
         ...settings,
+        ...user_result,
         {
             path: '*',
             redirect: 'error-404',
