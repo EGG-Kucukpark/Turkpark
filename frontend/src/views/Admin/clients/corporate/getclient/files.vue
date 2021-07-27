@@ -72,7 +72,7 @@ export default {
   },
   created() {
     axios.post("/api/dosyatur").then((res) => (this.tur = res.data));
-    console.log(document.getElementById('tab'))
+
 
   },
 

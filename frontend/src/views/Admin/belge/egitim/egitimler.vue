@@ -557,7 +557,7 @@ export default {
       let zaman = " " + this.time;
 
       let etktime = tarih.concat(zaman);
-      console.log(etktime);
+
       axios
         .post("api/egitimlerekle", {
           date: etktime,

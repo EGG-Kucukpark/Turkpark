@@ -499,7 +499,7 @@ export default {
       setTimeout(() => {
 
         var id = this.Selected.firma_id;
-        console.log(id);
+
         this.Selected = {
           firma_id: this.Selected.firma_id,
         };

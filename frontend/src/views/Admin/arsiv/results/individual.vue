@@ -446,7 +446,7 @@ export default {
     submit() {
       var form = this.form;
       var time = 1000;
-      console.log(form)
+
 
       form.forEach(function (form) {
         const formData = new FormData();

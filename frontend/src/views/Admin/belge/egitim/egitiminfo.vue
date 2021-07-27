@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-start">
           <div class="d-flex flex-column ml-1">
             <div class="mb-1">
-              <h3 class="mb-2">Eğitim Kategorisi: {{ egitim.category }}</h3>
+              <h3 class="mb-2">Eğitim Kategorisi: {{ egitim.title }}</h3>
             </div>
           </div>
         </div>

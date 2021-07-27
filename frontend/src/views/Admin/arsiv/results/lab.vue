@@ -535,22 +535,22 @@ export default {
     selected() {
       if (this.sonuclar === "lab") {
         this.sonuc = "lab";
-        console.log(this.sonuc);
+
       } else if (this.sonuclar === "ölçüm") {
         this.sonuc = "ölçüm";
-        console.log(this.sonuc);
+
       } else if (this.sonuclar === "asansor") {
         this.sonuc = "asansor";
-        console.log(this.sonuc);
+
       } else if (this.sonuclar === "egitimler") {
         this.sonuc = "egitimler";
-        console.log(this.sonuc);
+    ;
       } else if (this.sonuclar === "periyodik") {
         this.sonuc = "periyodik";
-        console.log(this.sonuc);
+
       } else if (this.sonuclar === "ilkyardim") {
         this.sonuc = "ilkyardim";
-        console.log(this.sonuc);
+
       }
     },
   },

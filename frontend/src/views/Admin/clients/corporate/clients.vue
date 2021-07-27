@@ -603,7 +603,7 @@ export default {
       });
     },
     arsiv(data) {
-      console.log(data.id);
+
 
       axios.post("api/arsivfirma", { id: data.id }).then(this.refreshStop());
     },
