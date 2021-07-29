@@ -46,12 +46,14 @@
         <b-card-text class="mb-1">
           {{ not.not }}
         </b-card-text>
+        <small class="text-secondary">{{ not.kisi_name }}</small>
 
         <b-button
           style="margin: 10px; float: right"
           v-ripple.400="'rgba(113, 102, 240, 0.15)'"
           size="md"
           variant="outline-danger"
+          v-if="not.kisi_id == user.id"
           @click="sil(not.id)"
         >
           Sil
@@ -121,6 +123,7 @@ export default {
       not: "",
       notlar: [],
       id: this.userData.id,
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
 
@@ -135,11 +138,15 @@ export default {
     },
     ekle() {
       axios
-        .post("/api/firmanotekle", { id: this.id, not: this.not })
-        .then(this.veri(), this.not = null);
+        .post("/api/firmanotekle", {
+          id: this.id,
+          not: this.not,
+          kisi_id: this.user.id,
+          kisi_name: this.user.name,
+        })
+        .then(this.veri(), (this.not = null));
     },
     sil(data) {
-
       axios.post("/api/firmanotsil", { id: data }).then(this.veri());
     },
   },

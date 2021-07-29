@@ -8,7 +8,7 @@
               <validation-provider
                 #default="{ errors }"
                 name="Firma Adı"
-                rules="required|alpha_spaces"
+                rules="required"
               >
                 <b-form-input
                   id="mc-first-name"
@@ -24,7 +24,7 @@
               <validation-provider
                 #default="{ errors }"
                 name="Firma Yetkilisi"
-                rules="required|alpha_spaces"
+                rules="required"
               >
                 <b-form-input v-model="yetkili" id="mc-last-name" />
                 <small class="text-danger">{{ errors[0] }}</small>
