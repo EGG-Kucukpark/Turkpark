@@ -44,6 +44,9 @@ export default [
         path: '/Egitimler',
         name: 'egitimler',
         component: () => import('@/views/User/results/egitimler.vue'),
+
+
+
         meta: {
             requiresAuth: true
         }

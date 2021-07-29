@@ -89,7 +89,7 @@ class ClientController extends Controller
 
 
             ]);
-           $user = DB::table('clients')->where('name', $request->name)->first();
+            $user = DB::table('clients')->where('name', $request->name)->first();
 
             DB::table('users')->insert([
                 'name' => $request->name,
@@ -103,7 +103,6 @@ class ClientController extends Controller
                 'user_id' => $user->id
 
             ]);
-
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }
@@ -127,7 +126,7 @@ class ClientController extends Controller
 
             ]);
 
-             DB::table('users')->where('user_id', $request->id)->update([
+            DB::table('users')->where('user_id', $request->id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
@@ -135,7 +134,6 @@ class ClientController extends Controller
 
             ]);
             return true;
-
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }
@@ -150,7 +148,8 @@ class ClientController extends Controller
     public function notekle(Request $request)
     {
         DB::table('notes')->insert([
-
+            'kisi_name' =>  $request->kisi_name,
+            'kisi_id' =>  $request->kisi_id,
             'firma_id' => $request->id,
             'not' => $request->not
 
@@ -168,9 +167,10 @@ class ClientController extends Controller
 
         ]);
     }
-    function worker_sayi(){
+    function worker_sayi()
+    {
 
-       $a = DB::select("SELECT firma_id, COUNT(*) AS sayi FROM `workers` GROUP BY firma_id;");
+        $a = DB::select("SELECT firma_id, COUNT(*) AS sayi FROM `workers` GROUP BY firma_id;");
         return $a;
     }
 }

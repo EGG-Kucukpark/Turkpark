@@ -13,7 +13,7 @@ import axios from '@axios'
 import archive from './routes/admin/archive'
 import results from './routes/admin/results'
 import settings from './routes/admin/settings'
-import user_result from './routes/user/results'
+import user_result from './routes/user/results/results'
 
 Vue.use(VueRouter)
 

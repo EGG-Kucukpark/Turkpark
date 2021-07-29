@@ -4,7 +4,7 @@ export default [{
         component: () => import('@/views/Admin/users/users.vue'),
         meta: {
             requiresAuth: true,
-            uzman: true
+            admin: true,
 
         }
     },

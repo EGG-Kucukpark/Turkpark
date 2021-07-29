@@ -127,7 +127,7 @@ export default [
         component: () => import('@/views/Admin/belge/certficate/sertifika/certifa.vue'),
         meta: {
             requiresAuth: true,
-            admin: true,
+
             pageTitle: 'Kursiyerler ',
             breadcrumb: [{
                 text: 'Kursiyerler',
@@ -142,7 +142,7 @@ export default [
         component: () => import('@/views/Admin/belge/certficate/sertifika/certifa.vue'),
         meta: {
             requiresAuth: true,
-            admin: true,
+
             pageTitle: 'Kursiyerler ',
             breadcrumb: [{
                 text: 'Kursiyerler',
@@ -157,7 +157,6 @@ export default [
         component: () => import('@/views/Admin/belge/egitim/egitim.vue'),
         meta: {
             requiresAuth: true,
-            admin: true,
             pageTitle: 'Eğitim Planlama ',
             breadcrumb: [{
                 text: 'Eğitim Planlama',

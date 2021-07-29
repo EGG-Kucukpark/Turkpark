@@ -30,7 +30,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import JsonExcel from "vue-json-excel";
 
 
-
+import * as VueGoogleMAps from 'vue2-google-maps'
 
 
 import PortalVue from 'portal-vue'
@@ -48,7 +48,14 @@ Vue.component("downloadExcel", JsonExcel);
 Vue.use(VCalendar)
 Vue.use(VueSweetalert2);
 Vue.use(PortalVue);
+Vue.use(VueGoogleMAps, {
+    load: {
+        key: 'AIzaSyBA6gH1LTs7-6RTKi__xXvdaZ4bV78IdOE',
+        libraries: "places",
+        location:'tr',
 
+    }
+});
 
 
 

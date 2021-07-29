@@ -9,27 +9,27 @@ use Illuminate\Support\Facades\DB;
 
 class EduController extends Controller
 {
-    function egitimkontenjan(){
+    function egitimkontenjan()
+    {
 
-        $a = DB::select("SELECT etkinlik_id, COUNT(*) AS sayi FROM `activity_users` GROUP BY etkinlik_id;  " );
+        $a = DB::select("SELECT etkinlik_id, COUNT(*) AS sayi FROM `activity_users` GROUP BY etkinlik_id;  ");
         return $a;
-
-
     }
     public function get(Request $req)
 
     {
 
-        if ($req->kategori ||$req->sortdate || $req->yer ) {
+        if ($req->kategori || $req->sortdate || $req->yer) {
 
             return DB::table('activity')->orWhere('date', 'LIKE', '%' . $req->sortdate . '%')
-            ->orWhere('title', $req->kategori)->orWhere('location', $req->yer)->get();
+                ->orWhere('title', $req->kategori)->orWhere('location', $req->yer)->get();
+        } elseif ($req->user) {
+
+            return DB::table('activity')->where('isOpen', "0")->get();
         } else {
 
-        return DB::table('activity')->get();
+            return DB::table('activity')->get();
         }
-
-
     }
 
 
@@ -75,7 +75,7 @@ class EduController extends Controller
 
             ]);
         } catch (Exception $exception) {
-           return response()->json(['error' => 'Başarısız'], 404);
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
     //////////////////////
@@ -99,8 +99,8 @@ class EduController extends Controller
             DB::table('activity_users')->insert([
                 'Name' => $req->name,
                 'email' => $req->email,
-                'payed' => $req->payed,
                 'telefon' => $req->telefon,
+                'payed' => $req->payed,
                 'etkinlik_id' => $req->id
 
             ]);
@@ -118,7 +118,6 @@ class EduController extends Controller
             DB::table('activity_users')->where('id', $req->id)->update([
                 'Name' => $req->name,
                 'email' => $req->email,
-                'payed' => $req->payed,
                 'telefon' => $req->telefon,
 
 
@@ -183,7 +182,7 @@ class EduController extends Controller
 
             ]);
         } catch (Exception $exception) {
-           return response()->json(['error' => 'Başarısız'], 404);
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
@@ -194,7 +193,7 @@ class EduController extends Controller
 
             DB::table('activity_place')->where('id', $req->id)->delete();
         } catch (Exception $ex) {
-           return response()->json(['error' => 'Başarısız'], 404);;
+            return response()->json(['error' => 'Başarısız'], 404);;
         }
     }
 }
