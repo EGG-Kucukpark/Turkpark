@@ -173,7 +173,7 @@ export default {
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
-        { key: "rapor", label: "RAPOR TÜRÜ", sortable: true, filter: true },
+        { key: "rapor", label: "TEST TÜRÜ", sortable: true, filter: true },
         { key: "created_at", label: "Tarİh", sortable: true, filter: true },
 
         { key: "actions", label: "Eylemler" },

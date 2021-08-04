@@ -36,7 +36,7 @@ class WorkerController extends Controller
 
         try {
             DB::table('workers')->insert([
-                'firma_id' => $request->firma_id,
+                'firma_id' => $request->id,
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
@@ -44,7 +44,7 @@ class WorkerController extends Controller
 
             ]);
         } catch (Exception $exception) {
-            return response()->json(['error' => 'Başarısız'], 404);
+            return $exception;
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +148,7 @@ class WorkerController extends Controller
 
     function worker_file_sayi(Request $request)
     {
-        $a = DB::select("SELECT firma_id, COUNT(*) AS sayi FROM `files` Where  $request->db = 1 GROUP BY firma_id;  " );
+        $a = DB::select("SELECT firma_id, COUNT(*) AS sayi FROM `files` Where  $request->db = 1 GROUP BY firma_id;  ");
         return $a;
     }
 }

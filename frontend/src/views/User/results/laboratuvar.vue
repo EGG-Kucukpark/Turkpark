@@ -1,6 +1,9 @@
 <template>
-  <b-card title="Çalışan Raporları">
+  <b-card title="Sağlık Raporları">
     <b-row>
+      <b-col>
+        <talep />
+      </b-col>
       <b-col>
         <b-form-group
           label-cols-sm="7"
@@ -41,14 +44,14 @@
         >
           <template #cell(actions)="data">
             <span>
-               <b-button
+              <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-warning
                 title="Göster"
-                style="margin:5px"
+                style="margin: 5px"
               >
                 <feather-icon icon="ImageIcon" />
               </b-button>
@@ -60,7 +63,7 @@
                 class="btn-icon"
                 v-b-tooltip.hover.v-success
                 title="İndir"
-                style="margin:5px"
+                style="margin: 5px"
               >
                 <feather-icon icon="DownloadIcon" />
               </b-button>
@@ -97,82 +100,22 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import ripple from "vue-ripple-directive";
-
-import {
-  BTable,
-  BAvatar,
-  BBadge,
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BAlert,
-  BProgress,
-  BModal,
-  BForm,
-  VBTooltip,
-  BFormFile,
-} from "bootstrap-vue";
-import axios from "@axios";
-
+import talep from "./talep.vue";
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
-    BCol,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BFormInput,
-    BAlert,
-    BProgress,
-    BInputGroupAppend,
-    BButton,
-    BCard,
-    BModal,
     ToastificationContent,
-    BForm,
-    VBTooltip,
-    BFormFile,
-  },
-  directives: {
-    "b-tooltip": VBTooltip,
-    ripple,
+    talep,
   },
 
   data() {
     return {
-      perPage: 10,
-      pageOptions: [10, 20, 30],
-      totalRows: 1,
-      currentPage: 1,
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      ...this.$store.state.global.table,
       fields: [
+        { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
-        { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
-        { key: "rapor", label: "Rapor TÜRÜ", sortable: true, filter: true },
+        { key: "rapor", label: "TEST TÜRÜ", sortable: true, filter: true },
         { key: "created_at", label: "Tarih", sortable: true, filter: true },
-
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
@@ -191,7 +134,7 @@ export default {
     var user = JSON.parse(localStorage.getItem("user"));
 
     var id = user.user_id;
-    axios
+    this.$http
       .post("/api/getfile", { firma_id: id })
       .then((res) => (this.items = res.data));
   },
@@ -201,13 +144,14 @@ export default {
       this.totalRows = this.items.length;
     }, 500);
   },
+
   methods: {
     göster(dosya) {
       window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
 
     indir(dosya) {
-      axios
+      this.$http
         .post(
           "/api/indir",
           { id: this.id, dosya: dosya },

@@ -40,22 +40,17 @@
         >
           <validation-observer ref="registerForm" #default="{ invalid }">
             <b-form ref="submit" @submit.prevent="ekle(status)">
-              <b-form-group
-                label="İsim:"
-                label-for="isim"
-                label-cols-sm="2"
-
-
-              >
+              <b-form-group label="İsim:" label-for="isim" label-cols-sm="2">
                 <validation-provider
                   #default="{ errors }"
                   name="İsim"
-                  rules="required|"
+
                 >
                   <b-form-input
                     id="isim"
+                    :state="errors.length > 0 ? false : true"
                     v-model="form.name"
-                    placeholder="İsim Giriniz"
+                    placeholder="İş Yeri Adını Giriniz..."
                   ></b-form-input>
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -64,8 +59,6 @@
                 label="TC. Kimlik Numarası:"
                 label-for="isim"
                 label-cols-sm="2"
-
-
               >
                 <b-form-input
                   id="isim"
@@ -78,8 +71,6 @@
                 label="E-Posta Adresi"
                 label-for="email"
                 label-cols-sm="2"
-
-
               >
                 <b-form-input
                   id="email"
@@ -92,8 +83,6 @@
                 label="Telefon No:"
                 label-for="telefon"
                 label-cols-sm="2"
-
-
               >
                 <b-form-input
                   id="telefon"
@@ -210,6 +199,7 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
+import { required } from "@validations";
 import router from "@/router";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { heightTransition } from "@core/mixins/ui/transition";
@@ -222,6 +212,7 @@ export default {
     ToastificationContent,
     ripple,
     heightTransition,
+    required,
   },
   directives: {
     "b-tooltip": VBTooltip,
@@ -235,15 +226,8 @@ export default {
   },
   data() {
     return {
-      form: {
-        name: null,
-        tc: null,
-        email: null,
-        telefon: null,
-        id: this.userData.id,
-        calisan_id: null,
-      },
       ...this.$store.state.global.table,
+
       fields: [
         { key: "name", label: "Çalışan İSMİ", sortable: true, filter: true },
         {
@@ -269,6 +253,14 @@ export default {
       ],
       items: [],
       errors: [],
+      form: {
+        name: null,
+        tc: null,
+        email: null,
+        telefon: null,
+        id: this.userData.id,
+        calisan_id: null,
+      },
       status: true,
     };
   },
@@ -292,6 +284,7 @@ export default {
 
   methods: {
     ekle(data) {
+      console.log(this.form);
       if (data) {
         this.$http
           .post("/api/calisanekle", this.form)
@@ -351,7 +344,7 @@ export default {
     },
     clear() {
       this.$refs["modal"].hide();
-      this.form = "";
+      this.form = " ";
     },
 
     info(item, index, button) {

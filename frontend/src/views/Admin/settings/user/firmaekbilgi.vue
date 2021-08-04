@@ -12,7 +12,7 @@
               >
                 <b-form-input
                   id="mc-first-name"
-                  v-model="name"
+                  v-model="form.name"
                   placeholder="First Name"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -26,24 +26,24 @@
                 name="Firma Yetkilisi"
                 rules="required"
               >
-                <b-form-input v-model="yetkili" id="mc-last-name" />
+                <b-form-input v-model="form.yetkili" id="mc-last-name" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group label="Firma Muhasebe" label-for="mc-last-name">
-              <b-form-input v-model="muhasebe" id="mc-last-name" />
+              <b-form-input v-model="form.muhasebe" id="mc-last-name" />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group label="Vergi Numarası" label-for="mc-city">
-              <b-form-input v-model="vergino" id="mc-city" />
+              <b-form-input v-model="form.vergino" id="mc-city" />
             </b-form-group>
           </b-col>
           <b-col md="6">
             <b-form-group label="SGK Sicil Numarası" label-for="mc-country">
-              <b-form-input v-model="sgk" id="mc-country" />
+              <b-form-input v-model="form.sgk" id="mc-country" />
             </b-form-group>
           </b-col>
           <b-col md="6">
@@ -55,7 +55,7 @@
               >
                 <cleave
                   id="phone"
-                  v-model="telefon"
+                  v-model="form.telefon"
                   class="form-control"
                   :raw="false"
                   :state="errors.length > 0 ? false : null"
@@ -70,7 +70,7 @@
           <b-col md="6">
             <b-form-group label="Vergi Dairesi" label-for="mc-company">
               <div class="form-label-group">
-                <b-form-input v-model="vergiad" id="mc-company" />
+                <b-form-input v-model="form.vergiad" id="mc-company" />
               </div>
             </b-form-group>
           </b-col>
@@ -84,7 +84,7 @@
                 >
                   <b-form-input
                     :class="errors.length > 0 ? 'is-invalid' : null"
-                    v-model="email"
+                    v-model="form.email"
                     id="mc-email"
                     type="email"
                   />
@@ -94,9 +94,27 @@
             </b-form-group>
           </b-col>
 
-          <b-col md="6">
-            <b-form-group label="Adres" label-for="mc-last-name">
-              <b-form-textarea v-model="adres" id="mc-last-name" />
+          <b-col>
+            <b-form-group lg="2" label="Adres" label-for="mc-last-name">
+              <b-form-input
+                class="mb-1"
+                placeholder="Adres Başlığı"
+                v-model="form.adres"
+                id="mc-last-name"
+              />
+              <b-form-textarea
+                placeholder="Adres Açıklaması"
+                v-model="form.adres"
+                id="mc-last-name"
+              />
+              <b-button
+                v-ripple.400="'rgba(40, 199, 111, 0.15)'"
+                variant="flat-success"
+                class="btn-icon ml-10"
+                @click="push"
+              >
+                <feather-icon icon="PlusIcon" />
+              </b-button>
             </b-form-group>
           </b-col>
 
@@ -127,61 +145,37 @@
 
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
-import { required, email } from "@validations";
-import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
-import axios from "@axios";
 import Cleave from "vue-cleave-component";
-import {
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormInput,
-  BFormTextarea,
-  BFormCheckbox,
-  BCard,
-  BForm,
-  BButton,
-} from "bootstrap-vue";
-import Ripple from "vue-ripple-directive";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 export default {
   components: {
-    BRow,
-    BCol,
-    BFormTextarea,
-    BFormGroup,
-    BFormInput,
-    BFormCheckbox,
-    BForm,
-    BCard,
     Cleave,
-    BButton,
+    ToastificationContent,
     ValidationProvider,
     ValidationObserver,
-    BCardActions,
   },
   props: {
     options: {
       type: Object,
     },
   },
-  directives: {
-    Ripple,
-  },
+
   data() {
     return {
-      name: null,
-      email: null,
-      data: false,
-      vergino: null,
-      vergiad: null,
-      telefon: null,
-      sgk: null,
-      id: this.options.user_id,
-      yetkili: null,
-      muhasebe: null,
-      adres: null,
+      form: {
+        name: null,
+        email: null,
+        data: false,
+        vergino: null,
+        vergiad: null,
+        telefon: null,
+        sgk: null,
+        id: this.options.user_id,
+        yetkili: null,
+        muhasebe: null,
+        adres: null,
+      },
     };
   },
 
@@ -191,35 +185,15 @@ export default {
 
   methods: {
     reset() {
-      axios("/api/firmagoster/" + this.options.user_id).then((res) => {
+      this.$http("/api/firmagoster/" + this.options.user_id).then((res) => {
         var firma = res.data;
-
-        (this.name = firma.name),
-          (this.email = firma.email),
-          (this.vergino = firma.vergino),
-          (this.vergiad = firma.vergiad),
-          (this.telefon = firma.telefon),
-          (this.sg = firma.sgk),
-          (this.yetkili = firma.firma_yetkilisi),
-          (this.adres = firma.adres);
-        this.muhasebe = firma.muhasebe;
+        this.form = firma;
       });
     },
     update() {
       this.data = true;
-      axios
-        .post("/api/bireyselduzenle", {
-          id: this.id,
-          name: this.name,
-          vergino: this.vergino,
-          vergiad: this.vergiad,
-          telefon: this.telefon,
-          sgk: this.sgk,
-          firma_yetkilisi: this.yetkili,
-          adres: this.adres,
-          muhasebe: this.muhasebe,
-          email: this.email,
-        })
+      this.$http
+        .post("/api/bireyselduzenle", this.form)
         .then((res) => {
           this.$toast({
             component: ToastificationContent,
@@ -250,6 +224,14 @@ export default {
       var user = JSON.parse(localStorage.getItem("user"));
       user.name = this.name;
       localStorage.setItem("user", JSON.stringify(user));
+    },
+
+    push() {
+      console.log(this.form.adres);
+      /*  this.form.adres[0].push({
+        title: this.form.adres[0].title,
+        text: this.form.adres[0].text,
+      }); */
     },
   },
 };

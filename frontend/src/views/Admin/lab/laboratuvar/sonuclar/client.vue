@@ -58,7 +58,7 @@
             centered
             title="Rapor Ekle"
           >
-            <b-card>
+
               <b-form @submit.prevent="submit">
                 <b-progress
                   max="100"
@@ -80,7 +80,7 @@
                 >
                   <hr />
 
-                  <b-col style="display: none" sm="1">
+                  <b-col style="display: none">
                     <b-form-select v-model="form.Selected2">
                       <option disabled value="">Lütfen Seçim Yapınız</option>
                       <option
@@ -93,7 +93,7 @@
                     </b-form-select>
                   </b-col>
 
-                  <b-col md="4">
+                  <b-col>
                     <b-form-select v-model="form.calisanselected">
                       <option disabled value="">Lütfen Çalışan Seçiniz</option>
 
@@ -106,7 +106,7 @@
                       </option>
                     </b-form-select>
                   </b-col>
-                  <b-col md="4">
+                  <b-col >
                     <b-form-select v-model="form.rapor">
                       <option disabled value="">Lütfen Seçim Yapınız</option>
                       <option v-for="raporlar in raporlar" :key="raporlar.id">
@@ -114,7 +114,7 @@
                       </option>
                     </b-form-select>
                   </b-col>
-                  <b-col md="3">
+                  <b-col>
                     <b-form-file
                       v-model="form.file"
                       name="file"
@@ -170,7 +170,7 @@
                   </div>
                 </div>
               </b-form>
-            </b-card>
+
           </b-modal>
         </span>
 
@@ -391,7 +391,7 @@ export default {
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
         { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
-        { key: "rapor", label: "RAPOR TÜRÜ", sortable: true, filter: true },
+        { key: "rapor", label: "TEST TÜRÜ", sortable: true, filter: true },
         {
           key: "created_at",
           label: "Rapor Oluşturulma",

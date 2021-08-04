@@ -68,7 +68,7 @@
                 <b-col md="4">
                   <b-form-select v-model="form.rapor">
                     <option disabled value="" hidden="true">
-                      Rapor Türünü Seçiniz
+                      TEST TÜRÜnü Seçiniz
                     </option>
 
                     <option v-for="raporlar in raporlar" :key="raporlar.id">

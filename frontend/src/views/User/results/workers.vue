@@ -35,143 +35,71 @@
           size="lg"
           ref="modal"
           centered
-          title="Çalışan Ekle"
+          :title="status ? 'Çalışan Ekle' : 'Çalışan Düzenle'"
         >
-          <b-form @submit.prevent="ekle">
-            <b-form-group
-              label="İsim:"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="name"
-                placeholder="İsim Giriniz"
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="TC. Kimlik Numarası:"
-              label-for="isim"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="isim"
-                v-model="tc"
-                placeholder="TC. Kimlik Numarası Giriniz"
-              ></b-form-input>
-            </b-form-group>
+          <validation-observer ref="registerForm" #default="{ invalid }">
+            <b-form ref="submit" @submit.prevent="ekle(status)">
+              <b-form-group label="İsim:" label-for="isim" label-cols-sm="2">
+                <validation-provider #default="{ errors }" name="İsim">
+                  <b-form-input
+                    id="isim"
+                    :state="errors.length > 0 ? false : true"
+                    v-model="form.name"
+                    placeholder="İş Yeri Adını Giriniz..."
+                  ></b-form-input>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+              <b-form-group
+                label="TC. Kimlik Numarası:"
+                label-for="isim"
+                label-cols-sm="2"
+              >
+                <b-form-input
+                  id="isim"
+                  v-model="form.tc"
+                  placeholder="TC. Kimlik No Giriniz"
+                ></b-form-input>
+              </b-form-group>
 
-            <b-form-group
-              label="E-Posta Adresi"
-              label-for="email"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="email"
-                v-model="email"
-                placeholder="E-posta Adresini Giriniz"
-              ></b-form-input>
-            </b-form-group>
+              <b-form-group
+                label="E-Posta Adresi"
+                label-for="email"
+                label-cols-sm="2"
+              >
+                <b-form-input
+                  id="email"
+                  v-model="form.email"
+                  placeholder="E-posta Adresini Giriniz"
+                ></b-form-input>
+              </b-form-group>
 
-            <b-form-group
-              label="Telefon No:"
-              label-for="telefon"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="telefon"
-                v-model="telefon"
-                placeholder="Kullanıcı Telefon Numarası"
-              ></b-form-input>
-            </b-form-group>
+              <b-form-group
+                label="Telefon No:"
+                label-for="telefon"
+                label-cols-sm="2"
+              >
+                <b-form-input
+                  id="telefon"
+                  v-model="form.telefon"
+                  placeholder="Kullanıcı Telefon Numarası"
+                ></b-form-input>
+              </b-form-group>
 
-            <div style="float: right">
-              <b-button variant="success" type="submit"> Tamam </b-button>
-            </div>
-            <div style="float: right; padding-right: 10px">
-              <b-button variant="danger" @click="form()"> İptal</b-button>
-            </div>
-          </b-form>
+              <div style="float: right">
+                <b-button variant="success" type="submit" :disabled="invalid">
+                  Tamam
+                </b-button>
+              </div>
+              <div style="float: right; padding-right: 10px">
+                <b-button variant="danger" @click="clear()"> İptal</b-button>
+              </div>
+            </b-form>
+          </validation-observer>
 
           <!-- Emulate built in modal footer ok and cancel button actions -->
         </b-modal>
       </span>
-
-      <b-modal
-        hide-header-close
-        ok-title="Kaydet"
-        :hide-footer="true"
-        size="lg"
-        ref="modal2"
-        centered
-        title="Çalışan Düzenle"
-      >
-        <b-form @submit.prevent="duzenle">
-          <b-form-group
-            label="İsim:"
-            label-for="isim"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="isim"
-              v-model="name"
-              placeholder="İsim Giriniz"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="TC. Kimlik Numarası:"
-            label-for="isim"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="isim"
-              v-model="tc"
-              placeholder="TC. Kimlik Numarası Giriniz"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            label="E-Posta Adresi"
-            label-for="email"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="email"
-              v-model="email"
-              placeholder="E-posta Adresini Giriniz"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            label="Telefon No:"
-            label-for="telefon"
-            label-cols-sm="3"
-            label-align-sm="right"
-          >
-            <b-form-input
-              id="telefon"
-              v-model="telefon"
-              placeholder="Kullanıcı Telefon Numarası"
-            ></b-form-input>
-          </b-form-group>
-
-          <div style="float: right">
-            <b-button variant="success" type="submit"> Tamam </b-button>
-          </div>
-          <div style="float: right; padding-right: 10px">
-            <b-button variant="danger" @click="form()"> İptal</b-button>
-          </div>
-        </b-form>
-
-        <!-- Emulate built in modal footer ok and cancel button actions -->
-      </b-modal>
 
       <b-col cols="12" class="table-responsive">
         <b-table
@@ -264,79 +192,26 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
-import { heightTransition } from "@core/mixins/ui/transition";
+import { VBTooltip } from "bootstrap-vue";
+import { required } from "@validations";
 
-import {
-  BTable,
-  BAvatar,
-  BBadge,
-  BSpinner,
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BProgress,
-  BInputGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  VBTooltip,
-  BCard,
-  BModal,
-  BForm,
-  BFormFile,
-  BAlert,
-} from "bootstrap-vue";
-import axios from "@axios";
-
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BSpinner,
-    BRow,
-    BCol,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BFormInput,
-    BProgress,
     VBTooltip,
-    BInputGroupAppend,
-    BButton,
-    BCard,
-    BModal,
     ToastificationContent,
-    BForm,
-    BFormFile,
     ripple,
-    heightTransition,
-    BAlert,
+    ValidationProvider,
+    ValidationObserver,
+    required,
   },
   directives: {
     "b-tooltip": VBTooltip,
     ripple,
   },
-
   data() {
     return {
-      perPage: 10,
-      pageOptions: [3, 5, 10],
-      totalRows: 1,
-      currentPage: 1,
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      ...this.$store.state.global.table,
       fields: [
         { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
         {
@@ -361,12 +236,15 @@ export default {
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
-      name: null,
-      tc: null,
-      email: null,
-      telefon: null,
-      id: null,
-      calisan_id: null,
+      form: {
+        name: null,
+        tc: null,
+        email: null,
+        telefon: null,
+        id: null,
+        calisan_id: null,
+      },
+      status: true,
     };
   },
 
@@ -380,7 +258,7 @@ export default {
   },
   created() {
     var user = JSON.parse(localStorage.getItem("user"));
-    this.id = user.user_id;
+    this.form.id = user.user_id;
     this.veri();
   },
   mounted() {
@@ -414,29 +292,28 @@ export default {
       });
     },
     veri() {
-      axios
-        .post("/api/calisanlar", { firma_id: this.id })
+      this.$http
+        .post("/api/calisanlar", { firma_id: this.form.id })
         .then((res) => (this.items = res.data));
     },
-    ekle() {
-      axios
-        .post("/api/calisanekle", {
-          name: this.name,
-          firma_id: this.id,
-          telefon: this.telefon,
-          email: this.email,
-          tc: this.tc,
-        })
-        .then((res) => this.basarili(), this.veri(), this.form())
-        .catch((error) => this.basarisiz);
+    ekle(data) {
+      if (data) {
+        this.$http
+          .post("/api/calisanekle", this.form)
+          .then((res) => this.basarili(), this.veri(), this.clear())
+          .catch((error) => this.basarisiz);
+      } else {
+        this.$http
+          .post("/api/calisanduzenle", this.form)
+          .then((res) => {
+            this.basarili(), this.veri(), this.clear();
+          })
+          .catch((error) => this.basarisiz);
+      }
     },
     Duzenlemodal(row) {
-      this.$refs["modal2"].show();
-      (this.calisan_id = row.id),
-        (this.name = row.name),
-        (this.email = row.email),
-        (this.tc = row.tc),
-        (this.telefon = row.telefon);
+      this.$refs["modal"].show();
+      this.form = row;
     },
 
     tikla(params) {
@@ -446,38 +323,20 @@ export default {
       });
     },
 
-    duzenle() {
-      axios
-        .post("/api/calisanduzenle", {
-          userid: this.calisan_id,
-          name: this.name,
-          telefon: this.telefon,
-          email: this.email,
-          tc: this.tc,
-        })
-        .then((res) => {
-          this.basarili(), this.veri(), this.form();
-        })
-        .catch((error) => this.basarisiz);
-    },
+
 
     sil(data) {
-      axios
+      this.$http
         .post("/api/workersil", { id: data.id })
         .then((res) => {
-          this.basarili(), this.veri(), this.form();
+          this.basarili(), this.veri(), this.clear();
         })
         .catch((error) => this.basarisiz());
     },
 
-    form() {
+    clear() {
       this.$refs["modal"].hide();
-      this.$refs["modal2"].hide();
-      (this.calisan_id = null),
-        (this.name = null),
-        (this.tc = null),
-        (this.email = null),
-        (this.telefon = null);
+      this.form = "";
     },
 
     info(item, index, button) {

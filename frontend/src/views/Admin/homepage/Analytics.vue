@@ -36,7 +36,7 @@ import AnalyticsCongratulation from './AnalyticsCongratulation.vue'
 
 export default {
   components: {
-  StatisticCardWithAreaChart,
+
     AnalyticsCongratulation,
     CardAnalyticGoalOverview,
 
