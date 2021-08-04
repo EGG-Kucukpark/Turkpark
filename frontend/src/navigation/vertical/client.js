@@ -3,18 +3,20 @@ export default [
     {
 
         title: 'Panel',
-        route: 'firma',
+        route: 'Home',
         icon: 'HomeIcon',
     },
     {
 
-        title: 'Çalışanlar',
+        title: 'Çalışan Bilgileri',
         route: 'calisanlar',
         icon: 'UserIcon',
     },
     {
         title: 'Hizmetler & Sonuçlar',
+        route: 'hizmet',
         icon: 'HeartIcon',
+
         children: [
 
             {
@@ -23,23 +25,8 @@ export default [
 
             }, {
                 title: 'İlk Yardım',
+                route: 'kursiyerler'
 
-                route: 'apps-invoice-list',
-                children: [{
-
-                        title: 'Kursiyerler',
-                        route: 'kursiyerler'
-
-                    },
-                    {
-                        title: 'Eğitim Planlama',
-                        route: 'egitim'
-
-                    },
-
-
-
-                ]
             },
             {
                 title: 'Testler',
@@ -118,6 +105,10 @@ export default [
         ]
 
 
+    },
+    {
+        title: "Hizmet Geçmişi",
+        icon: "ActivityIcon"
     },
 
 

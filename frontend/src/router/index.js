@@ -27,6 +27,7 @@ const router = new VueRouter({
         }
     },
     routes: [
+
         ...homepage,
         ...additional,
         ...auth,
@@ -65,7 +66,7 @@ router.beforeEach((to, from, next) => {
             next('/login')
         } else {
             var user = JSON.parse(localStorage.getItem('user'))
-            var database;
+
 
 
 
@@ -117,13 +118,24 @@ router.beforeEach((to, from, next) => {
 })
 
 
+ window.addEventListener('load', function () {
+    const eles = document.getElementsByClassName('nav-item has-sub');
 
+
+    console.log(eles[0].getElementsByTagName('a')[0].click())
+
+
+
+
+})
 
 router.afterEach(() => {
-    // Remove initial loading
+
+
     const appLoading = document.getElementById('loading-bg')
     if (appLoading) {
-        appLoading.style.display = 'none'
+        appLoading.style.display = 'none';
+
     }
 
 })

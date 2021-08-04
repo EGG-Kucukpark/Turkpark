@@ -107,8 +107,8 @@ export default {
       "src",
       "//cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"
     );
-
   },
+
   setup() {
     const { skin, skinClasses } = useAppConfig();
 

@@ -41,7 +41,7 @@
     <div
       class="sidenav-overlay"
       :class="overlayClasses"
-      @click="isVerticalMenuActive = false"
+      @click="isVerticalMenuActive = true"
     />
     <!-- /Vertical Nav Menu Overlay -->
 
