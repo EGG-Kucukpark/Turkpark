@@ -9,7 +9,6 @@ import workers from './routes/admin/workers'
 import users from './routes/admin/users'
 import todo from './routes/admin/todo'
 import calendar from './routes/admin/calendar'
-import axios from '@axios'
 import archive from './routes/admin/archive'
 import results from './routes/admin/results'
 import settings from './routes/admin/settings'
@@ -56,8 +55,6 @@ const router = new VueRouter({
 //Giriş Ve Rol Kontrol
 
 router.beforeEach((to, from, next) => {
-
-
 
 
 
@@ -120,6 +117,7 @@ router.beforeEach((to, from, next) => {
 
 
 router.afterEach(() => {
+
 
 
     const appLoading = document.getElementById('loading-bg')

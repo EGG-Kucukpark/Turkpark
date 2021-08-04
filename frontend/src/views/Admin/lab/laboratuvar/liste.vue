@@ -24,7 +24,6 @@
 </template>
 <script>
 
-import axios from "@axios";
 
 import { ref } from "@vue/composition-api";
 

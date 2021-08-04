@@ -271,7 +271,7 @@ export default {
           localStorage.setItem("user", JSON.stringify(res.data.user));
           this.spin = true;
 
-          this.$router.replace("/").then(() => {
+          this.$router.push("/").then(() => {
             this.$toast({
               component: ToastificationContent,
               position: "top-right",

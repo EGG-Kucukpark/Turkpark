@@ -27,9 +27,7 @@
 </template>
 
 <script>
-import { BRow, BCol } from 'bootstrap-vue'
 
-import StatisticCardWithAreaChart from '@core/components/statistics-cards/StatisticCardWithAreaChart.vue'
 import CardAnalyticGoalOverview from './CardAnalyticGoalOverview.vue'
 import { kFormatter } from '@core/utils/filter'
 
@@ -38,8 +36,7 @@ import AnalyticsCongratulation from './AnalyticsCongratulation.vue'
 
 export default {
   components: {
-    BRow,
-    BCol,
+  StatisticCardWithAreaChart,
     AnalyticsCongratulation,
     CardAnalyticGoalOverview,
 
@@ -51,7 +48,14 @@ export default {
     }
   },
   created() {
-    // data
+    const eles = document.getElementsByClassName("nav-item has-sub");
+    setTimeout(() => {
+        eles[0].getElementsByTagName("a")[0].click();
+    }, 600);
+
+
+
+
     this.data = JSON.parse(localStorage.getItem('user'))
   },
   methods: {

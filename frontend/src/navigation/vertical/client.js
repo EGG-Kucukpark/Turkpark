@@ -3,7 +3,7 @@ export default [
     {
 
         title: 'Panel',
-        route: 'firma',
+        route: 'Home',
         icon: 'HomeIcon',
     },
     {
