@@ -37,9 +37,10 @@ class LoginController extends Controller
         $user = DB::table('users')->where('email', $request->email)->first();
 
 
-
+        return $user;
 
         if ($user) {
+
             $sifre = Hash::check($request->password, $user->password);
 
             if($sifre){

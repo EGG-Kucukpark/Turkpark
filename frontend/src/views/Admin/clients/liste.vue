@@ -34,7 +34,6 @@ import client from "./corporate/clients.vue";
 export default {
   components: {
 
-    // Local Components
 
     individual,
     client,

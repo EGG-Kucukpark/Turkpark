@@ -109,6 +109,14 @@ export default {
     );
   },
 
+  created() {
+    window.addEventListener("load", function () {
+      const eles = document.getElementsByClassName("nav-item has-sub");
+
+      console.log(eles[0].getElementsByTagName("a")[0].click());
+    });
+  },
+
   setup() {
     const { skin, skinClasses } = useAppConfig();
 

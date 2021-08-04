@@ -309,7 +309,7 @@
 <script>
 import Ripple from "vue-ripple-directive";
 import { VBTooltip } from "bootstrap-vue";
-import { required } from "@validations";ok
+import { required } from "@validations";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import { ValidationProvider, ValidationObserver } from "vee-validate";

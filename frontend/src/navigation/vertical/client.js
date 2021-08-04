@@ -3,7 +3,7 @@ export default [
     {
 
         title: 'Panel',
-        route: 'Home',
+        route: 'firma',
         icon: 'HomeIcon',
     },
     {
@@ -14,9 +14,7 @@ export default [
     },
     {
         title: 'Hizmetler & Sonuçlar',
-        route: 'hizmet',
         icon: 'HeartIcon',
-
         children: [
 
             {
@@ -25,8 +23,23 @@ export default [
 
             }, {
                 title: 'İlk Yardım',
-                route: 'kursiyerler'
 
+                route: 'apps-invoice-list',
+                children: [{
+
+                        title: 'Kursiyerler',
+                        route: 'kursiyerler'
+
+                    },
+                    {
+                        title: 'Eğitim Planlama',
+                        route: 'egitim'
+
+                    },
+
+
+
+                ]
             },
             {
                 title: 'Testler',

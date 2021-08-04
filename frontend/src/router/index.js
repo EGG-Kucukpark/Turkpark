@@ -118,16 +118,6 @@ router.beforeEach((to, from, next) => {
 })
 
 
- window.addEventListener('load', function () {
-    const eles = document.getElementsByClassName('nav-item has-sub');
-
-
-    console.log(eles[0].getElementsByTagName('a')[0].click())
-
-
-
-
-})
 
 router.afterEach(() => {
 
