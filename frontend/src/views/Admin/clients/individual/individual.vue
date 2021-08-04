@@ -1,5 +1,5 @@
 <template>
-  <b-card title="Bireysel Müşteriler">
+  <b-card  title="Bireysel Müşteriler">
     <b-row>
       <b-col>
         <b-form-group
@@ -37,19 +37,17 @@
           size="lg"
           ref="modal1"
           centered
-          title="Kişi Ekle"
+          :title="status ? 'Kişi Ekle' : 'Kişi Düzenle'"
         >
-          <b-card>
-            <b-form @submit.prevent="submit">
-              <b-form-group
-                label="İsim:"
-                label-for="isim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
+
+            <b-form @submit.prevent="submit(status)">
+
+
+
+              <b-form-group label="İsim:" label-for="isim" label-cols-sm="2">
                 <b-form-input
                   id="isim"
-                  v-model="name"
+                  v-model="form.name"
                   placeholder="İsim Giriniz..."
                 ></b-form-input>
               </b-form-group>
@@ -57,12 +55,11 @@
               <b-form-group
                 label="E-Posta Adresi"
                 label-for="email"
-                label-cols-sm="3"
-                label-align-sm="right"
+                label-cols-sm="2"
               >
                 <b-form-input
                   id="email"
-                  v-model="email"
+                  v-model="form.email"
                   placeholder="E-posta Adresini Giriniz"
                 ></b-form-input>
               </b-form-group>
@@ -70,12 +67,11 @@
               <b-form-group
                 label="Telefon No:"
                 label-for="telefon"
-                label-cols-sm="3"
-                label-align-sm="right"
+                label-cols-sm="2"
               >
                 <b-form-input
                   id="telefon"
-                  v-model="telefon"
+                  v-model="form.telefon"
                   placeholder="Firma Telefon Numarası"
                 ></b-form-input>
               </b-form-group>
@@ -84,72 +80,12 @@
                 <b-button variant="success" type="submit"> Tamam </b-button>
               </div>
               <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
+                <b-button variant="danger" @click="clear()"> İptal</b-button>
               </div>
             </b-form>
 
             <!-- Emulate built in modal footer ok and cancel button actions -->
-          </b-card>
-        </b-modal>
 
-        <b-modal
-          hide-header-close
-          ok-title="Kaydet"
-          :hide-footer="true"
-          size="lg"
-          centered
-          title="Birey Düzenle"
-          ref="modal2"
-        >
-          <b-card>
-            <b-form @submit.prevent="update">
-              <b-form-group
-                label="İsim:"
-                label-for="İsim"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="İsim"
-                  v-model="name"
-                  placeholder=" İsim Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="E-posta:"
-                label-for="nested-city"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="nested-city"
-                  v-model="email"
-                  placeholder="E-posta Adresini Giriniz"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-form-group
-                label="Telefon No:"
-                label-for="nested-state"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="nested-state"
-                  v-model="telefon"
-                  placeholder="İletişim Numarası"
-                ></b-form-input>
-              </b-form-group>
-
-              <div style="float: right">
-                <b-button variant="success" type="submit"> Tamam </b-button>
-              </div>
-              <div style="float: right; padding-right: 10px">
-                <b-button variant="danger" @click="form()"> İptal</b-button>
-              </div>
-            </b-form>
-          </b-card>
         </b-modal>
       </span>
 
@@ -175,7 +111,7 @@
         >
           <template #cell(actions)="data">
             <span>
-               <b-button
+              <b-button
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="tikla"
@@ -243,46 +179,12 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import Ripple from "vue-ripple-directive";
-
-import {
-  BTable,
-  BAvatar,
-  BBadge,
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BModal,
-  VBTooltip,
-  BForm,
-} from "bootstrap-vue";
-import axios from "@axios";
+import { VBTooltip } from "bootstrap-vue";
 
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
-    BCol,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
     VBTooltip,
-    BFormInput,
-    BInputGroupAppend,
-    BButton,
-    BCard,
-    BModal,
     ToastificationContent,
-    BForm,
   },
   directives: {
     "b-tooltip": VBTooltip,
@@ -290,37 +192,18 @@ export default {
   },
   data() {
     return {
-      perPage: 10,
-      pageOptions: [3, 5, 10],
-      totalRows: 1,
-      currentPage: 1,
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      ...this.$store.state.global.table,
       fields: [
-            { key: "tc", label: "TC. Kİmlİk Numarası", sortable: true },
+        { key: "tc", label: "TC. Kİmlİk Numarası", sortable: true },
         { key: "name", label: "İSİM", sortable: true },
         { key: "email", label: "E-Posta", sortable: true },
         { key: "adres", label: "Adres", sortable: true },
-
         { key: "telefon", label: "Telefon", sortable: true },
-
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
-      name: "",
-      email: "",
-      telefon: "",
-      id: "",
-
-      show: false,
+      form: { name: "", email: "", telefon: "", id: "" },
+      status: true,
     };
   },
 
@@ -337,7 +220,7 @@ export default {
     this.totalRows = this.items.length;
   },
   created() {
-    axios.post("/api/bireyseller").then((response) => {
+    this.$http.post("/api/bireyseller").then((response) => {
       this.items = response.data;
     });
   },
@@ -345,7 +228,7 @@ export default {
   methods: {
     refreshStop() {
       setTimeout(() => {
-        axios
+        this.$http
           .post("/api/bireyseller")
           .then((response) => {
             this.items = response.data;
@@ -365,7 +248,7 @@ export default {
       }, 1000);
     },
     arsiv(data) {
-      axios
+      this.$http
         .post("/api/indarsiv", { id: data.id })
         .then((res) => {
           this.refreshStop();
@@ -389,7 +272,6 @@ export default {
     },
 
     tikla(params) {
-
       this.$router.push({
         name: "bireysel-goster",
         params: { id: params.id },
@@ -397,30 +279,22 @@ export default {
     },
 
     submit() {
-      axios
-        .post("/api/bireyselekle", {
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-        })
-        .then((res) => this.refreshStop())
-        .catch((error) => {
-          this.hata();
-        })
-        .then(this.form());
-    },
-
-    update() {
-      axios
-        .post("/api/bireyselduzenle", {
-          id: this.id,
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-        })
-        .then((res) => this.refreshStop())
-        .catch((error) => this.hata())
-        .then(this.form());
+      if (this.status) {
+        this.$http
+          .post("/api/bireyselekle", this.form)
+          .then((res) => this.refreshStop())
+          .catch((error) => {
+            this.hata();
+          })
+          .then(this.clear());
+      } else {
+        this.$http
+          .post("/api/bireyselduzenle", this.form)
+          .then((res) => this.refreshStop())
+          .catch((error) => this.hata())
+          .then(this.clear());
+        this.status = true;
+      }
     },
 
     Modal1() {
@@ -428,18 +302,15 @@ export default {
     },
 
     modal2(row) {
-      (this.id = row.id),
-        (this.name = row.name),
-        (this.email = row.email),
-        (this.telefon = row.telefon);
+      this.$refs["modal1"].show();
+      this.form = row;
+      this.status = false;
     },
 
-    form() {
-      this.$refs["modal1"].hide(),
-        this.$refs["modal2"].hide(),
-        (this.name = ""),
-        (this.email = ""),
-        (this.telefon = "");
+    clear() {
+      this.$refs["modal1"].hide();
+
+      this.form = "";
     },
 
     info(item, index, button) {

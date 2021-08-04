@@ -46,7 +46,8 @@
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
-                v-b-tooltip.hover.v-warning         style="margin:5px;"
+                v-b-tooltip.hover.v-warning
+                style="margin: 5px"
                 title="Göster"
               >
                 <feather-icon icon="ImageIcon" />
@@ -57,7 +58,8 @@
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
                 class="btn-icon"
-                v-b-tooltip.hover.v-danger         style="margin:5px;"
+                v-b-tooltip.hover.v-danger
+                style="margin: 5px"
                 title="Arşivle"
               >
                 <feather-icon icon="ArchiveIcon" />
@@ -67,7 +69,8 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
-                class="btn-icon"         style="margin:5px;"
+                class="btn-icon"
+                style="margin: 5px"
                 v-b-tooltip.hover.v-success
                 title="İndir"
               >
@@ -100,7 +103,6 @@
           class="my-0"
         />
       </b-col>
-
     </b-row>
   </b-card>
 </template>
@@ -109,51 +111,11 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 
-import {
-  BTable,
-  BAvatar,
-  BBadge,
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BAlert,
-  BProgress,
-  BModal,
-  BForm,
-  VBTooltip,
-  BFormFile,
-} from "bootstrap-vue";
-import axios from "@axios";
+import { VBTooltip } from "bootstrap-vue";
 
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
-    BCol,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BFormInput,
-    BAlert,
-    BProgress,
-    BInputGroupAppend,
-    BButton,
-    BCard,
-    BModal,
-    ToastificationContent,
-    BForm,
     VBTooltip,
-    BFormFile,
   },
   directives: {
     "b-tooltip": VBTooltip,
@@ -167,20 +129,7 @@ export default {
   },
   data() {
     return {
-      perPage: 10,
-      pageOptions: [3, 5, 10],
-      totalRows: 1,
-      currentPage: 1,
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      ...this.$store.state.global.table,
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
@@ -203,7 +152,7 @@ export default {
     },
   },
   created() {
-    axios
+    this.$http
       .post("/api/getfile", { calisan_id: this.userData.id, status: 9 })
       .then((res) => (this.items = res.data));
   },
@@ -218,7 +167,7 @@ export default {
     },
 
     indir(dosya) {
-      axios
+      this.$http
         .post(
           "/api/indir",
           { id: this.id, dosya: dosya },

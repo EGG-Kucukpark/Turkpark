@@ -19,10 +19,10 @@
       <b-col lg="4" class="d-flex align-items-center auth-bg px-2 p-lg-5">
         <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
           <b-card-title title-tag="h2" class="font-weight-bold mb-1">
-            Türkpark Paneline Hoşgeldiniz! 👋
+            Türkpark'a Hoşgeldiniz! 👋
           </b-card-title>
           <b-card-text class="mb-2">
-            Maceraya başlamak için lütfen giriş yapınız!
+            E-posta ve şifreniz ile güvenli giriş yapabilirsiniz.
           </b-card-text>
 
           <template v-if="show">
@@ -127,7 +127,7 @@
           </validation-observer>
 
           <b-card-text class="text-center mt-2">
-            <span>Hesabın yok mu? </span>
+            <span>Hesabınız yok mu? </span>
             <b-link :to="{ name: 'register' }">
               <span>&nbsp;Hesap oluştur!</span>
             </b-link>
@@ -140,17 +140,15 @@
 
           <!-- social buttons -->
           <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button variant="facebook" href="javascript:void(0)">
-              <feather-icon icon="FacebookIcon" />
+            <b-button variant="outline-facebook">
+              <feather-icon icon="FacebookIcon" /> Facebook
             </b-button>
-            <b-button variant="twitter" href="javascript:void(0)">
-              <feather-icon icon="TwitterIcon" />
+
+            <b-button variant="outline-google">
+              <feather-icon icon="MailIcon" /> Google
             </b-button>
-            <b-button variant="google" href="javascript:void(0)">
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button variant="github" href="javascript:void(0)">
-              <feather-icon icon="GithubIcon" />
+            <b-button variant="outline-github" href="javascript:void(0)">
+              <feather-icon icon="GithubIcon" /> Github
             </b-button>
           </div>
         </b-col>

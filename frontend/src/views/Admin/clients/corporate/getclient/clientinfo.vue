@@ -12,11 +12,11 @@
             <div class="d-flex flex-column ml-1">
               <div class="mb-1">
                 <h3 class="mb-2" v-show="show != true">
-                  Firma Adı: {{ name }}
+                  Firma Adı: {{ form.name }}
                 </h3>
 
                 <label v-show="show" for="">Firma Adı:</label>
-                <b-form-input v-show="show" type="text" v-model="name" />
+                <b-form-input v-show="show" type="text" v-model="form.name" />
               </div>
             </div>
           </div>
@@ -54,13 +54,13 @@
                 rules="required|email"
               >
                 <td class="pb-50">
-                  <span v-show="show != true"> {{ email }} </span>
+                  <span v-show="show != true"> {{ form.email }} </span>
 
                   <b-form-input
                     style="width: 220px"
                     v-show="show"
                     type="text"
-                    v-model="email"
+                    v-model="form.email"
                   />
                 </td>
                 <small class="text-danger">{{ errors[0] }}</small>
@@ -72,7 +72,7 @@
                 <span class="font-weight-bold">Telefon Numarası</span>
               </th>
               <td class="pb-50 text-capitalize">
-                <span v-show="show != true"> {{ telefon }}</span>
+                <span v-show="show != true"> {{ form.telefon }}</span>
                 <validation-provider
                   #default="{ errors }"
                   name="Telefon"
@@ -80,7 +80,7 @@
                 >
                   <cleave
                     id="phone"
-                    v-model="telefon"
+                    v-model="form.telefon"
                     v-show="show"
                     style="width: 220px"
                     class="form-control"
@@ -100,12 +100,12 @@
                 <span class="font-weight-bold">Vergi Numarası</span>
               </th>
               <td class="pb-50 text-capitalize">
-                <span v-show="show != true"> {{ vergino }}</span>
+                <span v-show="show != true"> {{ form.vergino }}</span>
                 <b-form-input
                   style="width: 220px"
                   v-show="show"
                   type="text"
-                  v-model="vergino"
+                  v-model="form.vergino"
                 />
               </td>
             </tr>
@@ -115,12 +115,12 @@
                 <span class="font-weight-bold">Vergi Dairesi</span>
               </th>
               <td class="pb-50">
-                <span v-show="show != true"> {{ vergiad }}</span>
+                <span v-show="show != true"> {{ form.vergiad }}</span>
                 <b-form-input
                   style="width: 220px"
                   v-show="show"
                   type="text"
-                  v-model="vergiad"
+                  v-model="form.vergiad"
                 />
               </td>
             </tr>
@@ -130,12 +130,12 @@
                 <span class="font-weight-bold">İl</span>
               </th>
               <td>
-                <span v-show="show != true">{{ il }}</span>
+                <span v-show="show != true">{{ form.il }}</span>
                 <b-form-input
                   style="width: 220px"
                   v-show="show"
                   type="text"
-                  v-model="il"
+                  v-model="form.il"
                 />
               </td>
             </tr>
@@ -155,21 +155,12 @@
 </template>
 
 <script>
-import { BCard, BButton, BAvatar, BRow, BCol, BFormInput } from "bootstrap-vue";
-import axios from "@axios";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import { required } from "@validations";
 import Cleave from "vue-cleave-component";
 import "cleave.js/dist/addons/cleave-phone.us";
 
 export default {
   components: {
-    BCard,
-    BButton,
-    BRow,
-    BCol,
-    BAvatar,
-    BFormInput,
     ValidationProvider,
     Cleave,
     ValidationObserver,
@@ -190,44 +181,32 @@ export default {
       },
       errors: [],
       calisan: "",
+      form: {
+        name: null,
+        email: null,
+        telefon: null,
+        vergino: null,
+        vergiad: null,
+        il: null,
+        id: null,
+      },
       sayi: null,
       show: false,
-      name: null,
-      email: null,
-      telefon: null,
-      vergino: null,
-      vergiad: null,
-      il: null,
-      id: null,
     };
   },
   created() {
-    axios("/api/workersayi").then((res) => {
+    this.$http("/api/workersayi").then((res) => {
       this.sayi = res.data;
     });
 
     setTimeout(() => {
-      (this.name = this.userData.name),
-        (this.email = this.userData.email),
-        (this.telefon = this.userData.telefon),
-        (this.vergino = this.userData.vergino),
-        (this.vergiad = this.userData.vergiad),
-        (this.il = this.userData.il);
-      this.id = this.userData.id;
+      this.form = this.userData
     }, 500);
   },
   methods: {
     update() {
       if (this.show === false) {
-        axios.post("/api/firmaduzenle", {
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-          vergino: this.vergino,
-          vergiad: this.vergiad,
-          il: this.il,
-          id: this.id,
-        });
+        this.$http.post("/api/firmaduzenle", this.form);
       }
     },
   },

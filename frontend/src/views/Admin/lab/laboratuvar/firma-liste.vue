@@ -38,282 +38,149 @@
             size="lg"
             ref="modal1"
             centered
-            title="Firma Ekle"
+            :title="status ? 'Firma Ekle' : 'Firma Düzenle'"
           >
-            <b-card>
-              <validation-observer ref="registerForm" #default="{ invalid }">
-                <b-form @submit.prevent="submit">
-                  <b-form-group
-                    label="İşyeri Ünvanı:"
-                    label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                  >
-                    <validation-provider
-                      #default="{ errors }"
-                      name="İsim"
-                      rules="required|"
-                    >
-                      <b-form-input
-                        id="isim"
-                        :state="errors.length > 0 ? false : null"
-                        v-model="name"
-                        placeholder="İş Yeri Adını Giriniz..."
-                      ></b-form-input>
-                      <small class="text-danger">{{ errors[0] }}</small>
-                    </validation-provider>
-                  </b-form-group>
-
-                  <b-form-group
-                    label="Firma Yetkilisi:"
-                    label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                  >
-                    <b-form-input
-                      id="isim"
-                      v-model="firma_yetkilisi"
-                      placeholder="Firma Yetkilisinin Adını Giriniz..."
-                    ></b-form-input>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-
-                  <b-form-group
-                    label="SGK Sicil No:"
-                    label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                  >
-                    <b-form-input
-                      id="isim"
-                      v-model="sgkno"
-                      placeholder="SGK Sicil Numarasını Giriniz..."
-                    ></b-form-input>
-                  </b-form-group>
-
-                  <b-form-group
-                    label="Vergi Dairesi"
-                    label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                  >
-                    <b-form-input
-                      id="isim"
-                      v-model="vergiad"
-                      placeholder="Vergi Dairesi Adını Giriniz"
-                    ></b-form-input>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-
-                  <b-form-group
-                    label="Vergi No:"
-                    label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                  >
-                    <b-form-input
-                      id="isim"
-                      v-model="vergino"
-                      placeholder="Vergi Numarası"
-                    ></b-form-input>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-
-                  <b-form-group
-                    label="E-Posta Adresi"
-                    label-for="email"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                  >
-                    <b-form-input
-                      id="email"
-                      :state="errors.length > 0 ? false : null"
-                      v-model="email"
-                      placeholder="E-posta Adresini Giriniz"
-                    ></b-form-input>
-                  </b-form-group>
-
-                  <b-form-group
-                    label="Telefon No:"
-                    label-for="telefon"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                  >
-                    <b-form-input
-                      id="telefon"
-                      v-model="telefon"
-                      placeholder="Firma Telefon Numarası"
-                    ></b-form-input>
-                  </b-form-group>
-                  <small class="text-danger">{{ errors[0] }}</small>
-                  <b-form-group
-                    label="Firma Şifresi:"
-                    label-for="password"
-                    label-cols-sm="3"
-                    label-align-sm="right"
-                  >
-                    <b-input-group
-                      class="input-group-merge"
-                      :class="errors.length > 0 ? 'is-invalid' : null"
-                    >
-                      <b-form-input
-                        v-model="Şifre"
-                        class="form-control-merge"
-                        :type="passwordFieldType"
-                        :state="errors.length > 0 ? false : null"
-                        placeholder="············"
-                      />
-                      <b-input-group-append is-text>
-                        <feather-icon
-                          :icon="passwordToggleIcon"
-                          class="cursor-pointer"
-                          @click="togglePasswordVisibility"
-                        />
-                      </b-input-group-append>
-                    </b-input-group>
-                  </b-form-group>
-
-                  <div style="float: right">
-                    <b-button
-                      variant="success"
-                      block
-                      type="submit"
-                      :disabled="invalid"
-                    >
-                      Tamam
-                    </b-button>
-                  </div>
-                  <div style="float: right; padding-right: 10px">
-                    <b-button variant="danger" @click="form()"> İptal</b-button>
-                  </div>
-                </b-form>
-              </validation-observer>
-
-              <!-- Emulate built in modal footer ok and cancel button actions -->
-            </b-card>
-          </b-modal>
-
-          <b-modal
-            hide-header-close
-            :hide-footer="true"
-            size="lg"
-            ref="modal2"
-            centered
-            title="Firma Düzenle"
-          >
-            <b-card>
-              <b-form @submit.prevent="update">
+            <validation-observer ref="registerForm" #default="{ invalid }">
+              <b-form @submit.prevent="submit(status)">
                 <b-form-group
                   label="İşyeri Ünvanı:"
                   label-for="isim"
-                  label-cols-sm="3"
-                  label-align-sm="right"
+                  label-cols-sm="2"
                 >
-                  <b-form-input
-                    id="isim"
-                    v-model="name"
-                    placeholder="İş Yeri Adını Giriniz..."
-                  ></b-form-input>
+                  <validation-provider
+                    #default="{ errors }"
+                    name="İsim"
+                    rules="required|"
+                  >
+                    <b-form-input
+                      id="isim"
+                      :state="errors.length > 0 ? false : null"
+                      v-model="form.name"
+                      placeholder="İş Yeri Adını Giriniz..."
+                    ></b-form-input>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
                 </b-form-group>
+
                 <b-form-group
                   label="Firma Yetkilisi:"
                   label-for="isim"
-                  label-cols-sm="3"
-                  label-align-sm="right"
+                  label-cols-sm="2"
                 >
                   <b-form-input
                     id="isim"
-                    v-model="firma_yetkilisi"
+                    v-model="form.firma_yetkilisi"
                     placeholder="Firma Yetkilisinin Adını Giriniz..."
                   ></b-form-input>
+                  <small class="text-danger">{{ errors[0] }}</small>
                 </b-form-group>
 
                 <b-form-group
                   label="SGK Sicil No:"
                   label-for="isim"
-                  label-cols-sm="3"
-                  label-align-sm="right"
+                  label-cols-sm="2"
                 >
                   <b-form-input
                     id="isim"
-                    v-model="sgkno"
+                    v-model="form.sgkno"
                     placeholder="SGK Sicil Numarasını Giriniz..."
                   ></b-form-input>
                 </b-form-group>
+
                 <b-form-group
                   label="Vergi Dairesi"
                   label-for="isim"
-                  label-cols-sm="3"
-                  label-align-sm="right"
+                  label-cols-sm="2"
                 >
                   <b-form-input
                     id="isim"
-                    v-model="vergiad"
+                    v-model="form.vergiad"
                     placeholder="Vergi Dairesi Adını Giriniz"
                   ></b-form-input>
+                  <small class="text-danger">{{ errors[0] }}</small>
                 </b-form-group>
+
                 <b-form-group
                   label="Vergi No:"
                   label-for="isim"
-                  label-cols-sm="3"
-                  label-align-sm="right"
+                  label-cols-sm="2"
                 >
                   <b-form-input
                     id="isim"
-                    v-model="vergino"
+                    v-model="form.vergino"
                     placeholder="Vergi Numarası"
                   ></b-form-input>
+                  <small class="text-danger">{{ errors[0] }}</small>
                 </b-form-group>
 
                 <b-form-group
                   label="E-Posta Adresi"
                   label-for="email"
-                  label-cols-sm="3"
-                  label-align-sm="right"
+                  label-cols-sm="2"
                 >
                   <b-form-input
                     id="email"
-                    v-model="email"
+                    :state="errors.length > 0 ? false : null"
+                    v-model="form.email"
                     placeholder="E-posta Adresini Giriniz"
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                  label="Firma Şifresi"
-                  label-for="isim"
-                  label-cols-sm="3"
-                  label-align-sm="right"
-                >
-                  <b-form-input
-                    id="isim"
-                    v-model="password"
-                    placeholder="........"
                   ></b-form-input>
                 </b-form-group>
 
                 <b-form-group
                   label="Telefon No:"
                   label-for="telefon"
-                  label-cols-sm="3"
-                  label-align-sm="right"
+                  label-cols-sm="2"
                 >
                   <b-form-input
                     id="telefon"
-                    v-model="telefon"
+                    v-model="form.telefon"
                     placeholder="Firma Telefon Numarası"
                   ></b-form-input>
                 </b-form-group>
+                <small class="text-danger">{{ errors[0] }}</small>
+                <b-form-group
+                  label="Firma Şifresi:"
+                  label-for="password"
+                  label-cols-sm="2"
+                >
+                  <b-input-group
+                    class="input-group-merge"
+                    :class="errors.length > 0 ? 'is-invalid' : null"
+                  >
+                    <b-form-input
+                      v-model="form.Şifre"
+                      class="form-control-merge"
+                      :type="passwordFieldType"
+                      :state="errors.length > 0 ? false : null"
+                      placeholder="············"
+                    />
+                    <b-input-group-append is-text>
+                      <feather-icon
+                        :icon="passwordToggleIcon"
+                        class="cursor-pointer"
+                        @click="togglePasswordVisibility"
+                      />
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
 
                 <div style="float: right">
-                  <b-button variant="success" type="submit"> Tamam </b-button>
+                  <b-button
+                    variant="success"
+                    block
+                    type="submit"
+                    :disabled="invalid"
+                  >
+                    Tamam
+                  </b-button>
                 </div>
                 <div style="float: right; padding-right: 10px">
-                  <b-button variant="danger" @click="form()"> İptal</b-button>
+                  <b-button variant="danger" @click="clear()"> İptal</b-button>
                 </div>
               </b-form>
+            </validation-observer>
 
-              <!-- Emulate built in modal footer ok and cancel button actions -->
-            </b-card>
+            <!-- Emulate built in modal footer ok and cancel button actions -->
           </b-modal>
         </span>
 
@@ -436,55 +303,17 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import Ripple from "vue-ripple-directive";
-
-import {
-  BTable,
-  BAvatar,
-  BBreadcrumb,
-  BBreadcrumbItem,
-  BBadge,
-  VBTooltip,
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BModal,
-  BForm,
-} from "bootstrap-vue";
-import axios from "@axios";
+import VBTooltip from "bootstrap-vue";
 import { required } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
-    VBTooltip,
-    BCol,
-    BBreadcrumb,
-    BBreadcrumbItem,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BFormInput,
-    BInputGroupAppend,
-    BButton,
-    BCard,
     ValidationProvider,
     ValidationObserver,
     togglePasswordVisibility,
-    BModal,
     ToastificationContent,
-    BForm,
+    VBTooltip,
     required,
   },
   mixins: [togglePasswordVisibility],
@@ -499,21 +328,7 @@ export default {
   },
   data() {
     return {
-      errors: [],
-      perPage: 10,
-      pageOptions: [3, 5, 10],
-      totalRows: 1,
-      currentPage: 1,
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      ...this.$store.state.global.table,
       fields: [
         { key: "name", label: "FİRMA ADI", sortable: true, filter: true },
         { key: "id", label: "Firma Kodu", sortable: true, filter: true },
@@ -536,22 +351,24 @@ export default {
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
-      name: "",
-      sgkno: "",
-      vergino: "",
-      vergiad: "",
-      firma_yetkilisi: "",
-
-      email: "",
-      role: "",
-      telefon: "",
-      password: "",
-      sayi: null,
-      id: "",
+      errors: [],
+      form: {
+        name: "",
+        sgkno: "",
+        vergino: "",
+        vergiad: "",
+        firma_yetkilisi: "",
+        email: "",
+        role: "",
+        telefon: "",
+        password: "",
+        id: "",
+      },
       searchTerm: "",
       options: "",
-
+      sayi: null,
       show: false,
+      status: true,
     };
   },
 
@@ -572,19 +389,21 @@ export default {
     }, 500);
   },
   created() {
-    axios.post("/api/firmalar").then((response) => {
+    this.$http.post("/api/firmalar").then((response) => {
       this.items = response.data;
     });
 
-    axios.post("/api/calisandosyasayi", { db: this.bilgi.db }).then((res) => {
-      this.sayi = res.data;
-    });
+    this.$http
+      .post("/api/calisandosyasayi", { db: this.bilgi.db })
+      .then((res) => {
+        this.sayi = res.data;
+      });
   },
 
   methods: {
     refreshStop() {
       setTimeout(() => {
-        axios
+        this.$http
           .post("/api/firmalar")
           .then((response) => {
             this.items = response.data;
@@ -610,37 +429,29 @@ export default {
       });
     },
     arsiv(data) {
-
-
-      axios.post("api/arsivfirma", { id: data.id }).then(this.refreshStop());
+      this.$http
+        .post("api/arsivfirma", { id: data.id })
+        .then(this.refreshStop());
     },
-    submit() {
-      axios
-        .post("/api/firmaekle", {
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-          password: this.password,
-          vergino: this.vergino,
-          vergiad: this.vergiad,
-          firma_yetkilisi: this.firma_yetkilisi,
-          sgk: this.sgkno,
-          nace: this.nace,
-        })
-        .then((res) => this.refreshStop())
-        .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Firma İşlemleri `,
-              icon: "BriefcaseIcon",
-              variant: "danger",
-              text: ` İşlem Başarısız.`,
-            },
-          });
-        })
-        .then(this.form());
+    submit(data) {
+      if (data) {
+        this.$http
+          .post("/api/firmaekle", this.form)
+          .then((res) => this.refreshStop())
+          .catch((error) => {
+            this.hata();
+          })
+          .then(this.clear());
+      } else {
+        this.$http
+          .post("/api/firmaduzenle", this.form)
+          .then((res) => this.refreshStop())
+          .catch((error) => {
+            this.hata();
+          })
+          .then(this.clear());
+        this.status = true;
+      }
     },
 
     Modal1() {
@@ -648,56 +459,27 @@ export default {
     },
 
     Modal2(row) {
-      this.$refs["modal2"].show();
-      (this.id = row.id),
-        (this.name = row.name),
-        (this.sgkno = row.sgk),
-        (this.vergiad = row.vergiad),
-        (this.vergino = row.vergino),
-        (this.email = row.email),
-        (this.firma_yetkilisi = row.firma_yetkilisi),
-        (this.telefon = row.telefon);
+      this.status = false;
+      this.$refs["modal1"].show();
+      this.form = row;
     },
 
-    update() {
-      axios
-        .post("/api/firmaduzenle", {
-          id: this.id,
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-          vergino: this.vergino,
-          vergiad: this.vergiad,
-          firma_yetkilisi: this.firma_yetkilisi,
-          sgk: this.sgkno,
-        })
-        .then((res) => this.refreshStop())
-        .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Firma İşlemleri `,
-              icon: "BriefcaseIcon",
-              variant: "danger",
-              text: `İşlem Başarısız.`,
-            },
-          });
-        })
-        .then(this.form());
+    clear() {
+      this.$refs["modal1"].hide();
+      this.form = "";
     },
 
-    form() {
-      this.$refs["modal1"].hide(),
-        this.$refs["modal2"].hide(),
-        (this.id = ""),
-        (this.name = ""),
-        (this.sgkno = ""),
-        (this.vergiad = ""),
-        (this.vergino = ""),
-        (this.email = ""),
-        (this.firma_yetkilisi = ""),
-        (this.telefon = "");
+    hata() {
+      this.$toast({
+        component: ToastificationContent,
+        position: "top-right",
+        props: {
+          title: `Firma İşlemleri `,
+          icon: "BriefcaseIcon",
+          variant: "danger",
+          text: ` İşlem Başarısız.`,
+        },
+      });
     },
 
     info(item, index, button) {

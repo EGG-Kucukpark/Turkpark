@@ -2,7 +2,7 @@ export default [
 
     {
 
-        title: 'Panel',
+        title: 'Dashboard',
         route: 'Home',
         icon: 'HomeIcon',
     },

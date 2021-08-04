@@ -46,8 +46,8 @@
                   <b-form-group
                     label="İşyeri Ünvanı:"
                     label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
+                    label-cols-sm="2"
+
                   >
                     <validation-provider
                       #default="{ errors }"
@@ -67,8 +67,8 @@
                   <b-form-group
                     label="Firma Yetkilisi:"
                     label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
+                    label-cols-sm="2"
+
                   >
                     <b-form-input
                       id="isim"
@@ -81,8 +81,8 @@
                   <b-form-group
                     label="SGK Sicil No:"
                     label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
+                    label-cols-sm="2"
+
                   >
                     <b-form-input
                       id="isim"
@@ -94,8 +94,8 @@
                   <b-form-group
                     label="Vergi Dairesi"
                     label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
+                    label-cols-sm="2"
+
                   >
                     <b-form-input
                       id="isim"
@@ -108,8 +108,8 @@
                   <b-form-group
                     label="Vergi No:"
                     label-for="isim"
-                    label-cols-sm="3"
-                    label-align-sm="right"
+                    label-cols-sm="2"
+
                   >
                     <b-form-input
                       id="isim"
@@ -122,8 +122,8 @@
                   <b-form-group
                     label="E-Posta Adresi"
                     label-for="email"
-                    label-cols-sm="3"
-                    label-align-sm="right"
+                    label-cols-sm="2"
+
                   >
                     <b-form-input
                       id="email"
@@ -136,8 +136,8 @@
                   <b-form-group
                     label="Telefon No:"
                     label-for="telefon"
-                    label-cols-sm="3"
-                    label-align-sm="right"
+                    label-cols-sm="2"
+
                   >
                     <b-form-input
                       id="telefon"
@@ -149,8 +149,8 @@
                   <b-form-group
                     label="Firma Şifresi:"
                     label-for="password"
-                    label-cols-sm="3"
-                    label-align-sm="right"
+                    label-cols-sm="2"
+
                   >
                     <b-input-group
                       class="input-group-merge"

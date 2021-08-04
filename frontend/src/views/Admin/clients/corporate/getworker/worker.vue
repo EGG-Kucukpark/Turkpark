@@ -1,13 +1,16 @@
 <template>
   <div>
-    <div style="margin-bottom: 20px; ">
+    <div style="margin-bottom: 20px">
       <h2 class="content-header-title float-left pr-1 mb-0">Bilgiler</h2>
 
-
       <b-breadcrumb class="breadcrumb-chevron mb-0">
-        <b-breadcrumb-item to="/"> <feather-icon size="15" icon="HomeIcon"/> </b-breadcrumb-item>
+        <b-breadcrumb-item to="/">
+          <feather-icon size="15" icon="HomeIcon" />
+        </b-breadcrumb-item>
 
-        <b-breadcrumb-item :to="path" style="font-size:15px;"> {{firma.name}} </b-breadcrumb-item>
+        <b-breadcrumb-item :to="path" style="font-size: 15px">
+          {{ firma.name }}
+        </b-breadcrumb-item>
       </b-breadcrumb>
     </div>
     <b-alert variant="danger" :show="userData === undefined">
@@ -42,16 +45,9 @@
 <script>
 import store from "@/store";
 import router from "@/router";
-import axios from '@axios'
+
 import { ref, onUnmounted } from "@vue/composition-api";
-import {
-  BRow,
-  BCol,
-  BAlert,
-  BLink,
-  BBreadcrumb,
-  BBreadcrumbItem,
-} from "bootstrap-vue";
+
 
 import getworker from "./getworker";
 import workerinfo from "./workerinfo.vue";
@@ -63,14 +59,6 @@ export default {
   },
 
   components: {
-    BRow,
-    BCol,
-    BAlert,
-    BLink,
-    BBreadcrumb,
-    BBreadcrumbItem,
-
-    // Local Components
 
     workerinfo,
     files,
@@ -79,7 +67,7 @@ export default {
   created() {
     const path = localStorage.getItem("path");
     const id = path.slice(8);
-    axios('/api/firmagoster/' + id).then((res) => this.firma = res.data);
+    this.$http('/api/firmagoster/' + id).then((res) => this.firma = res.data);
     this.path = path;
   },
 

@@ -65,114 +65,12 @@
             ok-title="Kaydet"
             :hide-footer="true"
             size="lg"
-            ref="modal2"
-            centered
-          >
-            <b-card>
-              <b-form @submit.prevent="update">
-                <b-form-group
-                  label="İsim:"
-                  label-for="İsim"
-                  label-cols-sm="3"
-                  label-align-sm="right"
-                >
-                  <b-form-input
-                    id="İsim"
-                    v-model="name"
-                    placeholder=" İsim Giriniz"
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                  label="E-posta:"
-                  label-for="nested-city"
-                  label-cols-sm="3"
-                  label-align-sm="right"
-                >
-                  <b-form-input
-                    id="nested-city"
-                    v-model="email"
-                    placeholder="E-posta Adresini Giriniz"
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                  label="Telefon No:"
-                  label-for="nested-state"
-                  label-cols-sm="3"
-                  label-align-sm="right"
-                >
-                  <b-form-input
-                    id="nested-state"
-                    v-model="telefon"
-                    placeholder="İletişim Numarası"
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                  label="Yeni Şifre"
-                  label-for="nested-state"
-                  label-cols-sm="3"
-                  label-align-sm="right"
-                >
-                  <b-form-input
-                    id="Şifre"
-                    v-model="password"
-                    placeholder=" Şifre Giriniz"
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                  label="Yetki Seçiniz: "
-                  label-for="nested-city"
-                  label-cols-sm="3"
-                  label-align-sm="right"
-                >
-                  <b-form-select
-                    aria-placeholder="Sürücü Seçiniz"
-                    v-model="role"
-                  >
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
-                    <option>Admin</option>
-                    <option>Yetkili</option>
-                    <option value="Firma">Kurumsal Kullanıcı</option>
-                    <option value="Bireysel">Biresel Kullanıcı</option>
-                  </b-form-select>
-                </b-form-group>
-                <b-form-group
-                  label="Kullanıcı Durumu: "
-                  label-for="nested-city"
-                  label-cols-sm="3"
-                  label-align-sm="right"
-                >
-                  <b-form-select v-model="status">
-                    <option disabled value="">Lütfen Seçim Yapınız</option>
-                    <option value="1">Aktif</option>
-                    <option value="2">Beklemede</option>
-                    <option value="3">Red</option>
-                  </b-form-select>
-                </b-form-group>
-
-                <div style="float: right">
-                  <b-button variant="success" type="submit"> Tamam </b-button>
-                </div>
-                <div style="float: right; padding-right: 10px">
-                  <b-button variant="danger" @click="form()"> İptal</b-button>
-                </div>
-              </b-form>
-            </b-card>
-          </b-modal>
-          <b-modal
-            hide-header-close
-            ok-title="Kaydet"
-            :hide-footer="true"
-            size="lg"
             ref="modal1"
             centered
-            title="Kullanıcı Ekle"
+            :title="status ? 'Kullanıcı Ekle' : 'Kullanıcı Düzenle'"
           >
             <b-card>
-              <b-form @submit.prevent="submit">
+              <b-form @submit.prevent="submit(stat)">
                 <b-form-group
                   label="İsim:"
                   label-for="isim"
@@ -181,7 +79,7 @@
                 >
                   <b-form-input
                     id="isim"
-                    v-model="name"
+                    v-model="form.name"
                     placeholder="İsim Giriniz"
                   ></b-form-input>
                 </b-form-group>
@@ -194,7 +92,7 @@
                 >
                   <b-form-input
                     id="email"
-                    v-model="email"
+                    v-model="form.email"
                     placeholder="E-posta Adresini Giriniz"
                   ></b-form-input>
                 </b-form-group>
@@ -207,7 +105,7 @@
                 >
                   <b-form-input
                     id="telefon"
-                    v-model="telefon"
+                    v-model="form.telefon"
                     placeholder="Kullanıcı Telefon Numarası"
                   ></b-form-input>
                 </b-form-group>
@@ -219,7 +117,7 @@
                 >
                   <b-form-input
                     id="password"
-                    v-model="password"
+                    v-model="form.password"
                     placeholder="Şifre Giriniz"
                   ></b-form-input>
                 </b-form-group>
@@ -232,7 +130,7 @@
                 >
                   <b-form-select
                     aria-placeholder="Sürücü Seçiniz"
-                    v-model="role"
+                    v-model="form.role"
                   >
                     <option disabled value="">Lütfen Seçim Yapınız</option>
                     <option>Admin</option>
@@ -246,7 +144,7 @@
                   <b-button variant="success" type="submit"> Tamam </b-button>
                 </div>
                 <div style="float: right; padding-right: 10px">
-                  <b-button variant="danger" @click="form()"> İptal</b-button>
+                  <b-button variant="danger" @click="clear()"> İptal</b-button>
                 </div>
               </b-form>
 
@@ -396,74 +294,21 @@
 </template>
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-
-import {
-  BTable,
-  BAvatar,
-  BBreadcrumb,
-  BBreadcrumbItem,
-  BBadge,
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  BFormInput,
-  VBTooltip,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BModal,
-  BForm,
-  BFormFile,
-} from "bootstrap-vue";
-import axios from "@axios";
+import { VBTooltip } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
     VBTooltip,
-    BCol,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BFormInput,
-    BInputGroupAppend,
-    BButton,
-    BCard,
-    BModal,
-    BBreadcrumb,
-    BBreadcrumbItem,
     ToastificationContent,
-    BForm,
-
-    BFormFile,
   },
+
   directives: {
     "b-tooltip": VBTooltip,
     Ripple,
   },
   data() {
     return {
-      perPage: 10,
-      pageOptions: [10, 20, 30],
-      totalRows: 1,
-      currentPage: 1,
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      ...this.$store.state.global.table,
       fields: [
         { key: "name", label: "İSİM", sortable: true, filter: true },
         { key: "email", label: "E-Posta", sortable: true, filter: true },
@@ -483,18 +328,22 @@ export default {
         },
         { key: "actions", label: "Eylemler" },
       ],
+      form: {
+        name: "",
+        email: "",
+        role: "",
+        telefon: "",
+        password: "",
+        userid: null,
+      },
+
       items: null,
-      name: "",
-      email: "",
-      role: "",
-      telefon: "",
-      password: "",
-      userid: null,
       searchTerm: "",
       excel: null,
       error: "",
       status: null,
       show: false,
+      stat: true,
     };
   },
 
@@ -523,13 +372,15 @@ export default {
     },
     sortOptions() {
       // Create an options list from our fields
-      return this.fields
+      return this.fieldsBa
         .filter((f) => f.sortable)
         .map((f) => ({ text: f.label, value: f.key }));
     },
   },
   created() {
-    axios.post("/api/users").then((response) => (this.items = response.data));
+    this.$http
+      .post("/api/users")
+      .then((response) => (this.items = response.data));
     let ckeditor = document.createElement("script");
     ckeditor.setAttribute(
       "src",
@@ -543,95 +394,75 @@ export default {
     }, 500);
   },
   methods: {
-    refreshStop() {
-      setTimeout(() => {
-        axios
-          .post("/api/users")
-          .then((response) => {
-            this.items = response.data;
-          })
-          .then(
+    submit(data) {
+      if (data) {
+        this.$http
+          .post("api/userekle", this.form)
+          .then((res) => this.refreshStop())
+          .catch((error) => {
             this.$toast({
               component: ToastificationContent,
               position: "top-right",
               props: {
                 title: `Kullanıcı İşlemleri `,
                 icon: "UserIcon",
-                variant: "success",
-                text: `Kullanıcı İşlemi Başarılı.`,
+                variant: "danger",
+                text: ` İşlem Başarısız.`,
               },
-            })
-          );
-      }, 1000);
-    },
-    arsiv(data) {
-      axios.post("api/arsivuser", data).then(this.refreshStop());
-    },
-    submit() {
-      axios
-        .post("api/userekle", {
-          name: this.name,
-          email: this.email,
-          role: this.role,
-          telefon: this.telefon,
-          password: this.password,
-        })
-        .then((res) => this.refreshStop())
-        .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Kullanıcı İşlemleri `,
-              icon: "UserIcon",
-              variant: "danger",
-              text: ` İşlem Başarısız.`,
-            },
+            });
+          })
+          .then(this.clear());
+      } else {
+        this.$http
+          .post("api/userupdate", this.form)
+
+          .then((res) => this.refreshStop())
+          .then(this.clear())
+          .catch((error) => {
+            this.$toast({
+              component: ToastificationContent,
+              position: "top-right",
+              props: {
+                title: `Kullanıcı İşlemleri `,
+                icon: "UserIcon",
+                variant: "danger",
+                text: ` İşlem Başarısız.`,
+              },
+            });
           });
-        })
-        .then(this.form());
+        this.stat = true;
+      }
+    },
+    update() {},
+
+    arsiv(data) {
+      this.$http.post("api/arsivuser", data).then(this.refreshStop());
     },
 
     Modal1() {
       this.$refs["modal1"].show();
     },
     Modal2(row) {
-      this.$refs["modal2"].show();
-
-      (this.userid = row.id),
-        (this.name = row.name),
-        (this.email = row.email),
-        (this.telefon = row.telefon),
-        (this.role = row.role),
-        (this.status = row.status);
+      this.$refs["modal1"].show();
+      this.stat = false;
+      this.form = row;
     },
 
-    update() {
-      axios
-        .post("api/userupdate", {
-          userid: this.userid,
-          name: this.name,
-          email: this.email,
-          telefon: this.telefon,
-          role: this.role,
-          status: this.status,
-          password: this.password,
-        })
+    fetchData() {
+      let url = "sertifikagetir";
+      this.$store.dispatch("excel_down", { url });
 
-        .then((res) => this.refreshStop())
-        .then(this.form())
-        .catch((error) => {
-          this.$toast({
-            component: ToastificationContent,
-            position: "top-right",
-            props: {
-              title: `Kullanıcı İşlemleri `,
-              icon: "UserIcon",
-              variant: "danger",
-              text: ` İşlem Başarısız.`,
-            },
-          });
-        });
+      if (this.$store.state.excel.file === null) {
+        setTimeout(() => {
+          document.getElementById("btnclick").click();
+        }, 1000);
+      }
+
+      return this.$store.state.excel.file;
+    },
+    excelfile(event) {
+      let url = "excelimport";
+      this.$store.dispatch("excel", { event, url });
     },
 
     basarili() {
@@ -650,31 +481,31 @@ export default {
       });
     },
 
-    fetchData() {
-      let url = "sertifikagetir";
-      this.$store.dispatch("excel_down", { url });
-
-      if (this.$store.state.excel.file === null) {
-        setTimeout(() => {
-          document.getElementById("btnclick").click();
-        }, 1000);
-      }
-
-      return this.$store.state.excel.file;
+    clear() {
+      this.$refs["modal1"].hide();
+      this.form = "";
     },
 
-    excelfile(event) {
-      let url = "excelimport";
-      this.$store.dispatch("excel", { event, url });
-    },
-    form() {
-      this.$refs["modal1"].hide(),
-        this.$refs["modal2"].hide(),
-        (this.name = ""),
-        (this.email = ""),
-        (this.role = ""),
-        (this.telefon = ""),
-        (this.password = "");
+    refreshStop() {
+      setTimeout(() => {
+        this.$http
+          .post("/api/users")
+          .then((response) => {
+            this.items = response.data;
+          })
+          .then(
+            this.$toast({
+              component: ToastificationContent,
+              position: "top-right",
+              props: {
+                title: `Kullanıcı İşlemleri `,
+                icon: "UserIcon",
+                variant: "success",
+                text: `Kullanıcı İşlemi Başarılı.`,
+              },
+            })
+          );
+      }, 1000);
     },
 
     info(item, index, button) {

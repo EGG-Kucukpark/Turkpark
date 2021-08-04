@@ -68,17 +68,7 @@
 import store from "@/store";
 import router from "@/router";
 import { ref, onUnmounted } from "@vue/composition-api";
-import {
-  BRow,
-  BCol,
-  BAlert,
-  BLink,
-  BTabs,
-  BTab,
-  BButton,
-  BBreadcrumb,
-  BBreadcrumbItem,
-} from "bootstrap-vue";
+
 
 import userStoreModule from "../userStoreModule";
 import clientinfo from "./clientinfo.vue";
@@ -90,17 +80,7 @@ import harita from "./map.vue";
 
 export default {
   components: {
-    BRow,
-    BCol,
-    BAlert,
-    BBreadcrumb,
-    BBreadcrumbItem,
-    BLink,
-    BTabs,
-    BTab,
-    BButton,
 
-    // Local Components
 
     clientinfo,
     workers,

@@ -71,45 +71,18 @@
 </template>
 
 <script>
-import {
-  BCard,
-  BButton,
-  BAvatar,
-  BRow,
-  BCol,
-  BBreadcrumb,
-  BBreadcrumbItem,
-} from "bootstrap-vue";
+
 
 export default {
-  components: {
-    BCard,
-    BButton,
-    BRow,
-    BCol,
-    BAvatar,
-    BBreadcrumb,
-    BBreadcrumbItem,
-  },
+
   props: {
     userData: {
       type: Object,
       required: true,
     },
   },
-  created() {
-     /*  document.getElementsByClassName("router-link-active")[3].href === ""
-    document
-      .getElementsByClassName("router-link-active")[3]
-      .addEventListener("click", this.click);
- */
-  },
-  methods: {
-    click() {
-      alert("deniz");
-      this.$router.go(-1);
-    },
-  },
+
+
 };
 </script>
 

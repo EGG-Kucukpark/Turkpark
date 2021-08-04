@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import {
     ToastPlugin,
-    ModalPlugin
+    ModalPlugin,
+    BootstrapVue
 } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 import vSelect from 'vue-select'
@@ -17,6 +18,9 @@ import 'vue-search-select/dist/VueSearchSelect.css'
 
 import router from './router'
 import store from './store'
+import Axios from 'axios'
+Vue.prototype.$http = Axios;
+Vue.use(BootstrapVue)
 import App from './App.vue'
 
 // Global Components
@@ -52,7 +56,7 @@ Vue.use(VueGoogleMAps, {
     load: {
         key: 'AIzaSyBA6gH1LTs7-6RTKi__xXvdaZ4bV78IdOE',
         libraries: "places",
-        location:'tr',
+        location: 'tr',
 
     }
 });
