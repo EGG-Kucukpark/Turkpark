@@ -321,7 +321,7 @@
           <b-table
             striped
             hover
-            small
+
             responsive
             :per-page="perPage"
             :current-page="currentPage"

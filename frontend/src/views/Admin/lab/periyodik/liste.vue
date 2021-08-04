@@ -23,70 +23,19 @@
   </b-tabs>
 </template>
 <script>
-import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
-import axios from "@axios";
 
 import { ref } from "@vue/composition-api";
-import {
-  BRow,
-  BCard,
-  BCol,
-  BBreadcrumb,
-  BBreadcrumbItem,
-  BAlert,
-  BLink,
-  BTabs,
-  BModal,
-  BForm,
-  BFormInput,
-  BTab,
-  BButton,
-  BFormSelect,
-  BInputGroup,
-  BInputGroupAppend,
-  BFormGroup,
-} from "bootstrap-vue";
 
-import { required } from "@validations";
-import { togglePasswordVisibility } from "@core/mixins/ui/forms";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
 import individual from "../laboratuvar/bireysel-liste";
 import client from "../laboratuvar/firma-liste.vue";
 
-import router from "@/router";
 
 export default {
   components: {
-    BRow,
-    BCol,
-    BCard,
 
-    BAlert,
-    BModal,
-    BLink,
-    BBreadcrumb,
-    BBreadcrumbItem,
-    ValidationProvider,
-    ValidationObserver,
-    BInputGroup,
-    BInputGroupAppend,
-    BForm,
-    BFormInput,
-    BTabs,
-    BTab,
-    togglePasswordVisibility,
-    required,
-    BButton,
-    BFormSelect,
-
-    ToastificationContent,
-    BFormGroup,
-    router,
     // Local Components
-
     individual,
-
     client,
   },
 

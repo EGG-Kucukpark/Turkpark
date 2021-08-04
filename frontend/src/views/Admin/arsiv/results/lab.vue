@@ -352,29 +352,7 @@ import ripple from "vue-ripple-directive";
 import axios from "@axios";
 
 import { ref } from "@vue/composition-api";
-import {
-  BRow,
-  BCard,
-  BCol,
-  BBreadcrumb,
-  BBreadcrumbItem,
-  BAlert,
-  BLink,
-  BTabs,
-  BModal,
-  BForm,
-  BFormInput,
-  BTab,
-  BButton,
-  BFormSelect,
-  BInputGroup,
-  BInputGroupAppend,
-  BFormGroup,
-} from "bootstrap-vue";
 
-import { required } from "@validations";
-import { togglePasswordVisibility } from "@core/mixins/ui/forms";
-import { ValidationProvider, ValidationObserver } from "vee-validate";
 import individual from "./individual";
 import client from "./client";
 

@@ -199,7 +199,6 @@
         <b-col cols="12" class="table-responsive">
           <b-table
             striped
-            small
             responsive
             :per-page="perPage"
             :current-page="currentPage"
@@ -310,8 +309,7 @@
 <script>
 import Ripple from "vue-ripple-directive";
 import { VBTooltip } from "bootstrap-vue";
-import { required } from "@validations";
-
+import { required } from "@validations";ok
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import { ValidationProvider, ValidationObserver } from "vee-validate";

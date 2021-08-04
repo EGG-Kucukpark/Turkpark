@@ -76,9 +76,7 @@
 
                 <b-col md="4">
                   <b-form-select v-model="form.calisanselected">
-                    <option disabled value="" >
-                      Lütfen Çalışan Seçiniz
-                    </option>
+                    <option disabled value="">Lütfen Çalışan Seçiniz</option>
 
                     <option
                       v-bind:value="{ name: calisan.name, id: calisan.id }"
@@ -293,55 +291,17 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
-import router from '@/router'
+import router from "@/router";
 
-import {
-  BTable,
-  BAvatar,
-  BBadge,
-  BRow,
-  BCol,
-  VBTooltip,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  BProgress,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BModal,
-  BForm,
-  BFormFile,
-  BAlert,
-} from "bootstrap-vue";
+import { VBTooltip } from "bootstrap-vue";
 import axios from "@axios";
 import vSelect from "vue-select";
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
     VBTooltip,
-    BProgress,
-    BCol,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BFormInput,
-    BInputGroupAppend,
-    BButton,
-    BCard,
-    BModal,
     ToastificationContent,
-    BForm,
-    BFormFile,
     ripple,
     heightTransition,
-    BAlert,
     vSelect,
   },
   directives: {
@@ -426,7 +386,7 @@ export default {
     this.form[0].Selected2 = id;
 
     axios
-      .post("/api/getfile", { firma_id: id, status: 4})
+      .post("/api/getfile", { firma_id: id, status: 4 })
 
       .then((res) => (this.files = res.data));
 
@@ -466,7 +426,7 @@ export default {
         };
 
         axios
-          .post("/api/getfile", { firma_id: id, status: 4})
+          .post("/api/getfile", { firma_id: id, status: 4 })
           .then((res) => (this.files = res.data))
           .then(
             this.$toast({
@@ -511,8 +471,7 @@ export default {
 
       form.forEach(function (form) {
         if (form.calisanselected === "") {
-          document.getElementById("basarisiz").value =
-            "Çalışan Girilmedi."
+          document.getElementById("basarisiz").value = "Çalışan Girilmedi.";
 
           document.getElementById("basarisiz").click();
         } else {
@@ -564,9 +523,8 @@ export default {
     },
 
     formcikis() {
-     this.$refs["modal"].hide();
-       for (var i = 0; i < this.form.length; i++) {
-
+      this.$refs["modal"].hide();
+      for (var i = 0; i < this.form.length; i++) {
         this.form[i].dgr = 0;
         (this.form[i].file = null), (this.form[i].rapor = "");
       }
