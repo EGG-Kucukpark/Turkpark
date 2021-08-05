@@ -48,7 +48,7 @@ export default {
   props: ["options"],
   data() {
     return {
-      adresler: [{ "title": "s", "text": "s" }],
+      adresler: [{ "title": "", "text": "" }],
     };
   },
   created() {
