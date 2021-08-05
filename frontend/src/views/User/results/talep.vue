@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-button v-on:click="$refs.modal.show()" variant="success"
-      ><b>Hizmet talep et</b></b-button
+      ><b>Hizmet Talep Et</b></b-button
     >
     <b-modal
       hide-header-close
