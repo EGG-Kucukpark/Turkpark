@@ -140,15 +140,41 @@
 
           <!-- social buttons -->
           <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button variant="outline-facebook">
-              <feather-icon icon="FacebookIcon" /> Facebook
+            <b-button @click="$refs.facebook.login()" variant="outline-primary">
+              <img
+                style="width: 30px"
+                src="https://img.icons8.com/color/48/000000/facebook.png"
+              />
+              Facebook
             </b-button>
+            <facebook-login
+              ref="facebook"
+              style="display: none"
+              appId="563753934803689"
+              @login="onLogin"
+              @logout="onLogout"
+              @sdk-loaded="sdkLoaded"
+            >
+            </facebook-login>
 
-            <b-button variant="outline-google">
-              <feather-icon icon="MailIcon" /> Google
-            </b-button>
-            <b-button variant="outline-github" href="javascript:void(0)">
-              <feather-icon icon="GithubIcon" /> Github
+            <GoogleLogin
+              class="btn btn-outline-danger"
+              :params="params"
+              :onSuccess="onSuccess"
+            >
+              <img
+                style="width: 30px"
+                src="https://img.icons8.com/color/48/000000/google-logo.png"
+              />
+              Google
+            </GoogleLogin>
+
+            <b-button variant="outline-secondary" href="javascript:void(0)">
+              <img
+                style="width: 30px"
+                src="https://img.icons8.com/fluency/48/000000/github.png"
+              />
+              Github
             </b-button>
           </div>
         </b-col>
@@ -161,58 +187,29 @@
 <script>
 /* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import VuexyLogo from "@/assets/images/logo/logo.png";
-
-import {
-  BRow,
-  BCol,
-  BLink,
-  BFormGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BInputGroup,
-  BFormCheckbox,
-  BCardText,
-  BCardTitle,
-  BImg,
-  BForm,
-  BAlert,
-  BButton,
-  BSpinner,
-} from "bootstrap-vue";
 import { required, email } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import store from "@/store/index";
-import { mapActions } from "vuex";
-import axios from "@axios";
+import GoogleLogin from "vue-google-login";
+import facebookLogin from "facebook-login-vuejs";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 
 export default {
   components: {
-    BRow,
-    BCol,
-    BLink,
-    BFormGroup,
-    BFormInput,
-    BInputGroupAppend,
-    BInputGroup,
-    BFormCheckbox,
-    BCardText,
-    BCardTitle,
-    BImg,
-    BForm,
-    BButton,
-    VuexyLogo,
     ValidationProvider,
-    BAlert,
     ValidationObserver,
-    BSpinner,
+    GoogleLogin,
+    facebookLogin,
   },
   mixins: [togglePasswordVisibility],
   data() {
     return {
       password: "",
       email: "",
+      params: {
+        client_id:
+          "40799310289-l7qt3pan3u300q4jgifs1n3bbjh1fhts.apps.googleusercontent.com",
+      },
 
       sideImg: require("@/assets/images/pages/login-v2.svg"),
       // validation rulesimport store from '@/store/index'
@@ -221,7 +218,12 @@ export default {
       show: false,
       show2: false,
       error: null,
+      FB: undefined,
+      isConnected: false,
       spin: false,
+
+      faceName: null,
+      faceEmail: null,
     };
   },
   computed: {
@@ -238,8 +240,79 @@ export default {
     },
   },
   methods: {
+    welcome(user) {
+      this.$router.replace("/").then(() => {
+        this.$toast({
+          component: ToastificationContent,
+          position: "top-right",
+          props: {
+            title: `Hoşgeldin ${user.name} `,
+            icon: "CoffeeIcon",
+            variant: "success",
+            text: `${user.role} olarak başarıyla giriş yaptın. Şimdi işe koyulabilirsin!`,
+          },
+        });
+      });
+    },
+
+    getUserData() {
+      this.FB.api(
+        "/me",
+        "GET",
+        { fields: "id,name,email" },
+        (userInformation) => {
+          this.faceName = userInformation.name;
+          this.faceEmail = userInformation.email;
+          this.facelog();
+        }
+      );
+    },
+    async facelog() {
+      await this.$http
+        .post("/api/userekle", {
+          name: this.faceName,
+          email: this.faceEmail,
+          role: "Firma",
+        })
+        .then((res) => {
+          localStorage.setItem("token", this.FB.getAccessToken());
+          localStorage.setItem("user", JSON.stringify(res.data));
+          this.welcome(res.data);
+        });
+    },
+
+    sdkLoaded(payload) {
+      this.isConnected = payload.isConnected;
+      this.FB = payload.FB;
+      if (this.isConnected) this.getUserData();
+    },
+    onLogin() {
+      this.isConnected = true;
+      this.getUserData();
+    },
+    onLogout() {
+      this.isConnected = false;
+    },
+
+    onSuccess(googleUser) {
+      let token = googleUser["Zb"].access_token;
+      var deniz = JSON.parse(JSON.stringify(googleUser.getBasicProfile()));
+      console.log(deniz["Dt"]);
+      this.$http
+        .post("/api/userekle", {
+          email: deniz["Dt"],
+          name: deniz["Me"],
+          role: "Firma",
+        })
+        .then((res) => {
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(res.data));
+          this.welcome(res.data);
+        });
+    },
+
     validationForm() {
-      axios
+      this.$http
         .post("/api/login", {
           email: this.email,
           password: this.password,
@@ -271,18 +344,7 @@ export default {
           localStorage.setItem("user", JSON.stringify(res.data.user));
           this.spin = true;
 
-          this.$router.push("/").then(() => {
-            this.$toast({
-              component: ToastificationContent,
-              position: "top-right",
-              props: {
-                title: `Hoşgeldin ${user.name} `,
-                icon: "CoffeeIcon",
-                variant: "success",
-                text: `${user.role} olarak başarıyla giriş yaptın. Şimdi işe koyulabilirsin!`,
-              },
-            });
-          });
+          this.welcome(user);
         });
     },
   },

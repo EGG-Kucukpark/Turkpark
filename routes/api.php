@@ -147,6 +147,7 @@ route::post("takvimsil", [TakvimController::class, 'takvimsil']);
 //                      Email İşlemleri
 
 Route::post('email', [EmailController::class, 'email']);
+Route::post('bill', [EmailController::class, 'bill']);
 Route::group(['middleware' => 'guest:api'], function () {
     Route::post('email/verify/{user}', [VerificationController::class, 'verify'])->name('verification.verify');
     Route::post('email/resend', [VerificationController::class, 'resend']);
@@ -155,6 +156,7 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('password/reset', [ResetPasswordController::class, 'reset']);
 });
+
 
 
 

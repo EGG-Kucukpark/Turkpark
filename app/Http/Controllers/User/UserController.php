@@ -116,26 +116,37 @@ class UserController extends Controller
 
     public function adduser(Request $request)
     {
+        $user = DB::table('users')->where('email', $request->email);
 
+        $user->count();
 
         $date = new DateTime("now", new DateTimeZone('Europe/Istanbul'));
         $date->format('d.m.Y, H:i');
 
 
         try {
-            $add = DB::table('users')->insert([
-                'name' => $request->name,
-                'email' => $request->email,
-                'role' => $request->role,
-                'telefon' => $request->telefon,
-                'password' => Hash::make($request->password),
-                'status' => '2',
-                'created_at' => $date,
-                'email_verified_at' => $date
-            ]);
-            return $add;
+
+            if ($user->count()) {
+
+
+                return response()->json(DB::table('users')->where('email', $request->email)->first());
+            } else {
+
+                $add = DB::table('users')->insert([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'role' => $request->role,
+                    'telefon' => $request->telefon,
+                    'password' => Hash::make($request->password),
+                    'status' => '2',
+                    'created_at' => $date,
+                    'email_verified_at' => $date
+                ]);
+
+                return $request;
+            }
         } catch (Exception $exception) {
-           return response()->json(['error' => 'Başarısız'], 404);
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
