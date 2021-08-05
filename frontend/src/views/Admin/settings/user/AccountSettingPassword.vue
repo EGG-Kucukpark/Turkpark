@@ -111,7 +111,7 @@
           <!-- buttons -->
           <b-col cols="12">
             <b-button
-              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
               variant="primary"
               class="mt-1 mr-1"
               :disabled="invalid"
@@ -120,7 +120,7 @@
               Değişiklikleri Kaydet
             </b-button>
             <b-button
-              v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+
               type="reset"
               variant="outline-secondary"
               class="mt-1"

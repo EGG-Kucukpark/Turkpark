@@ -94,34 +94,12 @@
             </b-form-group>
           </b-col>
 
-          <b-col>
-            <b-form-group lg="2" label="Adres" label-for="mc-last-name">
-              <b-form-input
-                class="mb-1"
-                placeholder="Adres Başlığı"
-                v-model="form.adres"
-                id="mc-last-name"
-              />
-              <b-form-textarea
-                placeholder="Adres Açıklaması"
-                v-model="form.adres"
-                id="mc-last-name"
-              />
-              <b-button
-                v-ripple.400="'rgba(40, 199, 111, 0.15)'"
-                variant="flat-success"
-                class="btn-icon ml-10"
-                @click="push"
-              >
-                <feather-icon icon="PlusIcon" />
-              </b-button>
-            </b-form-group>
-          </b-col>
+
 
           <!-- submit and reset -->
           <b-col>
             <b-button
-              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
               type="submit"
               variant="primary"
               class="mr-1"
@@ -130,7 +108,7 @@
               Güncelle
             </b-button>
             <b-button
-              v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+
               variant="outline-secondary"
               @click="reset"
             >
@@ -174,7 +152,7 @@ export default {
         id: this.options.user_id,
         yetkili: null,
         muhasebe: null,
-        adres: null,
+
       },
     };
   },

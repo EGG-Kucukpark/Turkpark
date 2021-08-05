@@ -18,16 +18,16 @@
     </b-tab>
 
     <!--/ general tab -->
-    <b-tab  v-if="options.role != 'Firma'">
+    <b-tab v-if="options.role != 'Firma'">
       <!-- title -->
-      <template  #title>
+      <template #title>
         <feather-icon icon="InfoIcon" size="18" class="mr-50" />
         <span class="font-weight-bold">Tüm Bilgiler</span>
       </template>
 
-      <bireyekbilgi  :options="options" />
+      <bireyekbilgi :options="options" />
     </b-tab>
-    <b-tab  v-if="options.role === 'Firma'">
+    <b-tab v-if="options.role === 'Firma'">
       <!-- title -->
       <template #title>
         <feather-icon icon="InfoIcon" size="18" class="mr-50" />
@@ -35,7 +35,15 @@
       </template>
 
       <firmaekbilgi :options="options" />
+    </b-tab>
+    <b-tab>
+      <!-- title -->
+      <template #title>
+        <feather-icon icon="MapIcon" size="18" class="mr-50" />
+        <span class="font-weight-bold">Adreslerim</span>
+      </template>
 
+      <adres :options="options" />
     </b-tab>
     <!-- change password tab -->
     <b-tab>
@@ -57,8 +65,9 @@
 import { BTabs, BTab } from "bootstrap-vue";
 import AccountSettingGeneral from "../user/AccountSettingGeneral.vue";
 import AccountSettingPassword from "../user/AccountSettingPassword.vue";
-import firmaekbilgi from '../user/firmaekbilgi.vue'
-import bireyekbilgi from '../user/bireyekbilgi.vue'
+import firmaekbilgi from "../user/firmaekbilgi.vue";
+import adres from "../user/adres.vue";
+import bireyekbilgi from "../user/bireyekbilgi.vue";
 export default {
   components: {
     BTabs,
@@ -66,7 +75,8 @@ export default {
     AccountSettingGeneral,
     AccountSettingPassword,
     firmaekbilgi,
-    bireyekbilgi
+    bireyekbilgi,
+    adres,
   },
   setup() {
     var options = null;
@@ -76,7 +86,6 @@ export default {
     return {
       options,
     };
-
   },
 };
 </script>

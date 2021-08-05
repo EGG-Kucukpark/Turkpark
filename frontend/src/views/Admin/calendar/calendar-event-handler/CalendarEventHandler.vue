@@ -128,7 +128,7 @@
 
             <div class="d-flex mt-2">
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="primary"
                 class="mr-2"
                 type="submit"

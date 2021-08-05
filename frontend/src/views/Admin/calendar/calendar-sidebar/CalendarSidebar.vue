@@ -2,7 +2,7 @@
   <div class="sidebar-wrapper d-flex justify-content-between flex-column flex-grow-1">
     <div class="p-2">
       <b-button
-        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
         aria-controls="sidebar-add-new-event"
         :aria-expanded="String(isEventHandlerSidebarActive)"
         variant="primary"

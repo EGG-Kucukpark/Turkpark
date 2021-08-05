@@ -2,7 +2,7 @@
   <b-card title="Sağlık Raporları">
     <b-row>
       <b-col>
-        <talep />
+        <talep :data="user" />
       </b-col>
       <b-col>
         <b-form-group
@@ -45,7 +45,6 @@
           <template #cell(actions)="data">
             <span>
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
@@ -57,7 +56,6 @@
               </b-button>
 
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
@@ -119,6 +117,7 @@ export default {
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
 

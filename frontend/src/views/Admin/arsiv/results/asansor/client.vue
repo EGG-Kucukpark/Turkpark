@@ -128,7 +128,7 @@
 
                 <b-col md="1">
                   <b-button
-                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                     variant="danger"
                     @click.prevent="delField(index)"
                     class="btn-icon"
@@ -151,7 +151,7 @@
                   </b-alert>
                 </span>
                 <b-button
-                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                   variant="info"
                   @click="addField"
                   class="btn-icon"
@@ -243,7 +243,7 @@
           <template #cell(actions)="data">
             <span>
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon" style="margin:5px;"
@@ -253,7 +253,7 @@
                 <feather-icon icon="ImageIcon" />
               </b-button>
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
                 class="btn-icon" style="margin:5px;"
@@ -264,7 +264,7 @@
               </b-button>
 
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon" style="margin:5px;"

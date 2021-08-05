@@ -23,23 +23,7 @@ export default [
 
             }, {
                 title: 'İlk Yardım',
-
-                route: 'apps-invoice-list',
-                children: [{
-
-                        title: 'Kursiyerler',
-                        route: 'kursiyerler'
-
-                    },
-                    {
-                        title: 'Eğitim Planlama',
-                        route: 'egitim'
-
-                    },
-
-
-
-                ]
+                route: 'kursiyerler',
             },
             {
                 title: 'Testler',
@@ -118,8 +102,7 @@ export default [
         ]
 
 
-    },
-    {
+    }, {
         title: "Hizmet Geçmişi",
         icon: "ActivityIcon"
     },
@@ -129,12 +112,16 @@ export default [
         title: 'Takvim',
         route: 'apps-calendar',
         icon: 'CalendarIcon',
-    },
-    {
+    }, {
         title: 'Yapılacaklar',
         route: 'apps-todo',
         icon: 'CheckSquareIcon',
+    }, {
+        title: 'Ayarlar',
+        route: 'profil',
+        icon: 'SettingsIcon',
     },
+
 
 
 

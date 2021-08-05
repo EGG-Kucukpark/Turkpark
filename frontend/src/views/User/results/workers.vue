@@ -128,7 +128,7 @@
           <template #cell(actions)="data">
             <span>
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="warning"
                 @click="Duzenlemodal(data.item)"
                 class="btn-icon"
@@ -138,7 +138,7 @@
                 <feather-icon icon="EditIcon" />
               </b-button>
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="danger"
                 @click.prevent="sil(data.item)"
                 class="btn-icon"
@@ -149,7 +149,7 @@
               </b-button>
 
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="success"
                 :to="{ name: 'calisan-goster', params: { id: data.item.id } }"
                 class="btn-icon"

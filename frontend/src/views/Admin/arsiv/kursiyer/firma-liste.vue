@@ -347,7 +347,7 @@
             <template #cell(actions)="data">
               <span>
                 <b-button
-                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                   variant="success"
                   @click.prevent="tikla"
                   class="btn-icon"
@@ -358,7 +358,7 @@
                   <feather-icon icon="ImageIcon" />
                 </b-button>
                 <b-button
-                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                   variant="warning"
                   @click="Modal2(data.item)"
                   class="btn-icon"
@@ -370,7 +370,7 @@
                 </b-button>
 
                 <b-button
-                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                   variant="danger"
                   @click.prevent="arsiv(data.item)"
                   style="margin: 5px"

@@ -107,6 +107,18 @@ class ClientController extends Controller
             return response()->json(['error' => 'Başarısız'], 404);
         }
     }
+
+    public function updateadres(Request $request)
+    {
+        try {
+            DB::table('clients')->where('id', $request->id)->update([
+                'adres' => $request->adres,
+
+            ]);
+        } catch (Exception $exception) {
+            return response()->json(['error' => 'Başarısız'], 404);
+        }
+    }
     public function firmaduzenle(Request $request)
     {
         try {

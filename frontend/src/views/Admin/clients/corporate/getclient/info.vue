@@ -103,7 +103,7 @@
           <!-- submit and reset -->
           <b-col style="margin: 50px">
             <b-button
-              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
               type="submit"
               variant="primary"
               class="mr-1"
@@ -111,7 +111,7 @@
               Güncelle
             </b-button>
             <b-button
-              v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+
               variant="outline-secondary"
               @click="reset"
             >

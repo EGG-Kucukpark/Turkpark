@@ -129,6 +129,13 @@ export default [
 
 
 
+    {
+        title: 'Ayarlar',
+        route: 'profil',
+        icon: 'SettingsIcon',
+    },
+
+
 
 
 

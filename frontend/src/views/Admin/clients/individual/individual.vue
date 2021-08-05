@@ -112,7 +112,7 @@
           <template #cell(actions)="data">
             <span>
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="success"
                 @click.prevent="tikla"
                 class="btn-icon"
@@ -123,7 +123,7 @@
                 <feather-icon icon="ImageIcon" />
               </b-button>
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="warning"
                 @click.prevent="modal2(data.item)"
                 v-on:click="$refs['modal2'].show()"
@@ -136,7 +136,7 @@
               </b-button>
 
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
                 variant="danger"
                 style="margin: 5px"
                 @click="arsiv(data.item)"

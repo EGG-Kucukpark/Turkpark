@@ -15,7 +15,7 @@
         <b-card>
           <!-- Button: Send Invoice -->
           <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
             v-b-toggle.sidebar-send-invoice
             variant="primary"
             class="mb-75"
@@ -26,7 +26,7 @@
 
           <!-- Button: DOwnload -->
           <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+
             variant="outline-secondary"
             class="mb-75"
             block
@@ -36,7 +36,7 @@
 
           <!-- Button: Print -->
           <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+
             variant="outline-secondary"
             class="mb-75"
             block
@@ -50,7 +50,7 @@
           <!-- Button: Add Payment -->
           <b-button
             v-b-toggle.sidebar-invoice-add-payment
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
             variant="success"
             class="mb-75"
             block
@@ -60,7 +60,7 @@
 
           <b-button
             v-b-toggle.sidebar-invoice-add-payment
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+
             variant="success"
             class="mb-75"
             block
