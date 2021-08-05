@@ -16,6 +16,8 @@ export default {
             filterOn: [],
 
         },
+
+
         firma_cek: null,
 
     },

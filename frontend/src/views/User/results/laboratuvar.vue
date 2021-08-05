@@ -111,7 +111,6 @@ export default {
       fields: [
         { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
-
         { key: "rapor", label: "TEST TÜRÜ", sortable: true, filter: true },
         { key: "created_at", label: "Tarih", sortable: true, filter: true },
         { key: "actions", label: "Eylemler" },

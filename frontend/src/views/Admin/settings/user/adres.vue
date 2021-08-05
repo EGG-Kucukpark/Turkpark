@@ -48,7 +48,7 @@ export default {
   props: ["options"],
   data() {
     return {
-      adresler: [{ "title": "", "text": "" }],
+      adresler: [{ title: "", text: "" }],
     };
   },
   created() {
@@ -58,7 +58,9 @@ export default {
   methods: {
     reset() {
       this.$http("/api/firmagoster/" + this.options.user_id).then((res) => {
-        this.adresler = JSON.parse(res.data.adres);
+        if (res.data.adres) {
+          this.adresler = JSON.parse(res.data.adres);
+        }
       });
     },
 
@@ -73,7 +75,7 @@ export default {
       if (this.adresler.length > 1) {
         alert("Sadece 2 adres ekleyebilirsiniz");
       } else {
-        this.adresler.push({ "title": "", "text": "" });
+        this.adresler.push({ title: "", text: "" });
         console.log(this.adresler);
       }
     },

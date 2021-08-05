@@ -35,7 +35,7 @@
 
       <b-row>
         <b-col cols="15" xl="12" lg="10" md="9">
-          <files :user-data="userData" />
+          <workerGlob :user-data="userData" />
         </b-col>
       </b-row>
     </template>
@@ -48,26 +48,25 @@ import router from "@/router";
 
 import { ref, onUnmounted } from "@vue/composition-api";
 
-
 import getworker from "./getworker";
 import workerinfo from "./workerinfo.vue";
-import files from "./workerfiles.vue";
+import workerGlob from "./worker-glob.vue";
 
 export default {
   data() {
-    return { path: null, firma:null };
+    return { path: null, firma: null };
   },
 
   components: {
-
     workerinfo,
-    files,
+
+    workerGlob,
   },
 
   created() {
     const path = localStorage.getItem("path");
     const id = path.slice(8);
-    this.$http('/api/firmagoster/' + id).then((res) => this.firma = res.data);
+    this.$http("/api/firmagoster/" + id).then((res) => (this.firma = res.data));
     this.path = path;
   },
 
