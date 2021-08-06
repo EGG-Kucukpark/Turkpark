@@ -7,8 +7,8 @@
     >
       <template #button-content>
         <div class="d-sm-flex d-none user-nav">
-          <p class="user-name font-weight-bolder mb-0 hover">
-            {{ user.name }}
+          <p class="user-name font-weight-bolder mb-0">
+            {{ user.name.substring(0, 20) }}
           </p>
           <span class="user-status"> {{ user.role }}</span>
         </div>
@@ -96,10 +96,4 @@ export default {
   },
 };
 </script>
-<style>
-.hover {
-  width: 13.5ch;
-  overflow: hidden;
-  white-space: nowrap;
-}
-</style>
+
