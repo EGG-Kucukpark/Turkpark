@@ -284,7 +284,7 @@ export default {
 
   methods: {
     ekle(data) {
-      console.log(this.form);
+
       if (data) {
         this.$http
           .post("/api/calisanekle", this.form)

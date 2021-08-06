@@ -36,44 +36,37 @@
           :filter="filter"
           :filter-included-fields="filterOn"
           @filtered="onFiltered"
+          @row-clicked="tikla"
           show-empty
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
         >
-          <template #cell(tests)="data">
-            <p>Test: {{ JSON.parse(data.item.tests) }},</p>
-          </template>
           <template #cell(status)="data">
-            <b-badge :variant="data.item.status === '0' ? 'danger' : 'success'"
-              >{{ data.item.status === "0" ? "İptal" : "Onaylandı" }}
+            <b-badge :variant="data.item.status === '0' ? 'warning' : 'success'"
+              >{{ data.item.status === "0" ? "Beklemede" : "Onaylandı" }}
             </b-badge>
           </template>
 
           <template #cell(tutar)="data">
-            <p>{{ data.item.tutar }} ₺</p>
+            <p>
+              {{
+                data.item.status === "0"
+                  ? "Lütfen Mail Adresinizi Konrol Ediniz"
+                  : data.item.tutar + " ₺"
+              }}
+            </p>
           </template>
           <template #cell(actions)="data">
             <span>
               <b-button
                 variant="warning"
-                @click.prevent="göster(data.item.dosya_ad)"
+                @click.prevent="göster(data.item.id)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-warning
                 title="Göster"
                 style="margin: 5px"
               >
                 <feather-icon icon="ImageIcon" />
-              </b-button>
-
-              <b-button
-                variant="success"
-                @click.prevent="indir(data.item.dosya_ad)"
-                class="btn-icon"
-                v-b-tooltip.hover.v-success
-                title="İndir"
-                style="margin: 5px"
-              >
-                <feather-icon icon="DownloadIcon" />
               </b-button>
             </span>
           </template>
@@ -119,22 +112,19 @@ export default {
     return {
       ...this.$store.state.global.table,
       fields: [
-        { key: "lab", label: "Laboratuvar", sortable: true, filter: true },
+        { key: "lab", label: "Hİzmet", sortable: true, filter: true },
         { key: "id", label: "Fatura Numarası", sortable: true, filter: true },
         { key: "date", label: "Talep TARİHİ", sortable: true, filter: true },
-        { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
-        { key: "tests", label: "Testler", sortable: true, filter: true },
+        { key: "sayi", label: "Talep Sayısı", sortable: true, filter: true },
+
         { key: "status", label: "Durum", sortable: true, filter: true },
-        {
-          key: "tutar",
-          label: "Toplam Tutar",
-          sortable: true,
-          filter: true,
-        },
+        { key: "tutar", label: "Tutar", sortable: true, filter: true },
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
       user: JSON.parse(localStorage.getItem("user")),
+
+      testler: [],
     };
   },
 
@@ -156,6 +146,7 @@ export default {
     if (this.$route.params.status != null) {
       this.$http
         .post(`/api/billupdate`, {
+          firma_id: this.user.user_id,
           id: this.$route.params.id,
           status: this.$route.params.status,
         })
@@ -175,6 +166,15 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+
+    tikla(data) {
+      if (data.status === "1") {
+        this.$router.push({
+          name: "hizmet-gecmisi-goster",
+          params: { id: data.id },
+        });
+      }
     },
 
     modal() {

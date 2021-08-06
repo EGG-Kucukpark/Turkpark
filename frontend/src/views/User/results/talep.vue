@@ -148,6 +148,8 @@ export default {
       this.status ? (this.para += data.money) : (this.para -= data.money);
     },
     send() {
+      this.$refs["modal"].hide();
+
       for (let i = 0; i < this.checked.length; i++) {
         this.para += this.checked[i].money;
       }
@@ -157,7 +159,7 @@ export default {
         id: this.id,
         email: this.email,
         name: this.name,
-        mesaj:this.mesaj,
+        mesaj: this.mesaj,
         tutar: this.para,
         labTürü: this.radio.title,
         adres: this.selectedAdres,

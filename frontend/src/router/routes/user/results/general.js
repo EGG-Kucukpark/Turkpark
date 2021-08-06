@@ -19,6 +19,14 @@ export default [
         component: () => import('@/views/User/hizmetLog/hizmetLog.vue'),
 
 
+    },
+
+    {
+        path: '/hizmet-gecmisi/:id',
+        name: 'hizmet-gecmisi-goster',
+        component: () => import('@/views/User/hizmetLog/hizmetShow.vue'),
+
+
     }
 
 ]

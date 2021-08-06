@@ -57,7 +57,7 @@ class BillController extends Controller
 
     public function update(Request  $request)
     {
-        DB::table('activity_log')->where('id', $request->id)->update(['status' => '1']);
+        DB::table('activity_log')->where([['id', $request->id], ['firma_id', $request->firma_id]])->update(['status' => '1']);
     }
 
     public function getHizmet(Request $request)

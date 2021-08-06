@@ -44,7 +44,7 @@ class WorkerController extends Controller
 
             ]);
         } catch (Exception $exception) {
-            return $exception;
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////

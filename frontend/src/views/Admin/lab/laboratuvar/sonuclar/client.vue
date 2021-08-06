@@ -3,17 +3,23 @@
     <b-card>
       <b-overlay :show="userData === null" rounded="sm">
         <kunye v-if="userData != null" :userData="userData" />
-      </b-overlay>
+        <calisan-ekle
+          v-if="userData != null"
+          :userData="userData"
+          :calisanlar="calisanlar"
+        />
 
-      <b-button
-        :variant="edit ? 'success' : 'warning'"
-        class="btn-icon"
-        v-on:click="edit = !edit"
-        style="margin: 5px; float: right; margin-right: 200px"
-        v-b-tooltip.hover.v-warning
-      >
-        {{ edit ? "Tamam" : "Güncelle" }}
-      </b-button>
+        <b-button
+          v-if="userData != null"
+          :variant="edit ? 'success' : 'warning'"
+          class="btn-icon"
+          v-on:click="edit = !edit"
+          style="margin: 5px; float: right; margin-right: 200px"
+          v-b-tooltip.hover.v-warning
+        >
+          {{ edit ? "Tamam" : "Güncelle" }}
+        </b-button>
+      </b-overlay>
     </b-card>
     <portal to="duzenle">
       <div v-if="edit === true"><p></p></div>
@@ -47,7 +53,7 @@
             variant="success"
             @click="modal"
           >
-            <feather-icon size="20px;" icon="PlusIcon"
+            <feather-icon size="20" icon="PlusIcon"
           /></b-button>
 
           <b-modal
@@ -58,119 +64,111 @@
             centered
             title="Rapor Ekle"
           >
+            <b-form @submit.prevent="submit">
+              <b-progress
+                max="100"
+                style="margin: 10px"
+                v-for="form in form"
+                name="progress"
+                :key="form.id"
+                :value="form.dgr"
+                striped
+                animated
+                :variant="form.variant"
+                class="progress-bar-success"
+              />
 
-              <b-form @submit.prevent="submit">
-                <b-progress
-                  max="100"
-                  style="margin: 10px"
-                  v-for="form in form"
-                  name="progress"
-                  :key="form.id"
-                  :value="form.dgr"
-                  striped
-                  animated
-                  :variant="form.variant"
-                  class="progress-bar-success"
-                />
+              <b-row
+                style="margin: 12px"
+                v-for="(form, index) in form"
+                :key="form.id"
+              >
+                <hr />
 
-                <b-row
-                  style="margin: 12px"
-                  v-for="(form, index) in form"
-                  :key="form.id"
-                >
-                  <hr />
-
-                  <b-col style="display: none">
-                    <b-form-select v-model="form.Selected2">
-                      <option disabled value="">Lütfen Seçim Yapınız</option>
-                      <option
-                        v-bind:value="{ firma_id: firma.id }"
-                        v-for="firma in firma"
-                        :key="firma.id"
-                      >
-                        {{ firma.name }}
-                      </option>
-                    </b-form-select>
-                  </b-col>
-
-                  <b-col>
-                    <b-form-select v-model="form.calisanselected">
-                      <option disabled value="">Lütfen Çalışan Seçiniz</option>
-
-                      <option
-                        v-bind:value="{ name: calisan.name, id: calisan.id }"
-                        v-for="calisan in calisan"
-                        :key="calisan.id"
-                      >
-                        {{ calisan.name }}
-                      </option>
-                    </b-form-select>
-                  </b-col>
-                  <b-col >
-                    <b-form-select v-model="form.rapor">
-                      <option disabled value="">Lütfen Seçim Yapınız</option>
-                      <option v-for="raporlar in raporlar" :key="raporlar.id">
-                        {{ raporlar.name }}
-                      </option>
-                    </b-form-select>
-                  </b-col>
-                  <b-col>
-                    <b-form-file
-                      v-model="form.file"
-                      name="file"
-                      placeholder=" Bir dosya seçin veya buraya sürükleyin..."
-                      drop-placeholder="Drop file here..."
-                      accept=".jpg, .png, .pdf, "
-                    />
-                  </b-col>
-
-                  <b-col md="1">
-                    <b-button
-
-                      variant="danger"
-                      @click.prevent="delField(index)"
-                      class="btn-icon"
+                <b-col style="display: none">
+                  <b-form-select v-model="form.Selected2">
+                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option
+                      v-bind:value="{ firma_id: firma.id }"
+                      v-for="firma in firma"
+                      :key="firma.id"
                     >
-                      <feather-icon icon="DeleteIcon" />
-                    </b-button>
-                  </b-col>
-                </b-row>
+                      {{ firma.name }}
+                    </option>
+                  </b-form-select>
+                </b-col>
 
-                <div style="float: left">
-                  <span v-if="warn === true">
-                    <b-alert variant="danger" show>
-                      <div class="alert-body">
-                        <span
-                          ><strong
-                            >En fazla 4 toplu yükleme yapabilirsiniz!</strong
-                          >
-                        </span>
-                      </div>
-                    </b-alert>
-                  </span>
+                <b-col>
+                  <b-form-select v-model="form.calisanselected">
+                    <option disabled value="">Lütfen Çalışan Seçiniz</option>
+
+                    <option
+                      v-bind:value="{ name: calisan.name, id: calisan.id }"
+                      v-for="calisan in calisan"
+                      :key="calisan.id"
+                    >
+                      {{ calisan.name }}
+                    </option>
+                  </b-form-select>
+                </b-col>
+                <b-col>
+                  <b-form-select v-model="form.rapor">
+                    <option disabled value="">Lütfen Seçim Yapınız</option>
+                    <option v-for="raporlar in raporlar" :key="raporlar.id">
+                      {{ raporlar.name }}
+                    </option>
+                  </b-form-select>
+                </b-col>
+                <b-col>
+                  <b-form-file
+                    v-model="form.file"
+                    name="file"
+                    placeholder=" Bir dosya seçin veya buraya sürükleyin..."
+                    drop-placeholder="Drop file here..."
+                    accept=".jpg, .png, .pdf, "
+                  />
+                </b-col>
+
+                <b-col md="1">
                   <b-button
-
-                    variant="info"
-                    @click="addField"
+                    variant="danger"
+                    @click.prevent="delField(index)"
                     class="btn-icon"
                   >
-                    <feather-icon size="20px;" icon="PlusIcon" />
+                    <feather-icon icon="DeleteIcon" />
                   </b-button>
-                </div>
-                <div style="float: right">
-                  <b-button variant="success" type="submit">
-                    Rapor Ekle
-                  </b-button>
-                </div>
-                <div id="iptal">
-                  <div style="float: right; padding-right: 10px">
-                    <b-button variant="danger" @click="formcikis()">
-                      İptal</b-button
-                    >
-                  </div>
-                </div>
-              </b-form>
+                </b-col>
+              </b-row>
 
+              <div style="float: left">
+                <span v-if="warn === true">
+                  <b-alert variant="danger" show>
+                    <div class="alert-body">
+                      <span
+                        ><strong
+                          >En fazla 4 toplu yükleme yapabilirsiniz!</strong
+                        >
+                      </span>
+                    </div>
+                  </b-alert>
+                </span>
+                <b-button variant="info" @click="addField" class="btn-icon">
+                  <feather-icon size="20" icon="PlusIcon" />
+                </b-button>
+              </div>
+              <div style="float: right">
+                <b-button variant="success" type="submit">
+                  Rapor Ekle
+                </b-button>
+              </div>
+              <div id="iptal">
+                <div style="float: right; padding-right: 10px">
+                  <b-button variant="danger" @click="formcikis()">
+                    İptal</b-button
+                  >
+                </div>
+              </div>
+            </b-form>
           </b-modal>
         </span>
 
@@ -239,7 +237,6 @@
             <template #cell(actions)="data">
               <span>
                 <b-button
-
                   variant="warning"
                   @click.prevent="göster(data.item.dosya_ad)"
                   class="btn-icon"
@@ -250,7 +247,6 @@
                   <feather-icon icon="ImageIcon" />
                 </b-button>
                 <b-button
-
                   variant="danger"
                   @click.prevent="arsivle(data.item)"
                   class="btn-icon"
@@ -262,7 +258,6 @@
                 </b-button>
 
                 <b-button
-
                   variant="success"
                   @click.prevent="indir(data.item.dosya_ad)"
                   class="btn-icon"
@@ -309,84 +304,19 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import ripple from "vue-ripple-directive";
 import { heightTransition } from "@core/mixins/ui/transition";
 import router from "@/router";
-import kunye from "../../../clients/corporate/getclient/clientinfo.vue";
-import {
-  BTable,
-  BAvatar,
-  BBadge,
-  BRow,
-  BCol,
-  VBTooltip,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  BProgress,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BModal,
-  BForm,
-  BFormFile,
-  BOverlay,
-  BAlert,
-} from "bootstrap-vue";
-import axios from "@axios";
 import vSelect from "vue-select";
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
-    VBTooltip,
-    BProgress,
-    BCol,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BOverlay,
-    BFormInput,
-    BInputGroupAppend,
-    kunye,
-    BButton,
-    BCard,
-    BModal,
     ToastificationContent,
-    BForm,
-    BFormFile,
-    ripple,
     heightTransition,
-    BAlert,
     vSelect,
-  },
-  directives: {
-    "b-tooltip": VBTooltip,
-    ripple,
   },
 
   data() {
     return {
-      perPage: 10,
-      pageOptions: [3, 5, 10],
-      totalRows: 1,
-      currentPage: 1,
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      edit: false,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      ...this.$state.global.table,
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
@@ -442,24 +372,21 @@ export default {
     },
   },
   created() {
-    axios.post("/api/raporlar").then((res) => (this.raporlar = res.data));
+    this.$http.post("/api/raporlar").then((res) => (this.raporlar = res.data));
     this.Selected = router.currentRoute.params.id;
 
     var id = this.Selected;
     this.form[0].Selected2 = id;
 
-    axios("/api/firmagoster/" + this.Selected).then((res) => {
+    this.$http("/api/firmagoster/" + this.Selected).then((res) => {
       this.userData = res.data;
     });
 
-    axios
+    this.$http
       .post("/api/getfile", { firma_id: id })
 
       .then((res) => (this.files = res.data));
-
-    axios
-      .post("/api/calisanlar", { firma_id: id })
-      .then((res) => (this.calisan = res.data));
+    this.calisanlar(id);
   },
   mounted() {
     setTimeout(() => {
@@ -469,6 +396,12 @@ export default {
   methods: {
     basarili() {
       this.refreshStop();
+    },
+
+    calisanlar(id) {
+      this.$http
+        .post("/api/calisanlar", { firma_id: id })
+        .then((res) => (this.calisan = res.data));
     },
 
     basarisiz() {
@@ -492,7 +425,7 @@ export default {
           firma_id: this.Selected,
         };
 
-        axios
+        this.$http
           .post("/api/getfile", { firma_id: id })
           .then((res) => (this.files = res.data))
           .then(
@@ -555,7 +488,7 @@ export default {
           form.dgr = 50;
 
           setTimeout(() => {
-            axios
+            this.$http
               .post("/api/belgeyukle", formData)
               .then(
                 (res) => document.getElementById("basarili").click(),
@@ -586,7 +519,9 @@ export default {
       window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
     arsivle(data) {
-      axios.post("/api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
+      this.$http
+        .post("/api/dosyaarsiv", { id: data.id })
+        .then(this.refreshStop());
     },
 
     formcikis() {
@@ -598,7 +533,7 @@ export default {
     },
 
     indir(dosya) {
-      axios
+      this.$http
         .post("/api/indir", { dosya: dosya }, { responseType: "blob" })
         .then((response) => {
           var data = response.data;

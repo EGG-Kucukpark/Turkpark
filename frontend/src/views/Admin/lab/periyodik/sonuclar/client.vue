@@ -1,5 +1,25 @@
 <template>
   <b-card title="Sonuçlar">
+    <b-overlay :show="userData === null" rounded="sm">
+      <kunye v-if="userData != null" :userData="userData" />
+      <calisan-ekle
+        v-if="userData != null"
+        :userData="userData"
+        :calisanlar="calisanlar"
+      />
+
+      <b-button
+        v-if="userData != null"
+        :variant="edit ? 'success' : 'warning'"
+        class="btn-icon"
+        v-on:click="edit = !edit"
+        style="margin: 5px; float: right; margin-right: 200px"
+        v-b-tooltip.hover.v-warning
+      >
+        {{ edit ? "Tamam" : "Güncelle" }}
+      </b-button>
+    </b-overlay>
+
     <b-row>
       <b-col>
         <b-form-group
@@ -107,7 +127,6 @@
 
                 <b-col md="1">
                   <b-button
-
                     variant="danger"
                     @click.prevent="delField(index)"
                     class="btn-icon"
@@ -129,12 +148,7 @@
                     </div>
                   </b-alert>
                 </span>
-                <b-button
-
-                  variant="info"
-                  @click="addField"
-                  class="btn-icon"
-                >
+                <b-button variant="info" @click="addField" class="btn-icon">
                   <feather-icon size="20px;" icon="PlusIcon" />
                 </b-button>
               </div>
@@ -220,7 +234,6 @@
           <template #cell(actions)="data">
             <span>
               <b-button
-
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
@@ -231,7 +244,6 @@
                 <feather-icon icon="ImageIcon" />
               </b-button>
               <b-button
-
                 variant="danger"
                 @click.prevent="arsivle(data.item)"
                 class="btn-icon"
@@ -243,7 +255,6 @@
               </b-button>
 
               <b-button
-
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
@@ -394,7 +405,7 @@ export default {
       firmaselected: "",
       calisan: "",
       raporlar: "",
-
+        edit:false,
       form: [
         {
           calisanselected: "",
