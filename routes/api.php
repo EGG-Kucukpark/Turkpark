@@ -23,9 +23,7 @@ use App\Http\Controllers\Apps\TakvimController;
 
 use App\Http\Controllers\Apps\EduController;
 use App\Http\Controllers\Apps\CerfController;
-
-
-
+use App\Http\Controllers\Bill\BillController;
 // DOSYALAR
 use App\Http\Controllers\File\BireyFile;
 use App\Http\Controllers\File\FileController;
@@ -147,7 +145,7 @@ route::post("takvimsil", [TakvimController::class, 'takvimsil']);
 //                      Email İşlemleri
 
 Route::post('email', [EmailController::class, 'email']);
-Route::post('bill', [EmailController::class, 'bill']);
+
 Route::group(['middleware' => 'guest:api'], function () {
     Route::post('email/verify/{user}', [VerificationController::class, 'verify'])->name('verification.verify');
     Route::post('email/resend', [VerificationController::class, 'resend']);
@@ -229,3 +227,10 @@ route::get('sertifikagoster/{id}', [CerfController::class, 'sertifika']);
 route::post('kursiyersayi', [CerfController::class, 'kursiyer_sayi']);
 route::post('kursarsiv', [CerfController::class, 'archive']);
 route::post('kursarsivckr', [CerfController::class, 'archiveout']);
+
+//////////////////////////////////////////////////////////////////////////////////////
+//                      Fatura İşlemleri
+
+Route::post('bill', [BillController::class, 'bill']);
+Route::post('billupdate', [BillController::class, 'update']);
+Route::post('getHizmet', [BillController::class, 'getHizmet']);

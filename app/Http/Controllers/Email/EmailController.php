@@ -34,32 +34,5 @@ class EmailController extends Controller
 
 
 
-    public function bill(Request $request)
-    {
 
-        date_default_timezone_set('Europe/Istanbul');
-        $date =  date("d.m.Y, H:i");
-
-
-        $data = [
-            'name' => $request->name,
-            'tutar' => $request->tutar,
-            'adres' => $request->adres,
-            'testler' => $request->testler,
-            'kisi' => $request->kisi,
-            'email' => $request->email,
-            'lab' => $request->labTürü,
-            'time' => $date
-        ];
-
-        $email = $request->email;
-
-
-
-        Mail::send('email.fatura', $data, function ($message) use ($email) {
-
-            $message->to($email);
-            $message->subject('Hizmet Faturası!');
-        });
-    }
 }

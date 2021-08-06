@@ -1,9 +1,7 @@
 <template>
-  <b-card title="Sağlık Raporları">
+  <b-card title="Hizmet Geçmişi">
     <b-row>
-      <b-col>
-        <talep :userData="user" />
-      </b-col>
+      <b-col> </b-col>
       <b-col>
         <b-form-group
           label-cols-sm="7"
@@ -42,6 +40,18 @@
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
         >
+          <template #cell(tests)="data">
+            <p>Test: {{ JSON.parse(data.item.tests) }},</p>
+          </template>
+          <template #cell(status)="data">
+            <b-badge :variant="data.item.status === '0' ? 'danger' : 'success'"
+              >{{ data.item.status === "0" ? "İptal" : "Onaylandı" }}
+            </b-badge>
+          </template>
+
+          <template #cell(tutar)="data">
+            <p>{{ data.item.tutar }} ₺</p>
+          </template>
           <template #cell(actions)="data">
             <span>
               <b-button
@@ -98,7 +108,7 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import talep from "./talep.vue";
+import talep from "../results/talep.vue";
 export default {
   components: {
     ToastificationContent,
@@ -109,10 +119,18 @@ export default {
     return {
       ...this.$store.state.global.table,
       fields: [
-        { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
+        { key: "lab", label: "Laboratuvar", sortable: true, filter: true },
+        { key: "id", label: "Fatura Numarası", sortable: true, filter: true },
+        { key: "date", label: "Talep TARİHİ", sortable: true, filter: true },
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
-        { key: "rapor", label: "TEST TÜRÜ", sortable: true, filter: true },
-        { key: "created_at", label: "Tarih", sortable: true, filter: true },
+        { key: "tests", label: "Testler", sortable: true, filter: true },
+        { key: "status", label: "Durum", sortable: true, filter: true },
+        {
+          key: "tutar",
+          label: "Toplam Tutar",
+          sortable: true,
+          filter: true,
+        },
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
@@ -129,40 +147,33 @@ export default {
     },
   },
   created() {
-    var user = JSON.parse(localStorage.getItem("user"));
-
-    var id = user.user_id;
-    this.$http
-      .post("/api/getfile", { firma_id: id })
-      .then((res) => (this.items = res.data));
-  },
-
-  mounted() {
     setTimeout(() => {
       this.totalRows = this.items.length;
     }, 500);
+
+    this.veri();
+    console.log(this.$route.params);
+    if (this.$route.params.status != null) {
+      this.$http
+        .post(`/api/billupdate`, {
+          id: this.$route.params.id,
+          status: this.$route.params.status,
+        })
+        .then((res) => {
+          this.veri();
+        });
+    }
   },
 
   methods: {
-    göster(dosya) {
-      window.open("/Dosyalar/Firma/" + dosya, "_blank");
-    },
-
-    indir(dosya) {
+    veri() {
       this.$http
-        .post(
-          "/api/indir",
-          { id: this.id, dosya: dosya },
-          { responseType: "blob" }
-        )
-        .then((response) => {
-          var data = response.data;
-          const url = window.URL.createObjectURL(new Blob([data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", dosya);
-          document.body.appendChild(link);
-          link.click();
+        .post("/api/getHizmet", { id: this.user.user_id })
+        .then((res) => {
+          this.items = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
 

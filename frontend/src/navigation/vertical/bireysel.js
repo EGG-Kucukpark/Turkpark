@@ -115,7 +115,11 @@ export default [
 
     },
 
-
+    {
+        title: "Hizmet Geçmişi",
+        icon: "ActivityIcon",
+        route: 'hizmet-gecmisi'
+    },
     {
         title: 'Takvim',
         route: 'apps-calendar',

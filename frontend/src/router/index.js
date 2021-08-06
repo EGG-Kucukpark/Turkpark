@@ -13,6 +13,7 @@ import archive from './routes/admin/archive'
 import results from './routes/admin/results'
 import settings from './routes/admin/settings'
 import user_result from './routes/user/results/results'
+import user_general from './routes/user/results/general'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,7 @@ const router = new VueRouter({
         ...results,
         ...settings,
         ...user_result,
+        ...user_general,
         {
             path: '*',
             redirect: 'error-404',

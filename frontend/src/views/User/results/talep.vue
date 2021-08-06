@@ -107,7 +107,7 @@
 </template>
 <script>
 export default {
-  props: ["data"],
+  props: ["userData"],
   data() {
     return {
       kisi: "",
@@ -130,14 +130,16 @@ export default {
       email: null,
       name: null,
       status: false,
+      id: null,
     };
   },
 
   created() {
-    this.$http("/api/firmagoster/" + this.data.user_id).then((res) => {
+    this.$http("/api/firmagoster/" + this.userData.user_id).then((res) => {
       this.adresler = JSON.parse(res.data.adres);
       this.email = res.data.email;
       this.name = res.data.name;
+      this.id = res.data.id;
     });
   },
 
@@ -150,12 +152,14 @@ export default {
         this.para += this.checked[i].money;
       }
       this.para += this.radio.money;
-
+      console.log(this.id);
       this.$http.post("/api/bill", {
+        id: this.id,
         email: this.email,
         name: this.name,
+        mesaj:this.mesaj,
         tutar: this.para,
-        labTürü: this.radio,
+        labTürü: this.radio.title,
         adres: this.selectedAdres,
         testler: this.checked,
         labYer: this.yer,

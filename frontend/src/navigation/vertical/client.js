@@ -104,7 +104,8 @@ export default [
 
     }, {
         title: "Hizmet Geçmişi",
-        icon: "ActivityIcon"
+        icon: "ActivityIcon",
+        route: 'hizmet-gecmisi'
     },
 
 
