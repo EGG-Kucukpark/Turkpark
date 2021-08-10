@@ -1,3 +1,101 @@
+ <style>
+@font-face {
+  font-family: "govde";
+  src: url("govde.ttf") format("truetype");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#sertifika-container {
+  font-family: govde, Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+#sertifika-container .bg-img {
+  width: 25.7cm;
+  height: 17cm;
+}
+
+.sertifika-content {
+  width: 834px;
+  height: 510px;
+  position: absolute;
+  left: calc(25.7cm-100vw);
+}
+
+.govde {
+  width: 100%;
+  height: calc(510px - 175px);
+  font-size: 16pt;
+  margin-top: 170px;
+}
+
+.bold {
+  font-weight: 600;
+}
+.baslik {
+  float: left;
+  font-size: 22pt;
+  text-align: center;
+  width: 100%;
+}
+.no-baslik {
+  float: left;
+  padding-left: 18px;
+  width: 200px;
+}
+.no {
+  float: left;
+}
+
+.isim {
+  padding-top: 20px;
+  width: 100%;
+  float: left;
+  text-align: center;
+}
+
+.aciklama {
+  padding-top: 50px;
+  text-align: left;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.sol-alt {
+  width: 50%;
+  height: 130px;
+  float: left;
+}
+
+.imza-sol {
+  float: left;
+  width: 200px;
+  height: auto;
+  text-align: center;
+  padding-top: 10px;
+  margin-left: 30px;
+}
+
+.imza-sag {
+  float: right;
+  width: 200px;
+  height: auto;
+  text-align: center;
+  padding-top: 10px;
+  margin-right: 34px;
+}
+
+.imza-isim {
+  padding-top: 5px;
+}
+</style>
 <template>
   <section class="invoice-preview-wrapper">
     <!-- Alert: No item found -->
@@ -6,70 +104,65 @@
       <!-- Col: Left (Invoice Container) -->
       <b-col cols="12" xl="9" md="8">
         <b-card no-body class="invoice-preview-card">
+          <div id="sertifika-container">
+            <img
+              class="bg-img"
+              :src="require('/public/images/bg2.png')"
+              height="100%"
+              alt=""
+            />
+            <div class="sertifika-content">
+              <div class="govde">
+                <h1 class="baslik">İLKYARDIMCI BELGESİ</h1>
+                <div class="bold">
+                  <div class="no-baslik">Belge No</div>
+                  <div class="no">:</div>
+                  <div>&nbsp;SB.20172273.01</div>
+                  <div class="no-baslik">Belge Geçerlilik Tarihi</div>
+                  <div class="no">:</div>
+                  <div>&nbsp;{{calisan.gecerli_trh}}</div>
+                </div>
+                <div class="isim bold">Sayın; {{ calisan.name }},</div>
+                <div class="aciklama">
+                  İlk yardım yönetmeliği kapsamında 8.06.2021 tarihinde,
+                  <b class="bold">TÜRKPARK İLKYARDIM EĞİTİM MERKEZİ</b>
+                  tarafından düzenlenen ilkyardım
+                  <strong class="bold">GÜNCELLEME ve OED</strong> eğitim
+                  programlarına katılarak ilkyardımcı belgesi süresi
+                  uzatılmıştır.
+                </div>
 
+                <div class="sol-alt">
+                  <div class="imza-sol bold">
+                    <p class="imza-baslik">Mesul Müdür</p>
+                    <p class="imza-isim">Dilek AŞKAR</p>
+                  </div>
+                </div>
+
+                <div class="sag-alt">
+                  <div class="imza-sag bold">
+                    <p class="imza-baslik">Erkan GÜVENÇ</p>
+                    <p class="imza-isim">sadasdsa asdasdas</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </b-card>
       </b-col>
 
       <!-- Right Col: Card -->
       <b-col cols="12" md="4" xl="3" class="invoice-actions">
         <b-card>
-          <!-- Button: Send Invoice -->
           <b-button
-
-            v-b-toggle.sidebar-send-invoice
-            variant="primary"
-            class="mb-75"
-            block
-          >
-            Send Invoice
-          </b-button>
-
-          <!-- Button: DOwnload -->
-          <b-button
-
-            variant="outline-secondary"
-            class="mb-75"
-            block
-          >
-            Download
-          </b-button>
-
-          <!-- Button: Print -->
-          <b-button
-
-            variant="outline-secondary"
+            variant="success"
             class="mb-75"
             block
             @click="printInvoice"
           >
-            Print
-          </b-button>
-
-          <!-- Button: Edit -->
-
-          <!-- Button: Add Payment -->
-          <b-button
-            v-b-toggle.sidebar-invoice-add-payment
-
-            variant="success"
-            class="mb-75"
-            block
-          >
-            Add Payment
-          </b-button>
-
-          <b-button
-            v-b-toggle.sidebar-invoice-add-payment
-
-            variant="success"
-            class="mb-75"
-            block
-          >
-            Qr Kod indir
+            Yazdır
           </b-button>
         </b-card>
-
-
       </b-col>
     </b-row>
   </section>
@@ -77,38 +170,8 @@
 
 <script>
 import router from "@/router";
-import {
-  BRow,
-  BCol,
-  BCard,
-  BCardBody,
-  BTableLite,
-  BCardText,
-  BButton,
-  BAlert,
-  BLink,
-  VBToggle,
-} from "bootstrap-vue";
-import axios from "@axios";
-
-import Ripple from "vue-ripple-directive";
 
 export default {
-  directives: {
-    Ripple,
-    "b-toggle": VBToggle,
-  },
-  components: {
-    BRow,
-    BCol,
-    BCard,
-    BCardBody,
-    BTableLite,
-    BCardText,
-    BButton,
-    BAlert,
-    BLink,
-  },
   data() {
     return {
       calisan: null,
@@ -117,9 +180,9 @@ export default {
   created() {
     var id = router.currentRoute.params.id;
 
-    axios
-      .get(`/api/sertifikagoster/${id}`)
-      .then((res) => (this.calisan = res.data));
+    this.$http(`/api/sertifikagoster/${id}`).then(
+      (res) => (this.calisan = res.data)
+    );
   },
 
   methods: {

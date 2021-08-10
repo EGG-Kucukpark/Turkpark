@@ -255,6 +255,7 @@
             :sort-direction="sortDirection"
             :filter="filter"
             :filter-included-fields="filterOn"
+            @row-clicked="tikla"
             show-empty
             empty-text="Veri Bulunamadı."
             empty-filtered-text="Veri Bulunamadı."
@@ -508,12 +509,13 @@ export default {
         },
       });
     },
-    sertifika(params) {
+    tikla(params) {
       this.$router.push({
         name: "sertifika-goster",
         params: { id: params.id },
       });
     },
+
 
     updatemodal(data) {
       this.$refs.updatemodal.show();
@@ -524,7 +526,6 @@ export default {
         (this.sonuc = data.sonuc),
         (this.qr = data.qr);
       this.egitim = data.egitim_tur;
-
     },
     arsiv(data) {
       axios

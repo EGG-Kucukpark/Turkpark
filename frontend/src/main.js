@@ -30,7 +30,7 @@ import PortalVue from 'portal-vue'
 // 3rd party plugins
 import '@/libs/portal-vue'
 import '@/libs/toastification'
-
+import '@/assets/fonts/govde.ttf';
 // BSV Plugin Registration
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
