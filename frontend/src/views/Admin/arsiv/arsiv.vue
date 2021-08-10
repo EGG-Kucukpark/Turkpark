@@ -60,20 +60,6 @@
 </template>
 
 <script>
-import router from "@/router";
-
-import {
-  BBreadcrumb,
-  BBreadcrumbItem,
-  BRow,
-  BCol,
-  BAlert,
-  BLink,
-  BTabs,
-  BTab,
-  BButton,
-} from "bootstrap-vue";
-
 import users from "./users/users.vue";
 import clients from "./clients/clients";
 import results from "./results/lab.vue";
@@ -82,24 +68,12 @@ import kursiyer from "./kursiyer/liste.vue";
 
 export default {
   components: {
-    BRow,
-    BCol,
-    BAlert,
-    BLink,
-    BTabs,
-    BTab,
-    BButton,
     users,
     clients,
-    BBreadcrumb,
-    BBreadcrumbItem,
     results,
     individual,
     kursiyer,
-
-    // Local Components
   },
-  setup() {},
 };
 </script>
 

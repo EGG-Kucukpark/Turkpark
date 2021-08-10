@@ -348,8 +348,8 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import ripple from "vue-ripple-directive";
-import axios from "@axios";
+
+
 
 import { ref } from "@vue/composition-api";
 
@@ -374,28 +374,10 @@ import FeatherIcon from "@/@core/components/feather-icon/FeatherIcon.vue";
 
 export default {
   components: {
-    BRow,
-    BCol,
-    BCard,
-    BAlert,
-    BModal,
-    BLink,
-    BBreadcrumb,
-    BBreadcrumbItem,
-    ValidationProvider,
-    ValidationObserver,
-    BInputGroup,
-    BInputGroupAppend,
-    BForm,
-    BFormInput,
-    BTabs,
-    BTab,
-    togglePasswordVisibility,
-    required,
-    BButton,
-    BFormSelect,
+
+
     ToastificationContent,
-    BFormGroup,
+
 
     // Local Components
 
@@ -413,7 +395,7 @@ export default {
     ilkyardimfirma,
     FeatherIcon,
   },
-  mixins: [togglePasswordVisibility],
+
   data() {
     return {
       show: true,

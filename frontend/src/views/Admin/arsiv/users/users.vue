@@ -255,53 +255,14 @@
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import downloadexcel from "vue-json-excel";
 
-import {
-  BTable,
-  BAvatar,
-  BBadge,
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  VBTooltip,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BModal,
-  BForm,
-  BFormFile,
-} from "bootstrap-vue";
 import axios from "@axios";
-import Ripple from "vue-ripple-directive";
+
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
-    BCol,
-    BFormGroup,
-    VBTooltip,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BFormInput,
-    BInputGroupAppend,
-    BButton,
-    BCard,
-    BModal,
     ToastificationContent,
-    BForm,
     downloadexcel,
-    BFormFile,
   },
-  directives: {
-    "b-tooltip": VBTooltip,
-    Ripple,
-  },
+
   data() {
     return {
       perPage: 10,
