@@ -232,5 +232,7 @@ route::post('kursarsivckr', [CerfController::class, 'archiveout']);
 //                      Fatura İşlemleri
 
 Route::post('bill', [BillController::class, 'bill']);
+Route::post('ilkyardimBill', [BillController::class, 'ilkyardimBill']);
 Route::post('billupdate', [BillController::class, 'update']);
 Route::post('getHizmet', [BillController::class, 'getHizmet']);
+Route::post('getBill', [BillController::class, 'getBill']);

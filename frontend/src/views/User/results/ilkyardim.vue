@@ -1,7 +1,8 @@
 <template>
-  <b-card title="Çalışan Raporları">
+  <b-card title="İlkyardım Raporları">
     <b-row>
       <b-col>
+        <talep :userData="user" />
         <b-form-group
           label-cols-sm="7"
           label-align-sm="left"
@@ -23,8 +24,9 @@
       <b-col cols="12" class="table-responsive">
         <b-table
           striped
-          hover
+         hover
           responsive
+          selectable
           :per-page="perPage"
           :current-page="currentPage"
           :items="items"
@@ -42,30 +44,26 @@
           <template #cell(actions)="data">
             <span>
               <b-button
-
                 variant="warning"
                 @click.prevent="göster(data.item.dosya_ad)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-warning
                 title="Göster"
-                style="margin:5px"
+                style="margin: 5px"
               >
                 <feather-icon icon="ImageIcon" />
               </b-button>
 
               <b-button
-
                 variant="success"
                 @click.prevent="indir(data.item.dosya_ad)"
                 class="btn-icon"
                 v-b-tooltip.hover.v-success
                 title="İndir"
-                style="margin:5px"
+                style="margin: 5px"
               >
                 <feather-icon icon="DownloadIcon" />
               </b-button>
-
-
             </span>
           </template>
         </b-table>
@@ -99,85 +97,26 @@
 
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import ripple from "vue-ripple-directive";
-
-import {
-  BTable,
-  BAvatar,
-  BBadge,
-  BRow,
-  BCol,
-  BFormGroup,
-  BFormSelect,
-  BPagination,
-  BInputGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BButton,
-  BCard,
-  BAlert,
-  BProgress,
-  BModal,
-  BForm,
-  VBTooltip,
-  BFormFile,
-} from "bootstrap-vue";
-import axios from "@axios";
+import talep from "./yardimTalep.vue";
 
 export default {
   components: {
-    BTable,
-    BAvatar,
-    BBadge,
-    BRow,
-    BCol,
-    BFormGroup,
-    BFormSelect,
-    BPagination,
-    BInputGroup,
-    BFormInput,
-    BAlert,
-    BProgress,
-    BInputGroupAppend,
-    BButton,
-    BCard,
-    BModal,
     ToastificationContent,
-    BForm,
-    VBTooltip,
-    BFormFile,
-  },
-  directives: {
-    "b-tooltip": VBTooltip,
-    ripple,
+    talep,
   },
 
   data() {
     return {
-      perPage: 10,
-      pageOptions: [10, 20, 30],
-      totalRows: 1,
-      currentPage: 1,
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      filterOn: [],
-      infoModal: {
-        id: "info-modal",
-        title: "",
-        content: "",
-      },
+      ...this.$store.state.global.table,
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
-
         { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
         { key: "rapor", label: "TEST TÜRÜ", sortable: true, filter: true },
         { key: "created_at", label: "Tarih", sortable: true, filter: true },
-
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
 
@@ -189,14 +128,7 @@ export default {
         .map((f) => ({ text: f.label, value: f.key }));
     },
   },
-  created() {
-    var user = JSON.parse(localStorage.getItem("user"));
-
-    var id = user.user_id;
-    axios
-      .post("/api/getfile", { firma_id: id, status: 2 })
-      .then((res) => (this.items = res.data));
-  },
+  created() {},
 
   mounted() {
     setTimeout(() => {
@@ -204,32 +136,6 @@ export default {
     }, 500);
   },
   methods: {
-    göster(dosya) {
-      window.open("/Dosyalar/Firma/" + dosya, "_blank");
-    },
-
-    indir(dosya) {
-      axios
-        .post(
-          "/api/indir",
-          { id: this.id, dosya: dosya },
-          { responseType: "blob" }
-        )
-        .then((response) => {
-          var data = response.data;
-          const url = window.URL.createObjectURL(new Blob([data]));
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", dosya);
-          document.body.appendChild(link);
-          link.click();
-        });
-    },
-
-    modal() {
-      this.$refs["modal"].show();
-    },
-
     info(item, index, button) {
       this.infoModal.title = `Row index: ${index}`;
       this.infoModal.content = JSON.stringify(item, null, 2);

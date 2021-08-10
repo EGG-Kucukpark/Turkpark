@@ -14,12 +14,26 @@
     >
       <b-form @submit.prevent="send">
         <b-form-group label-cols-sm="2" label="Kişi Sayısı" label-for="talep">
-          <b-form-input
-            id="talep"
-            v-model="kisi"
-            type="number"
-            class="mb-1"
-          ></b-form-input>
+          <b-form-spinbutton
+            id="demo-sb"
+            style="width:210px;"
+            @change="setMoney"
+            v-model="sayi"
+            min="1"
+            max="100"
+          />
+        </b-form-group>
+
+        <b-form-group label-cols-sm="2" label="Tarih" label-for="talep">
+          <v-date-picker :attributes="attributes" v-model="date">
+            <template v-slot="{ inputValue, inputEvents }">
+              <input
+                class="bg-white border px-2 py-1 rounded"
+                :value="inputValue"
+                v-on="inputEvents"
+              />
+            </template>
+          </v-date-picker>
         </b-form-group>
 
         <b-form-group label-cols-sm="2" label="Test Türü" label-for="talep">
@@ -68,7 +82,7 @@
         </b-form-group>
 
         <b-form-group
-          v-show="radio != 'Mobil Araç'"
+          v-show="radio.title != 'Mobil Araç'"
           label-cols-sm="2"
           label="Laboratuvarlar"
           label-for="talep"
@@ -90,7 +104,6 @@
             v-model="mesaj"
             class="mb-2"
           ></b-form-textarea>
-          {{ para }} ₺
         </b-form-group>
 
         <div style="float: right">
@@ -110,6 +123,16 @@ export default {
   props: ["userData"],
   data() {
     return {
+      attributes: [
+        {
+          highlight: "green",
+          popover: {
+            label: "Eğitim",
+          },
+          dates: [],
+        },
+      ],
+
       kisi: "",
       mesaj: "",
       tests: [
@@ -131,15 +154,24 @@ export default {
       name: null,
       status: false,
       id: null,
+      arry: [],
+      date: null,
     };
   },
 
   created() {
     this.$http("/api/firmagoster/" + this.userData.user_id).then((res) => {
       this.adresler = JSON.parse(res.data.adres);
+
       this.email = res.data.email;
       this.name = res.data.name;
       this.id = res.data.id;
+    });
+
+    this.$http.post("/api/egitimgetir").then((res) => {
+      for (let i = 0; i < res.data.length; i++) {
+        this.attributes[0].dates.push(res.data[i].date);
+      }
     });
   },
 
@@ -154,9 +186,15 @@ export default {
         this.para += this.checked[i].money;
       }
       this.para += this.radio.money;
-      console.log(this.id);
+
+      for (let i = 0; i < this.checked.length; i++) {
+        this.arry.push(this.checked[i].title);
+      }
+
       this.$http.post("/api/bill", {
         id: this.id,
+
+        tests: this.arry,
         email: this.email,
         name: this.name,
         mesaj: this.mesaj,
@@ -169,6 +207,7 @@ export default {
       });
 
       this.para = 0;
+      this.arry = [];
     },
   },
 };

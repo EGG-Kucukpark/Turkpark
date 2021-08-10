@@ -23,7 +23,7 @@ export default [
 
             }, {
                 title: 'İlk Yardım',
-                route: 'kursiyerler',
+                route: 'ilkyardim',
             },
             {
                 title: 'Testler',

@@ -35,25 +35,16 @@
 
         <!-- submit and reset -->
         <b-col>
-          <b-button
-
-            type="submit"
-            variant="primary"
-            class="mr-1"
-          >
+          <b-button type="submit" variant="primary" class="mr-1">
             Güncelle
           </b-button>
-          <b-button
-
-            variant="outline-secondary"
-            @click="reset"
-          >
+          <b-button variant="outline-secondary" @click="reset">
             Sıfırla
           </b-button>
         </b-col>
       </b-row>
     </b-form>
-     <portal to="navbar">
+    <portal to="navbar">
       <div v-if="data"></div>
     </portal>
   </b-card>
@@ -61,43 +52,9 @@
 
 
 <script>
-import BCardActions from "@core/components/b-card-actions/BCardActions.vue";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
-import axios from "@axios";
-import {
-  BRow,
-  BCol,
-  BCard,
-  BFormGroup,
-  BFormInput,
-  BFormCheckbox,
-  BForm,
-  BButton,
-} from "bootstrap-vue";
-import Ripple from "vue-ripple-directive";
-
 export default {
-  components: {
-    BRow,
-    BCol,
-    BFormGroup,
-    BFormInput,
-    BFormCheckbox,
-    BForm,
-    BCard,
-    BButton,
-    BCardActions,
-  },
-  props: {
-    options: {
-      type: Object,
-      required: true,
-    },
-  },
-  directives: {
-    Ripple,
-  },
-
+  props: ["options"],
   data() {
     return {
       name: null,
@@ -106,7 +63,7 @@ export default {
       adres: null,
       email: null,
       id: this.options.user_id,
-      data:false,
+      data: false,
     };
   },
   created() {
@@ -115,7 +72,7 @@ export default {
 
   methods: {
     reset() {
-      axios("/api/bireyselgoster/" + this.id).then((res) => {
+      this.$http("/api/bireyselgoster/" + this.id).then((res) => {
         var firma = res.data;
         (this.name = firma.name),
           (this.tc = firma.tc),
@@ -125,7 +82,7 @@ export default {
       });
     },
     update() {
-      axios
+      this.$http
         .post("/api/bireyselduzenle", {
           id: this.id,
           name: this.name,

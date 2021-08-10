@@ -26,6 +26,10 @@ class EduController extends Controller
         } elseif ($req->user) {
 
             return DB::table('activity')->where('isOpen', "0")->get();
+        }
+        elseif ($req->loc) {
+
+            return DB::table('activity')->where('location', 'LIKE', '%' . $req->loc . '%')->get();
         } else {
 
             return DB::table('activity')->get();
@@ -48,10 +52,12 @@ class EduController extends Controller
 
             DB::table('activity')->insert([
                 'date' => $request->date,
+                'time' => $request->time,
                 'kota' => $request->kontenjan,
                 'title' => $request->title,
                 'location' => $request->etkinlik,
-                'isOpen' => $request->open
+                'isOpen' => $request->open,
+                'tutar' => $request->tutar
 
 
             ]);
@@ -70,6 +76,7 @@ class EduController extends Controller
                 'kota' => $request->kontenjan,
                 'title' => $request->title,
                 'location' => $request->etkinlik,
+                'tutar' => $request->tutar,
                 'isOpen' => $request->open
 
 

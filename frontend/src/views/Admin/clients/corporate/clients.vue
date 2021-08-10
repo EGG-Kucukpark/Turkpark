@@ -188,6 +188,7 @@
           <b-table
             striped
             responsive
+            selectable
             :per-page="perPage"
             :current-page="currentPage"
             :items="items"

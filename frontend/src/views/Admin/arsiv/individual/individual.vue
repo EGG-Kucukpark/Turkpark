@@ -82,8 +82,9 @@
       <b-col cols="12">
         <b-table
           striped
-          hover
+         hover
           responsive
+          selectable
           :per-page="perPage"
           :current-page="currentPage"
           :items="items"

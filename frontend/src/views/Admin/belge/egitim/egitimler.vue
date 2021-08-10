@@ -234,6 +234,15 @@
               </b-form-group>
 
               <b-form-group
+                label="Eğitim Ücreti:"
+                label-for="yer"
+                label-cols-sm="3"
+                label-align-sm="right"
+              >
+                <b-form-input v-model="tutar" type="number"></b-form-input>
+              </b-form-group>
+
+              <b-form-group
                 label="Etkinlik Yeri:"
                 label-for="yer"
                 label-cols-sm="3"
@@ -344,7 +353,7 @@
                 variant="danger"
                 @click.prevent="arsiv(data.item)"
                 class="btn-icon"
-                 v-show="show"
+                v-show="show"
                 style="margin: 5px"
                 v-b-tooltip.hover.v-danger
                 title="Arşivle"
@@ -485,6 +494,7 @@ export default {
       yerler: null,
       sayi: null,
       open: null,
+      tutar: null,
     };
   },
 
@@ -552,19 +562,15 @@ export default {
       }, 1000);
     },
     submit() {
-      let tarih = this.date;
-
-      let zaman = " " + this.time;
-
-      let etktime = tarih.concat(zaman);
-
       axios
         .post("api/egitimlerekle", {
-          date: etktime,
+          date: this.date,
+          time: this.time,
           title: this.kategori,
           kontenjan: this.kontenjan,
           etkinlik: this.etkinlik,
           open: this.open,
+          tutar: this.tutar,
         })
         .then((res) => this.ok())
         .catch((error) => {
@@ -606,6 +612,7 @@ export default {
           kontenjan: this.kontenjan,
           etkinlik: this.etkinlik,
           open: this.open,
+          tutar: this.tutar,
         })
 
         .then((res) => this.ok())
@@ -633,6 +640,7 @@ export default {
         (this.kontenjan = row.kota),
         (this.etkinlik = row.location),
         (this.open = row.isOpen);
+      this.tutar = row.tutar;
     },
 
     form() {
@@ -644,6 +652,7 @@ export default {
         (this.telefon = ""),
         (this.password = ""),
         (this.open = "");
+      this.tutar = "";
     },
 
     info(item, index, button) {

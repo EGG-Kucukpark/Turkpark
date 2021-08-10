@@ -180,8 +180,9 @@
       <b-col cols="12" class="table-responsive">
         <b-table
           striped
-          hover
+         hover
           responsive
+          selectable
           :per-page="perPage"
           :current-page="currentPage"
           :items="files"

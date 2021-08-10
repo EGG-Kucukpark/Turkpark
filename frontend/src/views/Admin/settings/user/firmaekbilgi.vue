@@ -94,12 +94,9 @@
             </b-form-group>
           </b-col>
 
-
-
           <!-- submit and reset -->
           <b-col>
             <b-button
-
               type="submit"
               variant="primary"
               class="mr-1"
@@ -107,17 +104,17 @@
             >
               Güncelle
             </b-button>
-            <b-button
-
-              variant="outline-secondary"
-              @click="reset"
-            >
+            <b-button variant="outline-secondary" @click="reset">
               Sıfırla
             </b-button>
           </b-col>
         </b-row>
       </b-form>
     </validation-observer>
+
+    <portal to="navbar">
+      <div v-if="data"></div>
+    </portal>
   </b-card>
 </template>
 
@@ -152,8 +149,9 @@ export default {
         id: this.options.user_id,
         yetkili: null,
         muhasebe: null,
-
       },
+
+       data: false,
     };
   },
 
@@ -169,9 +167,8 @@ export default {
       });
     },
     update() {
-      this.data = true;
       this.$http
-        .post("/api/bireyselduzenle", this.form)
+        .post("/api/firmaduzenle", this.form)
         .then((res) => {
           this.$toast({
             component: ToastificationContent,
@@ -185,6 +182,7 @@ export default {
           });
 
           this.reset();
+          this.data = true;
         })
         .catch((error) => {
           this.$toast({
@@ -200,16 +198,9 @@ export default {
         });
 
       var user = JSON.parse(localStorage.getItem("user"));
-      user.name = this.name;
+      user.name = this.form.name;
       localStorage.setItem("user", JSON.stringify(user));
-    },
-
-    push() {
-      console.log(this.form.adres);
-      /*  this.form.adres[0].push({
-        title: this.form.adres[0].title,
-        text: this.form.adres[0].text,
-      }); */
+      this.data = true;
     },
   },
 };

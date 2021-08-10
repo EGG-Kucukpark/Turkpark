@@ -1,7 +1,5 @@
 <template>
   <section class="invoice-preview-wrapper">
-
-
     <b-row class="invoice-preview">
       <!-- Col: Left (Invoice Container) -->
       <b-col cols="12" xl="9" md="8">
@@ -20,30 +18,28 @@
               <!-- Header: Left Content -->
               <div>
                 <div class="logo-wrapper">
-                  <logo />
-                  <h3 class="text-primary invoice-logo">Vuexy</h3>
+                  <img width="90px" :src="require('/public/images/logo.png')" />
+                  <h3 class="text-primary invoice-logo">Türkpark</h3>
                 </div>
                 <p class="card-text mb-25">
-                  Office 149, 450 South Brand Brooklyn
+                  Adalet, Haydar Aliyev Cd. D:NO:38 D:10,
                 </p>
-                <p class="card-text mb-25">San Diego County, CA 91905, USA</p>
-                <p class="card-text mb-0">
-                  +1 (123) 456 7891, +44 (876) 543 2198
-                </p>
+                <p class="card-text mb-25">35530 Bayraklı/İzmir</p>
+                <p class="card-text mb-0">0850 304 0304</p>
               </div>
 
               <!-- Header: Right Content -->
               <div class="mt-md-0 mt-2">
                 <h4 class="invoice-title">
-                  Invoice
-                  <span class="invoice-number">#}</span>
+                  Fatura
+                  <span class="invoice-number">#{{ fatura[0].id }}</span>
                 </h4>
                 <div class="invoice-date-wrapper">
-                  <p class="invoice-date-title">Date Issued:</p>
+                  <p class="invoice-date-title">Başvuru Tarihi:</p>
                   <p class="invoice-date">dsadsadsa</p>
                 </div>
                 <div class="invoice-date-wrapper">
-                  <p class="invoice-date-title">Due Date:</p>
+                  <p class="invoice-date-title">Onay Tarihi:</p>
                   <p class="invoice-date">dsadsadsa</p>
                 </div>
               </div>
@@ -58,12 +54,12 @@
             <b-row class="invoice-spacing">
               <!-- Col: Invoice To -->
               <b-col cols="12" xl="6" class="p-0">
-                <h6 class="mb-2">Invoice To:</h6>
+                <h6 class="mb-2">Firma Detayları:</h6>
                 <h6 class="mb-25"></h6>
-                <p class="card-text mb-25">dsadsadsa</p>
-                <p class="card-text mb-25">dsadsadsa</p>
-                <p class="card-text mb-25">dsadsadsa</p>
-                <p class="card-text mb-0">dsadsadsa</p>
+                <p class="card-text mb-25">{{ firma.name }}</p>
+                <p class="card-text mb-25">{{ firma.email }}</p>
+                <p class="card-text mb-25">{{ firma.telefon }}</p>
+                <p class="card-text mb-0">{{ firma.adres }}</p>
               </b-col>
 
               <!-- Col: Payment Details -->
@@ -73,28 +69,19 @@
                 class="p-0 mt-xl-0 mt-2 d-flex justify-content-xl-end"
               >
                 <div>
-                  <h6 class="mb-2">Payment Details:</h6>
+                  <h6 class="mb-2">Ödeme Detayları:</h6>
                   <table>
                     <tbody>
                       <tr>
-                        <td class="pr-1">Total Due:</td>
-                        <td><span class="font-weight-bold"></span>dsadsadsa</td>
+                        <td class="pr-1">Toplam Tutar:</td>
+                        <td>
+                          <span class="font-weight-bold"></span
+                          >{{ fatura[0].tutar }} ₺
+                        </td>
                       </tr>
                       <tr>
-                        <td class="pr-1">Bank name:</td>
-                        <td>dsadsadsa</td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">Country:</td>
-                        <td>dsadsadsa</td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">IBAN:</td>
-                        <td>dsadsadsa</td>
-                      </tr>
-                      <tr>
-                        <td class="pr-1">SWIFT code:</td>
-                        <td>dsasadsda</td>
+                        <td class="pr-1">Banka ismi:</td>
+                        <td>İş Bankası</td>
                       </tr>
                     </tbody>
                   </table>
@@ -104,33 +91,21 @@
           </b-card-body>
 
           <!-- Invoice Description: Table -->
-          <b-table-lite
-            responsive
-            :fields="['taskDescription', 'rate', 'hours', 'total']"
-          >
-            <template #cell(taskDescription)>
-              <b-card-text class="font-weight-bold mb-25"> </b-card-text>
-              <b-card-text class="text-nowrap"> </b-card-text>
+          <b-table-lite responsive :items="fatura" :fields="fields">
+            <template #cell(tests)>
+              <b-card-text
+                v-for="item in tests"
+                :key="item.id"
+                class="font-weight-bold mb-30"
+              >
+                {{ item }}
+              </b-card-text>
             </template>
           </b-table-lite>
 
           <!-- Invoice Description: Total -->
           <b-card-body class="invoice-padding pb-0">
             <b-row>
-              <!-- Col: Sales Persion -->
-              <b-col
-                cols="12"
-                md="6"
-                class="mt-md-0 mt-3"
-                order="2"
-                order-md="1"
-              >
-                <b-card-text class="mb-0">
-                  <span class="font-weight-bold">Salesperson:</span>
-                  <span class="ml-75">Alfie Solomons</span>
-                </b-card-text>
-              </b-col>
-
               <!-- Col: Total -->
               <b-col
                 cols="12"
@@ -140,22 +115,10 @@
                 order-md="2"
               >
                 <div class="invoice-total-wrapper">
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-title">Subtotal:</p>
-                    <p class="invoice-total-amount">$1800</p>
-                  </div>
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-title">Discount:</p>
-                    <p class="invoice-total-amount">$28</p>
-                  </div>
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-title">Tax:</p>
-                    <p class="invoice-total-amount">21%</p>
-                  </div>
                   <hr class="my-50" />
                   <div class="invoice-total-item">
-                    <p class="invoice-total-title">Total:</p>
-                    <p class="invoice-total-amount">$1690</p>
+                    <p class="invoice-total-title">Toplam Tutar:</p>
+                    <p class="invoice-total-amount">{{ fatura[0].tutar }} ₺</p>
                   </div>
                 </div>
               </b-col>
@@ -167,11 +130,10 @@
 
           <!-- Note -->
           <b-card-body class="invoice-padding pt-0">
-            <span class="font-weight-bold">Note: </span>
+            <span class="font-weight-bold">Not: </span>
             <span
-              >It was a pleasure working with you and your team. We hope you
-              will keep us in mind for future freelance projects. Thank
-              You!</span
+              >Sizinle ve ekibinizle çalışmak bir zevkti. Gelecekteki projeleriz
+              için bizi aklınızda tutacağınızı umuyoruz. Teşekkürler!</span
             >
           </b-card-body>
         </b-card>
@@ -182,106 +144,74 @@
         <b-card>
           <!-- Button: Send Invoice -->
           <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             v-b-toggle.sidebar-send-invoice
             variant="primary"
             class="mb-75"
             block
           >
-            Send Invoice
+            Mail Adresime Gönder
           </b-button>
 
           <!-- Button: DOwnload -->
-          <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            variant="outline-secondary"
-            class="mb-75"
-            block
-          >
-            Download
-          </b-button>
+
 
           <!-- Button: Print -->
           <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+            v-on:click="print"
             variant="outline-secondary"
             class="mb-75"
             block
-            @click="printInvoice"
           >
-            Print
+            Yazdır
           </b-button>
 
           <!-- Button: Edit -->
-          <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            variant="outline-secondary"
-            class="mb-75"
-            block
-            :to="{
-              name: 'apps-invoice-edit',
-              params: { id: $route.params.id },
-            }"
-          >
-            Edit
-          </b-button>
 
           <!-- Button: Add Payment -->
           <b-button
             v-b-toggle.sidebar-invoice-add-payment
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="success"
             class="mb-75"
             block
           >
-            Add Payment
+            Ödeme
           </b-button>
         </b-card>
       </b-col>
     </b-row>
-
-    <invoice-sidebar-send-invoice />
-    <invoice-sidebar-add-payment />
   </section>
 </template>
 
 <script>
-import { ref, onUnmounted } from "@vue/composition-api";
-import store from "@/store";
-import router from "@/router";
-import {
-  BRow,
-  BCol,
-  BCard,
-  BCardBody,
-  BTableLite,
-  BCardText,
-  BButton,
-  BAlert,
-  BLink,
-  VBToggle,
-} from "bootstrap-vue";
-import Logo from "@core/layouts/components/Logo.vue";
-import Ripple from "vue-ripple-directive";
-
 export default {
-  directives: {
-    Ripple,
-    "b-toggle": VBToggle,
+  data() {
+    return {
+      firma: JSON.parse(localStorage.getItem("user")),
+      fatura: null,
+      tests: null,
+      fields: [
+        { key: "tests", label: "Testler" },
+        { key: "lab", label: "Hizmet Yeri" },
+        { key: "adres", label: "Adres" },
+      ],
+    };
   },
-  components: {
-    BRow,
-    BCol,
-    BCard,
-    BCardBody,
-    BTableLite,
-    BCardText,
-    BButton,
-    BAlert,
-    BLink,
 
-    Logo,
+  created() {
+    this.$http
+      .post("/api/getBill", { id: this.$route.params.id })
+      .then((response) => {
+        this.fatura = response.data;
+        this.tests = JSON.parse(this.fatura[0].tests);
+      });
   },
+
+  methods: {
+      print(){
+          window.print()
+
+      }
+  }
 };
 </script>
 

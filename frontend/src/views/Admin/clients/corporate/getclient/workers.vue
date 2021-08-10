@@ -41,16 +41,11 @@
           <validation-observer ref="registerForm" #default="{ invalid }">
             <b-form ref="submit" @submit.prevent="ekle(status)">
               <b-form-group label="İsim:" label-for="isim" label-cols-sm="2">
-                <validation-provider
-                  #default="{ errors }"
-                  name="İsim"
-
-                >
+                <validation-provider #default="{ errors }" name="İsim">
                   <b-form-input
                     id="isim"
-                    :state="errors.length > 0 ? false : true"
                     v-model="form.name"
-                    placeholder="İş Yeri Adını Giriniz..."
+                    placeholder="Çalışan Adını Giriniz..."
                   ></b-form-input>
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -109,8 +104,10 @@
       <b-col cols="12" class="table-responsive">
         <b-table
           striped
-          hover
+         hover
           responsive
+          selectable
+
           :per-page="perPage"
           :current-page="currentPage"
           :items="items"
@@ -133,7 +130,6 @@
           <template #cell(actions)="data">
             <span>
               <b-button
-
                 variant="success"
                 :to="{ name: 'calisan-goster', params: { id: data.item.id } }"
                 class="btn-icon"
@@ -144,7 +140,6 @@
                 <feather-icon icon="ImageIcon" />
               </b-button>
               <b-button
-
                 variant="warning"
                 @click="Duzenlemodal(data.item)"
                 class="btn-icon"
@@ -155,7 +150,6 @@
                 <feather-icon icon="EditIcon" />
               </b-button>
               <b-button
-
                 variant="danger"
                 @click.prevent="sil(data.item)"
                 class="btn-icon"
@@ -284,7 +278,6 @@ export default {
 
   methods: {
     ekle(data) {
-
       if (data) {
         this.$http
           .post("/api/calisanekle", this.form)

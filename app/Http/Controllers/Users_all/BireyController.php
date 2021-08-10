@@ -42,8 +42,6 @@ class BireyController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'telefon' => $request->telefon,
-
-
             ]);
 
             $a = DB::table('individual')->where('id', $request->id)->update([
@@ -56,8 +54,6 @@ class BireyController extends Controller
 
 
             ]);
-
-            return $a;
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }
@@ -81,7 +77,7 @@ class BireyController extends Controller
 
         try {
             DB::table('individual')->where('id', $request->id)->update(['isArch' => '1',]);
-            DB::table('users')->where('user_id', $request->id)->update(['isArch' => '1','status' => '2']);
+            DB::table('users')->where('user_id', $request->id)->update(['isArch' => '1', 'status' => '2']);
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }
@@ -92,7 +88,7 @@ class BireyController extends Controller
 
         try {
             DB::table('individual')->where('id', $request->id)->update(['isArch' => '0',]);
-            DB::table('users')->where('user_id', $request->id)->update(['isArch' => '0','status' => '1']);
+            DB::table('users')->where('user_id', $request->id)->update(['isArch' => '0', 'status' => '1']);
         } catch (Exception $exception) {
             return response()->json(['error' => 'Başarısız'], 404);
         }

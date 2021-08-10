@@ -307,6 +307,7 @@ import ToastificationContent from "@core/components/toastification/Toastificatio
 import { heightTransition } from "@core/mixins/ui/transition";
 import router from "@/router";
 import vSelect from "vue-select";
+import axios from '@axios'
 export default {
   components: {
     ToastificationContent,
@@ -316,7 +317,7 @@ export default {
 
   data() {
     return {
-      ...this.$state.global.table,
+      ...this.$store.state.global.table,
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
 
@@ -354,12 +355,14 @@ export default {
         {
           calisanselected: "",
           rapor: "",
-          file: "",
+          file: [],
           Selected2: null,
           dgr: 0,
           variant: "success",
         },
       ],
+
+      edit:false,
     };
   },
 
@@ -372,17 +375,17 @@ export default {
     },
   },
   created() {
-    this.$http.post("/api/raporlar").then((res) => (this.raporlar = res.data));
+    axios.post("/api/raporlar").then((res) => (this.raporlar = res.data));
     this.Selected = router.currentRoute.params.id;
 
     var id = this.Selected;
     this.form[0].Selected2 = id;
 
-    this.$http("/api/firmagoster/" + this.Selected).then((res) => {
+    axios("/api/firmagoster/" + this.Selected).then((res) => {
       this.userData = res.data;
     });
 
-    this.$http
+    axios
       .post("/api/getfile", { firma_id: id })
 
       .then((res) => (this.files = res.data));
@@ -399,7 +402,7 @@ export default {
     },
 
     calisanlar(id) {
-      this.$http
+      axios
         .post("/api/calisanlar", { firma_id: id })
         .then((res) => (this.calisan = res.data));
     },
@@ -425,7 +428,7 @@ export default {
           firma_id: this.Selected,
         };
 
-        this.$http
+        axios
           .post("/api/getfile", { firma_id: id })
           .then((res) => (this.files = res.data))
           .then(
@@ -453,7 +456,7 @@ export default {
         this.form.push({
           calisanselected: "",
           rapor: "",
-          file: "",
+          file: [],
           Selected2: this.Selected,
           dgr: 0,
           variant: "success",
@@ -488,8 +491,7 @@ export default {
           form.dgr = 50;
 
           setTimeout(() => {
-            this.$http
-              .post("/api/belgeyukle", formData)
+            axios.post("/api/belgeyukle", formData)
               .then(
                 (res) => document.getElementById("basarili").click(),
                 (form.dgr = 100)
@@ -519,7 +521,7 @@ export default {
       window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
     arsivle(data) {
-      this.$http
+      axios
         .post("/api/dosyaarsiv", { id: data.id })
         .then(this.refreshStop());
     },
@@ -533,7 +535,7 @@ export default {
     },
 
     indir(dosya) {
-      this.$http
+      axios
         .post("/api/indir", { dosya: dosya }, { responseType: "blob" })
         .then((response) => {
           var data = response.data;
