@@ -44,6 +44,7 @@
   </b-card>
 </template>
 <script>
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 export default {
   props: ["options"],
   data() {
@@ -73,10 +74,18 @@ export default {
 
     ekle() {
       if (this.adresler.length > 1) {
-        alert("Sadece 2 adres ekleyebilirsiniz");
+        this.$toast({
+          component: ToastificationContent,
+          position: "top-center",
+          props: {
+            title: `Uyarı! `,
+            icon: "UserIcon",
+            variant: "warning",
+            text: ` Sadece 2 adet adres girebilirsiniz.`,
+          },
+        });
       } else {
         this.adresler.push({ title: "", text: "" });
-        console.log(this.adresler);
       }
     },
   },
