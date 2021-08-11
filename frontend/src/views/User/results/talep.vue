@@ -13,41 +13,6 @@
       ref="modal"
     >
       <b-form @submit.prevent="send">
-        <b-form-group label-cols-sm="2" label="Kişi Sayısı" label-for="talep">
-          <b-form-spinbutton
-            id="demo-sb"
-            style="width:210px;"
-            @change="setMoney"
-            v-model="sayi"
-            min="1"
-            max="100"
-          />
-        </b-form-group>
-
-        <b-form-group label-cols-sm="2" label="Tarih" label-for="talep">
-          <v-date-picker :attributes="attributes" v-model="date">
-            <template v-slot="{ inputValue, inputEvents }">
-              <input
-                class="bg-white border px-2 py-1 rounded"
-                :value="inputValue"
-                v-on="inputEvents"
-              />
-            </template>
-          </v-date-picker>
-        </b-form-group>
-
-        <b-form-group label-cols-sm="2" label="Test Türü" label-for="talep">
-          <b-form-checkbox
-            v-model="checked"
-            v-for="item in tests"
-            :key="item.id"
-            :value="item"
-            ref="checked"
-            class="custom-control-success"
-          >
-            {{ item.title }}
-          </b-form-checkbox>
-        </b-form-group>
         <b-form-group
           label-cols-sm="2"
           label="Laboratuvar Türü"
@@ -65,7 +30,41 @@
         </b-form-group>
 
         <b-form-group
-          v-show="radio.title === 'Mobil Araç'"
+          v-if="radio.title != 'Mobil Araç'"
+          label-cols-sm="2"
+          label="Şehir"
+          label-for="talep"
+        >
+          <b-form-select @input="getLoc" v-model="selectedİl">
+            <option selected value="" disabled hidden>Lütfen İl Seçiniz</option>
+            <option v-for="item in iller" :key="item.id">{{ item }}</option>
+          </b-form-select>
+        </b-form-group>
+
+        <b-form-group label-cols-sm="2" label="Tarih" label-for="talep">
+          <v-date-picker :attributes="attributes" v-model="date">
+            <template v-slot="{ inputValue, inputEvents }">
+              <input
+                class="bg-white border px-2 py-1 rounded"
+                :value="inputValue"
+                v-on="inputEvents"
+              />
+            </template>
+          </v-date-picker>
+        </b-form-group>
+
+        <b-form-group label-cols-sm="2" label="Test Türü" label-for="talep">
+          <v-select
+            v-model="tags"
+            placeholder="Test Türü Seçiniz..."
+            multiple
+            label="title"
+            :options="tests"
+          />
+        </b-form-group>
+
+        <b-form-group
+          v-if="radio.title === 'Mobil Araç'"
           label-cols-sm="2"
           label="Adreslerim"
           label-for="talep"
@@ -82,7 +81,7 @@
         </b-form-group>
 
         <b-form-group
-          v-show="radio.title != 'Mobil Araç'"
+          v-if="radio.title != 'Mobil Araç'"
           label-cols-sm="2"
           label="Laboratuvarlar"
           label-for="talep"
@@ -97,7 +96,15 @@
             {{ item }}
           </b-form-radio>
         </b-form-group>
-
+        <b-form-group label-cols-sm="2" label="Kişi Sayısı" label-for="talep">
+          <b-form-spinbutton
+            id="demo-sb"
+            style="width: 210px"
+            v-model="kisi"
+            min="1"
+            max="100"
+          />
+        </b-form-group>
         <b-form-group label-cols-sm="2" label="Mesaj">
           <b-form-textarea
             id="mesaj"
@@ -119,6 +126,8 @@
   </div>
 </template>
 <script>
+import iller from "./iller.json";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 export default {
   props: ["userData"],
   data() {
@@ -135,11 +144,12 @@ export default {
 
       kisi: "",
       mesaj: "",
+      tags: [],
       tests: [
         { title: "Kan Sayımı", money: 30 },
         { title: "Korona Testi", money: 30 },
       ],
-      yerler: ["Bayraklı", "Bornova"],
+      yerler: [],
       labs: [
         { title: "Mobil Araç", money: 30 },
         { title: "Laboratuvar", money: 30 },
@@ -155,29 +165,51 @@ export default {
       status: false,
       id: null,
       arry: [],
-      date: null,
+      date: new Date(),
+      selectedİl: "",
+      iller: iller,
     };
   },
 
   created() {
     this.$http("/api/firmagoster/" + this.userData.user_id).then((res) => {
       this.adresler = JSON.parse(res.data.adres);
-
       this.email = res.data.email;
       this.name = res.data.name;
       this.id = res.data.id;
-    });
-
-    this.$http.post("/api/egitimgetir").then((res) => {
-      for (let i = 0; i < res.data.length; i++) {
-        this.attributes[0].dates.push(res.data[i].date);
-      }
     });
   },
 
   methods: {
     testsMoney(data) {
       this.status ? (this.para += data.money) : (this.para -= data.money);
+    },
+    addTag(data) {
+      this.tags.push(this.checked);
+      let index = this.tests.indexOf(data);
+      if (index > -1) {
+        this.tests.splice(index, 1);
+      }
+    },
+    getLoc() {
+      this.yerler = [];
+      this.$http
+        .post("/api/egitimgetir", { loc: this.selectedİl })
+        .then((res) => {
+          const set = new Set();
+          for (let i = 0; i < res.data.length; i++) {
+            this.yerler = set.add(res.data[i].location);
+          }
+        });
+    },
+
+    removeTag(tag) {
+      let index = this.tags.indexOf(tag);
+      if (index > -1) {
+        this.tags.splice(index, 1);
+      }
+
+      this.tests.push(tag);
     },
     send() {
       this.$refs["modal"].hide();
@@ -190,21 +222,53 @@ export default {
       for (let i = 0; i < this.checked.length; i++) {
         this.arry.push(this.checked[i].title);
       }
-
-      this.$http.post("/api/bill", {
-        id: this.id,
-
-        tests: this.arry,
-        email: this.email,
-        name: this.name,
-        mesaj: this.mesaj,
-        tutar: this.para,
-        labTürü: this.radio.title,
-        adres: this.selectedAdres,
-        testler: this.checked,
-        labYer: this.yer,
-        kisi: this.kisi,
-      });
+      let month = this.date.getMonth() + 1;
+      var newDate =
+        this.date.getUTCFullYear() +
+        "-" +
+        0 +
+        month +
+        "-" +
+        this.date.getDate();
+      this.$http
+        .post("/api/bill", {
+          id: this.id,
+          tests: this.arry,
+          email: this.email,
+          name: this.name,
+          mesaj: this.mesaj,
+          tutar: this.para,
+          labTürü: this.radio.title,
+          adres: this.selectedAdres,
+          testler: this.tags,
+          labYer: this.yer,
+          date: newDate,
+          kisi: this.kisi,
+        })
+        .then((res) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: `İleti Gönderildi. `,
+              icon: "UserIcon",
+              variant: "success",
+              text: `Lütfen Mail Adresinizi Kontrol Ediniz.`,
+            },
+          });
+        })
+        .catch((err) => {
+          this.$toast({
+            component: ToastificationContent,
+            position: "top-right",
+            props: {
+              title: `İşlem Durumu `,
+              icon: "UserIcon",
+              variant: "danger",
+              text: ` İşlem Başarısız.`,
+            },
+          });
+        });
 
       this.para = 0;
       this.arry = [];

@@ -13,15 +13,16 @@ class BillController extends Controller
     public function bill(Request $request)
     {
         try {
-            $a = DB::table('activity_log')->insert([
+            DB::table('activity_log')->insert([
                 'firma_id' => $request->id,
                 'firma_adi' => $request->name,
                 'mesaj' => $request->mesaj,
                 'tutar' => $request->tutar,
-                'adres' => $request->adres,
+                'adres' => json_encode($request->adres, JSON_UNESCAPED_UNICODE),
                 'tests' => json_encode($request->tests, JSON_UNESCAPED_UNICODE),
                 'sayi' => $request->kisi,
                 'lab' => $request->labTürü,
+                'date' => $request->date,
 
 
             ]);
@@ -53,8 +54,10 @@ class BillController extends Controller
                 $message->to($email);
                 $message->subject('Hizmet Faturası!');
             });
+
+            return true;
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
 
@@ -70,6 +73,7 @@ class BillController extends Controller
                 'adres' => $request->selectedAdres,
                 'sayi' => $request->sayi,
                 'lab' => $request->Selected,
+                'date' => $request->parsedDate,
 
 
             ]);
@@ -104,32 +108,9 @@ class BillController extends Controller
                 }
             );
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
+            return response()->json(['error' => 'Başarısız'], 404);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

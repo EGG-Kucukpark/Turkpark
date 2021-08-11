@@ -340,15 +340,7 @@ export default {
       this.form = " ";
     },
 
-    info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
-    },
+
     Filtered(filteredItems) {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;

@@ -190,7 +190,7 @@ export default {
       fatura: null,
       tests: null,
       fields: [
-        { key: "tests", label: "Testler" },
+        { key: "tests", label: "Hizmetler" },
         { key: "lab", label: "Hizmet Yeri" },
         { key: "adres", label: "Adres" },
       ],

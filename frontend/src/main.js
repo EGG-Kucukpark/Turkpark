@@ -15,6 +15,7 @@ Vue.prototype.$http = Axios;
 Vue.use(BootstrapVue)
 import App from './App.vue'
 import calisan from '@/views/Components/calisan.vue'
+import select from '@/views/Components/select.vue'
 import kunye from "@/views/Admin/clients/corporate/getclient/clientinfo.vue";
 
 // Global Components
@@ -38,6 +39,7 @@ Vue.use(VueGoodTablePlugin);
 Vue.component('v-select', vSelect)
 Vue.component("downloadExcel", JsonExcel);
 Vue.component('calisan-ekle', calisan)
+Vue.component('vue-select', select)
 Vue.component('kunye', kunye)
 Vue.use(VCalendar)
 Vue.use(VueSweetalert2);

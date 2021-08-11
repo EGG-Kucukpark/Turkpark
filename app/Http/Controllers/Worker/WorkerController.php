@@ -12,12 +12,13 @@ class WorkerController extends Controller
 {
     function workers(Request $request)
     {
+        if ($request->q) {
+            return DB::table('workers')->orwhere([['name', 'LIKE', "%{$request->q}%"], ['firma_id', $request->id]])->get();
+        } else {
 
-
-
-        return DB::table('workers')->orwhere('firma_id', $request->firma_id)->get();
+            return DB::table('workers')->where('firma_id', $request->id)->get();
+        }
     }
-
     ////////////////////////////////////////////////////////////////////////////////////
 
     function worker(Request $request)

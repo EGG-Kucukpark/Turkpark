@@ -24,7 +24,7 @@
       <b-col cols="12" class="table-responsive">
         <b-table
           striped
-         hover
+          hover
           responsive
           selectable
           :per-page="perPage"
@@ -37,6 +37,7 @@
           :filter="filter"
           :filter-included-fields="filterOn"
           @filtered="onFiltered"
+          @row-clicked="tikla"
           show-empty
           empty-text="Veri Bulunamadı."
           empty-filtered-text="Veri Bulunamadı."
@@ -111,8 +112,18 @@ export default {
       fields: [
         { key: "id", label: "Rapor Numarası", sortable: true, filter: true },
         { key: "name", label: "ÇALIŞAN İSMİ", sortable: true, filter: true },
-        { key: "rapor", label: "TEST TÜRÜ", sortable: true, filter: true },
-        { key: "created_at", label: "Tarih", sortable: true, filter: true },
+        {
+          key: "egitim_tur",
+          label: "EĞİTİM TÜRÜ",
+          sortable: true,
+          filter: true,
+        },
+        {
+          key: "gecerli_trh",
+          label: "GEÇERLİLİK Tarİhİ",
+          sortable: true,
+          filter: true,
+        },
         { key: "actions", label: "Eylemler" },
       ],
       items: [],
@@ -128,7 +139,13 @@ export default {
         .map((f) => ({ text: f.label, value: f.key }));
     },
   },
-  created() {},
+  created() {
+    this.$http
+      .post(`/api/sertifikagetir`, { id: this.user.user_id })
+      .then((response) => {
+        this.items = response.data;
+      });
+  },
 
   mounted() {
     setTimeout(() => {
@@ -136,17 +153,16 @@ export default {
     }, 500);
   },
   methods: {
-    info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    tikla(params) {
+      this.$router.push({
+        name: "sertifika-goster",
+        params: { id: params.id },
+      });
     },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
-    },
+
+
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
+
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },

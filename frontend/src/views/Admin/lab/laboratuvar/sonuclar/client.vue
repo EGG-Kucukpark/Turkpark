@@ -98,19 +98,11 @@
                   </b-form-select>
                 </b-col>
 
-                <b-col>
-                  <b-form-select v-model="form.calisanselected">
-                    <option disabled value="">Lütfen Çalışan Seçiniz</option>
 
-                    <option
-                      v-bind:value="{ name: calisan.name, id: calisan.id }"
-                      v-for="calisan in calisan"
-                      :key="calisan.id"
-                    >
-                      {{ calisan.name }}
-                    </option>
-                  </b-form-select>
+                <b-col>
+                  <vue-select url="/api/calisanlar" :setID="userData.id" />
                 </b-col>
+
                 <b-col>
                   <b-form-select v-model="form.rapor">
                     <option disabled value="">Lütfen Seçim Yapınız</option>
@@ -307,7 +299,7 @@ import ToastificationContent from "@core/components/toastification/Toastificatio
 import { heightTransition } from "@core/mixins/ui/transition";
 import router from "@/router";
 import vSelect from "vue-select";
-import axios from '@axios'
+import axios from "@axios";
 export default {
   components: {
     ToastificationContent,
@@ -362,7 +354,7 @@ export default {
         },
       ],
 
-      edit:false,
+      edit: false,
     };
   },
 
@@ -491,7 +483,8 @@ export default {
           form.dgr = 50;
 
           setTimeout(() => {
-            axios.post("/api/belgeyukle", formData)
+            axios
+              .post("/api/belgeyukle", formData)
               .then(
                 (res) => document.getElementById("basarili").click(),
                 (form.dgr = 100)
@@ -521,9 +514,7 @@ export default {
       window.open("/Dosyalar/Firma/" + dosya, "_blank");
     },
     arsivle(data) {
-      axios
-        .post("/api/dosyaarsiv", { id: data.id })
-        .then(this.refreshStop());
+      axios.post("/api/dosyaarsiv", { id: data.id }).then(this.refreshStop());
     },
 
     formcikis() {
@@ -552,15 +543,6 @@ export default {
       this.$refs["modal"].show();
     },
 
-    info(item, index, button) {
-      this.infoModal.title = `Row index: ${index}`;
-      this.infoModal.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-    },
-    resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
-    },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;

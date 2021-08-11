@@ -13,16 +13,6 @@
       ref="modal"
     >
       <b-form @submit.prevent="submit">
-        <b-form-group label-cols-sm="2" label="Kişi Sayısı" label-for="talep">
-          <b-form-spinbutton
-            id="demo-sb"
-            @change="setMoney"
-            style="width:210px;"
-            v-model="form.sayi"
-            min="1"
-            max="100"
-          />
-        </b-form-group>
         <b-form-group label-cols-sm="2" label="Eğitim Yeri" label-for="talep">
           <b-form-radio
             v-model="form.Selected"
@@ -35,11 +25,22 @@
             {{ item }}
           </b-form-radio>
         </b-form-group>
+        <b-form-group
+          v-if="form.Selected === 'Eğitim Merkezi'"
+          label-cols-sm="2"
+          label="Eğitim İli"
+          label-for="talep"
+        >
+          <b-form-select @input="getEdu" v-model="form.selectedİl">
+            <option selected value="" disabled hidden>Lütfen İl Seçiniz</option>
+            <option v-for="item in iller" :key="item.id">{{ item }}</option>
+          </b-form-select>
+        </b-form-group>
 
         <b-form-group
-          v-if="form.Selected === 'Türkpark'"
+          v-if="form.selectedİl != ''"
           label-cols-sm="2"
-          label="Eğitim Yeri"
+          label="Eğitim Adresi"
           label-for="talep"
         >
           <b-form-radio
@@ -55,9 +56,9 @@
         </b-form-group>
 
         <b-form-group
-          v-if="form.Selected != 'Türkpark'"
+          v-if="form.Selected != 'Eğitim Merkezi'"
           label-cols-sm="2"
-          label="Adreslerim"
+          label="Eğitim Adresi"
           label-for="talep"
         >
           <b-form-radio
@@ -80,6 +81,7 @@
           <v-date-picker
             @input="setTime"
             :min-date="new Date()"
+
             locale="tr"
             :attributes="attributes"
             v-model="date"
@@ -97,12 +99,23 @@
 
         <b-form-group v-if="showDate" label-cols-sm="2" label="Eğitim Saati">
           <b-form-select @change="setMoney" v-model="form.selectedTime">
-            <option value="" disabled hidden>Lütfen Tarih Seçiniz</option>
+            <option value="" disabled hidden>Lütfen Saat Seçiniz</option>
+
             <option v-for="item in times" :key="item.id">{{ item }}</option>
           </b-form-select>
         </b-form-group>
 
-        {{ form.toplamTutar }}
+        <b-form-group label-cols-sm="2" label="Kişi Sayısı" label-for="talep">
+          <b-form-spinbutton
+            id="demo-sb"
+            @change="setMoney"
+            style="width: 210px"
+            v-model="form.sayi"
+            min="1"
+            max="100"
+          />
+        </b-form-group>
+
         <b-form-group label-cols-sm="2" label="Mesaj">
           <b-form-textarea
             id="mesaj"
@@ -123,7 +136,13 @@
     </b-modal>
   </div>
 </template>
+
+
+
+
+
 <script>
+import iller from "./iller.json";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 export default {
   props: ["userData"],
@@ -139,17 +158,19 @@ export default {
         },
       ],
 
-      userSelect: ["Türkpark", "Kendi Yerim"],
+      userSelect: ["Eğitim Merkezi", "Kendi Yerim"],
       show: true,
       showDate: false,
       yerler: [],
       adresler: null,
       date: new Date(),
       times: [],
+      iller: iller,
 
       form: {
         checked: "",
         Selected: "Türkpark",
+        selectedİl: "",
         selectedAdres: null,
         selectedTime: "",
         parsedDate: null,
@@ -171,15 +192,6 @@ export default {
       this.form.name = res.data.name;
       this.form.id = res.data.id;
     });
-
-    this.$http.post("/api/egitimgetir").then((res) => {
-      this.tutar = res.data;
-
-      const set = new Set();
-      for (let i = 0; i < res.data.length; i++) {
-        this.yerler = set.add(res.data[i].location);
-      }
-    });
   },
 
   methods: {
@@ -190,6 +202,20 @@ export default {
           this.attributes[0].dates.push(res.data[i].date);
         }
       });
+    },
+
+    getEdu() {
+      this.yerler = [];
+      this.$http
+        .post("/api/egitimgetir", { loc: this.form.selectedİl })
+        .then((res) => {
+          this.tutar = res.data;
+
+          const set = new Set();
+          for (let i = 0; i < res.data.length; i++) {
+            this.yerler = set.add(res.data[i].location);
+          }
+        });
     },
 
     submit() {
@@ -219,9 +245,9 @@ export default {
             component: ToastificationContent,
             position: "top-right",
             props: {
-              title: `Etkinlik İşlemleri `,
+              title: `İşlem Durumu `,
               icon: "UserIcon",
-              variant: "success",
+              variant: "danger",
               text: ` İşlem Başarısız.`,
             },
           });
@@ -242,6 +268,10 @@ export default {
           this.times.push(this.tutar[i].time);
         }
       }
+
+      this.selectedTime = "";
+
+
     },
 
     setMoney() {
