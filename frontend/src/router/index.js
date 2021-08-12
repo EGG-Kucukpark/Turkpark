@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
 
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (localStorage.getItem('token') == null) {
+        if (localStorage.getItem('token') == null && localStorage.getItem('user') == null) {
             next('/login')
         } else {
             var user = JSON.parse(localStorage.getItem('user'))
