@@ -27,11 +27,9 @@
 
           <template v-if="show">
             <b-alert show variant="warning">
-              <ul>
-                <li v-for="errors in errors" :key="errors.name">
-                  {{ errors[0] }}
-                </li>
-              </ul>
+              <p>
+                {{ errors }}
+              </p>
             </b-alert>
           </template>
 
@@ -51,12 +49,10 @@
 
                     <b-form-select-option selected value="Bireysel"
                       >Bireysel Kullanıcı</b-form-select-option
-                    > <b-form-select-option selected value="Firma"
+                    >
+                    <b-form-select-option selected value="Firma"
                       >Kurumsal Kullanıcı</b-form-select-option
                     >
-
-
-
                   </b-form-select>
 
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -222,28 +218,6 @@
 /* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 
-import {
-  BFormSelect,
-  BFormSelectOption,
-  BRow,
-  BCol,
-  BLink,
-  BButton,
-  BForm,
-  BFormCheckbox,
-  BFormGroup,
-  BFormInput,
-  BInputGroup,
-  BInputGroupAppend,
-  BImg,
-  BCardTitle,
-  BCardText,
-  BAlert,
-  BListGroup,
-  BListGroupItem,
-  BSpinner,
-  BInputGroupPrepend,
-} from "bootstrap-vue";
 import { required, email } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import store from "@/store/index";
@@ -255,29 +229,9 @@ import "cleave.js/dist/addons/cleave-phone.us";
 
 export default {
   components: {
-    BRow,
-    BImg,
-    BCol,
-    BLink,
-    BButton,
-    BForm,
-    BCardText,
-    BCardTitle,
-    BFormCheckbox,
-    BFormGroup,
-    BFormInput,
-    BInputGroup,
-    BInputGroupAppend,
-    BAlert,
-    BListGroup,
-    BListGroupItem,
-    BFormSelect,
-    BFormSelectOption,
-    BInputGroupPrepend,
-    // validations
     ValidationProvider,
     ValidationObserver,
-    BSpinner,
+    ToastificationContent,
     Cleave,
   },
   mixins: [togglePasswordVisibility],
@@ -291,7 +245,7 @@ export default {
       },
       name: "",
       max: 11,
-      errors: [],
+      errors: "",
       email: "",
       telefon: "",
       role: " ",
@@ -322,10 +276,10 @@ export default {
   },
   methods: {
     label() {
-      if ((this.role === "Firma")) {
+      if (this.role === "Firma") {
         document.getElementById("label__BV_label_").innerHTML = "Kurum Adı";
-      }else{
-             document.getElementById("label__BV_label_").innerHTML = "İsminiz";
+      } else {
+        document.getElementById("label__BV_label_").innerHTML = "İsminiz";
       }
     },
     register() {
@@ -355,6 +309,13 @@ export default {
                 });
               });
             })
+            .catch((error) => {
+              if (error.response.status === 400) {
+                this.spin = false;
+                this.show = true;
+                this.errors = "Bu adrese ait kayıtlı bir kullanıcı mevcut.";
+              }
+            })
             .then(
               axios.post("/api/email", {
                 name: this.name,
@@ -362,12 +323,7 @@ export default {
                 telefon: this.telefon,
                 role: this.role,
               })
-            )
-            .catch((error) => {
-              this.errors = error.response.data.errors;
-              this.show = true;
-              this.spin = false;
-            });
+            );
         }
       });
     },

@@ -51,6 +51,7 @@ route::post('status', [UserController::class, 'status']);
 Route::post('arsivckr', [UserController::class, 'arsivckr']);
 route::post('usersil', [UserController::class, 'delete']);
 route::post('getuser', [UserController::class, 'getuserinfo']);
+route::post('register', [UserController::class, 'register']);
 
 
 
@@ -150,10 +151,12 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('email/verify/{user}', [VerificationController::class, 'verify'])->name('verification.verify');
     Route::post('email/resend', [VerificationController::class, 'resend']);
     Route::post('login', [LoginController::class, 'login']);
-    Route::post('register', [RegisterController::class, 'register']);
+
     Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('password/reset', [ResetPasswordController::class, 'reset']);
 });
+
+
 
 
 
